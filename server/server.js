@@ -59,6 +59,8 @@ app.use(session({
 }));
 app.use(passport.authenticate('session'));
 
+const prefixRoute = '/api/';
+
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
