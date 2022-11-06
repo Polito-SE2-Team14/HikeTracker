@@ -1,13 +1,15 @@
 # Server Documentation
 In this project in order to make our code more organized and readble, I follow the MVC pattern for the server skeleton.
 
-**Server.js File**: In this project all of our APIs are started with "/api/". This prefix stored in a variable called "prefixRoute".All the APIs are called at first in this file like the example below
+## Server.js File
+In this project all of our APIs are started with "/api/". This prefix stored in a variable called "prefixRoute".All the APIs are called at first in this file like the example below
     ```
     let testRouter = require('./Route/TestRoute');
     app.use(prefixRoute + 'test', testRouter);
     ```
 So All the APIs started from "/api/test" goes to the TestRoute File
-**Route Folder**: For each Route in the system we have a file. For example for all the APIs started from "/api/test" we have a TestRoute file. so "/api/test/abc" goes also to this file. In this file we can create different API calls for this specific route. For example:
+## Route Folder
+For each Route in the system we have a file. For example for all the APIs started from "/api/test" we have a TestRoute file. so "/api/test/abc" goes also to this file. In this file we can create different API calls for this specific route. For example:
     ```
     let express = require("express");
     let router = express.Router();
