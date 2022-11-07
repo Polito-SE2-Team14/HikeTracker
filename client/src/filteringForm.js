@@ -130,9 +130,9 @@ export function FilterForm(props){
 									onChange={ ev=> {
 										set_length_operator(ev.target.value);
 									}}>
-									<option value = ">"> &gt; </option>
-									<option value = "="> &eq; </option>
-									<option value = "<"> &lt; </option>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
 								</Form.Select>
 							</Form.Group>
 							<Form.Group as={Col} controlId="length">
@@ -153,9 +153,9 @@ export function FilterForm(props){
 								onChange={ ev=> {
 									set_length_operator(ev.target.value);
 								}}>
-								<option value = ">"> &gt; </option>
-								<option value = "="> &eq; </option>
-								<option value = "<"> &lt; </option>
+								<option value = ">"> {'>'} </option>
+								<option value = "="> {'='} </option>
+								<option value = "<"> {'<'} </option>
 							</Form.Select>
 						</Form.Group>
 						<Form.Group as={Col} controlId="length">
@@ -182,9 +182,9 @@ export function FilterForm(props){
 									onChange={ ev=> {
 										set_total_ascent_operator(ev.target.value);
 									}}>
-									<option value = ">"> &gt; </option>
-									<option value = "="> &eq; </option>
-									<option value = "<"> &lt; </option>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
 								</Form.Select>
 							</Form.Group>
 							<Form.Group as = {Col} controlId='total_ascent'>
@@ -205,9 +205,9 @@ export function FilterForm(props){
 								onChange={ ev=> {
 									set_total_ascent_operator(ev.target.value);
 								}}>
-								<option value = ">"> &gt; </option>
-								<option value = "="> &eq; </option>
-								<option value = "<"> &lt; </option>
+								<option value = ">"> {'>'} </option>
+								<option value = "="> {'='} </option>
+								<option value = "<"> {'<'} </option>
 							</Form.Select>
 						</Form.Group>
 						<Form.Group as = {Col} controlId='total_ascent'>
@@ -227,26 +227,54 @@ export function FilterForm(props){
 					<Form.Check type="switch" id="diff_switch"
 						onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
 					</Form.Check>
-					<Form.Group as={Col} controlId="expected_time_operator">
-						<Form.Label>Expected time operator</Form.Label>
-						<Form.Select value={expected_time_operator}
-							onChange={ ev=> {
-								set_expected_time_operator(ev.target.value);
-							}}>
-							<option value = ">"> &gt; </option>
-							<option value = "="> &eq; </option>
-							<option value = "<"> &lt; </option>
-						</Form.Select>
-					</Form.Group>
-					<Form.Group controlId='expected_time'>
-						<Form.Label>Expected time</Form.Label>
-						<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-					</Form.Group>
+					{check_exp_time?
+						<>
+							<Form.Group as={Col} controlId="expected_time_operator">
+								<Form.Label>Expected time operator</Form.Label>
+								<Form.Select value={expected_time_operator}
+									onChange={ ev=> {
+										set_expected_time_operator(ev.target.value);
+									}}>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
+								</Form.Select>
+							</Form.Group>
+							<Form.Group controlId='expected_time'>
+								<Form.Label>Expected time</Form.Label>
+								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
+									onKeyPress={ev=>{
+										if(ev.key==="Enter"){
+											handleSubmit(ev);
+										}
+									}}/>
+							</Form.Group>
+						</>
+					:
+						<>
+							<Form.Group disabled as={Col} controlId="expected_time_operator">
+								<Form.Label>Expected time operator</Form.Label>
+								<Form.Select value={expected_time_operator}
+									onChange={ ev=> {
+										set_expected_time_operator(ev.target.value);
+									}}>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
+								</Form.Select>
+							</Form.Group>
+							<Form.Group disabled controlId='expected_time'>
+								<Form.Label>Expected time</Form.Label>
+								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
+									onKeyPress={ev=>{
+										if(ev.key==="Enter"){
+											handleSubmit(ev);
+										}
+									}}/>
+							</Form.Group>
+						</>
+					}
+					
 				</Row>
 				<Row>
 					<Button onClick={handleSubmit}>Login</Button>
