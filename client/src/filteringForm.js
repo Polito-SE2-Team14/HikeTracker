@@ -2,26 +2,24 @@ import { Row, Col, Button, FormControl} from 'react-bootstrap';
 import { useState } from 'react';
 import { Form, Alert } from 'react-bootstrap';
 
-// geographic area, difficulty, length, total ascent, expected time
-
 export function FilterForm(props){
 	const [geographic_area, set_geographic_area] = useState();
-	const [check_geo_area, set_check_geo_area] = useState(true);
+	const [check_geo_area, set_check_geo_area] = useState(false);
 	
 	const [difficulty, set_difficulty] = useState();
-	const [check_diff, set_check_diff] = useState(true);
+	const [check_diff, set_check_diff] = useState(false);
 	
 	const [length, set_length] = useState();
 	const [length_operator, set_length_operator] = useState();
-	const [check_len, set_check_len] = useState(true);
+	const [check_len, set_check_len] = useState(false);
 	
 	const [total_ascent, set_total_ascent] = useState();
 	const [total_ascent_operator, set_total_ascent_operator] = useState();
-	const [check_tot_asc, set_check_tot_asc] = useState(true);
+	const [check_tot_asc, set_check_tot_asc] = useState(false);
 	
 	const [expected_time, set_expected_time] = useState();
 	const [expected_time_operator, set_expected_time_operator] = useState();
-	const [check_exp_time, set_check_exp_time] = useState(true);
+	const [check_exp_time, set_check_exp_time] = useState(false);
 
 	const handleSubmit= (event) => {
 		event.preventDefault();
@@ -68,216 +66,109 @@ export function FilterForm(props){
 					<Form.Check type="switch" id="geo_switch"
 						onChange={ev=>{set_check_geo_area(ev.target.checked)}}>
 					</Form.Check>
-					{check_geo_area?
-						<Form.Group controlId='geographic_area'>
-						<Form.Label>Geographic area</Form.Label>
-						<FormControl type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-						</Form.Group>
-					:
-						<Form.Group controlId='geographic_area'>
-						<Form.Label>Geographic area</Form.Label>
-						<FormControl disabled type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-						</Form.Group>
-					}
+					<Form.Group controlId='geographic_area'>
+					<Form.Label>Geographic area</Form.Label>
+					<FormControl disabled={!check_geo_area} type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
+						onKeyPress={ev=>{
+							if(ev.key==="Enter"){
+								handleSubmit(ev);
+							}
+						}}/>
+					</Form.Group>
 				</Row>
 				
 				<Row>
 					<Form.Check type="switch" id="diff_switch"
 						onChange={ev=>{set_check_diff(ev.target.checked)}}>
 					</Form.Check>
-					{check_diff?
-						<Form.Group controlId='difficulty'>
-						<Form.Label>Difficulty</Form.Label>
-						<Form.Control type = "text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-						</Form.Group>
-					:
-						<Form.Group controlId='difficulty'>
-						<Form.Label>Difficulty</Form.Label>
-						<Form.Control disabled type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-						</Form.Group>
-					}
+					<Form.Group controlId='difficulty'>
+					<Form.Label>Difficulty</Form.Label>
+					<Form.Control disabled={!check_diff} type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
+						onKeyPress={ev=>{
+							if(ev.key==="Enter"){
+								handleSubmit(ev);
+							}
+						}}/>
+					</Form.Group>
 				</Row>
 
 				<Row>
 					<Form.Check type="switch" id="len_switch"
 						onChange={ev=>{set_check_len(ev.target.checked)}}>
 					</Form.Check>
-					{check_len?
-						<>
-							<Form.Group as={Col} controlId="length_operator">
-								<Form.Label>Length operator</Form.Label>
-								<Form.Select value={length_operator}
-									onChange={ ev=> {
-										set_length_operator(ev.target.value);
-									}}>
-									<option value = ">"> {'>'} </option>
-									<option value = "="> {'='} </option>
-									<option value = "<"> {'<'} </option>
-								</Form.Select>
-							</Form.Group>
-							<Form.Group as={Col} controlId="length">
-								<Form.Label>Length</Form.Label>
-								<Form.Control type ="number" value={length} onChange={ev => set_length(ev.target.value)}
-									onKeyPress={ev=>{
-										if(ev.key==="Enter"){
-											handleSubmit(ev);
-										}
-									}}/>
-							</Form.Group>
-						</>
-					:
-					<>
-						<Form.Group as={Col} controlId="length_operator">
-							<Form.Label>Length operator</Form.Label>
-							<Form.Select disabled value={length_operator}
-								onChange={ ev=> {
-									set_length_operator(ev.target.value);
-								}}>
-								<option value = ">"> {'>'} </option>
-								<option value = "="> {'='} </option>
-								<option value = "<"> {'<'} </option>
-							</Form.Select>
-						</Form.Group>
-						<Form.Group as={Col} controlId="length">
-							<Form.Label>Length</Form.Label>
-							<Form.Control disabled type ="number" value={length} onChange={ev => set_length(ev.target.value)}
-								onKeyPress={ev=>{
-									if(ev.key==="Enter"){
-										handleSubmit(ev);
-									}
-								}}/>
-						</Form.Group>
-					</>
-					}
+					<Form.Group as={Col} controlId="length_operator">
+						<Form.Label>Length operator</Form.Label>
+						<Form.Select disabled={!check_len} value={length_operator}
+							onChange={ ev=> {
+								set_length_operator(ev.target.value);
+							}}>
+							<option value = ">"> {'>'} </option>
+							<option value = "="> {'='} </option>
+							<option value = "<"> {'<'} </option>
+						</Form.Select>
+					</Form.Group>
+					<Form.Group as={Col} controlId="length">
+						<Form.Label>Length</Form.Label>
+						<Form.Control disabled={!check_len} type ="number" value={length} onChange={ev => set_length(ev.target.value)}
+							onKeyPress={ev=>{
+								if(ev.key==="Enter"){
+									handleSubmit(ev);
+								}
+							}}/>
+					</Form.Group>
 				</Row>
 				<Row>
 					<Form.Check type="switch" id="tot_asc_switch"
 						onChange={ev=>{set_check_tot_asc(ev.target.checked)}}>
 					</Form.Check>
-					{check_tot_asc?
-						<>
-							<Form.Group as={Col} controlId="total_ascent_operator">
-								<Form.Label>Total ascent operator</Form.Label>
-								<Form.Select value={total_ascent_operator}
-									onChange={ ev=> {
-										set_total_ascent_operator(ev.target.value);
-									}}>
-									<option value = ">"> {'>'} </option>
-									<option value = "="> {'='} </option>
-									<option value = "<"> {'<'} </option>
-								</Form.Select>
-							</Form.Group>
-							<Form.Group as = {Col} controlId='total_ascent'>
-								<Form.Label>Total ascent</Form.Label>
-								<Form.Control type="number" value={total_ascent} onChange={ev => set_total_ascent(ev.target.value)}
-									onKeyPress={ev=>{
-										if(ev.key==="Enter"){
-											handleSubmit(ev);
-										}
-									}}/>
-							</Form.Group>
-						</>
-					:
-					<>
-						<Form.Group as={Col} controlId="total_ascent_operator">
-							<Form.Label>Total ascent operator</Form.Label>
-							<Form.Select disabled value={total_ascent_operator}
-								onChange={ ev=> {
-									set_total_ascent_operator(ev.target.value);
-								}}>
-								<option value = ">"> {'>'} </option>
-								<option value = "="> {'='} </option>
-								<option value = "<"> {'<'} </option>
-							</Form.Select>
-						</Form.Group>
-						<Form.Group as = {Col} controlId='total_ascent'>
-							<Form.Label>Total ascent</Form.Label>
-							<Form.Control disabled type ='number' value={total_ascent} onChange={ev => set_total_ascent(ev.target.value)}
-								onKeyPress={ev=>{
-									if(ev.key==="Enter"){
-										handleSubmit(ev);
-									}
-								}}/>
-						</Form.Group>
-					</>
-					}
-					
+					<Form.Group as={Col} controlId="total_ascent_operator">
+						<Form.Label>Total ascent operator</Form.Label>
+						<Form.Select disabled={!check_tot_asc} value={total_ascent_operator}
+							onChange={ ev=> {
+								set_total_ascent_operator(ev.target.value);
+							}}>
+							<option value = ">"> {'>'} </option>
+							<option value = "="> {'='} </option>
+							<option value = "<"> {'<'} </option>
+						</Form.Select>
+					</Form.Group>
+					<Form.Group as = {Col} controlId='total_ascent'>
+						<Form.Label>Total ascent</Form.Label>
+						<Form.Control disabled={!check_tot_asc} type ='number' value={total_ascent} onChange={ev => set_total_ascent(ev.target.value)}
+							onKeyPress={ev=>{
+								if(ev.key==="Enter"){
+									handleSubmit(ev);
+								}
+							}}/>
+					</Form.Group>
 				</Row>
 				<Row>
 					<Form.Check type="switch" id="diff_switch"
 						onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
 					</Form.Check>
-					{check_exp_time?
-						<>
-							<Form.Group as={Col} controlId="expected_time_operator">
-								<Form.Label>Expected time operator</Form.Label>
-								<Form.Select value={expected_time_operator}
-									onChange={ ev=> {
-										set_expected_time_operator(ev.target.value);
-									}}>
-									<option value = ">"> {'>'} </option>
-									<option value = "="> {'='} </option>
-									<option value = "<"> {'<'} </option>
-								</Form.Select>
-							</Form.Group>
-							<Form.Group controlId='expected_time'>
-								<Form.Label>Expected time</Form.Label>
-								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
-									onKeyPress={ev=>{
-										if(ev.key==="Enter"){
-											handleSubmit(ev);
-										}
-									}}/>
-							</Form.Group>
-						</>
-					:
-						<>
-							<Form.Group disabled={check_exp_time} as={Col} controlId="expected_time_operator">
-								<Form.Label>Expected time operator</Form.Label>
-								<Form.Select value={expected_time_operator}
-									onChange={ ev=> {
-										set_expected_time_operator(ev.target.value);
-									}}>
-									<option value = ">"> {'>'} </option>
-									<option value = "="> {'='} </option>
-									<option value = "<"> {'<'} </option>
-								</Form.Select>
-							</Form.Group>
-							<Form.Group disabled controlId='expected_time'>
-								<Form.Label>Expected time</Form.Label>
-								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
-									onKeyPress={ev=>{
-										if(ev.key==="Enter"){
-											handleSubmit(ev);
-										}
-									}}/>
-							</Form.Group>
-						</>
-					}
-					
+					<Form.Group as={Col} controlId="expected_time_operator">
+						<Form.Label>Expected time operator</Form.Label>
+						<Form.Select disabled={!check_exp_time} value={expected_time_operator}
+							onChange={ ev=> {
+								set_expected_time_operator(ev.target.value);
+							}}>
+							<option value = ">"> {'>'} </option>
+							<option value = "="> {'='} </option>
+							<option value = "<"> {'<'} </option>
+						</Form.Select>
+					</Form.Group>
+					<Form.Group as={Col} controlId='expected_time'>
+						<Form.Label>Expected time</Form.Label>
+						<Form.Control disabled={!check_exp_time} type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
+							onKeyPress={ev=>{
+								if(ev.key==="Enter"){
+									handleSubmit(ev);
+								}
+							}}/>
+					</Form.Group>
 				</Row>
 				<Row>
-					<Button onClick={handleSubmit}>Login</Button>
+					<Button onClick={handleSubmit}>Apply filters</Button>
 				</Row>
 			</Form>
 		</>
