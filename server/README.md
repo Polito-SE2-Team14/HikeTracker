@@ -31,3 +31,21 @@ For each Route in the system we have a file. For example for all the APIs starte
     module.exports = router;
 ```
 The most important thing is that we do not also write the logic here. We only check param errors or auth errors here and then all the logic goes to a file called "apiTest" which is a file in Controller folder.
+## Controller Folder
+In this folder we create a controller for each entity in our system for example "TestController" in which we write the main logic of our app using the functions we define in DAO Folder. For example :
+```
+    const { getAllTests } = require("../DAO/TestDao");
+    const testGetApi = async (req, res) => {
+        let testList;
+        try {
+            testList = await getAllTests();
+        } catch (err) {
+        res.status(500).end();
+    }
+        return res.status(200).json(testList);
+    };
+ ```
+"getAllTests" is a function defined in the DAO folder
+
+## DAO Folder
+In this folder we defined functions related to Database. All GET POST PUT and etc.
