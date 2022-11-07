@@ -1,0 +1,27 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dayjs": "^1.11.5",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "server": "^1.0.37",
+    "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2"
+  }
+}
