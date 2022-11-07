@@ -78,3 +78,5 @@ function filterHike(hike){
 function filterAllHikes(hikes_list){
 	return hikes_list.filter(filterHike);
 }
+
+export {filterHike, filterAllHikes}

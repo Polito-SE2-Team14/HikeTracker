@@ -32,6 +32,44 @@ function EncryptPassword(password) {
 	})
 }
 
+exports.getUserById=(id)=>{
+	return new Promise((resolve,reject)=>{
+		const sql='SELECT * FROM USER WHERE userID=?';
+		db.get(sql,[id],(err,row)=>{
+			if (err)
+				reject(err);
+			else if (row===undefined)
+				resolve({error: 'User not found'});
+			else{
+				const user={userID:row.userID, name:row.name, surname:row.surname, phoneNumber:row.phoneNumber, type: row.type}
+				resolve(user);
+			}
+		});
+	});
+};
+	
+exports.getUser = (email, password) => {
+	return new Promise((resolve, reject) => {
+		const sql = 'SELECT * FROM USER WHERE email = ?';
+		db.get(sql, [email], (err, row) => {
+			if (err) { reject(err); }
+			else if (row === undefined) { resolve(false); }
+			else {
+				const user = {userID:row.userID, name:row.name, surname:row.surname, phoneNumber:row.phoneNumber, type: row.type};
+		  
+				const salt = row.salt;
+				crypto.scrypt(password, salt, 16, (err, hashedPassword) => {
+					if (err) reject(err);
+					const passwordHex = Buffer.from(row.hash, 'hex');
+					if(!crypto.timingSafeEqual(passwordHex, hashedPassword))
+						resolve(false);
+					else resolve(user);
+				});
+			}
+		});
+	});
+};
+
 /**
  * Registers new user (friend or hiker) if it's not already present in the datatbase
  * 

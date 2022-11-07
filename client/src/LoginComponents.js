@@ -74,9 +74,4 @@ function LogoutButton(props) {
   )
 }
 
-// - front end page
-// - backend passport auth
-// - different kind of users
-// - testing and documentation
-
 export { LoginForm, LogoutButton };
