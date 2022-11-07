@@ -252,7 +252,7 @@ export function FilterForm(props){
 						</>
 					:
 						<>
-							<Form.Group disabled as={Col} controlId="expected_time_operator">
+							<Form.Group disabled={check_exp_time} as={Col} controlId="expected_time_operator">
 								<Form.Label>Expected time operator</Form.Label>
 								<Form.Select value={expected_time_operator}
 									onChange={ ev=> {
