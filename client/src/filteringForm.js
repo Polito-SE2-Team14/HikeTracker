@@ -1,6 +1,6 @@
 import { Row, Col, Button, FormControl} from 'react-bootstrap';
 import { useState } from 'react';
-import { Form, Alert } from 'react-bootstrap/';
+import { Form, Alert } from 'react-bootstrap';
 
 export function FilterForm(props){
 	const [geographic_area, set_geographic_area] = useState();
