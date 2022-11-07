@@ -1,18 +1,20 @@
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { Col, Container, Row } from "react-bootstrap"
+import { Col, Container, Navbar, Row } from "react-bootstrap"
 
 import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
-	useNavigate,
 } from "react-router-dom";
 import { FilterForm } from './filteringForm.js';
 
 function App() {
   return <Router>
+    <h1>
+      test
+    </h1>
   <Routes>
     <Route path="/" element={<MainPage/>}/>
     <Route path="/login" element={<MainPage/>}/>
@@ -28,6 +30,12 @@ function MainPage() {
   return <Container>
     <FilterForm/>
   </Container>
+}
+
+function NavBar() {
+  return <Navbar>
+    
+  </Navbar>
 }
 
 function MapTest() {

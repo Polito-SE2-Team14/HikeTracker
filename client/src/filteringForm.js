@@ -1,12 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Table, Row, Col, Button, Collapse, Tooltip, OverlayTrigger, FormControl} from 'react-bootstrap';
+import { Row, Col, Button, FormControl} from 'react-bootstrap';
 import { useState } from 'react';
-import { PlusCircleFill, PlusCircle, XCircle, XCircleFill, ChevronDown } from 'react-bootstrap-icons';
-import { MyNavbar } from './NavBar';
-import './App.css';
-import './CourseList.css';
-import { Form } from 'react-bootstrap/lib/Navbar';
+import { Form, Alert } from 'react-bootstrap';
 
 // geographic area, difficulty, length, total ascent, expected time
 
