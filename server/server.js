@@ -9,9 +9,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const dayjs = require('dayjs')
 const { body, check, validationResult } = require('express-validator');
-const hike_dao = require('./DAO/hikeDAO.');
+const hike_dao = require('./DAO/hikeDAO');
 const { download } = require('server/reply');
-
+const hikesRouter = require("./Route/hikesRouter")
 
 // init express
 const app = new express();
@@ -19,6 +19,7 @@ const port = 3001;
 
 app.use(express.json());
 app.use(morgan('dev'));
+app.use('/', hikesRouter);
 
 // set up and enable cors
 const corsOptions = {
@@ -70,34 +71,9 @@ const isLoggedIn = (req, res, next) => {
   return res.status(401).json({ error: 'Not authorized' });
 }
 
+
+
 // activate the server
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
-});
-
-// hike calls
-app.get('/api/hikes',async(req,res)=>{
-	hike_dao.listAllHikes()
-		.then(hikes=>res.json(hikes))
-		.catch(()=>res.status(500).end());
-});
-
-app.post('/api/hikes', isLoggedIn, async(req,res)=>{
-	try{
-		if (!check_hike(req.body.hike)){
-			res.status(404).json({error:`Invalid fields in the inserted hike`});
-			return;
-	}
-	await hike_dao.addHike(req.body.hike);
-	}catch(err){
-		res.status(503).json({error:`Database error during the adding of hike ${req.body.hike.hikeID} in the database`});
-	}
-});
-
-app.put('api/hikes/', isLoggedIn, async(req,res)=>{
-	try{
-		await hike_dao.updateHike(req.body.hike);
-	}catch(err){
-		res.status(404).json({error:"Hike not found"})
-	}
 });
