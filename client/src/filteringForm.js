@@ -1,12 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Table, Row, Col, Button, Collapse, Tooltip, OverlayTrigger, FormControl} from 'react-bootstrap';
+import {Row, Col, Button, FormControl} from 'react-bootstrap';
 import { useState } from 'react';
-import { PlusCircleFill, PlusCircle, XCircle, XCircleFill, ChevronDown } from 'react-bootstrap-icons';
-import { MyNavbar } from './NavBar';
-import './App.css';
-import './CourseList.css';
-import { Form } from 'react-bootstrap/lib/Navbar';
+import { Form, Alert } from 'react-bootstrap/';
 
 // geographic area, difficulty, length, total ascent, expected time
 
@@ -136,9 +130,9 @@ export function FilterForm(props){
 									onChange={ ev=> {
 										set_length_operator(ev.target.value);
 									}}>
-									<option value = ">"> &gt; </option>
-									<option value = "="> &eq; </option>
-									<option value = "<"> &lt; </option>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
 								</Form.Select>
 							</Form.Group>
 							<Form.Group as={Col} controlId="length">
@@ -159,9 +153,9 @@ export function FilterForm(props){
 								onChange={ ev=> {
 									set_length_operator(ev.target.value);
 								}}>
-								<option value = ">"> &gt; </option>
-								<option value = "="> &eq; </option>
-								<option value = "<"> &lt; </option>
+								<option value = ">"> {'>'} </option>
+								<option value = "="> {'='} </option>
+								<option value = "<"> {'<'} </option>
 							</Form.Select>
 						</Form.Group>
 						<Form.Group as={Col} controlId="length">
@@ -188,9 +182,9 @@ export function FilterForm(props){
 									onChange={ ev=> {
 										set_total_ascent_operator(ev.target.value);
 									}}>
-									<option value = ">"> &gt; </option>
-									<option value = "="> &eq; </option>
-									<option value = "<"> &lt; </option>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
 								</Form.Select>
 							</Form.Group>
 							<Form.Group as = {Col} controlId='total_ascent'>
@@ -211,9 +205,9 @@ export function FilterForm(props){
 								onChange={ ev=> {
 									set_total_ascent_operator(ev.target.value);
 								}}>
-								<option value = ">"> &gt; </option>
-								<option value = "="> &eq; </option>
-								<option value = "<"> &lt; </option>
+								<option value = ">"> {'>'} </option>
+								<option value = "="> {'='} </option>
+								<option value = "<"> {'<'} </option>
 							</Form.Select>
 						</Form.Group>
 						<Form.Group as = {Col} controlId='total_ascent'>
@@ -233,26 +227,54 @@ export function FilterForm(props){
 					<Form.Check type="switch" id="diff_switch"
 						onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
 					</Form.Check>
-					<Form.Group as={Col} controlId="expected_time_operator">
-						<Form.Label>Expected time operator</Form.Label>
-						<Form.Select value={expected_time_operator}
-							onChange={ ev=> {
-								set_expected_time_operator(ev.target.value);
-							}}>
-							<option value = ">"> &gt; </option>
-							<option value = "="> &eq; </option>
-							<option value = "<"> &lt; </option>
-						</Form.Select>
-					</Form.Group>
-					<Form.Group controlId='expected_time'>
-						<Form.Label>Expected time</Form.Label>
-						<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-					</Form.Group>
+					{check_exp_time?
+						<>
+							<Form.Group as={Col} controlId="expected_time_operator">
+								<Form.Label>Expected time operator</Form.Label>
+								<Form.Select value={expected_time_operator}
+									onChange={ ev=> {
+										set_expected_time_operator(ev.target.value);
+									}}>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
+								</Form.Select>
+							</Form.Group>
+							<Form.Group controlId='expected_time'>
+								<Form.Label>Expected time</Form.Label>
+								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
+									onKeyPress={ev=>{
+										if(ev.key==="Enter"){
+											handleSubmit(ev);
+										}
+									}}/>
+							</Form.Group>
+						</>
+					:
+						<>
+							<Form.Group disabled as={Col} controlId="expected_time_operator">
+								<Form.Label>Expected time operator</Form.Label>
+								<Form.Select value={expected_time_operator}
+									onChange={ ev=> {
+										set_expected_time_operator(ev.target.value);
+									}}>
+									<option value = ">"> {'>'} </option>
+									<option value = "="> {'='} </option>
+									<option value = "<"> {'<'} </option>
+								</Form.Select>
+							</Form.Group>
+							<Form.Group disabled controlId='expected_time'>
+								<Form.Label>Expected time</Form.Label>
+								<Form.Control type ='number' value={expected_time} onChange={ev => set_expected_time(ev.target.value)}
+									onKeyPress={ev=>{
+										if(ev.key==="Enter"){
+											handleSubmit(ev);
+										}
+									}}/>
+							</Form.Group>
+						</>
+					}
+					
 				</Row>
 				<Row>
 					<Button onClick={handleSubmit}>Login</Button>
