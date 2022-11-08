@@ -1,6 +1,6 @@
 import "../styles/LoginPage.css";
 
-import { Container, Row } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -17,6 +17,8 @@ export function LoginPage(props) {
 		navigate("/");
 	};
 
+	let handleRegistration = () => navigate("/registration");
+
 	return (
 		<Container className="login-form">
 			<Row>
@@ -29,6 +31,8 @@ export function LoginPage(props) {
 					login={handleLogin}
 				/>
 			</Row>
+			<Row>OR</Row>
+			<Row><Button type="button" onClick={handleRegistration}>Register</Button></Row>
 		</Container>
 	);
 }
