@@ -37,12 +37,11 @@
 ### POST /hikes
 - **Creates a new Hike with an empty array of referencePointIDs and null startPointID and endPointID.**
 - **Request header** has a line: `Content-Type: application/json`.
-- **Request body**: a JSON object containing hikeID, title, lenght, expectedTime, ascent, difficulty, description.
+- **Request body**: a JSON object containing title, lenght, expectedTime, ascent, difficulty, description.
  Example of Request body
 
 ```
     {
-        "hikeID": 3,
         "title": "hike#3",
         "lenght": 3,
         "expectedTime": 60,

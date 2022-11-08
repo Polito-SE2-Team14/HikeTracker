@@ -21,7 +21,7 @@
 | hutID | bedspace | hutOwnerID |
 | :---: | :------: | :--------: |
 |   1   |    10    |     3      |
-|   2   |    15    |     53     |
+|   3   |    15    |     53     |
 
 
 ## ParkingLot
