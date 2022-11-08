@@ -27,9 +27,6 @@ function EncryptPassword(password) {
 		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
 			if (err) reject(err);
 			else {
-				password = hashedPassword.toString('base64');
-				salt = salt.toString('base64');
-
 				resolve({
 					salt: salt.toString('base64'),
 					hashedPassword: hashedPassword.toString('base64')
