@@ -1,39 +1,105 @@
 ### GET /points
 
-you ask for all the points of interest
+- **Return an array containing all points**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: An array of points, each describing 
 
 ```
-    here code
+    {
+        [
+            {
+                
+            },
+            {
+                
+            },
+            ... 
+            ]
+    }
 ```
+
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
+
 
 ### GET /huts
 
-You ask for all the huts
+- **Return an array containing all huts**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: An array of huts, each describing 
 
 ```
-    here code
+    {
+        [
+            {
+                
+            },
+            {
+                
+            },
+            ... 
+            ]
+    }
 ```
+
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
 
 ### POST /huts
-
-you want to create a new hut, inserting all the informations required
+- **Creates a new hut**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing 
+ Example of Request body
 
 ```
-    here code
+    {
+        
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+
 
 ### GET /parkinglots
 
-you aske for all the parking lots
+- **Return an array containing all parkingLots**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: An array of parkingLots, each describing 
+- 
+```
+    {
+        [
+            {
+                
+            },
+            {
+                
+            },
+            ... 
+            ]
+    }
+```
 
-```
-    here code
-```
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
+
 
 ### POST /parkinglots
 
-you want to create a new parking lot, inserting all the informations required
+- **Creates a new parkingLot**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing 
+ Example of Request body
 
 ```
-    here code
+    {
+        
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+

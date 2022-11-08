@@ -1,36 +1,105 @@
 ### GET /hikes
 
-You ask for all the hikes. Then you filter them on client
+- **Return an array containing all hikes**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: An array of hikes, each describing hikeID, title, lenght, expectedTime, ascent, difficulty, description, startPointID, endPointID and referencePointIDs
 
 ```
-    here code
+    {
+        [
+            {
+                "hikeID": 1,
+                "title": "hike#1",
+                "lenght": 7,
+                "expectedTime": 30,
+                "ascent": 100,
+                "difficulty": "Tourist",
+                "description": "firstDescription"
+            },
+            {
+                "hikeID": 2,
+                "title": "hike#2",
+                "lenght": 2,
+                "expectedTime": 45,
+                "ascent": 123,
+                "difficulty": "Hiker",
+                "description": "secondDescription" 
+            },
+            ... 
+            ]
+    }
 ```
+
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
+
 
 ### POST /hikes
-
-You want to create a new hike, inserting all the required informations
+- **Creates a new Hike with an empty array of referencePointIDs and null startPointID and endPointID.**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing hikeID, title, lenght, expectedTime, ascent, difficulty, description.
+ Example of Request body
 
 ```
-    here code
+    {
+        "hikeID": 3,
+        "title": "hike#3",
+        "lenght": 3,
+        "expectedTime": 60,
+        "ascent": 514,
+        "difficulty": "Professional Hiker",
+        "description": "thirdDescription"
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Hiker
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
 ### PUT /hikes/start
-
-you want to choose a starting point to an hike
+- **Add a starting point to an hike**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing hikeID and startPointID.
+ Example of Request body
 ```
-    here code
+    {
+        "hikeID: 1
+        "startPointID": 1 
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Hiker
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
 
 ### PUT /hikes/end
-
-you want to choose an end point to an hike
-
+- **Add a ending point to an hike.**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing hikeID and endPointID.
+ Example of Request body
 ```
-    here code
+    {
+        "hikeID": 1
+        "endPointID": 4 
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Hiker
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
 ### PUT /hikes/hut
-
-you want to add an hut to an hike
-
+- **Add a hut as a reference point to an hike.**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing hikeID and hutID.
+ Example of Request body
 ```
-    here code
+    {
+        "hikeID": 1
+        "hutID": 2
+    }
 ```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Hiker
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).

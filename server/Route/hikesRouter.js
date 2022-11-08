@@ -8,7 +8,7 @@ const isLoggedIn = router.get('isLoggedIn')
 
 // hike calls
 router.get(prefixRoute + '/hikes',async(req,res)=>{
-	hikeDAO.listAllHikes()
+	hikeDAO.getAllHikes()
 	.then(hikes=>res.json(hikes))
 	.catch(()=>res.status(500).end());
 });

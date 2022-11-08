@@ -7,6 +7,9 @@ class Hike {
         this.ascent = ascent;
         this.difficulty = difficulty;
         this.description = description;
+        this.startPointID = null;
+        this.endPointID = null;
+        this.referencePointIDs = [];
     }
 }
 
