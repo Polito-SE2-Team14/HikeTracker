@@ -1,6 +1,6 @@
 *.DS_Store
 server/node_modules/
-server/coverage/
+server/coverage
 server/unit_test/coverage/
 client/node_modules/
 server/package-lock.json
