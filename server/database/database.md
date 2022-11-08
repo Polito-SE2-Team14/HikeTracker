@@ -1,10 +1,10 @@
 ## User
 
-| userID |   name   | surname |           email           | phoneNumber |    type    |   salt   | hashedPassword |
-| :----: | :------: | :-----: | :-----------------------: | :---------: | :--------: | :------: | :------------: |
-|   1    |  mario   |  rossi  |   mario.rossi@email.com   | 12345678901 |   hiker    |  312311  |  awfwafwqafa   |
-|   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 45124124 |    fwafawfa    |
-|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorkers | 51512451 | ajdhapduwhpad  |
+| userID |   name   | surname |           email           | phoneNumber |    type    |   salt   | hashedPassword | confirmed |
+| :----: | :------: | :-----: | :-----------------------: | :---------: | :--------: | :------: | :------------: | :-------: |
+|   1    |  mario   |  rossi  |   mario.rossi@email.com   | 12345678901 |   hiker    |  312311  |  awfwafwqafa   |   null    |
+|   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 45124124 |    fwafawfa    |   null    |
+|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorkers | 51512451 | ajdhapduwhpad  |   true    |
 
 ## Point
 
@@ -50,8 +50,25 @@
 |   2    | hike#2 |   2    |      45      |  123   |       Hiker        |      2       |     5      | secondDescription |
 |   3    | hike#3 |   3    |      60      |  514   | Professional Hiker |      3       |     6      | thirdDescription  |
 
-
 Length (kms)
 Ascent (meters)
 Difficulty (Tourist, Hiker, Professional Hiker)
+
+## Hike group
+
+| hikeID | groupID | leader | completed |
+| :----: | :-----: | :----: | :-------: |
+|   1    |    1    |   1    |   true    |
+|   1    |    2    |   2    |   false   |
+
+## Hike group member
+
+| groupID | userID | confirmed |
+| :-----: | :----: | :-------: |
+|    1    |   1    |   true    |
+|    2    |   1    |   false   |
+|    2    |   2    |   true    |
+
+
+
 

@@ -5,12 +5,17 @@ const User = require("../Class/User");
 
 function CheckExisting(email, phoneNumber) {
 	return new Promise((resolve, reject) => {
+
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
 
-		db.get(sql, [email, phoneNumber], (row, err) => {
-			if (err) reject();
-			else if (row.N == 0) resolve();
+		db.get(sql, [email, phoneNumber], (err, row) => {
+
+			if (err)
+				reject();
+			else if (row.N == 0)
+				resolve();
 			else reject();
+
 		})
 	})
 }
@@ -18,12 +23,12 @@ function CheckExisting(email, phoneNumber) {
 function EncryptPassword(password) {
 	return new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
-
+		console.log("fawda")
 		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
 			if (err) reject(err);
 			else {
-				pass.password = hashedPassword.toString('base64');
-				pass.salt = salt.toString('base64');
+				password = hashedPassword.toString('base64');
+				salt = salt.toString('base64');
 
 				resolve({
 					salt: salt.toString('base64'),
@@ -90,9 +95,11 @@ exports.Register = (name, surname, email, phoneNumber, type, password) =>
 
 			new Promise((resolve, reject) => {
 				let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
-
 				db.run(sql, [name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword], function (err) {
+					console.log(this)
 					if (err) reject();
 					else resolve(new User(this.lastID, name, surname, email, phoneNumber, type));
 				})
 			}))
+
+
