@@ -1,0 +1,15 @@
+:root {
+  --button-bg-color: rgba(146, 145, 145, 0.49);
+  --button-highlight-bg-color: rgba(240, 240, 240, 0.49);
+}
+
+body {
+  font-family: "Montserrat" !important;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100vh;
+}
+
+#map { height: 180px; }

@@ -37,28 +37,17 @@ function LoginForm(props) {
 	<Container>
 		<Row>
 			<Col>
-				<h2>Login</h2>
 				<Form>
 					{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
 					<Form.Group controlId='username'>
 						<Form.Label>E-mail</Form.Label>
-						<Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
+						<Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)}/>
 					</Form.Group>
 					<Form.Group controlId='password'>
 						<Form.Label>Password</Form.Label>
-						<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} 
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
+						<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} />
 					</Form.Group>
-					<Button onClick={handleSubmit}>Login</Button>
+					<Button type="submit" onClick={handleSubmit}>Login</Button>
 				</Form>
 			</Col>
 		</Row>
@@ -67,11 +56,12 @@ function LoginForm(props) {
 }
 
 function LogoutButton(props) {
-  return (
-	<Col>
-	  <span>User: {props.user?.name}</span>{' '}<Button variant="outline-primary" onClick={props.logout}>Logout</Button>
-	</Col>
-  )
-}
+	return (
+	  <Col>
+		<span>User: {props.user?.name}</span>{' '}<Button variant="outline-primary" onClick={props.logout}>Logout</Button>
+	  </Col>
+	)
+  }
+
 
 export { LoginForm, LogoutButton };

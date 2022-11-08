@@ -1,0 +1,30 @@
+.mountain-bg {
+    background-image: url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/alpe-di-siusi-sunrise-with-sassolungo-or-langkofel-royalty-free-image-1623254127.jpg);
+    background-position: 0px 70%;
+    color: white;
+}
+
+.navbar-items {
+    width: 100%;
+}
+
+.btn-navbar {
+    background-color: var(--button-bg-color)!important; 
+    color: white!important;
+    font-size: 1.5rem!important;
+    border-radius: 0!important;
+} 
+
+.btn-navbar:hover {
+    background-color: var(--button-highlight-bg-color)!important;
+}
+
+.btn-xl {
+    padding: .8rem 1rem!important;
+    font-size: 2rem!important;
+}
+
+.sidebar-item {
+    padding: 15px;
+    font-size: 1.1rem;
+}
