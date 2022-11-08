@@ -60,7 +60,7 @@ exports.getUser = (email, password) => {
 				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type };
 
 				const salt = row.salt;
-				crypto.scrypt(password, salt, 16, (err, hashedPassword) => {
+				crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
 					if (err) reject(err);
 					const passwordHex = Buffer.from(row.hash, 'hex');
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
