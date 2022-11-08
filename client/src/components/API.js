@@ -1,4 +1,4 @@
-const ServerURL = 'http://localhost:3001';
+const ServerURL = 'http://localhost:3001/api';
 
 /**
  * Generic GET request
