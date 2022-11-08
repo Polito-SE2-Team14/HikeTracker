@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { AppNavBar } from "./components/AppNavBar";
 import { LoginPage } from "./pages/LoginPage";
+import { RegistrationPage } from "./pages/RegistrationPage";
 import { UserPage } from "./pages/UserPage";
 import { HomePage } from "./pages/HomePage";
 import { HikesPage } from "./pages/HikesPage";
@@ -25,6 +26,10 @@ function App() {
 				<Route
 					path="/login"
 					element={<LoginPage setLoggedIn={setLoggedIn} />}
+				/>
+				<Route
+					path="/registration"
+					element={<RegistrationPage setLoggedIn={setLoggedIn} />}
 				/>
 				<Route
 					path="/user"
