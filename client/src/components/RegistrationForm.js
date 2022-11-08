@@ -19,6 +19,7 @@ export function RegistrationForm(props) {
 		props.setMessage('');
 
 		let validateName = (text) => {
+			console.log(text)
 			return !String(text).match(/[^a-z]/i);
 		}
 
@@ -35,11 +36,11 @@ export function RegistrationForm(props) {
 		};
 
 
-		if (username === '' || !validateName(username)) {
+		if (name === '' || !validateName(name)) {
 			invalids.push(" name");
 			setName('');
 		}
-		if (username === '' || !validateName(username)) {
+		if (surname === '' || !validateName(surname)) {
 			invalids.push(" surname");
 			setSurname('');
 		}
@@ -97,7 +98,7 @@ export function RegistrationForm(props) {
 						</Form.Group>
 						<Form.Group controlId='repeatPwd'>
 							<Form.Label>Repeat password</Form.Label>
-							<Form.Control type='password' value={''} onChange={ev => setRepeatPwd(ev.target.value)} />
+							<Form.Control type='password' value={repeatPwd } onChange={ev => setRepeatPwd(ev.target.value)} />
 						</Form.Group>
 						<Button type="submit" onClick={handleSubmit}>Register</Button>
 					</Form>
