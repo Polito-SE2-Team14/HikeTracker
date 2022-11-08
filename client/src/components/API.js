@@ -1,4 +1,4 @@
-const ServerURL = 'http://localhost:3001/api';
+const APIURL = 'http://localhost:3001/api';
 
 /**
  * Generic GET request
@@ -8,7 +8,7 @@ const ServerURL = 'http://localhost:3001/api';
  */
 async function GET(api, credentials = false) {
 	let cred = credentials ? { credentials: 'include' } : null
-	let response = await fetch(`${ServerURL}${api}`, cred);
+	let response = await fetch(`${APIURL}${api}`, cred);
 	let res = await response.json();
 
 	if (response.ok)
@@ -24,7 +24,7 @@ async function GET(api, credentials = false) {
  * @returns HTTP response
  */
 async function UPDATE(method, api, body) {
-	let response = await fetch(`${ServerURL}${api}`, {
+	let response = await fetch(`${APIURL}${api}`, {
 		method: method,
 		headers: {
 			'Content-Type': 'application/json'
