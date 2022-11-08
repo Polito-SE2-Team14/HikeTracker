@@ -20,7 +20,7 @@ export function RegistrationPage(props) {
 	return (
 		<Container className="login-form">
 			<Row>
-				<h1>Login</h1>
+				<h1>Register</h1>
 			</Row>
 			<Row>
 				<RegistrationForm
