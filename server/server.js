@@ -12,14 +12,20 @@ const { body, check, validationResult } = require('express-validator');
 const hike_dao = require('./DAO/hikeDAO');
 const { download } = require('server/reply');
 const hikesRouter = require("./Route/hikesRouter")
+const pointsRouter = require("./Route/pointsRouter")
+const usersRouter = require("./Route/usersRouter")
 
 // init express
+const prefixRoute = '/api/';
 const app = new express();
 const port = 3001;
 
 app.use(express.json());
 app.use(morgan('dev'));
 app.use('/', hikesRouter);
+app.use('/', pointsRouter);
+app.use('/', usersRouter);
+
 
 // set up and enable cors
 const corsOptions = {
@@ -62,7 +68,6 @@ app.use(session({
 }));
 app.use(passport.authenticate('session'));
 
-const prefixRoute = '/api/';
 
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -71,6 +76,7 @@ const isLoggedIn = (req, res, next) => {
   return res.status(401).json({ error: 'Not authorized' });
 }
 
+app.set('isLoggedIn', isLoggedIn);
 
 
 // activate the server
