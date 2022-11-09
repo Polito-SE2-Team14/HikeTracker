@@ -6,6 +6,12 @@
 |   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 45124124 |    fwafawfa    |   null    |
 |   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorkers | 51512451 | ajdhapduwhpad  |   true    |
 
+## hut worker
+
+| userID | hutID | confirmed |
+| :----: | :---: | :-------: |
+|   3    |   1   |     0     |
+
 ## Point
 
 | pointID |     name     | latitude | longitude | address  | pointType  |
@@ -56,10 +62,10 @@ Difficulty (Tourist, Hiker, Professional Hiker)
 
 ## Hike group
 
-| hikeID | groupID | leaderID | 
-| :----: | :-----: | :------: | 
-|   1    |    1    |    1     |   
-|   1    |    2    |    2     |  
+| hikeID | groupID | leaderID |
+| :----: | :-----: | :------: |
+|   1    |    1    |    1     |
+|   1    |    2    |    2     |
 
 ## Hike group member
 
@@ -68,7 +74,6 @@ Difficulty (Tourist, Hiker, Professional Hiker)
 |    1    |   1    |   true    |   true    |
 |    2    |   1    |   false   |   false   |
 |    2    |   2    |   true    |   false   |
-
 
 
 

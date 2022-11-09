@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS HIKE;
 DROP TABLE IF EXISTS USER;
 DROP TABLE IF EXISTS HIKEGROUP;
 DROP TABLE IF EXISTS HIKEGROUPMEMBER;
+DROP TABLE IF EXISTS HUTWORKER;
 CREATE TABLE USER (
     userID INTEGER PRIMARY KEY,
     name TEXT,
@@ -62,6 +63,11 @@ CREATE TABLE HIKEGROUPMEMBER(
     completed INTEGER NOT NULL, 
     PRIMARY KEY (groupID, userID)
 );
+CREATE TABLE HUTWORKER(
+    userID INTEGER PRIMARY KEY,
+    hutID INTEGER NOT NULL,
+    confirmed INTEGER NOT NULL
+);
 INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedPassword)
 VALUES (1, "mario", "rossi", "mario.rossi@email.com", "12345678901", "hiker", "312311", "awfwafwqafa"),
     (2, "antonio", "bianchi", "antonio.bianchi@email.com", "234567890", "localGuide", "45124124", "fwafawfa"),
@@ -94,3 +100,5 @@ INSERT INTO HIKEGROUPMEMBER (groupID, userID, confirmed, completed)
 VALUES (1,1,1,1),
     (2,1,0,0),
     (2,2,1,0);
+INSERT INTO HUTWORKER (userID, hutID, confirmed)
+VALUES (3,1,0);
