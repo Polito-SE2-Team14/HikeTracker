@@ -32,27 +32,30 @@ function validateHike(hike){
 // hike calls
 
 // GET request to /api/hikes to obtain a list of all hikes
-router.get(prefixRoute + '/hikes',async(req,res)=>{
+router.get(prefixRoute + 'hikes/',async(req,res)=>{
 	hikeDAO.getAllHikes()
-	.then(hikes=>res.json(hikes))
+	.then((hikes)=>{
+		res.json(hikes);
+	})
 	.catch(()=>res.status(500).end());
 });
 
 
 // POST request to /api/hikes to add a new hike
-router.post(prefixRoute + '/hikes', async(req,res)=>{
+router.post(prefixRoute + 'hikes/', async(req,res)=>{
 	if(!validateHike(req.body.hike)){
 		res.status(404).json({error:"Incorrect hike format"});
 	}
 	try{
 		await hikeDAO.addHike(req.body.hike);
+		res.json(req.body.hike);
 	}catch(err){
 		res.status(503).json({error:`Database error during the adding of hike ${req.body.hike.hikeID} in the database`});
 	}
 });
 
 // PUT request to /api/hikes to update an existing hike
-router.put(prefixRoute + 'hikes', async(req,res)=>{
+router.put(prefixRoute + 'hikes/', async(req,res)=>{
 	if(!validateHike(req.body.hike)){
 		res.status(404).json({error:"Incorrect hike format"});
 	}
@@ -62,6 +65,7 @@ router.put(prefixRoute + 'hikes', async(req,res)=>{
 			return;
 		}
 		await hikeDAO.updateHike(req.body.hike);
+		res.json(req.body.hike);
 	}catch(err){
 		res.status(404).json({error:"Hike not found"})
 	}

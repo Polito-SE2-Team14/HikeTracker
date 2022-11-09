@@ -14,7 +14,7 @@ exports.getAllHikes=()=>{
 				reject(err);
 				return;
 			}
-			const hikes=rows.map((h)=>(new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.startPointID,h.endPointID,description)));
+			const hikes=rows.map((h)=>(new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.startPointID,h.endPointID,h.description)));
 			resolve(hikes);
 		});
 	});
