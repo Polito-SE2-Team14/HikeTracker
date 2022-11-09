@@ -20,3 +20,41 @@
 - **Permissions allowed**:  everyone
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
+## POST /hutWorker
+- **Ask to register as hutWorker**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing name, surname, email, phoneNumber, type, password and hutID
+ Example of Request body
+
+```
+    {
+        "name": "cristian",
+        "surname": "verdi",
+        "email": "cristian.verdi@email.com"
+        "phoneNumber": "3456789012"
+        "type": "hutWorker",
+        "password": "afawfafwa",
+        "hutID": 1
+    }
+```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+
+## PUT /hutWorker/verify
+- **I want to verify a hutWorker**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing userID
+ Example of Request body
+
+```
+    {
+        "userID": 3 
+    }
+```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+

@@ -4,7 +4,7 @@
 | :----: | :------: | :-----: | :-----------------------: | :---------: | :--------: | :------: | :------------: | :-------: |
 |   1    |  mario   |  rossi  |   mario.rossi@email.com   | 12345678901 |   hiker    |  312311  |  awfwafwqafa   |   null    |
 |   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 45124124 |    fwafawfa    |   null    |
-|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorkers | 51512451 | ajdhapduwhpad  |   true    |
+|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorker  | 51512451 | ajdhapduwhpad  |   true    |
 
 ## hut worker
 
