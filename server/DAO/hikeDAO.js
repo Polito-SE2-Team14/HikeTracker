@@ -1,6 +1,7 @@
 const sqlite = require('sqlite3');
 const db =  new sqlite.Database('../database/myDB.db',(err)=>{
     if (err){
+		console.log("AAAAAAAA");
         throw err;
     }
 });
@@ -76,5 +77,3 @@ exports.updateHike=(newHike)=>{
 		});
 	});
 };
-
-module.exports = hikeDAO;

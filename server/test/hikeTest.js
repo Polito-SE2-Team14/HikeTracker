@@ -2,60 +2,45 @@
 
 const chai = require('chai');
 const assert = chai.assert;
-const expect = chai.expect;
-const should = chai.should();
-const axios = require('axios');
 
 const hikeAPICall = require('./APICalls/hikeAPICalls');
 
-
-const baseURL = "http://localhost:3001";
-
 const dbmanager = new DBManager()
-const genericAPICall = new GenericAPICall();
-
+const Hike = require("../Class/Hike");
 
 describe('Hikes test suite', async () => {
 	beforeEach(async () => {
-		await dbmanager.restoreOriginalData();
+		await dbmanager.restoreOriginalHikes();
 	})
 	after(async () => {
-		await dbmanager.restoreOriginalData();
+		await dbmanager.restoreOriginalHikes();
 	})
 
-	describe('Get all hikes', async () => {
-		it('a single test', async () => {
-			const response = await hikeAPICall.getHikes()
-			assert.equal(response.status, 200, response.status);
-		})
+	it('Get all hikes', async () => {
+		const expectedArray=[new Hike(1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"),
+		new Hike(2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"),
+		new Hike(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription")];
+		const response = await hikeAPICall.getHikesCall();
+		assert.equal(response.status, 200, response.status);
+		const actualArray = await response.json();
+		assert.equal(actualArray, expectedArray,`Expected ${expectedArray} but got ${actualArray}`);
 	})
 
-});
+	it('Insert new hike',async () => {
+		const hikeToInsert=new Hike(5,"hike#5",10,11,12,"Hiker","Test description");
+		const response = await hikeAPICall.addHikeCall(hikeToInsert);
+		assert.equal(response.status, 200, response.status);
+		const insertedHike= await response.json();
+		assert.equal(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
 
-describe('generic test suite', async () => {
-
-	beforeEach(async () => {
-		await dbmanager.deleteAllData();
-	})
-	after(async () => {
-		await dbmanager.deleteAllData();
 	})
 
-  
-	describe('things that work', async () => {
-		it('a single test', async () => {
-			const response = await hikeAPICall.getHike()
-			assert.equal(response.status, 200, response.status);
-		})
-	})
-
-	describe('things that dont work', async () => {
-
-		it('a single test', async () => {
-			const response = await genericAPICall.genericMethod();
-			assert.equal(response.status, 500, response.status);
-		})
-
+	it('Update hike 1',async () => {
+		const hikeToUpdate=new Hike(1, "hike#1_modified", 8, 31, 101, "Hiker", 2, 5, "firstDescription_modified");
+		const response = await hikeAPICall.addHikeCall(hikeToInsert);
+		assert.equal(response.status, 200, response.status);
+		const updatedHike= await response.json();
+		assert.equal(updatedHike,hikeToUpdate,`Expected ${hikeToUpdate}, but ${updatedHike} was updated`);
 	})
 
 });

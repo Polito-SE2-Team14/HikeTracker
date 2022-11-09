@@ -51,7 +51,7 @@ router.post(prefixRoute + '/hikes', async(req,res)=>{
 	}
 });
 
-// POST request to /api/hikes to update an existing hike
+// PUT request to /api/hikes to update an existing hike
 router.put(prefixRoute + 'hikes', async(req,res)=>{
 	if(!validateHike(req.body.hike)){
 		res.status(404).json({error:"Incorrect hike format"});
