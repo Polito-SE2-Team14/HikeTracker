@@ -1,9 +1,6 @@
 const sqlite = require('sqlite3');
-const db =  new sqlite.Database('../database/myDB.db',(err)=>{
-    if (err){
-        throw err;
-    }
-});
+const { db } = require("../database/dbManager");
+
 const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
@@ -77,4 +74,3 @@ exports.updateHike=(newHike)=>{
 	});
 };
 
-module.exports = hikeDAO;
