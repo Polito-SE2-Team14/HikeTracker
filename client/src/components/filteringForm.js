@@ -2,6 +2,14 @@ import { Row, Col, Button, FormControl} from 'react-bootstrap';
 import { useState } from 'react';
 import { Form, Alert } from 'react-bootstrap';
 
+/**
+ * 
+ * @param props.setMessage - function used to set an error message
+ * @param {string} props.message - error message shown if the user chooses paramaters incorrrectly
+ * @param props.setFilters - function used to update filters in the API
+ *  
+ * @returns a form to select filtering conditiond for hikes
+ */
 export function FilterForm(props){
 	const [geographic_area, set_geographic_area] = useState();
 	const [check_geo_area, set_check_geo_area] = useState(false);
@@ -21,11 +29,18 @@ export function FilterForm(props){
 	const [expected_time_operator, set_expected_time_operator] = useState();
 	const [check_exp_time, set_check_exp_time] = useState(false);
 
+
+	/**
+	 * checks if the parameters chosen by the user are correct and if so updates the current filtering conditions
+	 */
 	const handleSubmit= (event) => {
 		event.preventDefault();
 		props.setMessage('');
 		const filters = {geographic_area,check_geo_area,difficulty,check_diff,length,length_operator,check_len,total_ascent,total_ascent_operator,check_tot_asc,expected_time,expected_time_operator,check_exp_time}
 
+		/**list of invalid parameters
+		 * @type {string[]}
+		 */
 		let invalids = [];
 
 		if (check_geo_area && geographic_area === ''){

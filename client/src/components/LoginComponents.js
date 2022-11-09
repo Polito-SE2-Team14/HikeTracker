@@ -1,12 +1,24 @@
 import { Form, Button, Alert, Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
 
+/**
+ * 
+ * @param {function} props.setMessage - function to show an error message
+ * @param {string}	 props.message - string telling if the user has filled the form incorrectly
+ * @param {function} props.login - function to log in
+ * @returns a form to make the user log in
+ */
 function LoginForm(props) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
 	const handleSubmit = (event) => {
 
+		/**
+		 * tells if an email has a correct format
+		 * @param {string} email 
+		 * @returns a boolean value telling if the email is ok
+		 */
 		const validateEmail = (email) => {
 			return String(email)
 				.toLowerCase()
@@ -55,6 +67,11 @@ function LoginForm(props) {
   )
 }
 
+/**
+ * @param {user} props.user - the current user
+ * @param {function} props.logout - function to log out
+ * @returns a button enabling a logged user to log out
+ */
 function LogoutButton(props) {
 	return (
 	  <Col>

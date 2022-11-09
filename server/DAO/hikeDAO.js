@@ -4,11 +4,11 @@ const db =  new sqlite.Database('../database/myDB.db',(err)=>{
         throw err;
     }
 });
-
-class hikeDAO{
-	
-}
-
+const Hike = require("../Class/Hike");
+/**
+ * Queries the db to get all hikes
+ * @returns {Promise} A promise containing a vector with all the hikes or a message error
+ */
 exports.getAllHikes=()=>{
 	return new Promise((resolve,reject)=>{
 		const sql='SELECT * FROM HIKE';
@@ -17,12 +17,17 @@ exports.getAllHikes=()=>{
 				reject(err);
 				return;
 			}
-			const hikes=rows.map((h)=>({hikeID:h.hikeID,title:h.title,lenght:h.lenght,expectedTime:h.expectedTime,ascent:h.ascent,difficulty:h.difficulty,startPointID:h.startPointID,endPointID:h.endPointID,description:h.description}));
+			const hikes=rows.map((h)=>(new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.startPointID,h.endPointID,description)));
 			resolve(hikes);
 		});
 	});
 };
 
+/**
+ * Checks if a hike is present in the database
+ * @param {number} wantedID - Id of the searched hike
+ * @returns {boolean} Boolean value telling if the hike exists
+ */
 exports.check_hike=(wantedID)=>{
 	db.run("SELECT * FROM HIKE WHERE ID=?",[wantedID],(err,row)=>{
 		if(err){
@@ -32,10 +37,15 @@ exports.check_hike=(wantedID)=>{
 	});
 };
 
+/**
+ * Inserts a new hike in the database
+ * @param {hike} newHike - The hike to insert
+ * @returns {Promise} a promise containing the new hike in case of success or an error
+ */
 exports.addHike=(newHike)=>{
 	return new Promise((resolve,reject)=>{
-		db.run("INSERT INTO HIKE (hikeID,title,lenght,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?,?)",
-		[newHike.hikeID,newHike.title,newHike.lenght,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description],
+		db.run("INSERT INTO HIKE (title,lenght,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?)",
+		[newHike.title,newHike.lenght,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description],
 		(err)=>{
 			if(err){
 				reject(err);
@@ -47,6 +57,11 @@ exports.addHike=(newHike)=>{
 	});
 };
 
+/**
+ * Updates a hike in the database
+ * @param {Hike} newHike - The updated version of the hike
+ * @returns {Promise} a promise containing the new hike in case of success or an error
+ */
 exports.updateHike=(newHike)=>{
 	return new Promise((resolve,reject)=>{
 		db.run("UPDATE HIKES SET title=?, lenght=?, expectedTime=?, ascent=?, difficulty=?, startPointID=?, endPointID=?,description=? WHERE hikeID =?",
