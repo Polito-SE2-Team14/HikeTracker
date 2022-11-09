@@ -1,9 +1,6 @@
 const sqlite = require('sqlite3');
-const db =  new sqlite.Database('../database/myDB.db',(err)=>{
-    if (err){
-        throw err;
-    }
-});
+const { db } = require("../database/dbManager");
+
 
 class hikeDAO{
 	
