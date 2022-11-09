@@ -56,18 +56,18 @@ Difficulty (Tourist, Hiker, Professional Hiker)
 
 ## Hike group
 
-| hikeID | groupID | leader | completed |
-| :----: | :-----: | :----: | :-------: |
-|   1    |    1    |   1    |   true    |
-|   1    |    2    |   2    |   false   |
+| hikeID | groupID | leaderID | 
+| :----: | :-----: | :------: | 
+|   1    |    1    |    1     |   
+|   1    |    2    |    2     |  
 
 ## Hike group member
 
-| groupID | userID | confirmed |
-| :-----: | :----: | :-------: |
-|    1    |   1    |   true    |
-|    2    |   1    |   false   |
-|    2    |   2    |   true    |
+| groupID | userID | confirmed | completed |
+| :-----: | :----: | :-------: | :-------: |
+|    1    |   1    |   true    |   true    |
+|    2    |   1    |   false   |   false   |
+|    2    |   2    |   true    |   false   |
 
 
 
