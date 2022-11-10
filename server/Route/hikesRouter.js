@@ -2,9 +2,10 @@ const { application } = require('express');
 const express = require('express');
 const router = express.Router()
 // const prefixRoute = '/api/';
-const hikeDAO = require('../DAO/hikeDAO');
+//const hikeDAO = require('../DAO/hikeDAO');
 const Controller = require('../Controller/Controller')
-const controller = new Controller()
+const Singleton = require('../Controller/ControllerSingleton')
+const controller = Singleton.getInstance();
 
 /**
  * tells if the an hike has a correct format
