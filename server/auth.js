@@ -41,3 +41,5 @@ passport.use(new LocalStrategy(async function verify(username, password, cb) {
     }
     return res.status(401).json({ error: 'Not authorized' });
   }
+
+  module.exports = isLoggedIn

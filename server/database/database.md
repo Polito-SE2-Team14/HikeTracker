@@ -14,14 +14,15 @@
 
 ## Point
 
-| pointID |     name     | latitude | longitude | address  | pointType  |
-| :-----: | :----------: | :------: | :-------: | :------: | :--------: |
-|    1    |    hut#1     |   123    |    456    | address1 |    hut     |
-|    2    | parkinglot#1 |   123    |    456    | address2 | parkinglot |
-|    3    |    hut#2     |   123    |    456    | address3 |    hut     |
-|    4    | parkinglot#2 |   123    |    456    | address4 | parkinglot |
-|    5    |  generic#1   |   123    |    456    | address5 |  generic   |
+| pointID |     name     | latitude (REAL) | longitude (REAL) | address  | pointType  |
+| :-----: | :----------: | :-------------: | :--------------: | :------: | :--------: |
+|    1    |    hut#1     |       123       |       456        | address1 |    hut     |
+|    2    | parkinglot#1 |       123       |       456        | address2 | parkinglot |
+|    3    |    hut#2     |       123       |       456        | address3 |    hut     |
+|    4    | parkinglot#2 |       123       |       456        | address4 | parkinglot |
+|    5    |  generic#1   |       123       |       456        | address5 |  generic   |
 
+pointType (Hut, ParkingLot, Generic)
 ## Hut
 
 | hutID | bedspace | hutOwnerID |
@@ -50,7 +51,7 @@
 
 ## Hike
 
-| hikeID | Title  | Lenght | ExpectedTime | Ascent |     Difficulty     | StartPointId | EndPointId |    Description    |
+| hikeID | Title  | Length | ExpectedTime | Ascent |     Difficulty     | StartPointId | EndPointId |    Description    |
 | :----: | :----: | :----: | :----------: | :----: | :----------------: | :----------: | :--------: | :---------------: |
 |   1    | hike#1 |   7    |      30      |  100   |      Tourist       |      1       |     4      | firstDescription  |
 |   2    | hike#2 |   2    |      45      |  123   |       Hiker        |      2       |     5      | secondDescription |

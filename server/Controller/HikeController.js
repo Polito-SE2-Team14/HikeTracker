@@ -9,8 +9,15 @@ class HikeController {
     async getAllHikes() {
         const hikes = await hikeDAO.getAllHikes()
             .catch(() => { throw Error() });
+        
         return hikes;
+    }
 
+    async getHike(hikeID) {
+        const hike = await hikeDAO.getHike(hikeID)
+            .catch(() => {throw Error() });
+        
+        return hike;
     }
 
     async addHike(hike) {
