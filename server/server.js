@@ -22,7 +22,7 @@ const port = 3001;
 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use('/', hikesRouter);
+app.use('/api/hikes', hikesRouter);
 app.use('/', pointsRouter);
 app.use('/', usersRouter);
 

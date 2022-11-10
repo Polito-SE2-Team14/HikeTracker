@@ -1,7 +1,7 @@
 const { application } = require('express');
 const express = require('express');
 const router = express.Router()
-const prefixRoute = '/api/';
+// const prefixRoute = '/api/';
 const hikeDAO = require('../DAO/hikeDAO');
 
 const isLoggedIn = router.get('isLoggedIn')
@@ -32,7 +32,7 @@ function validateHike(hike){
 // hike calls
 
 // GET request to /api/hikes to obtain a list of all hikes
-router.get(prefixRoute + 'hikes/',async(req,res)=>{
+router.get('',async(req,res)=>{
 	hikeDAO.getAllHikes()
 	.then((hikes)=>{
 		res.json(hikes);
@@ -42,7 +42,7 @@ router.get(prefixRoute + 'hikes/',async(req,res)=>{
 
 
 // POST request to /api/hikes to add a new hike
-router.post(prefixRoute + 'hikes/', async(req,res)=>{
+router.post('', async(req,res)=>{
 	if(!validateHike(req.body.hike)){
 		res.status(404).json({error:"Incorrect hike format"});
 	}
@@ -55,7 +55,7 @@ router.post(prefixRoute + 'hikes/', async(req,res)=>{
 });
 
 // PUT request to /api/hikes to update an existing hike
-router.put(prefixRoute + 'hikes/', async(req,res)=>{
+router.put('', async(req,res)=>{
 	if(!validateHike(req.body.hike)){
 		res.status(404).json({error:"Incorrect hike format"});
 	}
