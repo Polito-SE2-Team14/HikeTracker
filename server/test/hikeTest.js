@@ -32,7 +32,7 @@ describe('Hikes test suite', async () => {
 	it('Insert new hike',async () => {
 		const hikeToInsert=new Hike(5,"hike#5",10,11,12,"Hiker","Test description");
 		const response = await hikeAPICall.addHikeCall(hikeToInsert);
-		assert.equal(response.status, 200, response.status);
+		assert.equal(response.status, 201, response.status);
 		let insertedHike= await response.data;
 		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.lenght,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
 		assert.deepEqual(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
@@ -42,7 +42,7 @@ describe('Hikes test suite', async () => {
 	it('Update hike 1',async () => {
 		const hikeToUpdate=new Hike(1, "hike#1_modified", 8, 31, 101, "Hiker", 2, 5, "firstDescription_modified");
 		const response = await hikeAPICall.addHikeCall(hikeToUpdate);
-		assert.equal(response.status, 200, response.status);
+		assert.equal(response.status, 201, response.status);
 		let updatedHike= await response.data;
 		updatedHike = new Hike(updatedHike.hikeID,updatedHike.title,updatedHike.lenght,updatedHike.expectedTime,updatedHike.ascent,updatedHike.difficulty,updatedHike.description,updatedHike.startPointID,updatedHike.endPointID);
 		assert.deepEqual(updatedHike,hikeToUpdate,`Expected ${hikeToUpdate}, but ${updatedHike} was updated`);
