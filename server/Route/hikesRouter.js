@@ -1,7 +1,6 @@
 const { application } = require('express');
 const express = require('express');
 const router = express.Router()
-// const prefixRoute = '/api/';
 const hikeDAO = require('../DAO/hikeDAO');
 
 const isLoggedIn = router.get('isLoggedIn')
