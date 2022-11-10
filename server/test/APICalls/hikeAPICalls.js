@@ -2,7 +2,7 @@
 
 const axios = require('axios');
 
-class hikeCall {
+class HikeAPICall {
 	#baseURL;
 
 	constructor() {
@@ -14,10 +14,9 @@ class hikeCall {
 		const url = this.#baseURL + "/api/hikes";
 		let response;
 
-		await axios.get(url)
+		await axios.get(url,{responseType: "json"})
 			.then(value => response = value)
 			.catch(error => response = error.response);
-
 		return response;
 	}
 
@@ -85,4 +84,4 @@ class hikeCall {
 
 }
 
-module.exports = GenericAPICall;
+module.exports = HikeAPICall;
