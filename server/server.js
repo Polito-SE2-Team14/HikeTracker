@@ -11,9 +11,7 @@ const dayjs = require('dayjs')
 const { body, check, validationResult } = require('express-validator');
 const hike_dao = require('./DAO/hikeDAO');
 const { download } = require('server/reply');
-const hikesRouter = require("./Route/hikesRouter")
-const pointsRouter = require("./Route/pointsRouter")
-const usersRouter = require("./Route/usersRouter")
+
 
 // init express
 const prefixRoute = '/api/';
@@ -22,9 +20,6 @@ const port = 3001;
 
 app.use(express.json());
 app.use(morgan('dev'));
-app.use('/api/hikes', hikesRouter);
-app.use('/', pointsRouter);
-app.use('/', usersRouter);
 
 
 // set up and enable cors
@@ -77,6 +72,16 @@ const isLoggedIn = (req, res, next) => {
 }
 
 app.set('isLoggedIn', isLoggedIn);
+
+// ################################# Hike APIs ##########################################
+const hikesRouter = require("./Route/hikesRouter");
+app.use(prefixRoute + 'hikes', hikesRouter);
+// ################################# Point APIs ##########################################
+const pointsRouter = require("./Route/pointsRouter");
+app.use(prefixRoute + '/test1', pointsRouter);
+// ################################# User APIs ##########################################
+const usersRouter = require("./Route/usersRouter");
+app.use(prefixRoute + '/test2', usersRouter);
 
 
 // activate the server
