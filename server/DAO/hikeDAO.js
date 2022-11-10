@@ -1,5 +1,11 @@
 const sqlite = require('sqlite3');
-const { db } = require("../database/dbManager");
+//const { db } = require("../database/dbManager");
+
+const Singleton = require("../database/DBManagerSingleton")
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getInstance();
+const db = dbManager.getDB();
 
 const Hike = require("../Class/Hike");
 /**
@@ -14,7 +20,7 @@ exports.getAllHikes=()=>{
 				reject(err);
 				return;
 			}
-			const hikes=rows.map((h)=>(new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.startPointID,h.endPointID,h.description)));
+			const hikes = rows.map((h) => (new Hike(h.hikeID, h.title, h.lenght, h.expectedTime, h.ascent, h.difficulty, h.startPointID, h.endPointID, h.description)));
 			resolve(hikes);
 		});
 	});
@@ -35,8 +41,24 @@ exports.check_hike=(wantedID)=>{
 };
 
 /**
+ * Get the hike associated to the ID passed
+ * @param {number} wantedID - Id of the searched hike
+ * @returns {boolean} Boolean value telling if the hike exists
+ */
+ exports.getHike=(wantedID)=>{
+	db.run("SELECT * FROM HIKE WHERE ID=?",[wantedID],(err,row)=>{
+		if(err){
+			reject(err);
+			return;
+		} else {
+			resolve(row);
+		}
+	});
+};
+
+/**
  * Inserts a new hike in the database
- * @param {hike} newHike - The hike to insert
+ * @param {Hike} newHike - The hike to insert
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike=(newHike)=>{

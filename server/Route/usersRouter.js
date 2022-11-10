@@ -18,7 +18,10 @@ router.post(prefixRoute + 'users',
         if (validationResult(req).isEmpty() && (req.body.type === "hiker" || req.body.type === "friend")) {
             await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
                 .then(() => res.status(201).end())
-                .catch(err => res.status(505).send("error"))
+                .catch(err => {
+                    if (err === "user exists") res.status(422).send("User already exists")
+                    else res.status(505).send("error")
+                })
         }
         else return res.status(505).json(errors.array())
     });

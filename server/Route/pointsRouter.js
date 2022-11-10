@@ -1,8 +1,14 @@
 const express = require('express');
 const router = express.Router()
-const prefixRoute = '/api/';
-const isLoggedIn = router.get('isLoggedIn')
+const prefixRoute = '/api';
 const pointsDAO = require('../DAO/pointsDAO')
+
+
+router.get(prefixRoute + '/hike-points', async (req, res) => {
+	await pointsDAO.getHikePoints(req.body.hikeID)
+		.then(points => res.json(points))
+		.catch(err => res.status(err.code).send(err.msg))
+})
 
 router.get(prefixRoute + '/points', async (req, res) => {
 	await pointsDAO.getAllPoints()
@@ -16,7 +22,7 @@ router.get(prefixRoute + '/huts', async (req, res) => {
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.post(prefixRoute + '/huts', isLoggedIn, async (req, res) => {
+router.post(prefixRoute + '/huts', async (req, res) => {
 
 	const hut = req.body.hut;
 
@@ -31,7 +37,7 @@ router.get(prefixRoute + '/parkinglots', async (req, res) => {
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.post(prefixRoute + '/parkinglots', isLoggedIn, async (req, res) => {
+router.post(prefixRoute + '/parkinglots', async (req, res) => {
 
 	const parkingLot = req.body.parkingLot;
 
