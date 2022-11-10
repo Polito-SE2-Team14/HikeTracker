@@ -1,9 +1,6 @@
 const sqlite = require('sqlite3');
-const db =  new sqlite.Database('../database/myDB.db',(err)=>{
-    if (err){
-        throw err;
-    }
-});
+const { db } = require("../database/dbManager");
+
 const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
@@ -17,7 +14,7 @@ exports.getAllHikes=()=>{
 				reject(err);
 				return;
 			}
-			const hikes=rows.map((h)=>(new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.startPointID,h.endPointID,description)));
+			const hikes = rows.map((h) => (new Hike(h.hikeID, h.title, h.lenght, h.expectedTime, h.ascent, h.difficulty, h.startPointID, h.endPointID, h.description)));
 			resolve(hikes);
 		});
 	});
@@ -77,4 +74,3 @@ exports.updateHike=(newHike)=>{
 	});
 };
 
-module.exports = hikeDAO;

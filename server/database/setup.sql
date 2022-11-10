@@ -71,7 +71,7 @@ CREATE TABLE HUTWORKER(
 INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedPassword)
 VALUES (1, "mario", "rossi", "mario.rossi@email.com", "12345678901", "hiker", "312311", "awfwafwqafa"),
     (2, "antonio", "bianchi", "antonio.bianchi@email.com", "234567890", "localGuide", "45124124", "fwafawfa"),
-    (3, "cristian", "verdi", "cristian.verdi@email.com", "3456789012", "hutWorkers", "51512451", "ajdhapduwhpad");
+    (3, "cristian", "verdi", "cristian.verdi@email.com", "3456789012", "hutWorker", "51512451", "ajdhapduwhpad");
 INSERT INTO POINT(pointID, name, latitude, longitude, address, pointType) 
     VALUES (1, "hut#1", "123", "456", "address1", "hut"),
     (2, "park#1", "123", "456", "address2", "parkinglot"),

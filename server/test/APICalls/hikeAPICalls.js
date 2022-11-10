@@ -2,7 +2,7 @@
 
 const axios = require('axios');
 
-class hikeCall {
+class HikeAPICall {
 	#baseURL;
 
 	constructor() {
@@ -10,25 +10,22 @@ class hikeCall {
 	}
 
 	//GET
-	async getHikes() {
+	async getHikesCall() {
 		const url = this.#baseURL + "/api/hikes";
 		let response;
 
-		await axios.get(url)
+		await axios.get(url,{responseType: "json"})
 			.then(value => response = value)
 			.catch(error => response = error.response);
-
 		return response;
 	}
 
 
 	//POST
-	async postMethod(param1, param2, param3) {
-		const url = this.#baseURL + "/api/genericPost";
+	async addHikeCall(newHike) {
+		const url = this.#baseURL + "/api/hikes";
 		const body = {
-			param1: param1,
-			param2: param2,
-			param3: param3
+			hike: newHike
 		}
 		const headers = { headers: { 'Content-Type': 'application/json' } };
 		let response;
@@ -40,6 +37,21 @@ class hikeCall {
 		return response;
 	}
 
+
+	async updateHikeCall(newHike){
+		const url = this.#baseURL + "/api/hikes";
+		const body = {
+			hike: newHike
+		}
+		const headers = { headers: { 'Content-Type': 'application/json' } };
+		let response;
+
+		await axios.post(url, body, headers)
+			.then(value => response = value)
+			.catch(error => response = error.response);
+
+		return response;
+	}
 	//PUT
 	async putMethod(param1, param2, param3) {
 		const url = this.#baseURL + "/api/genericPut";
@@ -72,4 +84,4 @@ class hikeCall {
 
 }
 
-module.exports = GenericAPICall;
+module.exports = HikeAPICall;

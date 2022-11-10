@@ -2,60 +2,50 @@
 
 const chai = require('chai');
 const assert = chai.assert;
-const expect = chai.expect;
-const should = chai.should();
-const axios = require('axios');
 
-const hikeAPICall = require('./APICalls/hikeAPICalls');
+const HikeAPICall = require('./APICalls/hikeAPICalls');
+const hikeAPICall = new HikeAPICall();
 
-
-const baseURL = "http://localhost:3001";
-
-const dbmanager = new DBManager()
-const genericAPICall = new GenericAPICall();
-
+const dbmanager = require("../database/dbManager");
+const Hike = require("../Class/Hike");
 
 describe('Hikes test suite', async () => {
 	beforeEach(async () => {
-		await dbmanager.restoreOriginalData();
+		await dbmanager.restoreOriginalHikes();
 	})
 	after(async () => {
-		await dbmanager.restoreOriginalData();
+		await dbmanager.restoreOriginalHikes();
 	})
 
-	describe('Get all hikes', async () => {
-		it('a single test', async () => {
-			const response = await hikeAPICall.getHikes()
-			assert.equal(response.status, 200, response.status);
-		})
+	it('Get all hikes', async () => {
+		let expectedArray=[new Hike(1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"),
+		new Hike(2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"),
+		new Hike(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription")];
+		const response = await hikeAPICall.getHikesCall();
+		assert.equal(response.status, 200, response.status);
+		let actualArray = await response.data;
+		// The response is returned as a vector of objects, so we need to convert them to Hikes
+		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
+		assert.deepEqual(actualArray, expectedArray,`Expected ${expectedArray} but got ${actualArray}`);
 	})
 
-});
+	it('Insert new hike',async () => {
+		const hikeToInsert=new Hike(5,"hike#5",10,11,12,"Hiker","Test description");
+		const response = await hikeAPICall.addHikeCall(hikeToInsert);
+		assert.equal(response.status, 201, response.status);
+		let insertedHike= await response.data;
+		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.lenght,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
+		assert.deepEqual(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
 
-describe('generic test suite', async () => {
-
-	beforeEach(async () => {
-		await dbmanager.deleteAllData();
-	})
-	after(async () => {
-		await dbmanager.deleteAllData();
-	})
-
-  
-	describe('things that work', async () => {
-		it('a single test', async () => {
-			const response = await hikeAPICall.getHike()
-			assert.equal(response.status, 200, response.status);
-		})
 	})
 
-	describe('things that dont work', async () => {
-
-		it('a single test', async () => {
-			const response = await genericAPICall.genericMethod();
-			assert.equal(response.status, 500, response.status);
-		})
-
+	it('Update hike 1',async () => {
+		const hikeToUpdate=new Hike(1, "hike#1_modified", 8, 31, 101, "Hiker", 2, 5, "firstDescription_modified");
+		const response = await hikeAPICall.addHikeCall(hikeToUpdate);
+		assert.equal(response.status, 201, response.status);
+		let updatedHike= await response.data;
+		updatedHike = new Hike(updatedHike.hikeID,updatedHike.title,updatedHike.lenght,updatedHike.expectedTime,updatedHike.ascent,updatedHike.difficulty,updatedHike.description,updatedHike.startPointID,updatedHike.endPointID);
+		assert.deepEqual(updatedHike,hikeToUpdate,`Expected ${hikeToUpdate}, but ${updatedHike} was updated`);
 	})
 
 });
