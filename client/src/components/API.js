@@ -43,6 +43,14 @@ async function UPDATE(method, api, body) {
 const getHikes = () =>
 	GET("/hikes");
 
+
+/**
+ * @param {number} hikeID
+ * @returns Selected hike
+ */
+const getHike = (hikeID) => 
+	GET(`/hikes/${hikeID}`);
+
 /**
  * 
  * @param {string} title 
@@ -83,5 +91,5 @@ const updateHike = (hikeID, pointType, pointID) => {
 	return UPDATE("PUT", `/${pointType}`, body);
 }
 
-const API = { getHikes, newHike, updateHike };
+const API = { getHikes, getHike, newHike, updateHike };
 export default API;

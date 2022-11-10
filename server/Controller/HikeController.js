@@ -13,6 +13,12 @@ class HikeController {
 
     }
 
+    async getHike(hikeID) {
+        const hike = await hikeDAO.getHike(hikeID)
+            .catch(() => {throw Error() });
+        return hike;
+    }
+
     async addHike(hike) {
         await hikeDAO.addHike(hike)
             .then(() => { return hike })

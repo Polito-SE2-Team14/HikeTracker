@@ -53,11 +53,12 @@ export function HikeMap(props) {
 // TODO: AreaSelectMap, PointSelectMap
 
 export function AreaSelectMap(props){
+	// props.setArea({center: [float, float], radius: float})
 
 }
 
 export function PointSelectMap(props){
-
+	// props.setPoint({point: [float, float])
 }
 
 

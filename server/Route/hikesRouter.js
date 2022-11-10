@@ -39,6 +39,13 @@ router.get('', async (req, res) => {
 		.catch(() => res.status(500).end());
 });
 
+// GET request to /api/hikes/:hikeID to obtain the selected hike
+router.get('', async (req, res) => {
+	await controller.getHike(req.params.hikeID)
+		.then((hike) => { return res.status(200).json(hike) })
+		.catch(() => res.status(500).end());
+});
+
 
 // POST request to /api/hikes to add a new hike
 router.post('', async (req, res) => {
