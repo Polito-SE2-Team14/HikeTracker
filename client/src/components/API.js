@@ -68,13 +68,13 @@ const updateHike = (hikeID, pointType, pointID) => {
 
 	switch (pointType) {
 		case "start":
-			body["startPointID"] = pointID;
+			body.startPointID = pointID;
 			break;
 		case "end":
-			body["endPointID"] = pointID;
+			body.endPointID = pointID;
 			break;
 		case "hut":
-			body["hutID"] = pointID;
+			body.hutID = pointID;
 			break;
 		default:
 			throw "Unexpected point type";
