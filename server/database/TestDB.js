@@ -22,6 +22,23 @@ exports.start = () => {
 	)).catch(err => { throw err });
 };
 
+exports.clear = () => {
+	let db = this.db;
+	let sql = [
+		'DELETE FROM User'
+		//Other tables
+	];
+
+	return Promise.all(sql.map(query =>
+		new Promise((resolve, reject) =>
+			db.run(query, err => {
+				if (err) reject(err);
+				else resolve();
+			})
+		)
+	)).catch(err => { throw err });
+};
+
 exports.populateUser = (users) => {
 	let db = this.db;
 	let sql = 'INSERT INTO USER VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
