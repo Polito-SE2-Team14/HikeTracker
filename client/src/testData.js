@@ -4,7 +4,11 @@ export function getTestData() {
    var gpx = new gpxParser();
 	gpx.parse(data);
 
-   return gpx;
+   return gpx.tracks[0].points.map((p) => [p.lat, p.lon]);
+}
+
+function calculateExpectedTime(hike){
+   //TODO: from GPX tracks calculate average time
 }
 
 const data = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>

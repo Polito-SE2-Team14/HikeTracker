@@ -4,11 +4,17 @@ const APIURL = 'http://localhost:3001/api';
  * Generic GET request
  * @param {string} api - GET URL
  * @param {boolean} credentials - indicates the presence of credentials in the HTTP request
+ * @param {*} body - request body
  * @returns HTTP response body
  */
-async function GET(api, credentials = false) {
-	let cred = credentials ? { credentials: 'include' } : null
-	let response = await fetch(`${APIURL}${api}`, cred);
+async function GET(api, credentials = false, body=null) {
+	let reqBody = body ? JSON.stringify(body) : null;
+	let cred = credentials ? 'include' : null;
+	let response = await fetch(`${APIURL}${api}`, {
+		method: "GET",
+		credentials: cred,
+		body: reqBody
+	});
 	let res = await response.json();
 
 	if (response.ok)
@@ -91,5 +97,11 @@ const updateHike = (hikeID, pointType, pointID) => {
 	return UPDATE("PUT", `/${pointType}`, body);
 }
 
-const API = { getHikes, getHike, newHike, updateHike };
+const getPoint = (pointID) => 
+GET(`/points/${pointID}`);
+
+const getHikePoints = (hikeID) => 
+	GET('/hike-points', false, {hideID: hikeID});
+
+const API = { getHikes, getHike, newHike, updateHike, getPoint, getHikePoints };
 export default API;

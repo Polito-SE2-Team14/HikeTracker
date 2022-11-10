@@ -3,10 +3,6 @@ export function getLatLon(point){
     return [point.Latitude, point.Longitude]
 }
 
-function getHikePositions(hike){
-    // TODO: from GPX 
-}
-
-function calculateExpectedTime(hike){
-    //TODO: from GPX tracks calculate average time
+export function getPointsLatLon(points){
+    return points.map((p) => [p.Latitude, p.Longitude]);
 }

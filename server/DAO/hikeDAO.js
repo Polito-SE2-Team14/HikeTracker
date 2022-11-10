@@ -52,7 +52,7 @@ exports.check_hike=(wantedID)=>{
 
 /**
  * Inserts a new hike in the database
- * @param {hike} newHike - The hike to insert
+ * @param {Hike} newHike - The hike to insert
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike=(newHike)=>{
