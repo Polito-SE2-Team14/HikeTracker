@@ -3,9 +3,6 @@ const router = express.Router()
 const prefixRoute = '/api/';
 const pointsDAO = require('../DAO/pointsDAO')
 
-const Controller = require('../Controller/Controller')
-const Singleton = require('../Controller/ControllerSingleton')
-const controller = Singleton.getInstance();
 
 router.get(prefixRoute + '/points', async (req, res) => {
 	await pointsDAO.getAllPoints()

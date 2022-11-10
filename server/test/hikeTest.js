@@ -6,15 +6,21 @@ const assert = chai.assert;
 const HikeAPICall = require('./APICalls/hikeAPICalls');
 const hikeAPICall = new HikeAPICall();
 
-const dbmanager = require("../database/dbManager");
+// = require("../database/dbManager");
+
+const Singleton = require("../database/DBManagerSingleton")
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getInstance();
+
 const Hike = require("../Class/Hike");
 
 describe('Hikes test suite', async () => {
 	beforeEach(async () => {
-		await dbmanager.restoreOriginalHikes();
+		await dbManager.restoreOriginalHikes();
 	})
 	after(async () => {
-		await dbmanager.restoreOriginalHikes();
+		await dbManager.restoreOriginalHikes();
 	})
 
 	it('Get all hikes', async () => {

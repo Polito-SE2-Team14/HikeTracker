@@ -5,7 +5,6 @@ const assert = chai.assert;
 const expect = chai.expect;
 const should = chai.should();
 const axios = require('axios');
-const { db, clearDb } = require("../database/dbManager");
 
 const GenericAPICall = require('./APICalls/GenericCalls');
 
@@ -14,14 +13,19 @@ const baseURL = "http://localhost:3001";
 
 const genericAPICall = new GenericAPICall();
 
+const Singleton = require("../database/DBManagerSingleton")
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getInstance();
+
 
 describe('generic test suite', async () => {
 
     beforeEach(async () => {
-        await clearDb();
+        await dbManager.clearDb();
     })
     after(async () => {
-        await clearDb();
+        await dbManager.clearDb();
     })
 
 

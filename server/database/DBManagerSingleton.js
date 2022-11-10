@@ -1,14 +1,15 @@
-
-class Singleton{
+const DBManager = require('./DBManager')
+class Singleton {
 
     static #instance = null;
-    
-    static getInstance(){
-        if(this.#instance == null){
-            this.#instance = new Controller()
+
+    static getInstance() {
+        if (this.#instance == null) {
+            this.#instance = new DBManager()
         }
         return this.#instance;
     }
 }
 
-module.exports = Singleton
+
+module.exports =  Singleton

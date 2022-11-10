@@ -3,9 +3,8 @@ const express = require('express');
 const router = express.Router()
 // const prefixRoute = '/api/';
 //const hikeDAO = require('../DAO/hikeDAO');
-const Controller = require('../Controller/Controller')
-const Singleton = require('../Controller/ControllerSingleton')
-const controller = Singleton.getInstance();
+const HikeController = require('../Controller/HikeController')
+const hikeController = new HikeController()
 
 /**
  * tells if the an hike has a correct format
@@ -34,7 +33,7 @@ function validateHike(hike) {
 
 // GET request to /api/hikes to obtain a list of all hikes
 router.get('', async (req, res) => {
-	await controller.getAllHikes()
+	await hikeController.getAllHikes()
 		.then((hikes) => { return res.status(200).json(hikes) })
 		.catch(() => res.status(500).end());
 });
@@ -45,7 +44,7 @@ router.post('', async (req, res) => {
 	if (!validateHike(req.body.hike)) {
 		res.status(404).json({ error: "Incorrect hike format" });
 	}
-	await controller.addHike(req.body.hike)
+	await hikeController.addHike(req.body.hike)
 		.then(() => res.status(201).json(req.body.hike))
 		.catch(err => res.status(503)
 			.json({ error: `Database error during the adding of hike ${req.body.hike.hikeID} in the database` }));
@@ -60,7 +59,7 @@ router.put('', async (req, res) => {
 	if (!check_hike(req.body.hike.hikeID))
 		res.status(404).json({ error: `No hike with the given ID found` });
 
-	await controller.updateHike(req.body.hike)
+	await hikeController.updateHike(req.body.hike)
 		.then((hike) => res.json(hike))
 		.catch(err => res.status(404).json({ error: "Hike not found" }))
 })

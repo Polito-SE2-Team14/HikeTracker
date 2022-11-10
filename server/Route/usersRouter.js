@@ -5,9 +5,6 @@ const isLoggedIn = router.get('isLoggedIn')
 const userDAO = require('../DAO/UserDAO')
 const { body, validationResult } = require('express-validator');
 
-const Controller = require('../Controller/Controller')
-const Singleton = require('../Controller/ControllerSingleton')
-const controller = Singleton.getInstance();
 
 router.post(prefixRoute + 'users',
     body("name").not().isEmpty().trim().escape(),

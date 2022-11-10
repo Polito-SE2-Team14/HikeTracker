@@ -8,14 +8,12 @@ const cors = require('cors');
 const dayjs = require('dayjs')
 const { body, check, validationResult } = require('express-validator');
 const { download } = require('server/reply');
-const Singleton = require('./Controller/ControllerSingleton')
 
 
 // init express
 const prefixRoute = '/api/';
 const app = new express();
 const port = 3001;
-const controller = Singleton.getInstance();
 
 app.use(express.json());
 app.use(morgan('dev'));

@@ -1,4 +1,11 @@
-const { db } = require("../database/dbManager");
+//const { db } = require("../database/dbManager");
+
+const Singleton = require("../database/DBManagerSingleton")
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getInstance();
+const db = dbManager.getDB();
+
 const crypto = require("crypto");
 
 const User = require("../Class/User");
