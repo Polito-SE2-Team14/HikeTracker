@@ -18,10 +18,10 @@ function CheckExisting(email, phoneNumber) {
 		db.get(sql, [email, phoneNumber], (err, row) => {
 
 			if (err)
-				reject();
+				reject(err);
 			else if (row.N == 0)
 				resolve();
-			else reject();
+			else reject("user exists");
 
 		})
 	})
@@ -99,9 +99,9 @@ exports.Register = (name, surname, email, phoneNumber, type, password) =>
 
 			new Promise((resolve, reject) => {
 				let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
+				
 				db.run(sql, [name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword], function (err) {
-					console.log(this)
-					if (err) reject();
+					if (err) reject(err);
 					else resolve(new User(this.lastID, name, surname, email, phoneNumber, type));
 				})
 			}))
