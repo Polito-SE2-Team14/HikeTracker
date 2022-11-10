@@ -17,9 +17,11 @@ const Hike = require("../Class/Hike");
 
 describe('Hikes test suite', async () => {
 	beforeEach(async () => {
+		await dbManager.deleteAllHikes();
 		await dbManager.restoreOriginalHikes();
 	})
 	after(async () => {
+		await dbManager.deleteAllHikes();
 		await dbManager.restoreOriginalHikes();
 	})
 
