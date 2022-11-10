@@ -20,7 +20,7 @@ exports.getAllHikes=()=>{
 				reject(err);
 				return;
 			}
-			const hikes = rows.map((h) => (new Hike(h.hikeID, h.title, h.lenght, h.expectedTime, h.ascent, h.difficulty, h.startPointID, h.endPointID, h.description)));
+			const hikes = rows.map((h) => (new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.startPointID, h.endPointID, h.description)));
 			resolve(hikes);
 		});
 	});
@@ -63,8 +63,8 @@ exports.check_hike=(wantedID)=>{
  */
 exports.addHike=(newHike)=>{
 	return new Promise((resolve,reject)=>{
-		db.run("INSERT INTO HIKE (title,lenght,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?)",
-		[newHike.title,newHike.lenght,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description],
+		db.run("INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?)",
+		[newHike.title,newHike.length,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description],
 		(err)=>{
 			if(err){
 				reject(err);
@@ -83,8 +83,8 @@ exports.addHike=(newHike)=>{
  */
 exports.updateHike=(newHike)=>{
 	return new Promise((resolve,reject)=>{
-		db.run("UPDATE HIKES SET title=?, lenght=?, expectedTime=?, ascent=?, difficulty=?, startPointID=?, endPointID=?,description=? WHERE hikeID =?",
-		[newHike.title,newHike.lenght,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description,newHike.hikeID],
+		db.run("UPDATE HIKES SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, startPointID=?, endPointID=?,description=? WHERE hikeID =?",
+		[newHike.title,newHike.length,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.startPointID,newHike.endPointID,newHike.description,newHike.hikeID],
 		(err)=>{
 			if(err){
 				reject(err);

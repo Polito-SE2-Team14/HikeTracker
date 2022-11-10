@@ -20,8 +20,8 @@ CREATE TABLE USER (
 CREATE TABLE POINT(
     pointID INTEGER PRIMARY KEY,
     name TEXT,
-    latitude TEXT,
-    longitude TEXT,
+    latitude REAL,
+    longitude REAL,
     address TEXT,
     pointType TEXT NOT NULL
 );
@@ -42,7 +42,7 @@ CREATE TABLE HIKEREFERENCEPOINT (
 CREATE TABLE HIKE (
     hikeID INTEGER PRIMARY KEY,
     title TEXT,
-    lenght INTEGER,
+    length INTEGER,
     expectedTime INTEGER,
     ascent INTEGER,
     difficulty TEXT,
@@ -89,7 +89,7 @@ VALUES(1, 1),
     (1, 2),
     (2, 2),
     (2, 4);
-INSERT INTO HIKE (hikeID, title, lenght, expectedTime, ascent, difficulty, startPointID, endPointID, description    )
+INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, startPointID, endPointID, description    )
 VALUES (1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"),
     (2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"),
     (3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription");
