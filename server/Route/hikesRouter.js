@@ -4,6 +4,8 @@ const router = express.Router()
 //const hikeDAO = require('../DAO/hikeDAO');
 const HikeController = require('../Controller/HikeController')
 const hikeController = new HikeController()
+const PointController = require('../Controller/PointController')
+const pointController = new PointController()
 const { body, validationResult } = require('express-validator');
 
 // GET request to /api/hikes to obtain a list of all hikes
@@ -14,13 +16,25 @@ router.get('', async (req, res) => {
 });
 
 // GET request to /api/hikes/:hikeID to obtain the selected hike
-router.get('',
+router.get('/:hikeID',
 	body('hikeID').not().isEmpty().trim().escape(),
 	async (req, res) => {
-		await controller.getHike(req.params.hikeID)
+		await hikeController.getHike(req.params.hikeID)
 			.then((hike) => { return res.status(200).json(hike) })
 			.catch(() => res.status(500).end());
 	});
+
+//GET request to /api/hikes/:hikeID/points to obtain points of the selected hike
+router.get('/:hikeID/points/',
+	body('hikeID').not().isEmpty().trim().escape(),
+	async (req, res) => {
+
+		const hikeID = req.params.hikeID;
+
+		await pointController.getHikePoints(hikeID)
+			.then(points => res.json(points))
+			.catch(err => res.status(err.code).send(err.msg))
+	})
 
 
 // POST request to /api/hikes to add a new hike

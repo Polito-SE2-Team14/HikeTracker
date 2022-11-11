@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router()
-const prefixRoute = '/api/';
 const isLoggedIn = router.get('isLoggedIn')
 const userDAO = require('../DAO/UserDAO')
 const { body, validationResult } = require('express-validator');
 
 
-router.post(prefixRoute + 'users',
+router.post('',
     body("name").not().isEmpty().trim().escape(),
     body("surname").not().isEmpty().trim().escape(),
     body('email').isEmail().normalizeEmail(),
