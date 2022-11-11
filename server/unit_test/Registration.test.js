@@ -1,10 +1,11 @@
 const crypto = require("crypto");
 
-const { db, start, populateUser } = require("../database/TestDB");
-const { Register } = require("../DAO/UserDAO");
+const db = require("../database/DBManagerSingleton").getTestInstance();
+const { Registration } = require("../DAO/UserDAO");
+
 const User = require("../Class/User");
 
-const types = ['hiker', 'friend']
+const types = ['hiker', 'friend'];
 
 describe('Registration Tests', () => {
 	let lastId = 0;
@@ -17,9 +18,9 @@ describe('Registration Tests', () => {
 		//Other test users
 	];
 
-	beforeAll(async () => await populateUser(users));
+	beforeAll(async () => await db.populateUser(users));
 
-	//testExistingUser(users);
+	testExistingUser(users);
 
 	lastId = testRegistration(lastId, newUsers);
 
@@ -27,12 +28,12 @@ describe('Registration Tests', () => {
 });
 
 function testExistingUser(users) {
-	test('Register existing user', () => {
+	test('Register existing user', async () => {
 		let user = users[0];
 
-		Register(user.name, user.surname, user.email, user.pn, user.type, user.pwd, db)
-			//.then(res => expect(res).toBeUndefined())
-			.catch(err => expect(err).toBe('user exists'));
+		let res = await Registration.CheckExistingUser(user.email, user.pn);
+
+		expect(res).toBe('user exists');
 	});
 }
 
@@ -42,38 +43,38 @@ function testRegistration(lastId, users) {
 	test('Register new user', async () => {
 		let user = users[0];
 
-		Register(user.name, user.surname, user.email, user.pn, user.type, user.pwd, db)
-			.then(res => {
+		let res = await Registration.Register(user.name, user.surname, user.email, user.pn, user.type, user.pwd, db)
+			.then(u => {
 				newId++;
 
-				expect(res instanceof User).toBe(true);
-				expect(res.userID).toBe(newId);
-				expect(res.name).toBe(user.name);
-				expect(res.surname).toBe(user.surname);
-				expect(res.email).toBe(user.email);
-				expect(res.phoneNumber).toBe(user.pn);
-				expect(res.type).toBe(user.type);
+				return u;
+			}).catch(err => { return err; });
 
-				new Promise((resolve, reject) => {
-					let sql = 'SELECT salt, hashedpassword FROM User WHERE UserId = ?';
+		let pwdCheck = await new Promise((resolve, reject) => {
+			let sql = 'SELECT salt, hashedpassword FROM User WHERE UserId = ?';
 
-					db.get(sql, [newId], (err, row) => {
-						if (err) reject(err);
-						else resolve({ salt: row.SALT, hp: row.HASHEDPASSWORD });
-					});
-				})
-					.then(sp =>
-						new Promise((resolve, reject) =>
-							crypto.scrypt(user.pwd, sp.salt, 32, (err, hashedPassword) => {
-								if (err) reject(err);
-								else resolve(hashedPassword === sp.hp);
-							})
-						)
-					)
-					.then(hpwd => expect(hpwd).toBe(true))
-					.catch(err => expect(err).toBeUndefined());
+			db.get(sql, [newId], (err, row) => {
+				if (err) reject(err);
+				else resolve({ salt: row.SALT, hp: row.HASHEDPASSWORD });
+			});
+		}).then(sp => new Promise((resolve, reject) =>
+			crypto.scrypt(user.pwd, sp.salt, 32, (err, hashedPassword) => {
+				if (err) reject(err);
+				else resolve(hashedPassword.toString('base64') === sp.hp);
 			})
-			.catch(err => expect(err).toBeUndefined());
+		)).catch(err => { return err; })
+
+		expect(newId).toBe(lastId + 1);
+		expect(res).not.toBeUndefined();
+		expect(res instanceof User).toBe(true);
+		expect(res.userID).toBe(newId);
+		expect(res.name).toBe(user.name);
+		expect(res.surname).toBe(user.surname);
+		expect(res.email).toBe(user.email);
+		expect(res.phoneNumber).toBe(user.pn);
+		expect(res.type).toBe(user.type);
+		expect(pwdCheck).toBe(true);
+
 	});
 
 	return newId;

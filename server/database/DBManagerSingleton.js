@@ -17,9 +17,6 @@ class Singleton {
         }
         return this.#testInstance;
     }
-
-
-
 }
 
 

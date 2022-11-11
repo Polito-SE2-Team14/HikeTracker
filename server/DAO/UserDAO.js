@@ -1,4 +1,4 @@
-//const { db } = require("../database/dbManager");
+const crypto = require("crypto");
 
 const Singleton = require("../database/DBManagerSingleton")
 const DBManager = require("../database/DBManager");
@@ -6,41 +6,31 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-const crypto = require("crypto");
-
 const User = require("../Class/User");
 
-function CheckExisting(email, phoneNumber, DB = db) {
-	return new Promise((resolve, reject) => {
-
+const CheckExistingUser = (email, phoneNumber) =>
+	new Promise((resolve, reject) => {
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
 
-		DB.get(sql, [email, phoneNumber], (err, row) => {
-
-			if (err)
-				reject(err);
-			else if (row.N == 0)
-				resolve();
+		db.get(sql, [email, phoneNumber], (err, row) => {
+			if (err) reject(err);
+			else if (row.N == 0) resolve(true);
 			else reject("user exists");
+		});
+	});
 
-		})
-	})
-}
-
-function EncryptPassword(password) {
-	return new Promise((resolve, reject) => {
+const EncryptPassword = (password) =>
+	new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
+
 		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
 			if (err) reject(err);
-			else {
-				resolve({
-					salt: salt.toString('base64'),
-					hashedPassword: hashedPassword.toString('base64')
-				});
-			}
-		})
-	})
-}
+			else resolve({
+				salt: salt.toString('base64'),
+				hashedPassword: hashedPassword.toString('base64')
+			});
+		});
+	});
 
 exports.getUserById = (id) => {
 	return new Promise((resolve, reject) => {
@@ -91,19 +81,19 @@ exports.getUser = (email, password) => {
  * @param {string} password 
  * @returns User object
  */
-exports.Register = (name, surname, email, phoneNumber, type, password, DB = db) =>
-	CheckExisting(email, phoneNumber).then(() =>
+const Register = (name, surname, email, phoneNumber, type, password) =>
+	CheckExistingUser(email, phoneNumber).then(() =>
 
 		EncryptPassword(password)).then((pass) =>
 
 			new Promise((resolve, reject) => {
 				let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-				DB.run(sql, [name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword], function (err) {
+				db.run(sql, [name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword], function (err) {
 					if (err) reject(err);
 					else resolve(new User(this.lastID, name, surname, email, phoneNumber, type));
 				})
 			})
 		);
 
-
+exports.Registration = { CheckExistingUser, EncryptPassword, Register };

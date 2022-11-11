@@ -1,11 +1,12 @@
 const sqlite = require('sqlite3');
+const crypto = require('crypto');
 
 class DBManager {
 
     #db;
     constructor(dbName) {
         // open the database
-        this.#db = new sqlite.Database('./database/' + dbName +".sqlite", (err) => {
+        this.#db = new sqlite.Database('./database/' + dbName + ".sqlite", (err) => {
             if (err) {
                 console.log("error db manager", err)
                 throw err;
@@ -42,6 +43,7 @@ class DBManager {
             resolve();
         })
     }
+
     async restoreOriginalHikes() {
         let db = this.#db;
         return new Promise(function (resolve, reject) {
@@ -51,6 +53,34 @@ class DBManager {
 			(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription");`);
             resolve();
         })
+    }
+
+    async populateUser(users) {
+        let db = this.#db;
+        let sql = 'INSERT INTO USER VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+
+        return Promise.all(users.map(user =>
+            new Promise((resolve, reject) => {
+                let salt = crypto.randomBytes(16);
+
+                crypto.scrypt(user.pwd, salt, 32, (err, hp) => {
+                    if (err) reject(err);
+                    else {
+                        user.salt = salt.toString('base64');
+                        user.pwd = hp.toString('base64');
+
+                        resolve(user);
+                    }
+                });
+            })
+        )).then(res => Promise.all(res.map(user =>
+            new Promise((resolve, reject) =>
+                db.run(sql, [user.id, user.name, user.surname, user.email, user.pn, user.type, user.salt, user.pwd], err => {
+                    if (err) reject(err);
+                    else resolve();
+                })
+            )
+        ))).catch(err => { throw err });
     }
 }
 
