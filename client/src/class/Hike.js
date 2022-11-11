@@ -2,7 +2,7 @@ class Hike {
     constructor(hikeID, title, length, expectedTime, ascent, difficulty, description, startPointID, endPointID) {
         this.hikeID = hikeID;
         this.title = title;
-        this.lenght = length;
+        this.length = length;
         this.expectedTime = expectedTime;
         this.ascent = ascent;
         this.difficulty = difficulty;

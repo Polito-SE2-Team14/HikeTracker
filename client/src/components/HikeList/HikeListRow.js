@@ -1,9 +1,20 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import PointAPI from "../../api/PointAPI";
 
 function HikeListRow(props) {
 
+    const getAllPoints = async () => {
+		try {
+			const points = await PointAPI.getHikePoints(props.hike.hikeID);
+			props.setPoints(points);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
     const handleClick = async () => {
+        // getAllPoints();
         props.handleShowModal();
     }
 
