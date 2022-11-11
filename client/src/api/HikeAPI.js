@@ -36,9 +36,9 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
     };
 
     try {
-        let hikeJson = await REST.UPDATE('POST', api, body);
+        await REST.UPDATE('POST', api, body);
 
-        return hikeJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
+        return true;
     }
     catch(e){
         throw e;
@@ -53,6 +53,8 @@ const addStartPoint = async (hikeID, pointID) => {
 
     try {
         await REST.UPDATE('PUT', api, body);
+
+        return true;
     }
     catch (e) {
         throw e;
@@ -67,6 +69,8 @@ const addEndPoint = async (hikeID, pointID) => {
 
     try {
         await REST.UPDATE('PUT', api, body);
+
+        return true;
     }
     catch (e) {
         throw e;
@@ -81,6 +85,8 @@ const addHut = async (hikeID, pointID) => {
 
     try {
         await REST.UPDATE('PUT', api, body);
+
+        return true;
     }
     catch (e) {
         throw e;

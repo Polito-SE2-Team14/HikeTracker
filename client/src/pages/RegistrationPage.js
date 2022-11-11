@@ -1,3 +1,5 @@
+import UserAPI from "../api/UserAPI";
+
 import "../styles/LoginPage.css";
 
 import { Container, Row } from "react-bootstrap";
@@ -11,10 +13,16 @@ export function RegistrationPage(props) {
 
 	let [message, setMessage] = useState("");
 
-	let handleRegistration = (credentials) => {
-		// TODO: Authentication with server
-		props.setLoggedIn(true);
-		navigate("/");
+	let handleRegistration = async (credentials) => {
+		try {
+			await UserAPI.Register(credentials);
+
+			props.setLoggedIn(true);
+			navigate("/");
+		}
+		catch(e){
+			setMessage(e);
+		}
 	};
 
 	return (

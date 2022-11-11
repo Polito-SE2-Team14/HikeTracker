@@ -13,8 +13,7 @@ const GET = async (api, credentials = false) => {
 		credentials: cred
 	});
 
-	if (response.ok)
-		return response.json();
+	if (response.ok) return response.json();
 	else throw response;
 };
 
