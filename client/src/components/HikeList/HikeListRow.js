@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { PencilSquare } from "react-bootstrap-icons";
 import PointAPI from "../../api/PointAPI";
 
 function HikeListRow(props) {
@@ -13,13 +14,23 @@ function HikeListRow(props) {
 		}
 	};
 
-    const handleClick = async () => {
-        // getAllPoints();
+    const handleShowClick = async () => {
+        //getAllPoints();
         props.handleShowModal();
     }
 
-    return <>
-        <tr>
+    const handleEditClick = async () => {
+        //getAllPoints();
+        props.handleEditModal(props.hike);
+    }
+
+    return <tr>
+            <td>
+                {/*TODO: display only when logged as local guide*/}
+                <Button variant="warning" onClick={handleEditClick}>
+                    <PencilSquare/>
+                </Button>
+            </td>
             <td>
                 {props.hike.hikeID}
             </td>
@@ -42,12 +53,11 @@ function HikeListRow(props) {
                 {props.hike.description}
             </td>
             <td>
-                <Button variant="primary" onClick={handleClick}>
+                <Button variant="primary" onClick={handleShowClick}>
                     Show
                 </Button>
             </td>
         </tr>
-    </>
 }
 
 

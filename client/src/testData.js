@@ -4,11 +4,29 @@ export function getTestData() {
    var gpx = new gpxParser();
 	gpx.parse(data);
 
-   return gpx.tracks[0].points.map((p) => [p.lat, p.lon]);
+   // hike.hikeID, hike.title, hike.length, hike.Ascent, hike.Difficulty
+   let points = gpx.tracks[0].points.map((p) => {
+      return {
+         name: p.name,
+         latitude: p.lat,
+         longitude: p.lon
+      }
+   });
+
+   return [{
+      hikeID: "1",
+      title: "Rocciamelone vero",
+      length: gpx.tracks[0].distance.total,
+      ascent: gpx.tracks[0].elevation.pos,
+      difficulty: "Hiker",
+      expectedTime: "90"
+   }, points];
 }
 
 function calculateExpectedTime(hike){
    //TODO: from GPX tracks calculate average time
+
+   // time(min) = 12.09 * distance(km) + 98.4 *elevation(m)/1000
 }
 
 const data = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
