@@ -33,7 +33,7 @@ describe('Hikes test suite', async () => {
 		assert.equal(response.status, 200, response.status);
 		let actualArray = await response.data;
 		// The response is returned as a vector of objects, so we need to convert them to Hikes
-		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.lenght,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
+		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.length,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
 		assert.deepEqual(actualArray, expectedArray,`Expected ${expectedArray} but got ${actualArray}`);
 	})
 
@@ -42,7 +42,7 @@ describe('Hikes test suite', async () => {
 		const response = await hikeAPICall.addHikeCall(hikeToInsert);
 		assert.equal(response.status, 201, response.status);
 		let insertedHike= await response.data;
-		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.lenght,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
+		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.length,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
 		assert.deepEqual(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
 
 	})
@@ -52,7 +52,7 @@ describe('Hikes test suite', async () => {
 		const response = await hikeAPICall.addHikeCall(hikeToUpdate);
 		assert.equal(response.status, 201, response.status);
 		let updatedHike= await response.data;
-		updatedHike = new Hike(updatedHike.hikeID,updatedHike.title,updatedHike.lenght,updatedHike.expectedTime,updatedHike.ascent,updatedHike.difficulty,updatedHike.description,updatedHike.startPointID,updatedHike.endPointID);
+		updatedHike = new Hike(updatedHike.hikeID,updatedHike.title,updatedHike.length,updatedHike.expectedTime,updatedHike.ascent,updatedHike.difficulty,updatedHike.description,updatedHike.startPointID,updatedHike.endPointID);
 		assert.deepEqual(updatedHike,hikeToUpdate,`Expected ${hikeToUpdate}, but ${updatedHike} was updated`);
 	})
 
