@@ -31,10 +31,10 @@ const hikesRouter = require("./Route/hikesRouter");
 app.use(prefixRoute + 'hikes', hikesRouter);
 // ################################# Point APIs ##########################################
 const pointsRouter = require("./Route/pointsRouter");
-app.use(prefixRoute + '/test1', pointsRouter);
+app.use(prefixRoute + 'points', pointsRouter);
 // ################################# User APIs ##########################################
 const usersRouter = require("./Route/usersRouter");
-app.use(prefixRoute + '/test2', usersRouter);
+app.use(prefixRoute + 'users', usersRouter);
 
 
 // activate the server

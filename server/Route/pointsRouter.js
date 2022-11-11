@@ -4,11 +4,6 @@ const prefixRoute = '/api';
 const pointsDAO = require('../DAO/pointsDAO')
 
 
-router.get(prefixRoute + '/hike-points', async (req, res) => {
-	await pointsDAO.getHikePoints(req.body.hikeID)
-		.then(points => res.json(points))
-		.catch(err => res.status(err.code).send(err.msg))
-})
 
 router.get(prefixRoute + '/points', async (req, res) => {
 	await pointsDAO.getAllPoints()
