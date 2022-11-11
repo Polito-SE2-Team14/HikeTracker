@@ -1,60 +1,83 @@
+import { Container, Row, Col } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
+import { getLatLon } from "./HikeData";
+import { GeoFill } from "react-bootstrap-icons";
+
+import "../styles/MapElements.css";
 
 export function HikeMarker(props) {
-   // props.point
-   // let position = props.point.getLatLon();
-   let position = props.position; // TEMP
-   let type = "Point"; // props.point.pointType
+	// props.point //TODO: documentation
+	let position = getLatLon(props.point);
+	let type = "generic"; // props.point.pointType
 
-   let popup;
-   switch (type) {
-      case "Point":
-         popup = <PointPopup />;
-         break;
-      case "Hut":
-         popup = <PointPopup />;
-         break;
-      case "ParkingLot":
-         popup = <PointPopup />;
-         break;
-      default:
-         // TODO: error handling
-         break;
-   }
+	let popup;
+	switch (type) {
+		case "generic":
+			popup = <PointPopup point={props.point} />;
+			break;
+		case "hut":
+			popup = <HutPopup />;
+			break;
+		case "parkingLot":
+			popup = <ParkingLotPopup />;
+			break;
+		default:
+			// TODO: error handling
+			break;
+	}
 
-   return <Marker position={position}>{popup}</Marker>;
+	return <Marker position={position}>{popup}</Marker>;
 }
 export function HikePath(props) {
-   // props.expectedtime, length, ascent
-   // props.pointPositions
-   return (
-      <AntPath positions={props.pointPositions} options={{ color: "red" }}>
-         <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-         </Popup>
-      </AntPath>
-   );
+	// props.expectedtime, length, ascent
+	return (
+		<AntPath positions={props.positions} options={{ color: "red" }}>
+			<HikePopup />
+		</AntPath>
+	);
 }
 function PointPopup(props) {
-   return (
-      <Popup>
-         A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-   );
+	let position = getLatLon(props.point);
+
+	return (
+		<Popup>
+			<Container fluid>
+				<Row>
+					{props.point.name ? (
+						<span className="popup-title">
+							<GeoFill size="18"/>{' '}
+							<span>{props.point.name}</span>
+						</span>
+					) : (
+						false
+					)}
+				</Row>
+				<Row>
+					{`(${position[0]}, ${position[1]})`}
+				</Row>
+			</Container>
+		</Popup>
+	);
 }
 function HutPopup(props) {
-   return (
-      <Popup>
-         A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-   );
+	return (
+		<Popup>
+			A pretty CSS3 popup. <br /> Easily customizable.
+		</Popup>
+	);
 }
 function ParkingLotPopup(props) {
-   return (
-      <Popup>
-         A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-   );
+	return (
+		<Popup>
+			A pretty CSS3 popup. <br /> Easily customizable.
+		</Popup>
+	);
 }
-function HikePopup(props) { }
+function HikePopup(props) {
+	return (
+		<Popup>
+			A pretty CSS3 popup. <br /> Easily customizable.
+		</Popup>
+	);
+}

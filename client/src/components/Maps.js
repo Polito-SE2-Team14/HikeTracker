@@ -1,5 +1,6 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import { getTestData } from "../testData";
+import { getLatLon, getPointsLatLon } from "./HikeData";
 import { HikeMarker, HikePath } from "./MapElements";
 
 // TODO: documentation
@@ -16,10 +17,11 @@ export function HikeMap(props) {
 	// get info from start, end and reference points
 	// let startPoint = API.getPoint(hike.startPointID)
 	// let endPoint = API.getPoint(hike.endPointID)
-	// 
+	//
 	// let points = API.getHikePoints(hike.hikeID);
+	// OR 		  = props.points;
 
-	let points = getTestData(); // TEST
+	let [hike, points] = getTestData(); // TEST
 
 	return (
 		<>
@@ -31,20 +33,20 @@ export function HikeMap(props) {
             `}
 			</style>
 			<MapContainer
-				center={points[points.length / 2]}
+				center={getLatLon(points[points.length / 2])}
 				zoom={13}
 				scrollWheelZoom={false}
 			>
-				{/*TODO: change attribution*/}
 				<TileLayer
-					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+					attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
+								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 					url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 				/>
-				<HikeMarker position={points[0]} />
+				<HikeMarker point={points[0]} />
 				{/*getLatLon(point[0])*/}
-				<HikeMarker position={points[points.length - 1]} />
+				<HikeMarker point={points[points.length - 1]} />
 				{/*getLatLon(point[points.length-1])*/}
-				<HikePath pointPositions={points} />
+				<HikePath positions={getPointsLatLon(points)} />
 				{/*getPointsLatLon(points)*/}
 			</MapContainer>
 		</>
@@ -53,13 +55,10 @@ export function HikeMap(props) {
 
 // TODO: AreaSelectMap, PointSelectMap
 
-export function AreaSelectMap(props){
+export function AreaSelectMap(props) {
 	// props.setArea({center: [float, float], radius: float})
-
 }
 
-export function PointSelectMap(props){
+export function PointSelectMap(props) {
 	// props.setPoint({point: [float, float])
 }
-
-
