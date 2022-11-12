@@ -5,19 +5,19 @@ const pointsDAO = require('../DAO/pointsDAO')
 
 
 
-router.get(prefixRoute + '/points', async (req, res) => {
+router.get('', async (req, res) => {
 	await pointsDAO.getAllPoints()
 		.then(points => res.json(points))
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.get(prefixRoute + '/huts', async (req, res) => {
+router.get('/huts', async (req, res) => {
 	await pointsDAO.getHuts()
 		.then(huts => res.json(huts))
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.post(prefixRoute + '/huts', async (req, res) => {
+router.post('/huts', async (req, res) => {
 
 	const hut = req.body.hut;
 
@@ -26,13 +26,13 @@ router.post(prefixRoute + '/huts', async (req, res) => {
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.get(prefixRoute + '/parkinglots', async (req, res) => {
+router.get('/parkinglots', async (req, res) => {
 	await pointsDAO.getParkingLots()
 		.then(parkingLots => res.json(parkingLots))
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
-router.post(prefixRoute + '/parkinglots', async (req, res) => {
+router.post('/parkinglots', async (req, res) => {
 
 	const parkingLot = req.body.parkingLot;
 

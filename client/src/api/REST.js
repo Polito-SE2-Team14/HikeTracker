@@ -3,7 +3,7 @@ const APIURL = 'http://localhost:3001/api';
 /**
  * Generic GET request
  * @param {string} api - GET URL
- * @param {boolean} credentials - indicates the presence of credentials in the HTTP request
+ * @param {boolean} credentials - indicates the need for credentials in the HTTP request
  * @returns HTTP response body
  */
 const GET = async (api, credentials = false) => {
