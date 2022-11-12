@@ -7,12 +7,17 @@ const APIURL = 'http://localhost:3001/api';
  * @returns HTTP response body
  */
 const GET = async (api, credentials = false) => {
-	let response = await fetch(`${APIURL}${api}`, {
-		method: "GET",
-		credentials: credentials ? 'include' : null
-	});
+	let req = {
+		method: "GET"
+	};
 
-	if (response.ok) return response.json();
+	if(credentials){
+		req.credentials = 'include';
+	}
+
+	let response = await fetch(`${APIURL}${api}`, req);
+
+	if (response.ok) return response;
 	else throw response;
 };
 
@@ -24,16 +29,21 @@ const GET = async (api, credentials = false) => {
  * @returns HTTP response
  */
 const UPDATE = async (method, api, body, credentials = false) => {
-	let response = await fetch(`${APIURL}${api}`, {
+	let req = {
 		method: method,
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: credentials ? 'include' : null,
 		body: JSON.stringify(body)
-	});
+	};
 
-	if (response.ok) return response.json();
+	if (credentials) {
+		req.credentials = 'include';
+	}
+
+	let response = await fetch(`${APIURL}${api}`, req);
+
+	if (response.ok) return response;
 	else throw response;
 };
 
@@ -43,12 +53,14 @@ const UPDATE = async (method, api, body, credentials = false) => {
  * @returns HTTP response
  */
 const DELETE = async (api) => {
-	let response = await fetch(`${APIURL}${api}`, {
+	let req = {
 		method: 'DELETE',
 		credentials: 'include'
-	});
+	};
 
-	if (response.ok) return true;
+	let response = await fetch(`${APIURL}${api}`, req);
+
+	if (response.ok) return response;
 	else throw response;
 };
 

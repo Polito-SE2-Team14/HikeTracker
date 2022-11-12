@@ -4,14 +4,14 @@ import { useState } from 'react';
 export function RegistrationForm(props) {
 	const [name, setName] = useState('');
 	const [surname, setSurname] = useState('');
-	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [repeatPwd, setRepeatPwd] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [type, setType] = useState('');
 
 	const handleSubmit = (event) => {
-		let credentials = { name, surname, username, phoneNumber, type, password };
+		let credentials = { name, surname, email, phoneNumber, type, password };
 		let invalids = [];
 
 		event.preventDefault();
@@ -19,9 +19,8 @@ export function RegistrationForm(props) {
 		props.setMessage('');
 
 		let validateName = (text) => {
-			console.log(text)
 			return !String(text).match(/[^a-z]/i);
-		}
+		};
 
 		let validateEmail = (email) => {
 			return String(email)
@@ -44,9 +43,9 @@ export function RegistrationForm(props) {
 			invalids.push(" surname");
 			setSurname('');
 		}
-		if (username === '' || !validateEmail(username)) {
+		if (email === '' || !validateEmail(email)) {
 			invalids.push(" username");
-			setUsername('');
+			setEmail('');
 		}
 		if (phoneNumber === '' || !validatePhone(phoneNumber)) {
 			invalids.push(" phone");
@@ -57,8 +56,9 @@ export function RegistrationForm(props) {
 		}
 
 		if (invalids.length === 0) {
-			props.register(credentials);
-		} else {
+			props.register(credentials)
+		}
+		else{
 			props.setMessage(`Invalid${invalids.toString()}`);
 			setPassword('');
 			setRepeatPwd('');
@@ -70,7 +70,7 @@ export function RegistrationForm(props) {
 			<Row>
 				<Col>
 					<Form>
-						{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
+						{props.message && <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert>}
 						<Form.Group controlId='name'>
 							<Form.Label>Name</Form.Label>
 							<Form.Control type='text' value={name} onChange={ev => setName(ev.target.value)} />
@@ -81,7 +81,7 @@ export function RegistrationForm(props) {
 						</Form.Group>
 						<Form.Group controlId='username'>
 							<Form.Label>E-mail</Form.Label>
-							<Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)} />
+							<Form.Control type='email' value={email} onChange={ev => setEmail(ev.target.value)} />
 						</Form.Group>
 						<Form.Group controlId='phoneNumber'>
 							<Form.Label>Phone</Form.Label>
@@ -98,7 +98,7 @@ export function RegistrationForm(props) {
 						</Form.Group>
 						<Form.Group controlId='repeatPwd'>
 							<Form.Label>Repeat password</Form.Label>
-							<Form.Control type='password' value={repeatPwd } onChange={ev => setRepeatPwd(ev.target.value)} />
+							<Form.Control type='password' value={repeatPwd} onChange={ev => setRepeatPwd(ev.target.value)} />
 						</Form.Group>
 						<Button type="submit" onClick={handleSubmit}>Register</Button>
 					</Form>

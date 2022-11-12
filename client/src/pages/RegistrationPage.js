@@ -14,14 +14,14 @@ export function RegistrationPage(props) {
 	let [message, setMessage] = useState("");
 
 	let handleRegistration = async (credentials) => {
-		try {
-			await UserAPI.Register(credentials);
+		let res = await UserAPI.Register(credentials);
 
+		if (res === true) {
 			props.setLoggedIn(true);
-			navigate("/");
+			navigate('/');
 		}
-		catch(e){
-			setMessage(e);
+		else {
+			setMessage('registration failed');
 		}
 	};
 
