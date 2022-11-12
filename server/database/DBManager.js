@@ -63,11 +63,11 @@ class DBManager {
             new Promise((resolve, reject) => {
                 let salt = crypto.randomBytes(16);
 
-                crypto.scrypt(user.pwd, salt, 32, (err, hp) => {
+                crypto.scrypt(user.password, salt, 32, (err, hp) => {
                     if (err) reject(err);
                     else {
                         user.salt = salt.toString('base64');
-                        user.pwd = hp.toString('base64');
+                        user.password = hp.toString('base64');
 
                         resolve(user);
                     }
@@ -75,7 +75,7 @@ class DBManager {
             })
         )).then(res => Promise.all(res.map(user =>
             new Promise((resolve, reject) =>
-                db.run(sql, [user.id, user.name, user.surname, user.email, user.pn, user.type, user.salt, user.pwd], err => {
+                db.run(sql, [user.id, user.name, user.surname, user.email, user.phoneNumber, user.type, user.salt, user.password], err => {
                     if (err) reject(err);
                     else resolve();
                 })

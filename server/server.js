@@ -41,3 +41,5 @@ app.use(prefixRoute + 'users', usersRouter);
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
+
+module.exports = app;

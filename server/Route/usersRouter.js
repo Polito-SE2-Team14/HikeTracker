@@ -13,16 +13,15 @@ router.post('',
     body("type").not().isEmpty().trim().escape().matches("(hiker|friend)"),
     body("password").not().isEmpty().trim().escape(),
     async (req, res) => {
-
-        if (validationResult(req).isEmpty())
-            return res.status(505).json(errors.array())
-
-        await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
-            .then(() => res.status(201).end())
-            .catch(err => {
-                if (err === "user exists") res.status(422).send("User already exists")
-                else res.status(505).send("error")
-            })
+        if (!validationResult(req).isEmpty())
+            res.status(422).json(errors.array())
+        else
+            await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
+                .then(() => res.status(201).end())
+                .catch(err => {
+                    if (err === "user exists") res.status(401).send("User already exists")
+                    else res.status(505).send("error")
+                })
     }
 );
 module.exports = router;

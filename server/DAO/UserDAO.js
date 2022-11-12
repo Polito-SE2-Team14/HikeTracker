@@ -8,8 +8,8 @@ const db = dbManager.getDB();
 
 const User = require("../Class/User");
 
-const CheckExistingUser = (email, phoneNumber) =>
-	new Promise((resolve, reject) => {
+function CheckExistingUser(email, phoneNumber){
+	return new Promise((resolve, reject) => {
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
 
 		db.get(sql, [email, phoneNumber], (err, row) => {
@@ -18,9 +18,10 @@ const CheckExistingUser = (email, phoneNumber) =>
 			else reject("user exists");
 		});
 	});
+}
 
-const EncryptPassword = (password) =>
-	new Promise((resolve, reject) => {
+function EncryptPassword(password) {
+	return new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
 
 		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
@@ -31,6 +32,7 @@ const EncryptPassword = (password) =>
 			});
 		});
 	});
+}
 
 exports.getUserById = (id) => {
 	return new Promise((resolve, reject) => {
@@ -70,6 +72,17 @@ exports.getUser = (email, password) => {
 	});
 };
 
+function StoreUser(name, surname, email, phoneNumber, type, salt, password){
+	return new Promise((resolve, reject) => {
+		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+		db.run(sql, [name, surname, email, phoneNumber, type, salt, password], function (err) {
+			if (err) reject(err);
+			else resolve(this.lastID);
+		})
+	});
+}
+
 /**
  * Registers new user (friend or hiker) if it's not already present in the datatbase
  * 
@@ -81,19 +94,11 @@ exports.getUser = (email, password) => {
  * @param {string} password 
  * @returns User object
  */
-const Register = (name, surname, email, phoneNumber, type, password) =>
-	CheckExistingUser(email, phoneNumber).then(() =>
-
-		EncryptPassword(password)).then((pass) =>
-
-			new Promise((resolve, reject) => {
-				let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
-
-				db.run(sql, [name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword], function (err) {
-					if (err) reject(err);
-					else resolve(new User(this.lastID, name, surname, email, phoneNumber, type));
-				})
-			})
-		);
-
-exports.Registration = { CheckExistingUser, EncryptPassword, Register };
+exports.Register = (name, surname, email, phoneNumber, type, password) =>
+	CheckExistingUser(email, phoneNumber)
+		.then(() =>
+			EncryptPassword(password))
+		.then(pass =>
+			StoreUser(name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword))
+		.then(id =>
+			new User(id, name, surname, email, phoneNumber, type));

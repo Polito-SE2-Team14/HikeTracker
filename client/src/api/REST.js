@@ -7,10 +7,9 @@ const APIURL = 'http://localhost:3001/api';
  * @returns HTTP response body
  */
 const GET = async (api, credentials = false) => {
-	let cred = credentials ? 'include' : null;
 	let response = await fetch(`${APIURL}${api}`, {
 		method: "GET",
-		credentials: cred
+		credentials: credentials ? 'include' : null
 	});
 
 	if (response.ok) return response.json();
@@ -24,13 +23,13 @@ const GET = async (api, credentials = false) => {
  * @param {*} body - request body
  * @returns HTTP response
  */
-const UPDATE = async (method, api, body) => {
+const UPDATE = async (method, api, body, credentials = false) => {
 	let response = await fetch(`${APIURL}${api}`, {
 		method: method,
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include',
+		credentials: credentials ? 'include' : null,
 		body: JSON.stringify(body)
 	});
 

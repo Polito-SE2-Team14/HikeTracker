@@ -2,7 +2,7 @@ const DBManager = require('./DBManager')
 class Singleton {
 
     static #instance = null;
-    static #testInstance = null;
+    static #testInstance = false;
 
     static getInstance() {
         if (this.#instance == null) {
@@ -12,10 +12,11 @@ class Singleton {
     }
 
     static getTestInstance() {
-        if (this.#testInstance == null) {
-            this.#testInstance = new DBManager("testDB")
+        if (this.#instance == null || !this.#testInstance) {
+            this.#instance = new DBManager("testDB")
+            this.#testInstance = true
         }
-        return this.#testInstance;
+        return this.#instance;
     }
 }
 

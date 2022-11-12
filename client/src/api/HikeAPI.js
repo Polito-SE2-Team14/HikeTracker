@@ -36,7 +36,7 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
     };
 
     try {
-        await REST.UPDATE('POST', api, body);
+        await REST.UPDATE('POST', api, body, true);
 
         return true;
     }
@@ -52,7 +52,7 @@ const addStartPoint = async (hikeID, pointID) => {
     };
 
     try {
-        await REST.UPDATE('PUT', api, body);
+        await REST.UPDATE('PUT', api, body, true);
 
         return true;
     }
@@ -68,7 +68,7 @@ const addEndPoint = async (hikeID, pointID) => {
     };
 
     try {
-        await REST.UPDATE('PUT', api, body);
+        await REST.UPDATE('PUT', api, body, true);
 
         return true;
     }
@@ -84,7 +84,7 @@ const addHut = async (hikeID, pointID) => {
     };
 
     try {
-        await REST.UPDATE('PUT', api, body);
+        await REST.UPDATE('PUT', api, body, true);
 
         return true;
     }

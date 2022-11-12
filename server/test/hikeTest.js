@@ -11,7 +11,7 @@ const hikeAPICall = new HikeAPICall();
 const Singleton = require("../database/DBManagerSingleton")
 const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
-const dbManager = Singleton.getInstance();
+const dbManager = Singleton.getTestInstance();
 
 const Hike = require("../Class/Hike");
 

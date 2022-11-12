@@ -1,5 +1,5 @@
-const db = require("../database/DBManagerSingleton").getTestInstance();
+const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 
 module.exports = async () => {
-	await db.clearDb();
+	await dbManager.clearDb();
 };
