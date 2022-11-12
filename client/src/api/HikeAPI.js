@@ -6,7 +6,6 @@ const api = '/hikes';
 const getAllHikes = async () => {
     try {
         let hikesJson = await REST.GET(api);
-
         return hikesJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
     }
     catch(e){

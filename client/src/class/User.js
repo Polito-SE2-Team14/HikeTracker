@@ -3,7 +3,7 @@ class User{
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
-		this.phoneNumber = pn;
+		this.phoneNumber = phoneNumber;
 		this.type = type;
 	}
 }

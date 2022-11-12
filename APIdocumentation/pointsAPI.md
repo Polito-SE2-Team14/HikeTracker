@@ -35,7 +35,7 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 
-### GET /huts
+### GET /points/huts
 
 - **Return an array containing all huts**.
 - **Request body**: empty.
@@ -70,7 +70,7 @@
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
-### POST /huts
+### POST /points/huts
 - **Creates a new hut**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: a JSON object containing 
@@ -92,7 +92,7 @@
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
 
-### GET /parkinglots
+### GET /points/parkinglots
 
 - **Return an array containing all parkingLots**.
 - **Request body**: empty.
@@ -126,7 +126,7 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 
-### POST /parkinglots
+### POST /points/parkinglots
 
 - **Creates a new parkingLot**
 - **Request header** has a line: `Content-Type: application/json`.
