@@ -12,7 +12,7 @@ export function HikesPage() {
 			const hikes = await HikeAPI.getAllHikes();
 			setHikes(hikes);
 		} catch (error) {
-			console.log(error.code);
+			console.log(error);
 		}
 	};
 
