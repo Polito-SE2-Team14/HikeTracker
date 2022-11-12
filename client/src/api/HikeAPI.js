@@ -1,5 +1,6 @@
 import REST from './REST';
 import Hike from '../class/Hike';
+import Point from '../class/Point';
 
 const api = '/hikes';
 
@@ -8,7 +9,7 @@ const getAllHikes = async () => {
         let hikesJson = await REST.GET(api);
         return hikesJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
     }
-    catch(e){
+    catch (e) {
         throw e;
     }
 };
@@ -39,13 +40,13 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
 
         return true;
     }
-    catch(e){
+    catch (e) {
         throw e;
     }
 };
 
 const addStartPoint = async (hikeID, pointID) => {
-    let body = { 
+    let body = {
         hikeID: hikeID,
         startPointID: pointID
     };
@@ -92,7 +93,17 @@ const addHut = async (hikeID, pointID) => {
     }
 };
 
+const getHikePoints = async (hikeID) => {
+    try {
+        let pointsJson = await REST.GET(`${api}/${hikeID}/points`);
+
+        return pointsJson.map(p => new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType));
+    } catch (e) {
+        throw e;
+    }
+};
 
 
-const HikeAPI = { getAllHikes, newHike, addStartPoint, addEndPoint, addHut };
+
+const HikeAPI = { getAllHikes, newHike, addStartPoint, addEndPoint, addHut, getHikePoints };
 export default HikeAPI;

@@ -1,13 +1,13 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { PencilSquare } from "react-bootstrap-icons";
-import PointAPI from "../../api/PointAPI";
+import HikeAPI from "../../api/HikeAPI";
 
 function HikeListRow(props) {
 
     const getAllPoints = async () => {
 		try {
-			const points = await PointAPI.getHikePoints(props.hike.hikeID);
+			const points = await HikeAPI.getHikePoints(props.hike.hikeID);
 			props.setPoints(points);
 		} catch (error) {
 			console.log(error);
@@ -15,7 +15,7 @@ function HikeListRow(props) {
 	};
 
     const handleShowClick = async () => {
-        //getAllPoints();
+        getAllPoints();
         props.handleShowModal();
     }
 
