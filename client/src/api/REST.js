@@ -8,10 +8,12 @@ const APIURL = 'http://localhost:3001/api';
  */
 const GET = async (api, credentials = false) => {
 	let cred = credentials ? 'include' : null;
-	let response = await fetch(`${APIURL}${api}`, {
-		method: "GET",
-		credentials: cred
-	});
+	let response = await fetch(`${APIURL}${api}`
+	// , {
+	// 	method: "GET",
+	// 	credentials: cred
+	// }
+	);
 
 	if (response.ok) return response.json();
 	else throw response;
