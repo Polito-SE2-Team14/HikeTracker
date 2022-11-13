@@ -45,6 +45,27 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
     }
 };
 
+const editHike = async (hikeID, title, length, eta, ascent, difficulty, description) => {
+    let body = {
+        hikeID: hikeID,
+        title: title,
+        length: length,
+        expectedTime: eta,
+        ascent: ascent,
+        difficulty: difficulty,
+        description: description
+    };
+
+    try {
+        await REST.UPDATE('PUT', api, body, true);
+
+        return true;
+    }
+    catch (e) {
+        throw e;
+    }
+}
+
 const addStartPoint = async (hikeID, pointID) => {
     let body = {
         hikeID: hikeID,
@@ -105,5 +126,5 @@ const getHikePoints = async (hikeID) => {
 
 
 
-const HikeAPI = { getAllHikes, newHike, addStartPoint, addEndPoint, addHut, getHikePoints };
+const HikeAPI = { getAllHikes, newHike, editHike, addStartPoint, addEndPoint, addHut, getHikePoints };
 export default HikeAPI;

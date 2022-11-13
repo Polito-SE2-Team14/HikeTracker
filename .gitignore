@@ -5,3 +5,4 @@ server/unit_test/coverage/
 client/node_modules/
 server/package-lock.json
 package-lock.json
+server/database/testDB.sqlite

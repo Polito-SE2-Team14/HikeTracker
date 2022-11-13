@@ -14,6 +14,7 @@ export function LoginPage(props) {
 	let handleLogin = (credentials) => {
 		// TODO: Authentication with server
 		props.setLoggedIn(true);
+		props.setUser({name: "Test", type: "Local guide"});
 		navigate("/");
 	};
 

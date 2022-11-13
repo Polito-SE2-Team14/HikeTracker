@@ -19,7 +19,7 @@ export function HikeModal(props) {
                 </Tabs>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={props.onClose}>
+                <Button variant="secondary" onClick={props.onHide}>
                     Close
                 </Button>
             </Modal.Footer>

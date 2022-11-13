@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import HikeAPI from '../api/HikeAPI';
 import HikeListTable from "../components/HikeList/HikeListTable";
 
-export function HikesPage() {
+export function HikesPage(props) {
 
 	const [hikes, setHikes] = useState([]);
 
@@ -18,11 +18,11 @@ export function HikesPage() {
 
 	useEffect(() => {
 		getAllHikes();
-	}, []);
+	}, [hikes.length]);
 
 	return <>
 		<Container>
-			<HikeListTable hikes={hikes} />
+			<HikeListTable hikes={hikes} setHikes={setHikes} user={props.user}/>
 		</Container>
 	</>
 }
