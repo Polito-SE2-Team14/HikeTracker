@@ -2,23 +2,30 @@ import { Table } from "react-bootstrap";
 import React, { useState } from "react";
 import HikeListRow from "./HikeListRow";
 import { HikeModal } from "./HikeModal";
+import { HikeEditForm } from "./HikeEditForm";
 
 function HikeListTable(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+
+	const [selectedHike, setSelectedHike] = useState();
 	const [points, setPoints] = useState(null);
+
 	const handleCloseHikeModal = () => {
 		setShowHikeModal(false);
 	};
+
 	const handleShowHikeModal = () => {
 		setShowHikeModal(true);
 	};
+
     const handleShowEditModal = (hike) => {
-        // TODO: make it work! hikeEditForm
+		setSelectedHike(hike);
         setShowEditModal(true);
     }
-    const handleCloseEditModal = (hike) => {
-        // TODO: make it work! hikeEditForm
+
+    const handleCloseEditModal = () => {
+		setSelectedHike({});
         setShowEditModal(false);
     }
 
@@ -30,6 +37,13 @@ function HikeListTable(props) {
 				onClose={handleCloseHikeModal}
 				points={points}
 			/>
+
+			<HikeEditForm
+				show={showEditModal}
+				onHide={handleCloseEditModal}
+				hike={selectedHike}
+			/>
+			{/*TODO: function={create/modify}*/}
 
 			<Table className="table-hover table-border">
 				<thead>
@@ -53,7 +67,7 @@ function HikeListTable(props) {
 								key={hike.hikeID}
 								hike={hike}
 								mode={props.mode}
-								handleShowModal={handleShowHikeModal}
+								handleShowModal={() => handleShowHikeModal(hike)}
                                 handleEditModal={handleShowEditModal}
 								setPoints={setPoints}
 							/>
