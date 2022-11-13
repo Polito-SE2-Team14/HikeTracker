@@ -17,10 +17,8 @@ const GET = async (api, credentials = false) => {
 
 	let response = await fetch(`${APIURL}${api}`, req);
 
-	const responseJson = await response.json();
-
-	if (response.ok) return responseJson;
-	else throw responseJson;
+	if (response.ok) return response;
+	else throw response;
 };
 
 /**
@@ -44,10 +42,9 @@ const UPDATE = async (method, api, body, credentials = false) => {
 	}
 
 	let response = await fetch(`${APIURL}${api}`, req);
-	const responseJson = await response.json();
 
-	if (response.ok) return responseJson;
-	else throw responseJson;
+	if (response.ok) return response;
+	else throw response;
 };
 
 /**
@@ -62,10 +59,9 @@ const DELETE = async (api) => {
 	};
 
 	let response = await fetch(`${APIURL}${api}`, req);
-	const responseJson = await response.json();
 
-	if (response.ok) return responseJson;
-	else throw responseJson;
+	if (response.ok) return response;
+	else throw response;
 };
 
 const REST = { GET, UPDATE, DELETE };

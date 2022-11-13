@@ -6,7 +6,9 @@ const api = '/hikes';
 
 const getAllHikes = async () => {
     try {
-        let hikesJson = await REST.GET(api);
+        let response = await REST.GET(api);
+        let hikesJson = await response.json();
+
         return hikesJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
     }
     catch (e) {
@@ -16,7 +18,8 @@ const getAllHikes = async () => {
 /*
 const getHike = async (hikeID) => {
     try {
-        let hikeJson = await REST.GET(`${api}/${hikeID}`);
+        let response = await REST.GET(`${api}/${hikeID}`);
+        let hikeJson = await response.json();
 
         return hikeJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
     }
@@ -116,7 +119,8 @@ const addHut = async (hikeID, pointID) => {
 
 const getHikePoints = async (hikeID) => {
     try {
-        let pointsJson = await REST.GET(`${api}/${hikeID}/points`);
+        let response = await REST.GET(`${api}/${hikeID}/points`);
+        let pointsJson = await response.json();
 
         return pointsJson.map(p => new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType));
     } catch (e) {
