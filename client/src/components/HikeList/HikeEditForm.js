@@ -6,17 +6,12 @@ export function HikeEditForm(props) {
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
-				<Modal.Title>Points</Modal.Title>
+				<Modal.Title>Hike Info</Modal.Title>
 			</Modal.Header>
-			<Modal.Body>{"a"}</Modal.Body>
+			<Modal.Body>
+                <HikeForm hike={props.hike}/>
+            </Modal.Body>
 			<Modal.Footer>
-				{/*TODO: function={create = primary/modify = success}, move footer to form*/}
-				<Button variant="primary" onClick={props.onHide}>
-					Update
-				</Button>
-				<Button variant="secondary" onClick={props.onHide}>
-					Close
-				</Button>
 			</Modal.Footer>
 		</Modal>
 	);
@@ -120,6 +115,9 @@ export function HikeForm(props) {
 
 			<Button variant="primary" type="submit">
 				Submit
+			</Button>
+            <Button variant="secondary">
+				Cancel
 			</Button>
 		</Form>
 	);

@@ -1,15 +1,18 @@
-import { Table } from "react-bootstrap";
+import { Table, Button, Row } from "react-bootstrap";
 import React, { useState } from "react";
 import HikeListRow from "./HikeListRow";
 import { HikeModal } from "./HikeModal";
+import { HikeEditForm } from "./HikeEditForm";
 import { HikeDescriptionModal } from "./HikeDescriptionModal";
 
 function HikeListTable(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
-	const [showHikeDescriptionModal, setShowHikeDescriptionModal] = useState(false);
+	const [showHikeDescriptionModal, setShowHikeDescriptionModal] =
+		useState(false);
 
 	const [selectedHike, setSelectedHike] = useState();
+	const [selectedFunction, setSelectedFunction] = useState();
 	const [points, setPoints] = useState(null);
 	const [hikeDescription, setHikeDescription] = useState(null);
 
@@ -27,14 +30,24 @@ function HikeListTable(props) {
 	const handleCloseHikeDescriptionModal = () => {
 		setShowHikeDescriptionModal(false);
 	};
+
 	const handleShowEditModal = (hike) => {
-		// TODO: make it work! hikeEditForm
+		setSelectedHike(hike);
+		setSelectedFunction("Modify");
 		setShowEditModal(true);
-	}
-	const handleCloseEditModal = (hike) => {
-		// TODO: make it work! hikeEditForm
+	};
+
+	const handleCloseEditModal = () => {
+		setSelectedHike({});
+		setSelectedFunction("");
 		setShowEditModal(false);
-	}
+	};
+
+	const handleNewHikeModal = () => {
+		setSelectedHike({});
+		setSelectedFunction("Create");
+		setShowEditModal(true);
+	};
 
 	return (
 		<>
@@ -52,10 +65,17 @@ function HikeListTable(props) {
 				hikeDescription={hikeDescription}
 			/>
 
+			<HikeEditForm
+				show={showEditModal}
+				hike={selectedHike}
+				function={selectedFunction}
+				onHide={handleCloseEditModal}
+			/>
+
 			<Table className="table-hover table-border">
 				<thead>
 					<tr>
-						<th>{/*TODO: display only when logged as local guide*/}</th>
+						{props.user.type === "Local guide" ? <th></th> : false}
 						<th>ID</th>
 						<th>Title</th>
 						<th>Length</th>
@@ -70,20 +90,25 @@ function HikeListTable(props) {
 				<tbody>
 					{props.hikes ? (
 						props.hikes.map((hike) => (
-							<HikeListRow
-								key={hike.hikeID}
-								hike={hike}
-								mode={props.mode}
-								handleShowModal={handleShowHikeModal}
-								handleEditModal={handleShowEditModal}
-								handleShowHikeDescriptionModal={handleShowHikeDescriptionModal}
-								setPoints={setPoints}
-								setHikeDescription={setHikeDescription}
-							/>
+							<>
+								<HikeListRow
+									key={hike.hikeID}
+									hike={hike}
+									user={props.user}
+									mode={props.mode}
+									handleShowModal={handleShowHikeModal}
+									handleEditModal={handleShowEditModal}
+									handleShowHikeDescriptionModal={
+										handleShowHikeDescriptionModal
+									}
+									setPoints={setPoints}
+									setHikeDescription={setHikeDescription}
+								/>
+							</>
 						))
 					) : (
 						<tr>
-							<td>{/*TODO: display only when logged as local guide*/}</td>
+							{props.user.type === "Local guide" ? <td></td> : false}
 							<td></td>
 							<td></td>
 							<td></td>
@@ -96,10 +121,18 @@ function HikeListTable(props) {
 					)}
 				</tbody>
 			</Table>
+			<span>
+			{props.user.type === "Local guide" ? (
+									<Button variant="success" onClick={handleNewHikeModal}>
+										+
+									</Button>
+								) : (
+									false
+								)}{' '}
+				Insert new hike
+			</span>
 		</>
 	);
 }
 
 export default HikeListTable;
-
-

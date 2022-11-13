@@ -12,7 +12,7 @@ import { HutsPage } from "./pages/HutsPage";
 import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 
 function App() {
-	let [user, setUser] = useState("Admin"); // TEST
+	let [user, setUser] = useState({name: "Admin", type:"Local guide"}); // TEST
 	let [loggedIn, setLoggedIn] = useState(true); // TEST
 
 	return (
@@ -22,17 +22,17 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/login"
-					element={<LoginPage setLoggedIn={setLoggedIn} />}
+					element={<LoginPage setLoggedIn={setLoggedIn} setUser={setUser}/>}
 				/>
 				<Route
 					path="/registration"
-					element={<RegistrationPage setLoggedIn={setLoggedIn} />}
+					element={<RegistrationPage setLoggedIn={setLoggedIn} setUser={setUser}/>}
 				/>
 				<Route
 					path="/user"
-					element={<UserPage user={user} setLoggedIn={setLoggedIn} />}
+					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser}/>}
 				/>
-				<Route path="/hikes" element={<HikesPage />} />
+				<Route path="/hikes" element={<HikesPage user={user}/>} />
 				<Route path="/huts" element={<HutsPage />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage />} />
 			</Routes>
