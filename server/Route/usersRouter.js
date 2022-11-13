@@ -14,7 +14,7 @@ router.post('',
     body("password").not().isEmpty().trim().escape(),
     async (req, res) => {
         if (!validationResult(req).isEmpty())
-            res.status(422).json(errors.array())
+            res.status(422).end()//.json(errors.array());
         else
             await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
                 .then(() => res.status(201).end())

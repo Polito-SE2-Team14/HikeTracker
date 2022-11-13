@@ -32,7 +32,7 @@
     "mochawesome-report-generator": "^6.2.0"
   },
   "scripts": {
-    "apiTest": "mocha test --runInBand--timeout 10000 ",
+    "apiTest": "mocha test --exit --runInBand --timeout 10000 ",
     "test": "jest --runInBand --coverage ",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 20000 --exit",
     "start": "node server.js"

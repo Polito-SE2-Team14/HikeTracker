@@ -29,7 +29,7 @@ before('Registration test setup', async () =>
 describe(`POST ${api}`, () => {
 	testCorrectRegistration(newUsers);
 
-	testWrongRegistration(users);
+	testWrongRegistration(users, newUsers[1]);
 });
 
 function testCorrectRegistration(users) {
@@ -45,7 +45,7 @@ function testCorrectRegistration(users) {
 	});
 }
 
-function testWrongRegistration(users) {
+function testWrongRegistration(users, hut) {
 	it('Register existing user', done => {
 		let user = users[0];
 
@@ -53,6 +53,17 @@ function testWrongRegistration(users) {
 			.send(user)
 			.then(res => {
 				res.should.have.status(401);
+				done();
+			});
+	});
+
+	it('Register user with wrong type', done => {
+		let user = hut;
+
+		agent.post(api)
+			.send(user)
+			.then(res => {
+				res.should.have.status(422);
 				done();
 			});
 	});
