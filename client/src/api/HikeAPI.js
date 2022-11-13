@@ -4,6 +4,11 @@ import Point from '../class/Point';
 
 const api = '/hikes';
 
+/**
+ * Returns all hikes in the database
+ * @returns {Hike[]} Array of all hikes
+ */
+//TODO(antonio): remember to pass also start and end point
 const getAllHikes = async () => {
     try {
         let response = await REST.GET(api);
@@ -28,6 +33,17 @@ const getHike = async (hikeID) => {
     }
 };
 */
+
+/**
+ * Insert a new hike in the database
+ * @param {String} title Title of the new hike
+ * @param {float} length Distance(in meters) of the new hike
+ * @param {float} eta Expected time(in minutes) of the new hike
+ * @param {float} ascent Positive elevation difference of the new hike
+ * @param {String} difficulty Difficulty ("Tourist", "Hiker" or "Professional Hiker") of the new hike
+ * @param {String} description Description of the new hike 
+ * @returns {boolean} Success of the operation
+ */
 const newHike = async (title, length, eta, ascent, difficulty, description) => {
     let body = {
         title: title,
@@ -48,6 +64,17 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
     }
 };
 
+/**
+ * Modify details of an hike in the database
+ * @param {String} hikeID Id of the selected hike
+ * @param {String} title Title of the hike
+ * @param {float} length Distance(in meters) of the hike
+ * @param {float} eta Expected time(in minutes) of the hike
+ * @param {float} ascent Positive elevation difference of the hike
+ * @param {String} difficulty Difficulty ("Tourist", "Hiker" or "Professional Hiker") of the hike
+ * @param {String} description Description of the hike 
+ * @returns {boolean} Success of the operation
+ */
 const editHike = async (hikeID, title, length, eta, ascent, difficulty, description) => {
     let body = {
         hikeID: hikeID,

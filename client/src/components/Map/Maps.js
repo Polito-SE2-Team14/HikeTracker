@@ -1,17 +1,11 @@
 import { MapContainer, TileLayer } from "react-leaflet";
-import { getTestData } from "../testData";
-import { getLatLon, getPointsLatLon } from "./HikeData";
+import { getTestData } from "../../testData";
+import { getLatLon, getPointsLatLon } from "../HikeData";
 import { HikeMarker, HikePath } from "./MapElements";
 
-// TODO: documentation
-/**
- * documentation
- * @param props.
- * @param props.
- * @param props.
- * @returns
- */
+// TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
+	// TODO(antonio):
 	// extract info from props.hike
 	// hike.hikeID, hike.title, hike.length, hike.Ascent, hike.Difficulty hike.startPointID, hike.endPointID, hike.description
 	// get info from start, end and reference points
@@ -53,7 +47,7 @@ export function HikeMap(props) {
 	);
 }
 
-// TODO: AreaSelectMap, PointSelectMap
+// TODO(antonio): AreaSelectMap, PointSelectMap
 
 export function AreaSelectMap(props) {
 	// props.setArea({center: [float, float], radius: float})

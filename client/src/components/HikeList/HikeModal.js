@@ -1,7 +1,8 @@
 import { Button, Modal, Table, Tab, Tabs } from "react-bootstrap";
 import React from "react";
-import { HikeMap } from "../Maps";
+import { HikeMap } from "../Map/Maps";
 
+// TODO(antonio): proper documentation
 export function HikeModal(props) {
     return (
         <Modal show={props.show} onHide={props.onHide}>
@@ -25,7 +26,9 @@ export function HikeModal(props) {
             </Modal.Footer>
         </Modal>
     );
-}
+};
+
+// TODO(antonio): proper documentation
 function PointsTable(props) {
     return <Table className='table-hover'>
         <thead>
@@ -62,4 +65,4 @@ function PointsTable(props) {
                 </tr>}
         </tbody>
     </Table>;
-}
+};

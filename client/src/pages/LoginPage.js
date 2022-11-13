@@ -36,4 +36,4 @@ export function LoginPage(props) {
 			<Row><Button type="button" onClick={handleRegistration}>Register</Button></Row>
 		</Container>
 	);
-}
+};

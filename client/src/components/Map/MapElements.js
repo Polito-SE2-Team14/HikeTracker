@@ -1,13 +1,13 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
-import { getLatLon } from "./HikeData";
+import { getLatLon } from "../HikeData";
 import { GeoFill } from "react-bootstrap-icons";
 
-import "../styles/MapElements.css";
+import "../../styles/MapElements.css";
 
+// TODO(antonio): proper documentation
 export function HikeMarker(props) {
-	// props.point //TODO: documentation
 	let position = getLatLon(props.point);
 	let type = "generic"; // props.point.pointType
 
@@ -23,20 +23,24 @@ export function HikeMarker(props) {
 			popup = <ParkingLotPopup />;
 			break;
 		default:
-			// TODO: error handling
+			// TODO(antonio): error handling
 			break;
 	}
 
 	return <Marker position={position}>{popup}</Marker>;
-}
+};
+
+// TODO(antonio): proper documentation
 export function HikePath(props) {
-	// props.expectedtime, length, ascent
+	// TODO(antonio):props.expectedtime, length, ascent display on popup
 	return (
 		<AntPath positions={props.positions} options={{ color: "red" }}>
 			<HikePopup />
 		</AntPath>
 	);
-}
+};
+
+// TODO(antonio): proper documentation
 function PointPopup(props) {
 	let position = getLatLon(props.point);
 
@@ -59,25 +63,31 @@ function PointPopup(props) {
 			</Container>
 		</Popup>
 	);
-}
+};
+
+// TODO(antonio): proper documentation
 function HutPopup(props) {
 	return (
 		<Popup>
 			A pretty CSS3 popup. <br /> Easily customizable.
 		</Popup>
 	);
-}
+};
+
+// TODO(antonio): proper documentation
 function ParkingLotPopup(props) {
 	return (
 		<Popup>
 			A pretty CSS3 popup. <br /> Easily customizable.
 		</Popup>
 	);
-}
+};
+
+// TODO(antonio): proper documentation
 function HikePopup(props) {
 	return (
 		<Popup>
 			A pretty CSS3 popup. <br /> Easily customizable.
 		</Popup>
 	);
-}
+};

@@ -48,7 +48,7 @@ exports.check_hike = (wantedID) => {
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 			if (err) {
-				// TODO: better error handling
+				// TODO(antonio): better error handling
 				reject(err);
 			}
 

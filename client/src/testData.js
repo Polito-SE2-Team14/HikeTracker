@@ -24,9 +24,9 @@ export function getTestData() {
 }
 
 function calculateExpectedTime(hike){
-   //TODO: from GPX tracks calculate average time
+   //TODO(antonio): from GPX tracks calculate average time
 
-   // time(min) = 12.09 * distance(km) + 98.4 *elevation(m)/1000
+   // time(min) = (12.09 * distance(m) + 98.4 *elevation(m))/1000
 }
 
 const data = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>

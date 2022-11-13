@@ -3,8 +3,8 @@ import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
 import { CalculatorFill, TrashFill } from "react-bootstrap-icons";
 import HikeAPI from "../../api/HikeAPI";
 
-// TODO: edit points, how??
-
+// TODO(antonio): edit points, how??
+// TODO(antonio): proper documentation
 export function HikeEditForm(props) {
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
@@ -21,12 +21,10 @@ export function HikeEditForm(props) {
 			<Modal.Footer></Modal.Footer>
 		</Modal>
 	);
-}
+};
 
-// TODO: remove export
-
-// h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description,
-export function HikeForm(props) {
+//TODO(antonio): proper documentation
+function HikeForm(props) {
 	let [title, setTitle] = useState(props.hike ? props.hike.title : "");
 	let [length, setLength] = useState(props.hike ? props.hike.length : 0);
 	let [ascent, setAscent] = useState(props.hike ? props.hike.ascent : 0);
@@ -41,13 +39,13 @@ export function HikeForm(props) {
 	);
 
 	let handleDelete = () => {
-		// TODO: confirm prompt
+		// TODO(antonio): confirm prompt
 	}
 
 	let handleSubmit = (event) => {
 		event.preventDefault();
 
-		// TODO: validation and error on new hike/edit hike
+		// TODO(antonio): validation and error on new hike/edit hike
 		let hike = {
 			title: title,
 			length: length,
@@ -71,10 +69,10 @@ export function HikeForm(props) {
 				.then(() => {
 					props.setHikes((old) =>
 						{return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h))}
-					); //TODO: temp value, mark differently
+					); //TODO(antonio): temp value, mark differently
 				})
 				.catch((e) => {
-					// TODO: error handling
+					// TODO(antonio): error handling
 					console.log(e);
 				});
 		} else {
@@ -88,10 +86,10 @@ export function HikeForm(props) {
 				description
 			)
 				.then(() => {
-					props.setHikes((old) => [...old, hike]); //TODO: temp value, mark differently
+					props.setHikes((old) => [...old, hike]); //TODO(antonio): temp value, mark differently
 				})
 				.catch((e) => {
-					// TODO: error handling
+					// TODO(antonio): error handling
 					console.log(e);
 				});
 		}
@@ -204,4 +202,4 @@ export function HikeForm(props) {
 			</Row>
 		</Form>
 	);
-}
+};
