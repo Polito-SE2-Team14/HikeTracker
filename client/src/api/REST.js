@@ -17,8 +17,10 @@ const GET = async (api, credentials = false) => {
 
 	let response = await fetch(`${APIURL}${api}`, req);
 
-	if (response.ok) return response;
-	else throw response;
+	const responseJson = await response.json();
+
+	if (response.ok) return responseJson;
+	else throw responseJson;
 };
 
 /**
