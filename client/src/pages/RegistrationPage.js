@@ -19,9 +19,13 @@ export function RegistrationPage(props) {
 		if (res === true) {
 			props.setLoggedIn(true);
 			navigate('/');
+
+			return true;
 		}
 		else {
 			setMessage('registration failed');
+
+			return false;
 		}
 	};
 

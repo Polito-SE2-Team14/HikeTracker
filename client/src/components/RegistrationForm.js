@@ -55,10 +55,7 @@ export function RegistrationForm(props) {
 			invalids.push(" password");
 		}
 
-		if (invalids.length === 0) {
-			props.register(credentials)
-		}
-		else{
+		if (invalids.length !== 0 || !props.register(credentials)){
 			props.setMessage(`Invalid${invalids.toString()}`);
 			setPassword('');
 			setRepeatPwd('');
