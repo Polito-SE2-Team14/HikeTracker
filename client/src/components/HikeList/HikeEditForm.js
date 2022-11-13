@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { Button, Modal, Form, InputGroup, Col } from "react-bootstrap";
-import { CalculatorFill } from "react-bootstrap-icons";
+import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
+import { CalculatorFill, TrashFill } from "react-bootstrap-icons";
+import HikeAPI from "../../api/HikeAPI";
+
+// TODO: edit points, how??
 
 export function HikeEditForm(props) {
 	return (
@@ -9,10 +12,13 @@ export function HikeEditForm(props) {
 				<Modal.Title>Hike Info</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-                <HikeForm hike={props.hike}/>
-            </Modal.Body>
-			<Modal.Footer>
-			</Modal.Footer>
+				<HikeForm
+					hike={props.hike}
+					setHikes={props.setHikes}
+					onHide={props.onHide}
+				/>
+			</Modal.Body>
+			<Modal.Footer></Modal.Footer>
 		</Modal>
 	);
 }
@@ -28,15 +34,74 @@ export function HikeForm(props) {
 		props.hike ? props.hike.expectedTime : 0
 	);
 	let [difficulty, setDifficulty] = useState(
-		props.hike ? props.hike.difficulty : ""
+		props.hike ? props.hike.difficulty : "Tourist"
 	);
 	let [description, setDescription] = useState(
 		props.hike ? props.hike.description : ""
 	);
 
+	let handleDelete = () => {
+		// TODO: confirm prompt
+	}
+
+	let handleSubmit = (event) => {
+		event.preventDefault();
+
+		// TODO: validation and error on new hike/edit hike
+		let hike = {
+			title: title,
+			length: length,
+			expectedTime: expectedTime,
+			ascent: ascent,
+			difficulty: difficulty,
+			description: description,
+		};
+
+		if (props.hike) {
+			// NOTE: editing form
+			HikeAPI.editHike(
+				props.hike.hikeID,
+				title,
+				length,
+				expectedTime,
+				ascent,
+				difficulty,
+				description
+			)
+				.then(() => {
+					props.setHikes((old) =>
+						{return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h))}
+					); //TODO: temp value, mark differently
+				})
+				.catch((e) => {
+					// TODO: error handling
+					console.log(e);
+				});
+		} else {
+			// NOTE: adding form
+			HikeAPI.newHike(
+				title,
+				length,
+				expectedTime,
+				ascent,
+				difficulty,
+				description
+			)
+				.then(() => {
+					props.setHikes((old) => [...old, hike]); //TODO: temp value, mark differently
+				})
+				.catch((e) => {
+					// TODO: error handling
+					console.log(e);
+				});
+		}
+
+		props.onHide();
+	};
+
 	return (
 		<Form>
-			<Form.Group controlId="formTitle">
+			<Form.Group controlId="formTitle" className="mb-3">
 				<Form.Label>Title</Form.Label>
 				<Form.Control
 					type="text"
@@ -46,27 +111,32 @@ export function HikeForm(props) {
 				/>
 			</Form.Group>
 
-			<Form.Group controlId="formLength">
-				<Form.Label>Length (meters)</Form.Label>
-				<Form.Control
-					type="number"
-					placeholder={props.hike ? props.hike.length : "Enter hike length"}
-					value={length}
-					onChange={(ev) => setLength(ev.target.value)}
-				/>
-			</Form.Group>
+			<Row>
+				<Col>
+					<Form.Group controlId="formLength" className="mb-3">
+						<Form.Label>Length (meters)</Form.Label>
+						<Form.Control
+							type="number"
+							placeholder={props.hike ? props.hike.length : "Enter hike length"}
+							value={length}
+							onChange={(ev) => setLength(ev.target.value)}
+						/>
+					</Form.Group>
+				</Col>
+				<Col>
+					<Form.Group controlId="formAscent" className="mb-3">
+						<Form.Label>Ascent (meters)</Form.Label>
+						<Form.Control
+							type="number"
+							placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
+							value={ascent}
+							onChange={(ev) => setAscent(ev.target.value)}
+						/>
+					</Form.Group>
+				</Col>
+			</Row>
 
-			<Form.Group controlId="formAscent">
-				<Form.Label>Ascent (meters)</Form.Label>
-				<Form.Control
-					type="number"
-					placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
-					value={ascent}
-					onChange={(ev) => setAscent(ev.target.value)}
-				/>
-			</Form.Group>
-
-			<Form.Group controlId="formExpectedTime">
+			<Form.Group controlId="formExpectedTime" className="mb-3">
 				<Form.Label>Expected time (minutes)</Form.Label>
 				<InputGroup>
 					<Form.Control
@@ -78,14 +148,13 @@ export function HikeForm(props) {
 						onChange={(ev) => setExpectedTime(ev.target.value)}
 						aria-describedby="calculate"
 					/>
-					{/*TODO: show only if length and ascent are set, calculator icon*/}
 					<Button variant="outline-secondary" id="calculate">
-						<CalculatorFill/>
+						<CalculatorFill />
 					</Button>
 				</InputGroup>
 			</Form.Group>
 
-			<Form.Group controlId="formDifficulty">
+			<Form.Group controlId="formDifficulty" className="mb-3">
 				<Form.Label>Difficulty</Form.Label>
 				{["Tourist", "Hiker", "Professional Hiker"].map((d) => (
 					<Form.Check
@@ -95,13 +164,15 @@ export function HikeForm(props) {
 						name="difficultyRadio"
 						id={`difficulty-${d}`}
 						label={d}
-						defaultChecked={d === props.hike.difficulty}
+						defaultChecked={
+							props.hike ? d === props.hike.difficulty : d === "Tourist"
+						}
 						onChange={(ev) => setDifficulty(ev.target.value)}
 					/>
 				))}
 			</Form.Group>
 
-			<Form.Group controlId="formDescription">
+			<Form.Group controlId="formDescription" className="mb-3">
 				<Form.Label>Description</Form.Label>
 				<Form.Control
 					as="textarea"
@@ -113,12 +184,24 @@ export function HikeForm(props) {
 				/>
 			</Form.Group>
 
-			<Button variant="primary" type="submit">
-				Submit
-			</Button>
-            <Button variant="secondary">
-				Cancel
-			</Button>
+			<Row>
+				<Col>
+					<Button variant="danger"  onClick={handleDelete}>
+					<TrashFill/>{' '}Delete
+				</Button>
+			
+				</Col>
+				<Col>
+				<div className="text-end">
+				<Button variant="primary" type="submit" onClick={handleSubmit}>
+					Submit
+				</Button>{" "}
+				<Button variant="secondary" onClick={props.onHide}>
+					Cancel
+				</Button>
+			</div>
+				</Col>
+			</Row>
 		</Form>
 	);
 }

@@ -24,7 +24,6 @@ function HikeListRow(props) {
 	};
 
 	const handleEditClick = async () => {
-		//getAllPoints();
 		props.handleEditModal(props.hike);
 	};
 
@@ -39,7 +38,6 @@ function HikeListRow(props) {
 			) : (
 				false
 			)}
-			<td>{props.hike.hikeID}</td>
 			<td>{props.hike.title}</td>
 			<td>{props.hike.length}</td>
 			<td>{props.hike.expectedTime}</td>

@@ -18,11 +18,11 @@ export function HikesPage(props) {
 
 	useEffect(() => {
 		getAllHikes();
-	}, []);
+	}, [hikes.length]);
 
 	return <>
 		<Container>
-			<HikeListTable hikes={hikes} user={props.user}/>
+			<HikeListTable hikes={hikes} setHikes={setHikes} user={props.user}/>
 		</Container>
 	</>
 }
