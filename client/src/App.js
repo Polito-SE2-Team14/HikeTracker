@@ -15,6 +15,8 @@ function App() {
 	let [user, setUser] = useState({name: "Admin", type:"Local guide"}); // TEST
 	let [loggedIn, setLoggedIn] = useState(true); // TEST
 
+	//let [user, setUser] = useState({}); // TEST
+	//let [loggedIn, setLoggedIn] = useState(false); // TEST
 	return (
 		<Router>
 			<AppNavBar loggedIn={loggedIn} />

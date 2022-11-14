@@ -6,7 +6,7 @@ const api = '/users'
 const Register = async (body) => {
 	try {
 		await REST.UPDATE('POST', api, body);
-
+		
 		return true;
 	}
 	catch (e) {
