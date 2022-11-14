@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container, Modal, Button } from "react-bootstrap";
 import React, { useState, useEffect } from 'react';
 import HikeAPI from '../api/HikeAPI';
 import HikeListTable from "../components/HikeList/HikeListTable";
@@ -22,6 +22,19 @@ export function HikesPage(props) {
 
 	return <>
 		<Container>
+		<Modal show={false} onHide={() => {}}>
+            <Modal.Header closeButton>
+                <Modal.Title>Filter</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={() => {}}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
 			<HikeListTable hikes={hikes} setHikes={setHikes} user={props.user}/>
 		</Container>
 	</>
