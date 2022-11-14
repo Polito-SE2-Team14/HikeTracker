@@ -3,40 +3,38 @@ import { useState } from 'react';
 import { Form, Alert } from 'react-bootstrap';
 
 /**
- * 
- * @param props.setMessage - function used to set an error message
- * @param {string} props.message - error message shown if the user chooses paramaters incorrrectly
+ * @param props.filters - object containing all the filters and the flags indicating whether they must be applied or not
  * @param props.setFilters - function used to update filters in the API
- *  
  * @returns a form to select filtering conditiond for hikes
  */
 export function FilterForm(props){
-	const [geographic_area, set_geographic_area] = useState();
+	const [geographic_area, set_geographic_area] = useState('');
 	const [check_geo_area, set_check_geo_area] = useState(false);
 	
-	const [difficulty, set_difficulty] = useState();
+	const [difficulty, set_difficulty] = useState('');
 	const [check_diff, set_check_diff] = useState(false);
 	
-	const [length, set_length] = useState();
-	const [length_operator, set_length_operator] = useState();
+	const [length, set_length] = useState(0);
+	const [length_operator, set_length_operator] = useState('>');
 	const [check_len, set_check_len] = useState(false);
 	
-	const [total_ascent, set_total_ascent] = useState();
-	const [total_ascent_operator, set_total_ascent_operator] = useState();
-	const [check_tot_asc, set_check_tot_asc] = useState(false);
+	const [ascent, set_ascent] = useState(0);
+	const [ascent_operator, set_ascent_operator] = useState('>');
+	const [check_asc, set_check_asc] = useState(false);
 	
-	const [expected_time, set_expected_time] = useState();
-	const [expected_time_operator, set_expected_time_operator] = useState();
+	const [expected_time, set_expected_time] = useState(0);
+	const [expected_time_operator, set_expected_time_operator] = useState('');
 	const [check_exp_time, set_check_exp_time] = useState(false);
 
+	const [message, setMessage] = useState('');
 
 	/**
 	 * checks if the parameters chosen by the user are correct and if so updates the current filtering conditions
 	 */
 	const handleSubmit= (event) => {
 		event.preventDefault();
-		props.setMessage('');
-		const filters = {geographic_area,check_geo_area,difficulty,check_diff,length,length_operator,check_len,total_ascent,total_ascent_operator,check_tot_asc,expected_time,expected_time_operator,check_exp_time}
+		setMessage('');
+		let filters = {geographic_area,check_geo_area,difficulty,check_diff,length: parseFloat(length),length_operator,check_len,ascent: parseFloat(ascent),ascent_operator,check_asc,expected_time:parseFloat(expected_time),expected_time_operator,check_exp_time}
 
 		/**list of invalid parameters
 		 * @type {string[]}
@@ -55,8 +53,8 @@ export function FilterForm(props){
 			invalids.push(" length (it must be >0)");
 		}
 
-		if (check_tot_asc && total_ascent<=0){
-			invalids.push(" total_ascent (it must be >0)");
+		if (check_asc && ascent<=0){
+			invalids.push(" ascent (it must be >0)");
 		}
 		if (check_exp_time&& expected_time<=0){
 			invalids.push(" expected_time (it must be >0)");
@@ -65,7 +63,7 @@ export function FilterForm(props){
 		if (invalids.length===0){
 			props.setFilters(filters);
 		}else{
-			props.setMessage(`Invalid${invalids.toString()}`);
+			setMessage(`Invalid${invalids.toString()}`);
 		}
 
 		props.setFilters(filters);
@@ -73,9 +71,9 @@ export function FilterForm(props){
 
 	return(
 		<>
-			{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
+			{message ? <Alert variant='danger' onClose={() => setMessage('')} dismissible>{message}</Alert> : ''}
 			<Form>
-				{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
+				{message ? <Alert variant='danger' onClose={() => setMessage('')} dismissible>{message}</Alert> : ''}
 
 				<Row>
 					<Form.Check type="switch" id="geo_switch"
@@ -133,23 +131,23 @@ export function FilterForm(props){
 					</Form.Group>
 				</Row>
 				<Row>
-					<Form.Check type="switch" id="tot_asc_switch"
-						onChange={ev=>{set_check_tot_asc(ev.target.checked)}}>
+					<Form.Check type="switch" id="asc_switch"
+						onChange={ev=>{set_check_asc(ev.target.checked)}}>
 					</Form.Check>
-					<Form.Group as={Col} controlId="total_ascent_operator">
-						<Form.Label>Total ascent operator</Form.Label>
-						<Form.Select disabled={!check_tot_asc} value={total_ascent_operator}
+					<Form.Group as={Col} controlId="ascent_operator">
+						<Form.Label>Ascent operator</Form.Label>
+						<Form.Select disabled={!check_asc} value={ascent_operator}
 							onChange={ ev=> {
-								set_total_ascent_operator(ev.target.value);
+								set_ascent_operator(ev.target.value);
 							}}>
 							<option value = ">"> {'>'} </option>
 							<option value = "="> {'='} </option>
 							<option value = "<"> {'<'} </option>
 						</Form.Select>
 					</Form.Group>
-					<Form.Group as = {Col} controlId='total_ascent'>
-						<Form.Label>Total ascent</Form.Label>
-						<Form.Control disabled={!check_tot_asc} type ='number' value={total_ascent} onChange={ev => set_total_ascent(ev.target.value)}
+					<Form.Group as = {Col} controlId='ascent'>
+						<Form.Label>Ascent</Form.Label>
+						<Form.Control disabled={!check_asc} type ='number' value={ascent} onChange={ev => set_ascent(ev.target.value)}
 							onKeyPress={ev=>{
 								if(ev.key==="Enter"){
 									handleSubmit(ev);
@@ -183,7 +181,7 @@ export function FilterForm(props){
 					</Form.Group>
 				</Row>
 				<Row>
-					<Button onClick={handleSubmit}>Apply filters</Button>
+					<Button className='mt-3' onClick={handleSubmit}>Apply filters</Button>
 				</Row>
 			</Form>
 		</>
