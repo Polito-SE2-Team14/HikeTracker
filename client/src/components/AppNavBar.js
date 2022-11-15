@@ -1,14 +1,7 @@
 import "../styles/AppNavBar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faCircleUser, faRightToBracket, faCarSide, faHouse, faPersonHiking, faCompass } from "@fortawesome/free-solid-svg-icons";
 
-import {
-	List,
-	Person,
-	PersonCircle,
-	CarFrontFill,
-	HouseFill,
-	SignpostSplitFill,
-	CompassFill,
-} from "react-bootstrap-icons";
 import {
 	Button,
 	Col,
@@ -49,12 +42,12 @@ export function AppNavBar(props) {
 
 	return (
 		<>
-			<Navbar bg="transparent" className="mountain-bg">
+			<Navbar bg="transparent" className="mountain-bg font-weight-bold">
 				<Container fluid className="d-flex justify-content-center">
 					<Row className="navbar-items d-flex justify-content-between">
 						<Col className="d-flex align-items-center">
 							<Button variant="navbar" onClick={handleMenuClick}>
-								<List />
+							<FontAwesomeIcon icon={faBars} />
 							</Button>
 						</Col>
 						<Col className="d-flex align-items-center justify-content-center">
@@ -64,7 +57,7 @@ export function AppNavBar(props) {
 						</Col>
 						<Col className="d-flex align-items-center justify-content-end">
 							<Button variant="navbar" onClick={handleUserClick}>
-								{props.loggedIn ? <PersonCircle /> : <Person />}
+								{props.loggedIn ? <FontAwesomeIcon icon={faCircleUser} /> : <FontAwesomeIcon icon={faRightToBracket} />}
 							</Button>
 						</Col>
 					</Row>
@@ -86,19 +79,19 @@ function SideBar(props) {
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
 					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
-						<SideBarElement icon={<CompassFill />} name="Home Page" />
+						<SideBarElement icon={<FontAwesomeIcon icon={faCompass} />} name="Home Page" />
 					</ListGroup.Item>
 					<ListGroup.Item action onClick={() => props.pageSelect("/hikes")}>
-						<SideBarElement icon={<SignpostSplitFill />} name="Hikes" />
+						<SideBarElement icon={<FontAwesomeIcon icon={faPersonHiking} />} name="Hikes" />
 					</ListGroup.Item>
 					<ListGroup.Item action onClick={() => props.pageSelect("/huts")}>
-						<SideBarElement icon={<HouseFill />} name="Huts" />
+						<SideBarElement icon={<FontAwesomeIcon icon={faHouse} />} name="Huts" />
 					</ListGroup.Item>
 					<ListGroup.Item
 						action
 						onClick={() => props.pageSelect("/parking-lots")}
 					>
-						<SideBarElement icon={<CarFrontFill />} name="Parking lots" />
+						<SideBarElement icon={<FontAwesomeIcon icon={faCarSide} />} name="Parking lots" />
 					</ListGroup.Item>
 				</ListGroup>
 			</Offcanvas.Body>

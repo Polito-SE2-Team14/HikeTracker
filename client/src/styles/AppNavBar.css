@@ -1,6 +1,6 @@
 .mountain-bg {
-    background-image: url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/alpe-di-siusi-sunrise-with-sassolungo-or-langkofel-royalty-free-image-1623254127.jpg);
-    background-position: 0px 70%;
+    background-image: url(https://www.popsci.com/uploads/2021/11/09/Prepare-For-Difficult-Hike.jpeg);
+    background-position: center;
     color: white;
 }
 
@@ -13,6 +13,7 @@
     color: white!important;
     font-size: 1.5rem!important;
     border-radius: 0!important;
+    font-weight: bold !important;
 } 
 
 .btn-navbar:hover {

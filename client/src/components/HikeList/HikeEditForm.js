@@ -184,12 +184,6 @@ function HikeForm(props) {
 
 			<Row>
 				<Col>
-					<Button variant="danger"  onClick={handleDelete}>
-					<TrashFill/>{' '}Delete
-				</Button>
-			
-				</Col>
-				<Col>
 				<div className="text-end">
 				<Button variant="primary" type="submit" onClick={handleSubmit}>
 					Submit
