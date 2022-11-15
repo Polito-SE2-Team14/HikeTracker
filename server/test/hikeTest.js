@@ -40,9 +40,17 @@ describe('Hikes test suite', async () => {
 	})
 
 	it('Insert new hike',async () => {
-		const hikeToInsert=new Hike(5,"hike#5",10,11,12,"Hiker","Test description",3,4);
+		const hikeToInsert=new Hike(4,"hike#4",10,11,12,"Hiker","Test description",3,4);
 		const response = await hikeAPICall.addHikeCall(hikeToInsert);
 		assert.equal(response.status, 201, response.status);
+
+		const response2 = await hikeAPICall.getHikesCall();
+		assert.equal(response2.status, 200, response2.status);
+		let actualArray = await response2.data;
+		console.log(actualArray);
+		// The response is returned as a vector of objects, so we need to convert them to Hikes
+		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.length,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
+
 		let insertedHike= await response.data;
 		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.length,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
 		console.log(insertedHike);

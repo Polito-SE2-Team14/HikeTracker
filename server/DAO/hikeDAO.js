@@ -92,12 +92,12 @@ exports.addHike = (newHike) => {
 				newHike.startPointID,
 				newHike.endPointID
 			],
-			(err) => {
+			function(err) {
 				if (err) {
 					reject(err);
 					return;
 				} else {
-					resolve(`New hike ${newHike.title} inserted`);
+					resolve(new Hike(this.lastID,newHike.title,newHike.length,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.description,newHike.startPointID,newHike.endPointID));
 				}
 			}
 		);

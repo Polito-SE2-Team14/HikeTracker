@@ -21,11 +21,10 @@ class HikeController {
     }
 
     async addHike(hike) {
-        await hikeDAO.addHike(hike)
-            .then(msg => { return msg })
-            .catch(err => { throw err })
+        const addedHike = await hikeDAO.addHike(hike)
+            .catch(err => { throw err });
 
-            return hike;
+            return addedHike;
     }
 
     async updateHike(hike) {
