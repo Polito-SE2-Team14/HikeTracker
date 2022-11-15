@@ -81,16 +81,16 @@ exports.getHike = (wantedID) => {
 exports.addHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID) VALUES(?,?,?,?,?,?,?,?)",
 			[
 				newHike.title,
 				newHike.length,
 				newHike.expectedTime,
 				newHike.ascent,
 				newHike.difficulty,
-				newHike.startPointID,
-				newHike.endPointID,
 				newHike.description,
+				newHike.startPointID,
+				newHike.endPointID
 			],
 			(err) => {
 				if (err) {
@@ -112,16 +112,16 @@ exports.addHike = (newHike) => {
 exports.updateHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, startPointID=?, endPointID=?,description=? WHERE hikeID =?",
+			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=? WHERE hikeID =?",
 			[
 				newHike.title,
 				newHike.length,
 				newHike.expectedTime,
 				newHike.ascent,
 				newHike.difficulty,
+				newHike.description,
 				newHike.startPointID,
 				newHike.endPointID,
-				newHike.description,
 				newHike.hikeID,
 			],
 			(err) => {

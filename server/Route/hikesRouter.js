@@ -69,13 +69,13 @@ router.post(
 			req.body.ascent,
 			req.body.difficulty,
 			req.body.description,
-			null,
-			null
+			req.body.startPointID,
+			req.body.endPointID
 		);
 
 		await hikeController
 			.addHike(newHike)
-			.then((msg) => res.status(201).json(msg))
+			.then((msg) => {console.log(msg); return res.status(201).json(msg);})
 			.catch((err) =>
 				res.status(503).json({
 					error: `Database error during the adding of new hike in the database: ${err}`,
@@ -87,7 +87,7 @@ router.post(
 // PUT request to /api/hikes to update an existing hike
 router.put(
 	"",
-	body("hikeID").not().isEmpty().trim().escape(),
+	body("hikeID").not().isEmpty().isInt({gt:0}),
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
@@ -103,7 +103,6 @@ router.put(
 			return res.status(404).json({ error: `No hike with the given ID found` });
 		}
 
-		console.log(req.body.expectedTime);
 		let hike = new Hike(
 			req.body.hikeID,
 			req.body.title,
@@ -112,8 +111,8 @@ router.put(
 			req.body.ascent,
 			req.body.difficulty,
 			req.body.description,
-			null,
-			null
+			req.body.startPointID,
+			req.body.endPointID
 		);
 
 		await hikeController

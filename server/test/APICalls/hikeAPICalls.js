@@ -24,13 +24,14 @@ class HikeAPICall {
 	//POST
 	async addHikeCall(newHike) {
 		const url = this.#baseURL + "/api/hikes";
+		
 		const body = {
 			hike: newHike
 		}
 		const headers = { headers: { 'Content-Type': 'application/json' } };
 		let response;
 
-		await axios.post(url, body, headers)
+		await axios.post(url, body.hike, headers)
 			.then(value => response = value)
 			.catch(error => response = error.response);
 
@@ -46,7 +47,7 @@ class HikeAPICall {
 		const headers = { headers: { 'Content-Type': 'application/json' } };
 		let response;
 
-		await axios.post(url, body, headers)
+		await axios.put(url, body.hike, headers)
 			.then(value => response = value)
 			.catch(error => response = error.response);
 
