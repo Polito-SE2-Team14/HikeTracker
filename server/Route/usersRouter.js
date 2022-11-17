@@ -15,13 +15,13 @@ router.post('',
     async (req, res) => {
         if (!validationResult(req).isEmpty())
             res.status(422).end()//.json(errors.array());
-        else
-            await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
-                .then(() => res.status(201).end())
-                .catch(err => {
-                    if (err === "user exists") res.status(401).send("User already exists")
-                    else res.status(505).send("error")
-                })
+
+        await userDAO.Register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
+            .then(() => res.status(201).end())
+            .catch(err => {
+                if (err === "user exists") res.status(401).send("User already exists")
+                else res.status(505).send("error")
+            })
     }
 );
 module.exports = router;
