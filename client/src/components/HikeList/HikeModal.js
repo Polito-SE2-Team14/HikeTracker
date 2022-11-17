@@ -1,68 +1,87 @@
-import { Button, Modal, Table, Tab, Tabs } from "react-bootstrap";
+import { Modal, Button, Row, Col } from "react-bootstrap";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faMountain,
+	faPersonWalking,
+	faFlag,
+	faClock,
+	faPlay,
+	faTrashCan,
+	faPenToSquare,
+	faXmark,
+	faQuoteLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { HikeMap } from "../Map/Maps";
 
-// TODO(antonio): proper documentation
 export function HikeModal(props) {
-    return (
-        <Modal show={props.show} onHide={props.onHide}>
-            <Modal.Header closeButton>
-                <Modal.Title>Points</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Tabs defaultActiveKey="map" id="hike-popup-tabs">
-                    <Tab eventKey="list" title="List">
-                        <PointsTable points={props.points} />
-                    </Tab>
-                    <Tab eventKey="map" title="Map">
-                        <HikeMap points={props.points} />
-                    </Tab>
-                </Tabs>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={props.onHide}>
-                    Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-};
+	let hike = props.hike;
 
-// TODO(antonio): proper documentation
-function PointsTable(props) {
-    return <Table className='table-hover'>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Address</th>
-                <th>PointType</th>
-            </tr>
-        </thead>
-        <tbody>
-            {props.points ? props.points.map((point) => (
-
-                <tr>
-                    <td>{point.pointID}</td>
-                    <td>{point.name}</td>
-                    <td>{point.latitude}</td>
-                    <td>{point.longitude}</td>
-                    <td>{point.address}</td>
-                    <td>{point.pointType}</td>
-                </tr>
-
-            ))
-                :
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>}
-        </tbody>
-    </Table>;
-};
+	return props.hike ? (
+		<Modal show={props.show} onHide={props.onClose}>
+			<Modal.Header closeButton>
+				<Modal.Title>{hike.title}</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<HikeMap />
+				<p className="text-muted mt-0">submitted by x/you</p>
+				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+					<Col>
+						<FontAwesomeIcon icon={faPersonWalking} />
+						<strong>{" Distance:"}</strong>
+						{` ${hike.length} meters`}
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={faMountain} />
+						<strong>{"  Ascent:"}</strong>
+						{` ${hike.ascent} meters`}
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={faFlag} />
+						<strong>{" Difficulty:"}</strong>
+						{` ${hike.difficulty}`}
+					</Col>
+					<Col>
+						<FontAwesomeIcon icon={faClock} />
+						<strong>{" Expected time:"}</strong>
+						{` ${hike.expectedTime} minutes`}
+					</Col>
+				</Row>
+				<Row className="mt-3">
+					<Col>
+						<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
+					</Col>
+					<Col>start and end point</Col>
+				</Row>
+			</Modal.Body>
+			<Modal.Footer>
+				<Col>
+					<Row xs={2}>
+						<Col>
+							<Button
+								className="me-1"
+								variant="secondary"
+								onClick={props.onClose}
+							>
+								<FontAwesomeIcon icon={faXmark} /> Close
+							</Button>
+							<Button variant="danger" onClick={props.onDelete}>
+								<FontAwesomeIcon icon={faTrashCan} /> Delete
+							</Button>
+						</Col>
+						<Col className="d-flex justify-content-end">
+							<Button className="me-1" variant="warning" onClick={props.onEdit}>
+								<FontAwesomeIcon icon={faPenToSquare} /> Edit
+							</Button>{" "}
+							<Button variant="success" onClick={props.onStart}>
+								<FontAwesomeIcon icon={faPlay} /> Start
+							</Button>
+						</Col>
+					</Row>
+				</Col>
+			</Modal.Footer>
+		</Modal>
+	) : (
+		false
+	);
+}

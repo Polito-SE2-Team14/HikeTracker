@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
-import { CalculatorFill, TrashFill } from "react-bootstrap-icons";
 import HikeAPI from "../../api/HikeAPI";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 // TODO(antonio): edit points, how??
 // TODO(antonio): proper documentation
@@ -18,10 +20,9 @@ export function HikeEditForm(props) {
 					onHide={props.onHide}
 				/>
 			</Modal.Body>
-			<Modal.Footer></Modal.Footer>
 		</Modal>
 	);
-};
+}
 
 //TODO(antonio): proper documentation
 function HikeForm(props) {
@@ -38,15 +39,12 @@ function HikeForm(props) {
 		props.hike ? props.hike.description : ""
 	);
 
-	let handleDelete = () => {
-		// TODO(antonio): confirm prompt
-	}
-
 	let handleSubmit = (event) => {
 		event.preventDefault();
 
 		// TODO(antonio): validation and error on new hike/edit hike
 		let hike = {
+			hikeID: props.hike ? props.hike.hikeID : null,
 			title: title,
 			length: length,
 			expectedTime: expectedTime,
@@ -55,7 +53,7 @@ function HikeForm(props) {
 			description: description,
 		};
 
-		if (props.hike) {
+		if (hike.hikeID) {
 			// NOTE: editing form
 			HikeAPI.editHike(
 				props.hike.hikeID,
@@ -67,9 +65,9 @@ function HikeForm(props) {
 				description
 			)
 				.then(() => {
-					props.setHikes((old) =>
-						{return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h))}
-					); //TODO(antonio): temp value, mark differently
+					props.setHikes((old) => {
+						return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h));
+					}); //TODO(antonio): temp value, mark differently
 				})
 				.catch((e) => {
 					// TODO(antonio): error handling
@@ -147,7 +145,7 @@ function HikeForm(props) {
 						aria-describedby="calculate"
 					/>
 					<Button variant="outline-secondary" id="calculate">
-						<CalculatorFill />
+						<FontAwesomeIcon icon={faCalculator} />
 					</Button>
 				</InputGroup>
 			</Form.Group>
@@ -184,16 +182,16 @@ function HikeForm(props) {
 
 			<Row>
 				<Col>
-				<div className="text-end">
-				<Button variant="primary" type="submit" onClick={handleSubmit}>
-					Submit
-				</Button>{" "}
-				<Button variant="secondary" onClick={props.onHide}>
-					Cancel
-				</Button>
-			</div>
+					<div className="text-end">
+						<Button variant="primary" type="submit" onClick={handleSubmit}>
+							Submit
+						</Button>{" "}
+						<Button variant="secondary" onClick={props.onHide}>
+							Cancel
+						</Button>
+					</div>
 				</Col>
 			</Row>
 		</Form>
 	);
-};
+}

@@ -5,6 +5,10 @@ import HikeListTable from "../components/HikeList/HikeListTable";
 import { FilterForm } from "../components/filteringForm";
 import { filterHike, filterAllHikes } from "../components/filtering_functions";
 import { Loading } from "../components/Loading";
+import { HikeEditForm } from "../components/HikeList/HikeEditForm";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faFilter } from "@fortawesome/free-solid-svg-icons";
 
 export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
@@ -13,6 +17,9 @@ export function HikesPage(props) {
 	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({});
+
+	const [selectedHike, setSelectedHike] = useState(null);
+	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
 		try {
@@ -28,9 +35,17 @@ export function HikesPage(props) {
 		setshowFilterForm(false);
 	};
 
+	const handleShowHikeForm = () => {
+		setShowHikeForm(true);
+	};
+
+	const handleCloseHikeForm = () => {
+		setShowHikeForm(false);
+	};
+
 	useEffect(() => {
 		getAllHikes();
-	}, []);
+	}, [hikes.length]);
 
 	useEffect(() => {
 		console.log(filters);
@@ -47,24 +62,24 @@ export function HikesPage(props) {
 			) : (
 				<Container>
 					<Row className="mt-3">
-					<Col>
-					<Button
-						onClick={() => {
-							setshowFilterForm(true);
-						}}
-					>
-						Apply filters
-					</Button>
-					</Col>
-					<Col className="text-end">
-					<Button
-						onClick={() => {
-							setshowFilterForm(true);
-						}}
-					>
-						[WIP]New Hike
-					</Button>
-					</Col>
+						<Col>
+							<Button
+								onClick={() => {
+									setshowFilterForm(true);
+								}}
+							>
+								<FontAwesomeIcon icon={faFilter} /> Apply filters
+							</Button>
+						</Col>
+						{props.user.type === "Local guide" ? (
+							<Col className="text-end">
+								<Button variant="success" onClick={handleShowHikeForm}>
+									<FontAwesomeIcon icon={faPlus} /> New Hike
+								</Button>
+							</Col>
+						) : (
+							false
+						)}
 					</Row>
 					<Modal show={showFilterForm} onHide={handleClose}>
 						<Modal.Header closeButton>
@@ -82,7 +97,20 @@ export function HikesPage(props) {
 							</Button>
 						</Modal.Footer>
 					</Modal>
-					<HikeListTable hikes={hikes} setHikes={setHikes} user={props.user} />
+
+					<HikeEditForm
+						show={showHikeForm}
+						hike={selectedHike}
+						onHide={handleCloseHikeForm}
+						setHikes={setHikes}
+					/>
+					<HikeListTable
+						hikes={hikes}
+						setHikes={setHikes}
+						setSelectedHike={setSelectedHike}
+						showHikeForm={handleShowHikeForm}
+						user={props.user}
+					/>
 				</Container>
 			)}
 		</>

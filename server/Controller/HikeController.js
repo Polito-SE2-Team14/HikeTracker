@@ -1,41 +1,54 @@
-
-const hikeDAO = require('../DAO/hikeDAO')
+const hikeDAO = require("../DAO/hikeDAO");
 
 class HikeController {
-    constructor() {
-        console.log("Controller started")
-    }
+	constructor() {
+		console.log("Controller started");
+	}
 
-    async getAllHikes() {
-        const hikes = await hikeDAO.getAllHikes()
-            .catch(() => { throw Error() });
-        
-        return hikes;
-    }
+	async getAllHikes() {
+		const hikes = await hikeDAO.getAllHikes().catch(() => {
+			throw Error();
+		});
 
-    async getHike(hikeID) {
-        const hike = await hikeDAO.getHike(hikeID)
-            .catch(() => {throw Error() });
-        
-        return hike;
-    }
+		return hikes;
+	}
 
-    async addHike(hike) {
-        const addedHike = await hikeDAO.addHike(hike)
-            .catch(err => { throw err });
+	async getHike(hikeID) {
+		const hike = await hikeDAO.getHike(hikeID).catch(() => {
+			throw Error();
+		});
 
-            return addedHike;
-    }
+		return hike;
+	}
 
-    async updateHike(hike) {
-        await hikeDAO.updateHike(hike)
-            .then(msg => {return msg})
-            .catch(err => { throw err })
+	async addHike(hike) {
+		const addedHike = await hikeDAO.addHike(hike).catch((err) => {
+			throw err;
+		});
 
-        return hike;
-    }
+		return addedHike;
+	}
 
+	async updateHike(hike) {
+		await hikeDAO
+			.updateHike(hike)
+			.then((msg) => {
+				return msg;
+			})
+			.catch((err) => {
+				throw err;
+			});
 
+		return hike;
+	}
 
+	async deleteHike(hikeID) {
+		try {
+			let msg = await hikeDAO.deleteHike(hikeID);
+			return msg;
+		} catch (err) {
+			return err;
+		}
+	}
 }
-module.exports = HikeController
+module.exports = HikeController;
