@@ -75,7 +75,10 @@ router.post(
 
 		await hikeController
 			.addHike(newHike)
-			.then((msg) => {console.log(msg); return res.status(201).json(msg);})
+			.then((msg) => {
+				console.log(msg);
+				return res.status(201).json(msg);
+			})
 			.catch((err) =>
 				res.status(503).json({
 					error: `Database error during the adding of new hike in the database: ${err}`,
@@ -87,7 +90,7 @@ router.post(
 // PUT request to /api/hikes to update an existing hike
 router.put(
 	"",
-	body("hikeID").not().isEmpty().isInt({gt:0}),
+	body("hikeID").not().isEmpty().isInt({ gt: 0 }),
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
@@ -96,10 +99,13 @@ router.put(
 	body("ascent").isInt({ gt: 0 }),
 	async (req, res) => {
 		const errors = validationResult(req);
-		if (!errors.isEmpty()) return res.status(505).json(errors.array());
+		if (!errors.isEmpty()) {
+			console.log(errors.array());
+			return res.status(505).json(errors.array());
+		}
 
 		let present = check_hike(req.body.hikeID);
-		if(!present){
+		if (!present) {
 			return res.status(404).json({ error: `No hike with the given ID found` });
 		}
 
@@ -117,7 +123,9 @@ router.put(
 
 		await hikeController
 			.updateHike(hike)
-			.then((msg) => {res.status(201).json(msg)})
+			.then((msg) => {
+				res.status(201).json(msg);
+			})
 			.catch((err) =>
 				res.status(503).json({
 					error: `Database error during update of hike ${hike.hikeID}: ${err}`,
@@ -125,5 +133,25 @@ router.put(
 			);
 	}
 );
+
+router.delete("/:hikeID", async (req, res) => {
+	//TODO(antonio): validation on req.params.hikeID
+
+	let present = check_hike(req.params.hikeID);
+	if (!present) {
+		return res.status(404).json({ error: `No hike with the given ID found` });
+	}
+
+	await hikeController
+		.deleteHike(req.params.hikeID)
+		.then((msg) => {
+			res.status(201).json(msg);
+		})
+		.catch((err) =>
+			res.status(503).json({
+				error: `Database error during delete of hike ${req.params.hikeID}: ${err}`,
+			})
+		);
+});
 
 module.exports = router;

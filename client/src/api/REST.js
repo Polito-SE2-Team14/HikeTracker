@@ -1,4 +1,4 @@
-const APIURL = 'http://localhost:3001/api';
+const APIURL = "http://localhost:3001/api";
 
 /**
  * Generic GET request
@@ -8,11 +8,11 @@ const APIURL = 'http://localhost:3001/api';
  */
 const GET = async (api, credentials = false) => {
 	let req = {
-		method: "GET"
+		method: "GET",
 	};
 
-	if(credentials){
-		req.credentials = 'include';
+	if (credentials) {
+		req.credentials = "include";
 	}
 
 	let response = await fetch(`${APIURL}${api}`, req);
@@ -32,13 +32,13 @@ const UPDATE = async (method, api, body, credentials = false) => {
 	let req = {
 		method: method,
 		headers: {
-			'Content-Type': 'application/json'
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(body)
+		body: JSON.stringify(body),
 	};
 
 	if (credentials) {
-		req.credentials = 'include';
+		req.credentials = "include";
 	}
 
 	let response = await fetch(`${APIURL}${api}`, req);
@@ -52,11 +52,15 @@ const UPDATE = async (method, api, body, credentials = false) => {
  * @param {string} api - DELETE URL
  * @returns HTTP response
  */
-const DELETE = async (api) => {
+const DELETE = async (api, credentials = false) => {
 	let req = {
-		method: 'DELETE',
-		credentials: 'include'
+		method: "DELETE",
+		credentials: "include",
 	};
+
+	if (credentials) {
+		req.credentials = "include";
+	}
 
 	let response = await fetch(`${APIURL}${api}`, req);
 

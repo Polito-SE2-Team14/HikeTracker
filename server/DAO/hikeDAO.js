@@ -90,14 +90,26 @@ exports.addHike = (newHike) => {
 				newHike.difficulty,
 				newHike.description,
 				newHike.startPointID,
-				newHike.endPointID
+				newHike.endPointID,
 			],
-			function(err) {
+			function (err) {
 				if (err) {
 					reject(err);
 					return;
 				} else {
-					resolve(new Hike(this.lastID,newHike.title,newHike.length,newHike.expectedTime,newHike.ascent,newHike.difficulty,newHike.description,newHike.startPointID,newHike.endPointID));
+					resolve(
+						new Hike(
+							this.lastID,
+							newHike.title,
+							newHike.length,
+							newHike.expectedTime,
+							newHike.ascent,
+							newHike.difficulty,
+							newHike.description,
+							newHike.startPointID,
+							newHike.endPointID
+						)
+					);
 				}
 			}
 		);
@@ -133,5 +145,21 @@ exports.updateHike = (newHike) => {
 				}
 			}
 		);
+	});
+};
+
+exports.deleteHike = (hikeID) => {
+	const sql = "DELETE FROM HIKE WHERE hikeID = ?";
+	const params = [hikeID];
+
+	return new Promise((resolve, reject) => {
+		db.run(sql, params, (err) => {
+			if (err) {
+				reject(err);
+				return;
+			} else {
+				resolve(`Hike with ID ${hikeID} deleted correctly`);
+			}
+		});
 	});
 };
