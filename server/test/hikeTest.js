@@ -47,13 +47,13 @@ describe('Hikes test suite', async () => {
 		const response2 = await hikeAPICall.getHikesCall();
 		assert.equal(response2.status, 200, response2.status);
 		let actualArray = await response2.data;
-		console.log(actualArray);
+		//console.log(actualArray);
 		// The response is returned as a vector of objects, so we need to convert them to Hikes
 		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.length,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
 
 		let insertedHike= await response.data;
 		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.length,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
-		console.log(insertedHike);
+		//console.log(insertedHike);
 		assert.deepEqual(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
 
 	})

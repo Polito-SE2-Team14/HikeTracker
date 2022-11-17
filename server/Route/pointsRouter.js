@@ -20,16 +20,20 @@ router.post('/huts',
 	body("name").not().isEmpty().trim().escape(),
 	body("address").not().isEmpty().trim().escape(),
 	body("longitude").isFloat().not().isEmpty().trim().escape(),
-	body("latidtude").isFloat().not().isEmpty().trim().escape(),
+	body("latitude").isFloat().not().isEmpty().trim().escape(),
 	body("bedspace").isInt().not().isEmpty().trim().escape(),
 	body("hutOwnerID").isInt().not().isEmpty().trim().escape(),
 	async (req, res) => {
-		if (!validationResult(req).isEmpty())
-			return res.status(422).end()
 
+		//console.log("hutTestBody",req.body)
 
-		await pointController.createHut(req.body.hut)
-			.then(hut => res.status(200).json(hut))
+		if (!validationResult(req).isEmpty()) {
+			//console.log(validationResult(req).array())
+			return res.status(422).json({ err: validationResult(req).array })
+		}
+
+		await pointController.createHut(req.body)
+			.then(hut => res.status(204).json(hut))
 			.catch(err => { console.log(err); res.status(505).send(err) })
 	});
 

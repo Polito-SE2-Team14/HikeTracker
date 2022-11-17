@@ -22,9 +22,8 @@ class PointController {
     }
 
     async createHut(hut) {
-        let newHut;
         let hutID;
-        console.log("hut:", hut)
+        //console.log("hut:", hut)
         await pointsDAO.createPoint(hut.name, hut.latitude, hut.longitude, hut.address)
             .then(newID => hutID = newID)
             .catch(err => { console.log(err); throw err });
