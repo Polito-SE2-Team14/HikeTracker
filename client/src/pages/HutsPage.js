@@ -1,35 +1,35 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
-import { faCalculator } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import {
+	Col,
+	Container,
+	Row,
+	Button,
+} from "react-bootstrap";
 
 import { Loading } from "../components/Loading";
 import { HutListTable } from "../components/HutList/HutListTable";
 
 import PointAPI from "../api/PointAPI";
+import { HutCreationModal } from "../components/HutList/HutCreationModal";
 
 export function HutsPage(props) {
 	const [loading, setLoading] = useState(true);
 
 	const [huts, setHuts] = useState([]);
 
-	const [modalVisible, setModalVisible] = useState(false)
+	const [modalVisible, setModalVisible] = useState(false);
 
 	const handleSubmit = () => {
-		setModalVisible(true)
-	}
+		setModalVisible(true);
+	};
 
 	const handleClose = () => {
-		setModalVisible(false)
-
-	}
+		setModalVisible(false);
+	};
 
 	const handleCreate = () => {
-		setModalVisible(false)
-
-	}
+		setModalVisible(false);
+	};
 
 	const getAllHuts = async () => {
 		try {
@@ -72,14 +72,18 @@ export function HutsPage(props) {
 				<Container>
 					<Row className="mt-3">
 						<Col>filter button</Col>
-						<Col className="text-end"><Button onClick={() => handleSubmit()}>
-			ADD
-		</Button>
-		<HutCreationModal show={modalVisible} onHide={handleClose} handleCreate={handleCreate} /></Col>
+						<Col className="text-end">
+							<Button onClick={() => handleSubmit()}>ADD</Button>
+							<HutCreationModal
+								show={modalVisible}
+								onHide={handleClose}
+								handleCreate={handleCreate}
+							/>
+						</Col>
 					</Row>
 					{/*filter modal?*/}
 
-					{/*form for hut insertion*/}
+					<HutCreationModal show={modalVisible} onHide={handleClose} handleCreate={handleCreate}/>
 
 					<HutListTable huts={huts} setHuts={setHuts} user={props.user} />
 				</Container>
@@ -88,78 +92,4 @@ export function HutsPage(props) {
 	);
 }
 
-function HutCreationModal(props) {
-	return (
-		<Modal show={props.show} onHide={props.onHide}>
-			<Modal.Header closeButton>
-				<Modal.Title>Hut Info</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<HutCreationForm handleCreate={props.handleCreate}
-
-				/>
-			</Modal.Body>
-		</Modal>
-	);
-}
-
-function HutCreationForm(props) {
-	return <Form>
-		<Form.Group controlId="formTitle" className="mb-3">
-			<Form.Label>Name</Form.Label>
-			<Form.Control type="text" />
-		</Form.Group>
-
-		<Row>
-			<Col>
-				<Form.Group className="mb-3">
-					<Form.Label>Latitude</Form.Label>
-					<Form.Control
-						type="number"
-
-					/>
-				</Form.Group>
-			</Col>
-			<Col>
-				<Form.Group className="mb-3">
-					<Form.Label>Longitude</Form.Label>
-					<Form.Control
-						type="number"
-					/>
-				</Form.Group>
-			</Col>
-		</Row>
-
-		<Form.Group className="mb-3">
-			<Form.Label>Address</Form.Label>
-			<Form.Control
-				type="text"
-			/>
-		</Form.Group>
-		<Row>
-			<Col>
-				<Form.Group className="mb-3">
-					<Form.Label>Bedspace</Form.Label>
-					<Form.Control
-						type="number"
-
-					/>
-				</Form.Group>
-			</Col>
-			<Col>
-				<Form.Group className="mb-3">
-					<Form.Label>HutOwnerID</Form.Label>
-					<Form.Control
-						type="number"
-					/>
-				</Form.Group>
-			</Col>
-		</Row>
-		<InputGroup>
-			<Button onClick={() => props.handleCreate()}>
-
-			</Button>
-		</InputGroup>
-	</Form >
-}
 
