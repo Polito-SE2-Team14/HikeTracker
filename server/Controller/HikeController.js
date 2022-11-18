@@ -2,7 +2,7 @@ const hikeDAO = require("../DAO/hikeDAO");
 
 class HikeController {
 	constructor() {
-		console.log("Controller started");
+		//console.log("Controller started");
 	}
 
 	async getAllHikes() {
