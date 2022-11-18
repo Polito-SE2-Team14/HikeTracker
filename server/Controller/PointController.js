@@ -2,7 +2,7 @@ const pointsDAO = require('../DAO/pointsDAO');
 const Hut = require("../Class/Hut")
 class PointController {
     constructor() {
-        console.log("Controller started")
+        //console.log("Controller started")
     }
 
     async getPoint(pointID) {
@@ -26,7 +26,7 @@ class PointController {
         //console.log("hut:", hut)
         await pointsDAO.createPoint(hut.name, hut.latitude, hut.longitude, hut.address)
             .then(newID => hutID = newID)
-            .catch(err => { console.log(err); throw err });
+            .catch(err => { console.log("controller:",err); throw err });
 
         await pointsDAO.createHut(hutID, hut.bedspace, hut.hutOwnerID)
             .catch(err => { console.log(err); throw err });

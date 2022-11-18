@@ -41,8 +41,19 @@ exports.getHikePoints = (hikeID) => {
 
 exports.createPoint = (name, latitude, longitude, address) => {
     return new Promise((resolve, reject) => {
+
+         if (typeof name != "string"
+            || typeof latitude != "number"
+            || typeof longitude != "number"
+            || typeof address != "string")
+            reject("Error type"); 
+        
+
+
         const sql = "INSERT INTO POINT (name, latitude, longitude, address, pointType) VALUES (?,?,?,?,?)";
         db.run(sql, [name, latitude, longitude, address, "hut"], function (err, row) {
+
+
             if (err) {
                 console.log(err)
                 reject(err);
@@ -54,6 +65,13 @@ exports.createPoint = (name, latitude, longitude, address) => {
 
 exports.createHut = (hutID, bedspace, hutOwnerID) => {
     return new Promise((resolve, reject) => {
+
+        if (typeof hutID != "number"
+            || typeof bedspace != "number"
+            || typeof hutOwnerID != "number")
+            reject("Error type"); 
+        
+
         const sql = "INSERT INTO HUT (hutID, bedspace, hutOwnerID) VALUES (?,?,?)";
         db.run(sql, [hutID, bedspace, hutOwnerID], function (err, row) {
             if (err) {
