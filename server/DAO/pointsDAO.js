@@ -5,6 +5,7 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 const Point = require("../Class/Point");
+const Hut = require("../Class/Hut")
 
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
@@ -50,6 +51,21 @@ exports.createPoint = (name, latitude, longitude, address) => {
             resolve(this.lastID);
         })
     });
+}
+
+exports.getHuts = () => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID"
+        db.all(sql, (err, rows) => {
+            if(err){
+                console.log(err);
+                reject(err);
+            }
+
+            let huts = rows.map(r => new Hut(r.hutID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID))
+            resolve(huts);
+        })
+    })
 }
 
 exports.createHut = (hutID, bedspace, hutOwnerID) => {

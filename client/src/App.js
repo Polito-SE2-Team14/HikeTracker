@@ -35,7 +35,7 @@ function App() {
 					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser}/>}
 				/>
 				<Route path="/hikes" element={<HikesPage user={user}/>} />
-				<Route path="/huts" element={<HutsPage />} />
+				<Route path="/huts" element={<HutsPage user={user}/>} />
 				<Route path="/parking-lots" element={<ParkingLotsPage />} />
 			</Routes>
 		</Router>

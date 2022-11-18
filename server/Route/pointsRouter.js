@@ -11,8 +11,8 @@ router.get('', async (req, res) => {
 });
 
 router.get('/huts', async (req, res) => {
-	await pointsDAO.getHuts()
-		.then(huts => res.json(huts))
+	await pointController.getHuts()
+		.then(huts => {res.status(200).json(huts)})
 		.catch(err => res.status(err.code).send(err.msg))
 });
 

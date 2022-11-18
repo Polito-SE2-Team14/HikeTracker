@@ -114,7 +114,6 @@ function HikeListItem(props) {
 								<Col>
 									<FontAwesomeIcon icon={faClock} /> {props.hike.expectedTime}
 									{" '"}
-									{props.hike.hikeID}
 								</Col>
 							</Row>
 						</Container>

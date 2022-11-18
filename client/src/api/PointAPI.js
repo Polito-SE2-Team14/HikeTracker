@@ -1,7 +1,19 @@
-import REST from './REST';
-import Point from '../class/Point';
+import REST from "./REST";
 
-const api = '/points';
+const api = "/points";
 
-const PointAPI = { };
+/**
+ * Returns all huts in the database
+ * @returns {Hut[]} Array of all huts
+ */
+const getAllHuts = async () => {
+	try {
+		let response = await REST.GET(`${api}/huts`);
+		let hutsJson = await response.json();
+
+		return hutsJson;
+	} catch (err) {}
+};
+
+const PointAPI = { getAllHuts};
 export default PointAPI;

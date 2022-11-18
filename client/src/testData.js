@@ -9,7 +9,8 @@ export function getTestData() {
       return {
          name: p.name,
          latitude: p.lat,
-         longitude: p.lon
+         longitude: p.lon,
+         pointType: "generic"
       }
    });
 

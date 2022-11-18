@@ -6,7 +6,7 @@ class Singleton {
 
     static getInstance() {
         if (this.#instance == null) {
-            this.#instance = new DBManager("myDB")
+            this.#instance = new DBManager("testDB")
         }
         return this.#instance;
     }

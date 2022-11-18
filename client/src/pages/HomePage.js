@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import { HikeMap } from "../components/Map/Maps";
 
