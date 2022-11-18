@@ -32,12 +32,12 @@ class PointController {
     async createHut(hut) {
         let hutID;
         //console.log("hut:", hut)
-        await pointsDAO.createPoint(hut.name, hut.latitude, hut.longitude, hut.address)
+        await pointsDAO.createPoint(hut.name, Number(hut.latitude), Number(hut.longitude), hut.address)
             .then(newID => hutID = newID)
             .catch(err => { console.log("controller:",err); throw err });
 
 		await pointsDAO
-			.createHut(hutID, hut.bedspace, hut.hutOwnerID)
+			.createHut(hutID, Number(hut.bedspace), Number(hut.hutOwnerID))
 			.catch((err) => {
 				console.log(err);
 				throw err;

@@ -27,8 +27,18 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = () => {
+	const handleCreate = (name, latitude, longitude, address, bedspace, hutOwnerID) => {
 		setModalVisible(false);
+		let hut = {
+			name: name,
+			latitude: Number(latitude),
+			longitude: Number(longitude),
+			address: address,
+			bedspace: Number(bedspace),
+			hutOwnerID: Number(hutOwnerID)
+		}
+		PointAPI.createHut(hut)
+		setHuts([...huts,hut])
 	};
 
 	const getAllHuts = async () => {
@@ -83,7 +93,7 @@ export function HutsPage(props) {
 					</Row>
 					{/*filter modal?*/}
 
-					<HutCreationModal show={modalVisible} onHide={handleClose} handleCreate={handleCreate}/>
+					<HutCreationModal show={modalVisible} onHide={handleClose} handleCreate={handleCreate} />
 
 					<HutListTable huts={huts} setHuts={setHuts} user={props.user} />
 				</Container>
