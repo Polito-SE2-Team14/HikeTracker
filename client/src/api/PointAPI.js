@@ -19,9 +19,12 @@ const createHut = async (hut) => {
 	try {
 		console.log(hut)
 		let response = await REST.UPDATE("POST", `${api}/huts`, hut)
-		
+		if (!response.status)
+			throw Error()
 	}
-	catch (err) {}
+	catch (err) {
+		throw err
+	}
 }
 
 const PointAPI = { getAllHuts, createHut};

@@ -4,10 +4,14 @@ import {
 	Button,
 	Form,
 	InputGroup,
-	Modal
+	Modal,
+	ModalFooter
 } from "react-bootstrap";
 
 export function HutCreationModal(props) {
+
+	console.log(props.footerVisible)
+
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
@@ -16,17 +20,18 @@ export function HutCreationModal(props) {
 			<Modal.Body>
 				<HutCreationForm handleCreate={props.handleCreate} />
 			</Modal.Body>
+			{props.footerVisible && <ModalFooter>Error in input</ModalFooter>}
 		</Modal>
 	);
 }
 function HutCreationForm(props) {
 
-	const [name, setName] = useState("")
-	const [latitude, setLatitude] = useState(0)
-	const [longitude, setLongitude] = useState(0)
-	const [address, setAddress] = useState("")
-	const [bedspace, setBedspace] = useState(0)
-	const [hutOwnerID, setHutOwnerID] = useState(0)
+	const [name, setName] = useState(undefined)
+	const [latitude, setLatitude] = useState(undefined)
+	const [longitude, setLongitude] = useState(undefined)
+	const [address, setAddress] = useState(undefined)
+	const [bedspace, setBedspace] = useState(undefined)
+	const [hutOwnerID, setHutOwnerID] = useState(undefined)
 
 
 	return (

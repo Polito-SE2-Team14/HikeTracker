@@ -19,6 +19,8 @@ export function HutsPage(props) {
 
 	const [modalVisible, setModalVisible] = useState(false);
 
+	const [modalFooterVisible, setModalFooterVisible] = useState(false);
+
 	const handleSubmit = () => {
 		setModalVisible(true);
 	};
@@ -28,7 +30,6 @@ export function HutsPage(props) {
 	};
 
 	const handleCreate = (name, latitude, longitude, address, bedspace, hutOwnerID) => {
-		setModalVisible(false);
 		let hut = {
 			name: name,
 			latitude: Number(latitude),
@@ -38,7 +39,16 @@ export function HutsPage(props) {
 			hutOwnerID: Number(hutOwnerID)
 		}
 		PointAPI.createHut(hut)
-		setHuts([...huts,hut])
+			.then(() => {
+				setHuts([...huts, hut])
+				setModalVisible(false);
+			})
+			.catch(err => {
+				console.error(err);
+				setModalFooterVisible(true);
+				setTimeout(() => setModalFooterVisible(false), 3000);
+			})
+
 	};
 
 	const getAllHuts = async () => {
@@ -85,6 +95,7 @@ export function HutsPage(props) {
 						<Col className="text-end">
 							<Button onClick={() => handleSubmit()}>ADD</Button>
 							<HutCreationModal
+								footerVisible={modalFooterVisible}
 								show={modalVisible}
 								onHide={handleClose}
 								handleCreate={handleCreate}
