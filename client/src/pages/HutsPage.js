@@ -4,6 +4,8 @@ import {
 	Container,
 	Row,
 	Button,
+	Modal,
+	Form,
 } from "react-bootstrap";
 
 import { Loading } from "../components/Loading";
@@ -11,15 +13,34 @@ import { HutListTable } from "../components/HutList/HutListTable";
 
 import PointAPI from "../api/PointAPI";
 import { HutCreationModal } from "../components/HutList/HutCreationModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faFilter,
+	faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 export function HutsPage(props) {
 	const [loading, setLoading] = useState(true);
 
 	const [huts, setHuts] = useState([]);
+	const [filteredHuts, setFilteredHuts] = useState([]);
+
+	const [showFilterModal, setShowFilterModal] = useState(false);
+	const [filters, setFilters] = useState({
+		name: ""
+	});
 
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const [modalFooterVisible, setModalFooterVisible] = useState(false);
+
+	const handleShowFilterModal = () => {
+		setShowFilterModal(true);
+	};
+
+	const handleCloseFilterModal = () => {
+		setShowFilterModal(false);
+	};
 
 	const handleSubmit = () => {
 		setModalVisible(true);
@@ -29,59 +50,59 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = (name, latitude, longitude, address, bedspace, hutOwnerID) => {
+	const handleCreate = (
+		name,
+		latitude,
+		longitude,
+		address,
+		bedspace,
+		hutOwnerID
+	) => {
 		let hut = {
 			name: name,
 			latitude: Number(latitude),
 			longitude: Number(longitude),
 			address: address,
 			bedspace: Number(bedspace),
-			hutOwnerID: Number(hutOwnerID)
-		}
+			hutOwnerID: Number(hutOwnerID),
+		};
 		PointAPI.createHut(hut)
 			.then(() => {
-				setHuts([...huts, hut])
+				setHuts([...huts, hut]);
 				setModalVisible(false);
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error(err);
 				setModalFooterVisible(true);
 				setTimeout(() => setModalFooterVisible(false), 3000);
-			})
-
+			});
 	};
 
 	const getAllHuts = async () => {
 		try {
 			let huts = await PointAPI.getAllHuts();
-
-			/* const huts = [
-				{
-					name: "hut1",
-					latitude: 45.177786,
-					longitude: 7.083372,
-					address: "via da me",
-					pointType: "hut",
-					bedspace: 32,
-				},
-				{
-					name: "hut2",
-					latitude: 41.13,
-					longitude: 13.32,
-					address: "parco bio",
-					pointType: "hut",
-					bedspace: 10,
-				},
-			]; // TEST */
 			setHuts(huts);
+			setFilteredHuts(applyFilters(huts, filters));
+
 			setLoading(false);
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
+	//TODO(antonio): move to another file and expand
+	function applyFilters(huts, filters){
+		return huts.filter(h => h.name.startsWith(filters.name))
+	}
+
+	useEffect(() => {
+		setFilteredHuts(applyFilters(huts, filters));
+		// eslint-disable-next-line
+	}, [filters])
+
 	useEffect(() => {
 		getAllHuts();
+		// eslint-disable-next-line
 	}, [huts.length]);
 
 	return (
@@ -91,26 +112,58 @@ export function HutsPage(props) {
 			) : (
 				<Container>
 					<Row className="mt-3">
-						<Col>filter button</Col>
-						<Col className="text-end">
-							<Button onClick={() => handleSubmit()}>ADD</Button>
-							<HutCreationModal
-								footerVisible={modalFooterVisible}
-								show={modalVisible}
-								onHide={handleClose}
-								handleCreate={handleCreate}
-							/>
+						<Col>
+							<Form className="d-flex">
+										<Form.Control type="search" placeholder="Search" 
+										value={filters.name}
+										onChange={ev => setFilters({...filters, name: ev.target.value.trim()})}
+										/>
+										<Button onClick={handleShowFilterModal}>
+								<FontAwesomeIcon icon={faFilter} />
+							</Button>
+							</Form>
+						</Col>
+						<Col xs={5} className="text-end">
+							<Button variant="success" onClick={() => handleSubmit()}>
+								<FontAwesomeIcon icon={faPlus} /> Register Hut
+							</Button>
 						</Col>
 					</Row>
-					{/*filter modal?*/}
+					<HutFilterModal
+						show={showFilterModal}
+						onHide={handleCloseFilterModal}
+						filters={filters}
+						setFilters={setFilters}
+					/>
 
-					<HutCreationModal show={modalVisible} onHide={handleClose} handleCreate={handleCreate} />
+					<HutCreationModal
+						footerVisible={modalFooterVisible}
+						show={modalVisible}
+						onHide={handleClose}
+						handleCreate={handleCreate}
+					/>
 
-					<HutListTable huts={huts} setHuts={setHuts} user={props.user} />
+					<HutListTable huts={filteredHuts} setHuts={setHuts} user={props.user} />
 				</Container>
 			)}
 		</>
 	);
 }
 
-
+function HutFilterModal(props) {
+	return (
+		<Modal show={props.show} onHide={props.onHide}>
+			<Modal.Header closeButton>
+				<Modal.Title>Select filters</Modal.Title>
+			</Modal.Header>
+			<Modal.Footer>
+				<Button className="me-1" variant="secondary" onClick={props.onHide}>
+					Close
+				</Button>
+				<Button className="me-1" onClick={props.onHide}>
+					Apply
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
-import { faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
+import { faBed, faMap, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
 
@@ -54,6 +54,14 @@ function HutListItem(props) {
 								</Col>
 							</Row>
 						</Card.Title>
+						<Row>
+							<Col>
+							<FontAwesomeIcon icon={faMap}/>{' '}{props.hut.address}
+							</Col>
+							<Col xs={4}>
+							<FontAwesomeIcon icon={faBed}/>{' '}{props.hut.bedspace}
+							</Col>
+						</Row>
 					</Card.Body>
 				</Card>
 			</Col>
