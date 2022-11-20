@@ -47,6 +47,11 @@ function EncryptPassword(password) {
 
 exports.getUserById = (id) => {
 	return new Promise((resolve, reject) => {
+
+
+		console.log("provaprova")
+
+
 		const sql = 'SELECT * FROM USER WHERE userID=?';
 		db.get(sql, [id], (err, row) => {
 			if (err)
@@ -76,7 +81,18 @@ exports.getUser = (email, password) => {
 
 				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
+
+
 					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
+
+					/* console.log("password", password)
+					console.log("salt", salt)
+					console.log("savedPass", row.hashedPassword.toString("hex"))
+					console.log("hashedPassword", hashedPassword.toString("hex"))
+					console.log("passwordHex", passwordHex) */
+
+
+
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
 						resolve(false);
 					else resolve(user);
