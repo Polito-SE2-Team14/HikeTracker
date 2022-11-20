@@ -8,6 +8,9 @@ const cors = require('cors');
 const dayjs = require('dayjs')
 const { body, check, validationResult } = require('express-validator');
 const { download } = require('server/reply');
+// Passport-related imports
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 
 
 // init express
@@ -24,6 +27,28 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+app.use(session({
+  secret: "shhhhh... it's a secret!",
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(passport.authenticate('session'));
+
+
+//PASSPORT CONF
+const userDAO = require('./DAO/UserDAO');
+passport.use(new LocalStrategy(async function verify(username, password, cb) {
+  const user = await userDAO.getUser(username, password)
+  if (!user)
+    return cb(null, false, 'Incorrect username or password.');
+
+  return cb(null, user);
+}));
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
+});
 
 
 // ################################# Hike APIs ##########################################

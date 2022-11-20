@@ -11,13 +11,6 @@ export function LoginPage(props) {
 
 	let [message, setMessage] = useState("");
 
-	let handleLogin = (credentials) => {
-		// TODO: Authentication with server
-		props.setLoggedIn(true);
-		props.setUser({name: "Test", type: "Local guide"});
-		navigate("/");
-	};
-
 	let handleRegistration = () => navigate("/registration");
 
 	return (
@@ -29,7 +22,7 @@ export function LoginPage(props) {
 				<LoginForm
 					message={message}
 					setMessage={setMessage}
-					login={handleLogin}
+					login={props.handleLogin}
 				/>
 			</Row>
 			<Row>OR</Row>

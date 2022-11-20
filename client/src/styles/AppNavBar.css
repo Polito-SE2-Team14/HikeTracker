@@ -8,8 +8,32 @@
     width: 100%;
 }
 
+#collasible-nav-dropdown{
+    background-color: rgb(60 58 58 / 49%)!important; 
+    color: white!important;
+    border-radius: 0!important;
+    font-weight: bold !important;
+    font-size: 30px;
+    padding: 7px;
+}
+
+#collasible-nav-dropdown:hover,#collasible-nav-dropdown:focus{
+    background-color: var(--button-highlight-bg-color)!important;
+    color: black!important;
+    border-radius: 0!important;
+    font-weight: bold !important;
+    font-size: 30px;
+    padding: 7px;
+}
+
+
+
+.dropstart .dropdown-toggle::before {
+    display: none !important;
+}
+
 .btn-navbar {
-    background-color: var(--button-bg-color)!important; 
+    background-color: rgb(60 58 58 / 49%)!important; 
     color: white!important;
     font-size: 1.5rem!important;
     border-radius: 0!important;
@@ -18,6 +42,7 @@
 
 .btn-navbar:hover {
     background-color: var(--button-highlight-bg-color)!important;
+    color: black!important;
 }
 
 .btn-xl {

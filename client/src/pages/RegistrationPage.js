@@ -14,6 +14,7 @@ export function RegistrationPage(props) {
 	let [message, setMessage] = useState("");
 
 	let handleRegistration = async (credentials) => {
+		console.log(credentials);
 		let res = await UserAPI.Register(credentials);
 
 		if (res === true) {

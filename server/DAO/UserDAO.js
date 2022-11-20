@@ -57,12 +57,13 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type };
+				console.log(row);
+				const user = new User(row.userID,row.name,row.surname,row.email,row.phoneNumber,row.type);
 
 				const salt = row.salt;
 				crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
 					if (err) reject(err);
-					const passwordHex = Buffer.from(row.hash, 'hex');
+					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
 						resolve(false);
 					else resolve(user);

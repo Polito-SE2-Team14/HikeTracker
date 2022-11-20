@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { AppNavBar } from "./components/AppNavBar";
 import { LoginPage } from "./pages/LoginPage";
@@ -11,31 +11,65 @@ import { HikesPage } from "./pages/HikesPage";
 import { HutsPage } from "./pages/HutsPage";
 import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 
-function App() {
-	let [user, setUser] = useState({name: "Admin", type:"Local guide"}); // TEST
-	let [loggedIn, setLoggedIn] = useState(true); // TEST
+//USER API
+import userAPI from "./api/UserAPI";
 
-	//let [user, setUser] = useState({}); // TEST
-	//let [loggedIn, setLoggedIn] = useState(false); // TEST
+function App() {
+	const [user, setUser] = useState(null);
+	let [loggedIn, setLoggedIn] = useState(false);
+
+	useEffect(() => {
+		const checkAuth = async () => {
+			try {
+				let currentUser = await userAPI.getUserInfo(); // we have the user info here
+				console.log(currentUser);
+				if (currentUser) {
+					setUser(currentUser);
+					setLoggedIn(true);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		checkAuth();
+	}, []);
+
+	const handleLogin = async (credentials) => {
+		try {
+			const currentUser = await userAPI.logIn(credentials);
+			setLoggedIn(true);
+			setUser(currentUser);
+		}
+		catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleLogout = async () => {
+		await userAPI.logOut();
+		setLoggedIn(false);
+		setUser(null);
+	};
+
 	return (
 		<Router>
-			<AppNavBar loggedIn={loggedIn} />
+			<AppNavBar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/login"
-					element={<LoginPage setLoggedIn={setLoggedIn} setUser={setUser}/>}
+					element={<LoginPage handleLogin={handleLogin} />}
 				/>
 				<Route
 					path="/registration"
-					element={<RegistrationPage setLoggedIn={setLoggedIn} setUser={setUser}/>}
+					element={<RegistrationPage setLoggedIn={setLoggedIn} setUser={setUser} />}
 				/>
 				<Route
 					path="/user"
-					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser}/>}
+					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
 				/>
-				<Route path="/hikes" element={<HikesPage user={user}/>} />
-				<Route path="/huts" element={<HutsPage user={user}/>} />
+				<Route path="/hikes" element={<HikesPage user={user} />} />
+				<Route path="/huts" element={<HutsPage user={user} />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage />} />
 			</Routes>
 		</Router>

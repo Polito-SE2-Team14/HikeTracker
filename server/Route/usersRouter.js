@@ -3,6 +3,7 @@ const router = express.Router()
 const isLoggedIn = router.get('isLoggedIn')
 const userDAO = require('../DAO/UserDAO')
 const { body, validationResult } = require('express-validator');
+const passport = require('passport');
 
 
 router.post('',
@@ -24,4 +25,32 @@ router.post('',
             })
     }
 );
+
+router.post('/login', passport.authenticate('local'),
+    async (req, res) => {
+        res.status(201).json(req.user);
+    }
+);
+
+
+
+router.get('/current',
+    async (req, res) => {
+        if (req.isAuthenticated()) {
+            res.json(req.user);
+        }
+        else
+            res.status(401).json({ error: 'Not authenticated' });
+    }
+);
+
+router.delete('/current',
+    async (req, res) => {
+        req.logout(() => {
+            res.end();
+        });
+    }
+);
+
+
 module.exports = router;

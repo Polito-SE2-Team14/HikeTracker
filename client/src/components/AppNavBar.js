@@ -10,6 +10,7 @@ import {
 	Offcanvas,
 	Row,
 	ListGroup,
+	NavDropdown,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -35,10 +36,17 @@ export function AppNavBar(props) {
 		props.loggedIn ? navigate("/user") : navigate("/login");
 	};
 
+	let handleLogout = () => {
+		props.logout();
+		navigate("/");
+	};
+
 	let handlePageSelect = (page) => {
 		setShowSidebar(false);
 		navigate(page);
 	};
+
+	const navDropdownTitleForUser = <FontAwesomeIcon icon={faCircleUser} />;
 
 	return (
 		<>
@@ -47,7 +55,7 @@ export function AppNavBar(props) {
 					<Row className="navbar-items d-flex justify-content-between">
 						<Col className="d-flex align-items-center">
 							<Button variant="navbar" onClick={handleMenuClick}>
-							<FontAwesomeIcon icon={faBars} />
+								<FontAwesomeIcon icon={faBars} />
 							</Button>
 						</Col>
 						<Col className="d-flex align-items-center justify-content-center">
@@ -56,9 +64,21 @@ export function AppNavBar(props) {
 							</Button>
 						</Col>
 						<Col className="d-flex align-items-center justify-content-end">
-							<Button variant="navbar" onClick={handleUserClick}>
-								{props.loggedIn ? <FontAwesomeIcon icon={faCircleUser} /> : <FontAwesomeIcon icon={faRightToBracket} />}
-							</Button>
+							{ props.loggedIn ?
+
+								<NavDropdown title={navDropdownTitleForUser} id="collasible-nav-dropdown" drop='start'>
+									<NavDropdown.Item onClick={handleUserClick}>Profile</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item onClick={handleLogout}>
+										Log Out
+									</NavDropdown.Item>
+								</NavDropdown>
+
+								:
+								<Button variant="navbar" onClick={handleUserClick}>
+									<FontAwesomeIcon icon={faRightToBracket} />
+								</Button>
+							}
 						</Col>
 					</Row>
 				</Container>

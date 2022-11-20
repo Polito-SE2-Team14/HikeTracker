@@ -5,8 +5,7 @@ export function UserPage(props) {
 	let navigate = useNavigate();
 
 	let handleLogout = () => {
-		props.setLoggedIn(false);
-		props.setUser({});
+		props.logout();
 		navigate("/");
 	};
 
