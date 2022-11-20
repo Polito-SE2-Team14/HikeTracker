@@ -49,6 +49,9 @@ export function HutsPage(props) {
 		bedspace,
 		hutOwnerID
 	) => {
+
+		console.log(name, latitude, longitude, address, bedspace, hutOwnerID)
+
 		let hut = {
 			name: name,
 			latitude: Number(latitude),
@@ -57,16 +60,45 @@ export function HutsPage(props) {
 			bedspace: Number(bedspace),
 			hutOwnerID: Number(hutOwnerID),
 		};
-		PointAPI.createHut(hut)
-			.then(() => {
-				setHuts([...huts, hut]);
-				setModalVisible(false);
-			})
-			.catch((err) => {
-				console.error(err);
-				setModalFooterVisible(true);
-				setTimeout(() => setModalFooterVisible(false), 3000);
-			});
+
+		let invalids = []
+
+		if (name == null || name === "" || !String(name).match(/[a-zA-Z]+/i))
+			invalids.push(" name")
+
+		if (latitude == null || latitude === "" || Number.isNaN(latitude))
+			invalids.push(" latitude")
+
+		if (longitude == null || latitude === "" || Number.isNaN(longitude))
+			invalids.push(" longitude")
+
+		if (address == null || address === "")
+			invalids.push(" address")
+
+		if (bedspace == null || bedspace === "" || Number.isNaN(bedspace))
+			invalids.push(" bedspace")
+
+		if (hutOwnerID == null || hutOwnerID === "" || Number.isNaN(hutOwnerID))
+			invalids.push(" hutOwnerID")
+
+
+		console.log(invalids.length)
+
+		if (invalids.length === 0) {
+			PointAPI.createHut(hut)
+				.then(() => {
+					setHuts([...huts, hut]);
+					setModalFooterVisible(false);
+					setModalVisible(false);
+				})
+				.catch((err) => {
+					console.error(err);
+					setModalFooterVisible(true);
+					setTimeout(() => setModalFooterVisible(false), 3000);
+				});
+		} else {
+			setModalFooterVisible("Errors with" + invalids.join(","));
+		}
 	};
 
 	const getAllHuts = async () => {
@@ -165,13 +197,13 @@ function HutFilterModal(props) {
 
 		// TODO(antonio): add validation
 
-		if(showLocationForm){
+		if (showLocationForm) {
 			newData.area = area;
 		}
-		if(showAddressForm){
+		if (showAddressForm) {
 			newData.address = address.trim();
 		}
-		if(showBedspaceForm){
+		if (showBedspaceForm) {
 			newData.minBedspace = minBedspace;
 		}
 
@@ -182,34 +214,34 @@ function HutFilterModal(props) {
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Form>
-			<Modal.Header closeButton>
-				<Modal.Title>Select filters</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<span className="d-flex">
-					<Form.Check type="switch" checked={showLocationForm} onChange={e => setShowLocationForm(e.target.checked)}/>
-					<Form.Label>Area filter</Form.Label>
-				</span>
-				{showLocationForm ? <AreaSelectMap onSetArea={(area) => {setArea(area)}}/> : false}
-				<span className="d-flex">
-					<Form.Check type="switch" checked={showAddressForm} onChange={e => setShowAddressForm(e.target.checked)}/>
-					<Form.Label>Address filter</Form.Label>
-				</span>
-				{showAddressForm ? "simple form control" : false}
-				<span className="d-flex">
-					<Form.Check type="switch" checked={showBedspaceForm} onChange={e => setShowBedspaceForm(e.target.checked)}/>
-					<Form.Label>Bedspace filter</Form.Label>
-				</span>
-				{showBedspaceForm ? "simple number selection?" : false}
-			</Modal.Body>
-			<Modal.Footer>
-				<Button className="me-1" variant="secondary" onClick={props.onHide}>
-					Close
-				</Button>
-				<Button type="submit" className="me-1" onClick={onApply}>
-					Apply
-				</Button>
-			</Modal.Footer>
+				<Modal.Header closeButton>
+					<Modal.Title>Select filters</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<span className="d-flex">
+						<Form.Check type="switch" checked={showLocationForm} onChange={e => setShowLocationForm(e.target.checked)} />
+						<Form.Label>Area filter</Form.Label>
+					</span>
+					{showLocationForm ? <AreaSelectMap onSetArea={(area) => { setArea(area) }} /> : false}
+					<span className="d-flex">
+						<Form.Check type="switch" checked={showAddressForm} onChange={e => setShowAddressForm(e.target.checked)} />
+						<Form.Label>Address filter</Form.Label>
+					</span>
+					{showAddressForm ? "simple form control" : false}
+					<span className="d-flex">
+						<Form.Check type="switch" checked={showBedspaceForm} onChange={e => setShowBedspaceForm(e.target.checked)} />
+						<Form.Label>Bedspace filter</Form.Label>
+					</span>
+					{showBedspaceForm ? "simple number selection?" : false}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button className="me-1" variant="secondary" onClick={props.onHide}>
+						Close
+					</Button>
+					<Button type="submit" className="me-1" onClick={onApply}>
+						Apply
+					</Button>
+				</Modal.Footer>
 			</Form>
 		</Modal>
 	);

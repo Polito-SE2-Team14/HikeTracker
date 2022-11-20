@@ -9,9 +9,7 @@ import {
 } from "react-bootstrap";
 
 export function HutCreationModal(props) {
-
-	console.log(props.footerVisible)
-
+	
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
@@ -20,7 +18,7 @@ export function HutCreationModal(props) {
 			<Modal.Body>
 				<HutCreationForm handleCreate={props.handleCreate} />
 			</Modal.Body>
-			{props.footerVisible && <ModalFooter>Error in input</ModalFooter>}
+			{props.footerVisible && <ModalFooter style={{ color: "red"}} >{props.footerVisible}</ModalFooter>}
 		</Modal>
 	);
 }
@@ -32,6 +30,9 @@ function HutCreationForm(props) {
 	const [address, setAddress] = useState(undefined)
 	const [bedspace, setBedspace] = useState(undefined)
 	const [hutOwnerID, setHutOwnerID] = useState(undefined)
+
+
+
 
 
 	return (

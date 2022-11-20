@@ -19,7 +19,7 @@ export function RegistrationForm(props) {
 		props.setMessage('');
 
 		let validateName = (text) => {
-			return !String(text).match(/[^a-z]/i);
+			return !String(text).match(/[^a-zA-Z]/i);
 		};
 
 		let validateEmail = (email) => {
