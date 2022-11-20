@@ -8,7 +8,7 @@ const db = dbManager.getDB();
 
 const User = require("../Class/User");
 
-function CheckExistingUser(email, phoneNumber){
+function CheckExistingUser(email, phoneNumber) {
 	return new Promise((resolve, reject) => {
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
 
@@ -24,12 +24,23 @@ function EncryptPassword(password) {
 	return new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
 
-		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
+		crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 			if (err) reject(err);
-			else resolve({
-				salt: salt.toString('base64'),
-				hashedPassword: hashedPassword.toString('base64')
-			});
+			else {
+
+				/* console.log("salt HEX", salt.toString("hex"))
+				console.log("salt standard", salt)
+				console.log("salt base64", salt.toString("base64"))
+
+				console.log("pass hex", hashedPassword.toString("hex"))
+				console.log("pass standard", hashedPassword)
+				console.log("pass base64", hashedPassword.toString("base64")) */
+
+				resolve({
+					salt: salt.toString('hex'),
+					hashedPassword: hashedPassword.toString('hex')
+				});
+			}
 		});
 	});
 }
@@ -57,11 +68,13 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				console.log(row);
-				const user = new User(row.userID,row.name,row.surname,row.email,row.phoneNumber,row.type);
+				//console.log(row);
+				const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
 
-				const salt = row.salt;
-				crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
+				const salt = row.salt.toString("hex");
+
+
+				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
 					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
@@ -73,7 +86,7 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(name, surname, email, phoneNumber, type, salt, password){
+function StoreUser(name, surname, email, phoneNumber, type, salt, password) {
 	return new Promise((resolve, reject) => {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
