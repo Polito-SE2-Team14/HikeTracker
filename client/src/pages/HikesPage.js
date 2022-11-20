@@ -66,7 +66,6 @@ export function HikesPage(props) {
 
 	useEffect(() => {
 		setHikes(filterAllHikes(hikes, filters));
-		console.log(filters);
 	}, [filters]);
 
 	return (

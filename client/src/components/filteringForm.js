@@ -77,7 +77,7 @@ export function FilterForm(props){
 				{message ? <Alert variant='danger' onClose={() => setMessage('')} dismissible>{message}</Alert> : ''}
 
 				<Row>
-					<Form.Check type="switch" id="geo_switch"
+					<Form.Check type="switch" id="geo_switch" checked={check_geo_area}
 						onChange={ev=>{set_check_geo_area(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group controlId='geographic_area'>
@@ -92,7 +92,7 @@ export function FilterForm(props){
 				</Row>
 				
 				<Row>
-					<Form.Check type="switch" id="diff_switch"
+					<Form.Check type="switch" id="diff_switch" checked={check_diff}
 						onChange={ev=>{set_check_diff(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group controlId='difficulty'>
@@ -107,7 +107,7 @@ export function FilterForm(props){
 				</Row>
 
 				<Row>
-					<Form.Check type="switch" id="len_switch"
+					<Form.Check type="switch" id="len_switch" checked={check_len}
 						onChange={ev=>{set_check_len(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group as={Col} controlId="length_operator">
@@ -132,7 +132,7 @@ export function FilterForm(props){
 					</Form.Group>
 				</Row>
 				<Row>
-					<Form.Check type="switch" id="asc_switch" checked={check_asc}
+					<Form.Check type="switch" id="asc_switch" size="xl" checked={check_asc}
 						onChange={ev=>{set_check_asc(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group as={Col} controlId="ascent_operator">
@@ -157,7 +157,7 @@ export function FilterForm(props){
 					</Form.Group>
 				</Row>
 				<Row>
-					<Form.Check type="switch" id="diff_switch"
+					<Form.Check type="switch" id="diff_switch" checked={check_exp_time}
 						onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group as={Col} controlId="expected_time_operator">

@@ -76,7 +76,6 @@ function filterHike(hike, filters){
 }
 
 function filterAllHikes(hikes_list,filters){
-	console.log(filters);
 	return hikes_list.map(function(hike){
 		hike.show=filterHike(hike,filters);
 		return hike;
