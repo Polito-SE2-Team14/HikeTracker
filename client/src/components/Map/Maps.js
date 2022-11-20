@@ -1,7 +1,29 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import {
+	Button,
+	Container,
+	Row,
+	Col,
+	Spinner,
+	Form,
+	InputGroup,
+} from "react-bootstrap";
+import {
+	MapContainer,
+	TileLayer,
+	Marker,
+	Circle,
+	useMapEvents,
+} from "react-leaflet";
 import { getTestData } from "../../testData";
 import { getLatLon, getPointsLatLon } from "../HikeData";
 import { HikeMarker, HikePath } from "./MapElements";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faLocationDot,
+	faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
@@ -15,6 +37,7 @@ export function HikeMap(props) {
 	// let points = API.getHikePoints(hike.hikeID);
 	// OR 		  = props.points;
 
+	// eslint-disable-next-line
 	let [hike, points] = getTestData(); // TEST
 
 	return (
@@ -39,7 +62,6 @@ export function HikeMap(props) {
 				<HikeMarker point={points[0]} />
 				<HikeMarker point={points[points.length - 1]} />
 				<HikePath positions={getPointsLatLon(points)} />
-				{/*getPointsLatLon(points)*/}
 			</MapContainer>
 		</>
 	);
@@ -72,10 +94,198 @@ export function LocationMap(props) {
 	);
 }
 
-// TODO(antonio): AreaSelectMap, PointSelectMap
-
+const DEFAULT_CENTER = [45.070312, 7.6868565];
 export function AreaSelectMap(props) {
-	// props.setArea({center: [float, float], radius: float})
+	const [position, setPosition] = useState(DEFAULT_CENTER);
+	const [selectPosition, setSelectPosition] = useState(false);
+	const [radius, setRadius] = useState(1000);
+	const [map, setMap] = useState(null);
+
+	const displayMap = useMemo(() => {
+		return (
+			<MapContainer
+				center={DEFAULT_CENTER}
+				zoom={13}
+				scrollWheelZoom={false}
+				ref={setMap}
+			>
+				<TileLayer
+					attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
+								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+					url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
+				/>
+				{selectPosition ? (
+					<MapEvents
+						setPosition={setPosition}
+						setSelectPosition={setSelectPosition}
+					/>
+				) : (
+					<>
+						<Marker position={position} />
+						<Circle center={position} radius={radius} />
+					</>
+				)}
+			</MapContainer>
+		);
+	}, [position, radius, selectPosition]);
+
+	// NOTE(antonio): calls the function every time the area is updated
+	useEffect(() => {
+		if (props.onSetArea) props.onSetArea({ center: position, radius: radius });
+		// eslint-disable-next-line
+	}, [position, radius]);
+
+	return (
+		<>
+			<style>
+				{`
+               .leaflet-container {
+                  height: ${props.heigth};
+               }
+            `}
+			</style>
+			<Container>
+				<Row>
+					<Col>
+						{map ? (
+							<>
+								<Row xs={2} className="d-flex align-items-end mb-2">
+									<Col>
+										<Row>
+											<Col className="d-flex justify-content-center">
+												<GpsTrackButton map={map} setPosition={setPosition} />
+											</Col>
+											<Col className="d-flex justify-content-center">
+												<SelectPositionButton
+													map={map}
+													selectPosition={selectPosition}
+													setSelectPosition={setSelectPosition}
+												/>
+											</Col>
+										</Row>
+									</Col>
+									<Col>
+										<CircleAreaForm radius={radius} setRadius={setRadius} />
+									</Col>
+								</Row>
+							</>
+						) : (
+							false
+						)}
+					</Col>
+				</Row>
+				<Row className="mb-2">{displayMap}</Row>
+			</Container>
+		</>
+	);
+}
+
+function MapEvents(props) {
+	useMapEvents({
+		click(e) {
+			props.setSelectPosition(false);
+			props.setPosition(e.latlng);
+		},
+	});
+
+	return false;
+}
+
+function GpsTrackButton(props) {
+	const [loading, setLoading] = useState(false);
+
+	const map = props.map;
+	const setPosition = props.setPosition;
+
+	const onClick = useCallback(() => {
+		setLoading(true);
+		map.locate().on("locationfound", (e) => {
+			setLoading(false);
+			setPosition(e.latlng);
+			map.flyTo(e.latlng, map.getZoom());
+		});
+		// eslint-disable-next-line
+	}, [map]);
+
+	return (
+		<Button disabled={loading} onClick={onClick}>
+			{loading ? (
+				<Spinner animation="border" size="sm" />
+			) : (
+				<FontAwesomeIcon icon={faLocationDot} />
+			)}{" "}
+			My Location
+		</Button>
+	);
+}
+
+function CircleAreaForm(props) {
+	return (
+		<Row className="d-flex align-items-center" xs={1}>
+			<Col>
+				<Form.Group>
+					<Form.Range
+						value={valueToSlider(props.radius)}
+						onChange={(e) => props.setRadius(sliderToValue(e.target.value))}
+					/>
+				</Form.Group>
+			</Col>
+			<Col>
+				<Form.Group>
+					{/*TODO(antonio): validation on numbers*/}
+					<InputGroup>
+						<InputGroup.Text>Km</InputGroup.Text>
+						<Form.Control
+							type="number"
+							value={props.radius === "" ? "" : props.radius / 1000}
+							onChange={(e) => {
+								e.target.value === ""
+									? props.setRadius("")
+									: props.setRadius(e.target.value * 1000);
+							}}
+						/>
+					</InputGroup>
+				</Form.Group>
+			</Col>
+		</Row>
+	);
+}
+
+// NOTE(antonio): range of slider in the form goes from 0 to 100, while value numbers go from 500 to 10000
+// conversion formula is just basic math-- m = (10000-500)/(100-0), value= 5000 + m*input
+function sliderToValue(input) {
+	input -= input % 10; //NOTE(antonio): rounding to nearest 10s, for precise value use text input
+
+	const m = 95.0;
+
+	return 500 + m * input;
+}
+
+function valueToSlider(value) {
+	// TODO(antonio): clamp value
+
+	const m = 95.0;
+
+	return (value - 500) / m;
+}
+
+function SelectPositionButton(props) {
+	return (
+		<Button
+			variant="warning"
+			disabled={props.selectPosition}
+			onClick={() => props.setSelectPosition(true)}
+		>
+			{props.selectPosition ? (
+				"Select on map"
+			) : (
+				<>
+					<FontAwesomeIcon icon={faUpDownLeftRight} />
+					{" Move marker"}
+				</>
+			)}
+		</Button>
+	);
 }
 
 export function PointSelectMap(props) {
