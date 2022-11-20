@@ -2,7 +2,7 @@ import UserAPI from "../api/UserAPI";
 
 import "../styles/LoginPage.css";
 
-import { Container, Row } from "react-bootstrap";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -36,11 +36,17 @@ export function RegistrationPage(props) {
 				<h1>Register</h1>
 			</Row>
 			<Row>
-				<RegistrationForm
-					message={message}
-					setMessage={setMessage}
-					register={handleRegistration}
-				/>
+				<Col className="col-centered">
+					<Card style={{ marginTop: 5,marginBottom: 10 }}>
+						<Card.Body>
+							<RegistrationForm
+								message={message}
+								setMessage={setMessage}
+								register={handleRegistration}
+							/>
+						</Card.Body>
+					</Card>
+				</Col>
 			</Row>
 		</Container>
 	);

@@ -73,26 +73,11 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				//console.log(row);
 				const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
-
 				const salt = row.salt.toString("hex");
-
-
 				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
-
-
 					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
-
-					/* console.log("password", password)
-					console.log("salt", salt)
-					console.log("savedPass", row.hashedPassword.toString("hex"))
-					console.log("hashedPassword", hashedPassword.toString("hex"))
-					console.log("passwordHex", passwordHex) */
-
-
-
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
 						resolve(false);
 					else resolve(user);

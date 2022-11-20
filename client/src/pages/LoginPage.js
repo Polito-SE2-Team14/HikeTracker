@@ -9,8 +9,6 @@ import { LoginForm } from "../components/LoginComponents";
 export function LoginPage(props) {
 	let navigate = useNavigate();
 
-	let [message, setMessage] = useState("");
-
 	let handleRegistration = () => navigate("/registration");
 
 	return (
@@ -20,8 +18,8 @@ export function LoginPage(props) {
 			</Row>
 			<Row>
 				<LoginForm
-					message={message}
-					setMessage={setMessage}
+					message={props.message}
+					setMessage={props.setMessage}
 					login={props.handleLogin}
 				/>
 			</Row>

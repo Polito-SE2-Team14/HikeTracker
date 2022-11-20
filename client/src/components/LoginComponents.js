@@ -1,5 +1,6 @@
 import { Form, Button, Alert, Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 
@@ -9,6 +10,7 @@ import { useState } from 'react';
  * @returns a form to make the user log in
  */
 function LoginForm(props) {
+	let navigate = useNavigate();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -40,6 +42,7 @@ function LoginForm(props) {
 		}
 		if (invalids.length === 0) {
 			props.login(credentials);
+			navigate("/");
 		} else {
 			props.setMessage(`Invalid${invalids.toString()}`);
 		}
@@ -59,7 +62,7 @@ function LoginForm(props) {
 						<Form.Label>Password</Form.Label>
 						<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} />
 					</Form.Group>
-					<Button type="submit" onClick={handleSubmit}>Login</Button>
+					<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Login</Button>
 				</Form>
 			</Col>
 		</Row>

@@ -16,7 +16,9 @@ import userAPI from "./api/UserAPI";
 
 function App() {
 	const [user, setUser] = useState(null);
-	let [loggedIn, setLoggedIn] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [userType, setUserType] = useState(null)
+	const [message, setMessage] = useState("");
 
 	useEffect(() => {
 		const checkAuth = async () => {
@@ -26,6 +28,7 @@ function App() {
 				if (currentUser) {
 					setUser(currentUser);
 					setLoggedIn(true);
+					setUserType(currentUser.type);
 				}
 			} catch (error) {
 				console.log(error);
@@ -39,8 +42,11 @@ function App() {
 			const currentUser = await userAPI.logIn(credentials);
 			setLoggedIn(true);
 			setUser(currentUser);
+			setUserType(currentUser.type);
+			setMessage("");
 		}
 		catch (err) {
+			setMessage("Email/Password Incorrect")
 			console.log(err);
 		}
 	};
@@ -49,6 +55,8 @@ function App() {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
+		setUserType(null);
+		setMessage("");
 	};
 
 	return (
@@ -58,7 +66,7 @@ function App() {
 				<Route path="/" element={<HomePage />} />
 				<Route
 					path="/login"
-					element={<LoginPage handleLogin={handleLogin} />}
+					element={<LoginPage handleLogin={handleLogin} message={message} setMessage={setMessage} />}
 				/>
 				<Route
 					path="/registration"

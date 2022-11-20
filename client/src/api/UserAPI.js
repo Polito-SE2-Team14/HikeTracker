@@ -16,7 +16,7 @@ const Register = async (body) => {
 
 const getUserInfo = async () => {
 	try {
-		let response = await REST.GET(`${api}/current`);
+		let response = await REST.GET(`${api}/current`,true);
 		if (response.ok) {
 			const user = await response.json();
 			return user;
@@ -37,7 +37,7 @@ const logIn = async (credentials) => {
 		}
 	}
 	catch (e) {
-		return e;
+		throw e;
 	}
 };
 

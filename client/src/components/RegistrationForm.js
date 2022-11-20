@@ -97,7 +97,7 @@ export function RegistrationForm(props) {
 							<Form.Label>Repeat password</Form.Label>
 							<Form.Control type='password' value={repeatPwd} onChange={ev => setRepeatPwd(ev.target.value)} />
 						</Form.Group>
-						<Button type="submit" onClick={handleSubmit}>Register</Button>
+						<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Register</Button>
 					</Form>
 				</Col>
 			</Row>
