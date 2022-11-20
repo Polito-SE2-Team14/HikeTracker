@@ -81,13 +81,13 @@ export function FilterForm(props){
 						onChange={ev=>{set_check_geo_area(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group controlId='geographic_area'>
-					<Form.Label>Geographic area</Form.Label>
-					<FormControl disabled={!check_geo_area} type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
-						onKeyPress={ev=>{
-							if(ev.key==="Enter"){
-								handleSubmit(ev);
-							}
-						}}/>
+						<Form.Label>Geographic area</Form.Label>
+						<FormControl disabled={!check_geo_area} type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
+							onKeyPress={ev=>{
+								if(ev.key==="Enter"){
+									handleSubmit(ev);
+								}
+							}}/>
 					</Form.Group>
 				</Row>
 				
@@ -96,13 +96,13 @@ export function FilterForm(props){
 						onChange={ev=>{set_check_diff(ev.target.checked)}}>
 					</Form.Check>
 					<Form.Group controlId='difficulty'>
-					<Form.Label>Difficulty</Form.Label>
-					<Form.Control disabled={!check_diff} type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
-						onKeyPress={ev=>{
-							if(ev.key==="Enter"){
-								handleSubmit(ev);
-							}
-						}}/>
+						<Form.Label>Difficulty</Form.Label>
+						<Form.Control disabled={!check_diff} type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
+							onKeyPress={ev=>{
+								if(ev.key==="Enter"){
+									handleSubmit(ev);
+								}
+							}}/>
 					</Form.Group>
 				</Row>
 

@@ -24,11 +24,11 @@ function HikeListTable(props) {
 				<>
 					{hike.show?
 						<HikeListItem
-						key={i}
-						user={props.user}
-						hike={hike}
-						setHikes={props.setHikes}
-						handleEditForm={handleShowEditForm}
+							key={i}
+							user={props.user}
+							hike={hike}
+							setHikes={props.setHikes}
+							handleEditForm={handleShowEditForm}
 						/>
 					:
 						<></>
