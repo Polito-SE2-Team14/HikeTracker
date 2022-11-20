@@ -14,16 +14,33 @@ export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
 
 	const [hikes, setHikes] = useState([]);
-	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
-	const [filters, setFilters] = useState({});
+	const [filters, setFilters] = useState({
+		geographic_area:'',
+		check_geo_area:false,
+		difficulty:'',
+		check_diff:false,
+		length:0,
+		length_operator:'>',
+		check_len:false,
+		ascent:0,
+		ascent_operator:'>',
+		check_asc:false,
+		expected_time:0,
+		expected_time_operator:'',
+		check_exp_time:false
+	});
 
 	const [selectedHike, setSelectedHike] = useState(null);
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
 		try {
-			const hikes = await HikeAPI.getAllHikes();
+			let hikes = await HikeAPI.getAllHikes();
+			hikes=hikes.map(function(hike){
+				hike.show=true;
+				return hike;
+			});
 			setHikes(hikes);
 			setLoading(false);
 		} catch (error) {
@@ -48,11 +65,8 @@ export function HikesPage(props) {
 	}, [hikes.length]);
 
 	useEffect(() => {
-		console.log(filters);
-		for (let hike of hikes) {
-			console.log(filterHike(hike, filters));
-		}
 		setHikes(filterAllHikes(hikes, filters));
+		console.log(filters);
 	}, [filters]);
 
 	return (

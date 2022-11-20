@@ -29,16 +29,11 @@ function filterHike(hike, filters){
 			}
 		}
 	}
-	console.log("prima di asc");
-	console.log(`check_asc: ${filters.check_asc}`);
 	if (filters.check_asc){
-		console.log("asc");
 		if (filters.ascent<=0){invalids.push(" ascent (it must be >0)");}
 		else{
 			switch(filters.ascent_operator){
 				case ">":
-					console.log(hike);
-					console.log(`hike: ${hike.ascent} filter:${filters.ascent} bool: ${hike.ascent<=filters.ascent}`)
 					if(hike.ascent<=filters.ascent){to_return = false;}
 					break;
 				case "=":
@@ -81,7 +76,11 @@ function filterHike(hike, filters){
 }
 
 function filterAllHikes(hikes_list,filters){
-	return hikes_list.filter(hike=>filterHike(hike,filters));
+	console.log(filters);
+	return hikes_list.map(function(hike){
+		hike.show=filterHike(hike,filters);
+		return hike;
+	});
 }
 
 export {filterHike, filterAllHikes}
