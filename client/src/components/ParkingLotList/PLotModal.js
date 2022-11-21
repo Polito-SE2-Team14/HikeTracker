@@ -2,7 +2,9 @@ import { Modal, Button, Row, Col } from "react-bootstrap";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faCar
+	faCar,
+	faXmark,
+	faTrashCan
 } from "@fortawesome/free-solid-svg-icons";
 
 export function PLotModal(props){

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import ParkingLotAPI from "../../api/ParkingLotAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faCar
+	faCar,
+	faUpRightAndDownLeftFromCenter
 } from "@fortawesome/free-solid-svg-icons";
 
 import { PLotModal } from "./PLotModal";

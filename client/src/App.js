@@ -15,7 +15,7 @@ import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 import userAPI from "./api/UserAPI";
 
 function App() {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [userType, setUserType] = useState(null)
 	const [message, setMessage] = useState("");
