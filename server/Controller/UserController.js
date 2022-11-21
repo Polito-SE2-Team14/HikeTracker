@@ -15,9 +15,11 @@ class UserController {
         return user;
     }
 
-    async register(name, surname, email, phoneNumber, type, password) {
+    async register(newUser) {
 
-        const user = await userDAO.Register(name, surname, email, phoneNumber, type, password)
+        console.log(newUser)
+
+        const user = await userDAO.Register(newUser)
             .catch(err => { throw Error(err) })
 
 

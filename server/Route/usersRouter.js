@@ -48,7 +48,7 @@ router.post('',
 
         console.log(req.body)
 
-        await userController.register(req.body.name, req.body.surname, req.body.email, req.body.phoneNumber, req.body.type, req.body.password)
+        await userController.register(req.body)
             .then(() => res.status(201).end())
             .catch(err => {
                 console.error(err)

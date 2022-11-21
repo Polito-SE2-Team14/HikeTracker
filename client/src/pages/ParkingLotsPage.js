@@ -1,7 +1,7 @@
 import { Container, Modal, Button, Row, Col, ModalBody } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import ParkingLotAPI from "../api/ParkingLotAPI";
-import PLotListTable from "../components/ParkingLotList/HikeListTable";
+import PLotListTable from "../components/ParkingLotList/PLotListTable";
 import { Loading } from "../components/Loading";
 import { NewPLotForm } from "../components/ParkingLotList/PLotInsertModule";
 

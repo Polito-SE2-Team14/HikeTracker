@@ -27,15 +27,6 @@ function EncryptPassword(password) {
 		crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 			if (err) reject(err);
 			else {
-
-				/* console.log("salt HEX", salt.toString("hex"))
-				console.log("salt standard", salt)
-				console.log("salt base64", salt.toString("base64"))
-
-				console.log("pass hex", hashedPassword.toString("hex"))
-				console.log("pass standard", hashedPassword)
-				console.log("pass base64", hashedPassword.toString("base64")) */
-
 				resolve({
 					salt: salt.toString('hex'),
 					hashedPassword: hashedPassword.toString('hex')
@@ -87,11 +78,11 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(name, surname, email, phoneNumber, type, salt, password) {
+function StoreUser(user, salt, password) {
 	return new Promise((resolve, reject) => {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-		db.run(sql, [name, surname, email, phoneNumber, type, salt, password], function (err) {
+		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password], function (err) {
 			if (err) reject(err);
 			else resolve(this.lastID);
 		})
@@ -109,11 +100,11 @@ function StoreUser(name, surname, email, phoneNumber, type, salt, password) {
  * @param {string} password 
  * @returns User object
  */
-exports.Register = (name, surname, email, phoneNumber, type, password) =>
-	CheckExistingUser(email, phoneNumber)
+exports.Register = (user) =>
+	CheckExistingUser(user.email, user.phoneNumber)
 		.then(() =>
-			EncryptPassword(password))
+			EncryptPassword(user.password))
 		.then(pass =>
-			StoreUser(name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword))
+			StoreUser(user, pass.salt, pass.hashedPassword))
 		.then(id =>
-			new User(id, name, surname, email, phoneNumber, type));
+			new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type));

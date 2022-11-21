@@ -44,10 +44,12 @@ function App() {
 			setUser(currentUser);
 			setUserType(currentUser.type);
 			setMessage("");
+			return true
 		}
 		catch (err) {
 			setMessage("Email/Password Incorrect")
 			console.log(err);
+			return false
 		}
 	};
 
