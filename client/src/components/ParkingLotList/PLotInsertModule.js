@@ -27,7 +27,7 @@ export function NewPLotForm(props){
 					<Row>
 						<Form.Group controlId="LotName" className="mb-3">
 							<Form.Label>Name</Form.Label>
-							<FormControl type ="text" value={lotName} onChange={ev => setLotName(ev.target.value)}
+							<Form.Control type ="text" value={lotName} onChange={ev => setLotName(ev.target.value)}
 								onKeyPress={ev=>{
 									if(ev.key==="Enter"){
 										handleSubmit(ev);
@@ -38,7 +38,7 @@ export function NewPLotForm(props){
 					<Row>
 						<Form.Group controlId="Carspaces" className="mb-3">
 							<Form.Label>Carspaces</Form.Label>
-							<FormControl type ="number" value={carspaces} onChange={ev => setCarspaces(ev.target.value)}
+							<Form.Control type ="number" value={carspaces} onChange={ev => setCarspaces(ev.target.value)}
 								onKeyPress={ev=>{
 									if(ev.key==="Enter"){
 										handleSubmit(ev);

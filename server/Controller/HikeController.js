@@ -9,7 +9,6 @@ class HikeController {
 		const hikes = await hikeDAO.getAllHikes().catch(() => {
 			throw Error();
 		});
-
 		return hikes;
 	}
 
