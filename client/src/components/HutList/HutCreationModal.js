@@ -3,7 +3,6 @@ import {
 	Col, Row,
 	Button,
 	Form,
-	InputGroup,
 	Modal,
 	ModalFooter
 } from "react-bootstrap";
@@ -90,9 +89,13 @@ function HutCreationForm(props) {
 					</Form.Group>
 				</Col>
 			</Row>
-			<InputGroup>
-				<Button type= 'submit' ></Button>
-			</InputGroup>
+			<Row>
+				<Col>
+			<div className="text-end">
+			<Button variant="primary" type='submit' >Create</Button>
+					</div>
+					</Col>
+				</Row>
 		</Form>
 	);
 }
