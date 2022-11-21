@@ -87,6 +87,7 @@ router.post(
 	}
 );
 
+
 // PUT request to /api/hikes to update an existing hike
 router.put(
 	"",
@@ -133,6 +134,29 @@ router.put(
 			);
 	}
 );
+
+router.put("/start", async (req, res) => {
+	const hikeID = req.body.hikeID;
+	const startPointID = req.body.startPointID;
+
+	await hikeController.setStart(hikeID, startPointID)
+		.then(() => {
+			res.status(201).end();
+		})
+		.catch((err) =>
+			res.status(505).send(err)
+		);
+})
+
+router.put("/end", async (req, res) => {
+	const hikeID = req.body.hikeID;
+	const endPointID = req.body.startPointID;
+
+	await hikeController.setEnd(hikeID, endPointID)
+		.then(() => res.status(201).end())
+		.catch((err) => res.status(505).send(err));
+})
+
 
 router.delete("/:hikeID", async (req, res) => {
 	//TODO(antonio): validation on req.params.hikeID

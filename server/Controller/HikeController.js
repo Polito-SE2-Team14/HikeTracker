@@ -49,5 +49,19 @@ class HikeController {
 			return err;
 		}
 	}
+
+	async setStart(hikeID, startPointID) {
+		await hikeDAO.setStart(hikeID, startPointID)
+			.catch(err => {throw err})
+	
+		return
+	}
+
+	async setEnd(hikeID, endPointID) {
+		await hikeDAO.setEnd(hikeID, endPointID)
+			.catch(err => {throw err})
+	
+		return
+	}F
 }
 module.exports = HikeController;

@@ -163,3 +163,37 @@ exports.deleteHike = (hikeID) => {
 		});
 	});
 };
+
+exports.setStart = (hikeID, startPointID) => {
+	return new Promise((resolve, reject) => {
+		db.run(
+			"UPDATE HIKE startPointID=? WHERE hikeID =?",
+			[startPointID, hikeID],
+			(err) => {
+				if (err) {
+					reject(err);
+					return;
+				} else {
+					resolve(`Hike with ID ${hikeID} updated correctly`);
+				}
+			}
+		);
+	});
+}
+
+exports.setEnd = (hikeID, endPointID) => {
+	return new Promise((resolve, reject) => {
+		db.run(
+			"UPDATE HIKE endPointID=? WHERE hikeID =?",
+			[endPointID, hikeID],
+			(err) => {
+				if (err) {
+					reject(err);
+					return;
+				} else {
+					resolve(`Hike with ID ${hikeID} updated correctly`);
+				}
+			}
+		);
+	});
+}
