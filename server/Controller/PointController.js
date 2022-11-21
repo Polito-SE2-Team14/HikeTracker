@@ -54,6 +54,14 @@ class PointController {
 		);
 	}
 
+	async updateHut(hut) {
+		await pointsDAO.updatePoint(hut)
+			.catch(err => { throw err })
+
+		await pointsDAO.updateHut(hut)
+			.catch(err => { throw err })
+			}
+
 	async deleteHut(hutID) {
 		await pointsDAO.deleteHut(hutID)
 			.catch(err => { throw err })

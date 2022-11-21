@@ -112,6 +112,33 @@ exports.createHut = (hutID, bedspace, hutOwnerID) => {
     });
 }
 
+exports.updatePoint = (point) => {
+    return new Promise((resolve, reject) => {
+        const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ? WHERE pointID = ?";
+        db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.pointID], function (err, row) {
+            if (err) {
+                console.log(err)
+                reject(err);
+            }
+            resolve();
+        })
+    })
+}
+
+exports.updateHut = (hut) => {
+    return new Promise((resolve, reject) => {
+        console.log(hut)
+        const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
+        db.run(sql, [hut.bedspace, hut.hutOwnerID, hut.pointID], function (err, row) {
+            if (err) {
+                console.log("2",err)
+                reject(err);
+            }
+            resolve();
+        })
+    })
+}
+
 exports.deleteHut = (hutID) => {
     return new Promise((resolve, reject) => {
         const sql = "DELETE FROM HUT WHERE hutID = ?";

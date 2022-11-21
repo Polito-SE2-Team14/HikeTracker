@@ -37,6 +37,29 @@ router.post('/huts',
 			.catch(err => { console.log(err); res.status(505).send(err) })
 	});
 
+router.put('/huts',
+	body("pointID").isInt().not().isEmpty().trim().escape(),
+	body("name").not().isEmpty().trim().escape(),
+	body("address").not().isEmpty().trim().escape(),
+	body("longitude").isFloat().not().isEmpty().trim().escape(),
+	body("latitude").isFloat().not().isEmpty().trim().escape(),
+	body("bedspace").isInt().not().isEmpty().trim().escape(),
+	body("hutOwnerID").isInt().not().isEmpty().trim().escape(),
+	async (req, res) => {
+
+		//console.log("hutTestBody",req.body)
+
+		if (!validationResult(req).isEmpty()) {
+			console.log(validationResult(req).array())
+			return res.status(422).json({ err: validationResult(req).array })
+		}
+
+		await pointController.updateHut(req.body)
+			.then(hut => res.status(204).send())
+			.catch(err => { console.log(err); res.status(505).send(err) })
+	});
+
+
 router.delete('/huts/:hutID', async (req, res) => {
 	await pointController.deleteHut(req.params.hutID)
 		.then(() => res.status(204).send())
