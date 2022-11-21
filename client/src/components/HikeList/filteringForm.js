@@ -66,52 +66,57 @@ export function FilterForm(props){
 			setMessage(`Invalid${invalids.toString()}`);
 		}
 		props.setFilters(filters);
+		props.onHide();
 	}
 
-
-	console.log(props.filters);
 	return(
 		<>
 			{message ? <Alert variant='danger' onClose={() => setMessage('')} dismissible>{message}</Alert> : ''}
 			<Form>
 				{message ? <Alert variant='danger' onClose={() => setMessage('')} dismissible>{message}</Alert> : ''}
 
-				<Row>
-					<Form.Check type="switch" id="geo_switch" checked={check_geo_area}
+					<Form.Check type="switch" id="geo_switch" size="xl" checked={check_geo_area}
 						onChange={ev=>{set_check_geo_area(ev.target.checked)}}>
 					</Form.Check>
-					<Form.Group controlId='geographic_area'>
-						<Form.Label>Geographic area</Form.Label>
-						<FormControl disabled={!check_geo_area} type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-					</Form.Group>
-				</Row>
-				
-				<Row>
+					<Row>
+						<Form.Group controlId='geographic_area'>
+							<Form.Label>
+								Geographic area
+							</Form.Label>
+							<FormControl disabled={!check_geo_area} type ="text" value={geographic_area} onChange={ev => set_geographic_area(ev.target.value)}
+								onKeyPress={ev=>{
+									if(ev.key==="Enter"){
+										handleSubmit(ev);
+									}
+								}}/>
+						</Form.Group>
+					</Row>
+
 					<Form.Check type="switch" id="diff_switch" checked={check_diff}
 						onChange={ev=>{set_check_diff(ev.target.checked)}}>
 					</Form.Check>
-					<Form.Group controlId='difficulty'>
-						<Form.Label>Difficulty</Form.Label>
-						<Form.Control disabled={!check_diff} type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
-							onKeyPress={ev=>{
-								if(ev.key==="Enter"){
-									handleSubmit(ev);
-								}
-							}}/>
-					</Form.Group>
-				</Row>
+					<Row>
+						<Form.Group controlId='difficulty'>
+							<Form.Label>
+								Difficulty
+							</Form.Label>
+							<Form.Control disabled={!check_diff} type ="text" value={difficulty} onChange={ev => set_difficulty(ev.target.value)}
+								onKeyPress={ev=>{
+									if(ev.key==="Enter"){
+										handleSubmit(ev);
+									}
+								}}/>
+						</Form.Group>
+					</Row>
 
+				<Form.Check type="switch" id="len_switch" checked={check_len}
+					onChange={ev=>{set_check_len(ev.target.checked)}}>
+				</Form.Check>
 				<Row>
-					<Form.Check type="switch" id="len_switch" checked={check_len}
-						onChange={ev=>{set_check_len(ev.target.checked)}}>
-					</Form.Check>
 					<Form.Group as={Col} controlId="length_operator">
-						<Form.Label>Length operator</Form.Label>
+						<Form.Label>
+							Length operator
+						</Form.Label>
 						<Form.Select disabled={!check_len} value={length_operator}
 							onChange={ ev=> {
 								set_length_operator(ev.target.value);
@@ -131,10 +136,11 @@ export function FilterForm(props){
 							}}/>
 					</Form.Group>
 				</Row>
+
+				<Form.Check type="switch" id="asc_switch" size="xl" checked={check_asc}
+					onChange={ev=>{set_check_asc(ev.target.checked)}}>
+				</Form.Check>
 				<Row>
-					<Form.Check type="switch" id="asc_switch" size="xl" checked={check_asc}
-						onChange={ev=>{set_check_asc(ev.target.checked)}}>
-					</Form.Check>
 					<Form.Group as={Col} controlId="ascent_operator">
 						<Form.Label>Ascent operator</Form.Label>
 						<Form.Select disabled={!check_asc} value={ascent_operator}
@@ -156,10 +162,11 @@ export function FilterForm(props){
 							}}/>
 					</Form.Group>
 				</Row>
+				
+				<Form.Check type="switch" id="diff_switch" checked={check_exp_time}
+					onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
+				</Form.Check>
 				<Row>
-					<Form.Check type="switch" id="diff_switch" checked={check_exp_time}
-						onChange={ev=>{set_check_exp_time(ev.target.checked)}}>
-					</Form.Check>
 					<Form.Group as={Col} controlId="expected_time_operator">
 						<Form.Label>Expected time operator</Form.Label>
 						<Form.Select disabled={!check_exp_time} value={expected_time_operator}

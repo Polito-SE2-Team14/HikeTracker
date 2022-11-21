@@ -100,6 +100,7 @@ export function HikesPage(props) {
 						</Modal.Header>
 						<Modal.Body>
 							<FilterForm
+								onHide={handleClose}
 								filters={filters}
 								setFilters={setFilters}
 							></FilterForm>
