@@ -12,7 +12,7 @@ router.get('', async (req, res) => {
 
 router.get('/huts', async (req, res) => {
 	await pointController.getHuts()
-		.then(huts => {res.status(200).json(huts)})
+		.then(huts => { res.status(200).json(huts) })
 		.catch(err => res.status(err.code).send(err.msg))
 });
 
@@ -36,6 +36,13 @@ router.post('/huts',
 			.then(hut => res.status(204).json(hut))
 			.catch(err => { console.log(err); res.status(505).send(err) })
 	});
+
+router.delete('/huts/:hutID', async (req, res) => {
+	await pointController.deleteHut(req.params.hutID)
+		.then(() => res.status(204).send())
+		.catch(err => { console.log(err); res.status(505).send(err) })
+
+})
 
 router.get('/parkinglots', async (req, res) => {
 	await pointController.getParkingLots()

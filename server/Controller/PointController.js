@@ -29,12 +29,12 @@ class PointController {
 		return points;
 	}
 
-    async createHut(hut) {
-        let hutID;
-        //console.log("hut:", hut)
-        await pointsDAO.createPoint(hut.name, Number(hut.latitude), Number(hut.longitude), hut.address)
-            .then(newID => hutID = newID)
-            .catch(err => { console.log("controller:",err); throw err });
+	async createHut(hut) {
+		let hutID;
+		//console.log("hut:", hut)
+		await pointsDAO.createPoint(hut.name, Number(hut.latitude), Number(hut.longitude), hut.address)
+			.then(newID => hutID = newID)
+			.catch(err => { console.log("controller:", err); throw err });
 
 		await pointsDAO
 			.createHut(hutID, Number(hut.bedspace), Number(hut.hutOwnerID))
@@ -52,6 +52,16 @@ class PointController {
 			hut.bedspace,
 			hut.hutOwnerID
 		);
+	}
+
+	async deleteHut(hutID) {
+		await pointsDAO.deleteHut(hutID)
+			.catch(err => { throw err })
+
+		await pointsDAO.deletePoint(hutID)
+			.catch(err => { throw err })
+
+		return
 	}
 }
 

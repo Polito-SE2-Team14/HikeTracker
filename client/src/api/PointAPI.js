@@ -27,5 +27,17 @@ const createHut = async (hut) => {
 	}
 }
 
-const PointAPI = { getAllHuts, createHut};
+const deleteHut = async (hutID) => {
+	try {
+		let response = await REST.DELETE(api+"/huts/"+hutID)
+		if (!response.status)
+			throw Error()
+	}
+	catch (err) {
+		throw err
+	}
+}
+
+
+const PointAPI = { getAllHuts, createHut, deleteHut};
 export default PointAPI;

@@ -64,6 +64,19 @@ exports.createPoint = (name, latitude, longitude, address) => {
     });
 }
 
+exports.deletePoint = (pointID) => {
+    return new Promise((resolve, reject) => {
+        const sql = "DELETE FROM POINT WHERE pointID = ?";
+        db.run(sql, [pointID], function (err, row) {
+            if (err) {
+                console.log(err)
+                reject(err);
+            }
+            resolve();
+        })
+    })
+}
+
 exports.getHuts = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID"
@@ -97,4 +110,17 @@ exports.createHut = (hutID, bedspace, hutOwnerID) => {
             resolve();
         })
     });
+}
+
+exports.deleteHut = (hutID) => {
+    return new Promise((resolve, reject) => {
+        const sql = "DELETE FROM HUT WHERE hutID = ?";
+        db.run(sql, [hutID], function (err, row) {
+            if (err) {
+                console.log(err)
+                reject(err);
+            }
+            resolve();
+        })
+    })
 }
