@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
-import { CalculatorFill, TrashFill } from "react-bootstrap-icons";
 import HikeAPI from "../../api/HikeAPI";
 
-// TODO: edit points, how??
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
+// TODO(antonio): edit points, how??
+// TODO(antonio): proper documentation
 export function HikeEditForm(props) {
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
@@ -18,15 +20,12 @@ export function HikeEditForm(props) {
 					onHide={props.onHide}
 				/>
 			</Modal.Body>
-			<Modal.Footer></Modal.Footer>
 		</Modal>
 	);
 }
 
-// TODO: remove export
-
-// h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description,
-export function HikeForm(props) {
+//TODO(antonio): proper documentation
+function HikeForm(props) {
 	let [title, setTitle] = useState(props.hike ? props.hike.title : "");
 	let [length, setLength] = useState(props.hike ? props.hike.length : 0);
 	let [ascent, setAscent] = useState(props.hike ? props.hike.ascent : 0);
@@ -40,15 +39,12 @@ export function HikeForm(props) {
 		props.hike ? props.hike.description : ""
 	);
 
-	let handleDelete = () => {
-		// TODO: confirm prompt
-	}
-
 	let handleSubmit = (event) => {
 		event.preventDefault();
 
-		// TODO: validation and error on new hike/edit hike
+		// TODO(antonio): validation and error on new hike/edit hike
 		let hike = {
+			hikeID: props.hike ? props.hike.hikeID : null,
 			title: title,
 			length: length,
 			expectedTime: expectedTime,
@@ -57,7 +53,7 @@ export function HikeForm(props) {
 			description: description,
 		};
 
-		if (props.hike) {
+		if (hike.hikeID) {
 			// NOTE: editing form
 			HikeAPI.editHike(
 				props.hike.hikeID,
@@ -69,12 +65,12 @@ export function HikeForm(props) {
 				description
 			)
 				.then(() => {
-					props.setHikes((old) =>
-						{return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h))}
-					); //TODO: temp value, mark differently
+					props.setHikes((old) => {
+						return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h));
+					}); //TODO(antonio): temp value, mark differently
 				})
 				.catch((e) => {
-					// TODO: error handling
+					// TODO(antonio): error handling
 					console.log(e);
 				});
 		} else {
@@ -88,10 +84,10 @@ export function HikeForm(props) {
 				description
 			)
 				.then(() => {
-					props.setHikes((old) => [...old, hike]); //TODO: temp value, mark differently
+					props.setHikes((old) => [...old, hike]); //TODO(antonio): temp value, mark differently
 				})
 				.catch((e) => {
-					// TODO: error handling
+					// TODO(antonio): error handling
 					console.log(e);
 				});
 		}
@@ -149,7 +145,7 @@ export function HikeForm(props) {
 						aria-describedby="calculate"
 					/>
 					<Button variant="outline-secondary" id="calculate">
-						<CalculatorFill />
+						<FontAwesomeIcon icon={faCalculator} />
 					</Button>
 				</InputGroup>
 			</Form.Group>
@@ -186,20 +182,14 @@ export function HikeForm(props) {
 
 			<Row>
 				<Col>
-					<Button variant="danger"  onClick={handleDelete}>
-					<TrashFill/>{' '}Delete
-				</Button>
-			
-				</Col>
-				<Col>
-				<div className="text-end">
-				<Button variant="primary" type="submit" onClick={handleSubmit}>
-					Submit
-				</Button>{" "}
-				<Button variant="secondary" onClick={props.onHide}>
-					Cancel
-				</Button>
-			</div>
+					<div className="text-end">
+						<Button variant="primary" type="submit" onClick={handleSubmit}>
+							Submit
+						</Button>{" "}
+						<Button variant="secondary" onClick={props.onHide}>
+							Cancel
+						</Button>
+					</div>
 				</Col>
 			</Row>
 		</Form>

@@ -126,6 +126,39 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 
+### PUT /points/huts
+
+- **Creates a new parkingLot**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: a JSON object containing 
+ Example of Request body
+
+```
+    {
+        "pointID": 2,
+        "name": "parkinglot#3",
+        "latitude": 123,
+        "longitude": 456,
+        "address": "address6",
+        "bedspace": 350,
+        "hutOWnerID": 4
+    }
+```
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+
+### DELETE /points/huts/:hutID
+
+- **Delete**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: empty
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  everyone
+- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+
 ### POST /points/parkinglots
 
 - **Creates a new parkingLot**

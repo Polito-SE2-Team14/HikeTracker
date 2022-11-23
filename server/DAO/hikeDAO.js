@@ -48,7 +48,7 @@ exports.check_hike = (wantedID) => {
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 			if (err) {
-				// TODO: better error handling
+				// TODO(antonio): better error handling
 				reject(err);
 			}
 
@@ -81,23 +81,35 @@ exports.getHike = (wantedID) => {
 exports.addHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,startPointID,endPointID,description) VALUES(?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID) VALUES(?,?,?,?,?,?,?,?)",
 			[
 				newHike.title,
 				newHike.length,
 				newHike.expectedTime,
 				newHike.ascent,
 				newHike.difficulty,
+				newHike.description,
 				newHike.startPointID,
 				newHike.endPointID,
-				newHike.description,
 			],
-			(err) => {
+			function (err) {
 				if (err) {
 					reject(err);
 					return;
 				} else {
-					resolve(`New hike ${newHike.title} inserted`);
+					resolve(
+						new Hike(
+							this.lastID,
+							newHike.title,
+							newHike.length,
+							newHike.expectedTime,
+							newHike.ascent,
+							newHike.difficulty,
+							newHike.description,
+							newHike.startPointID,
+							newHike.endPointID
+						)
+					);
 				}
 			}
 		);
@@ -112,16 +124,16 @@ exports.addHike = (newHike) => {
 exports.updateHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, startPointID=?, endPointID=?,description=? WHERE hikeID =?",
+			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=? WHERE hikeID =?",
 			[
 				newHike.title,
 				newHike.length,
 				newHike.expectedTime,
 				newHike.ascent,
 				newHike.difficulty,
+				newHike.description,
 				newHike.startPointID,
 				newHike.endPointID,
-				newHike.description,
 				newHike.hikeID,
 			],
 			(err) => {
@@ -135,3 +147,53 @@ exports.updateHike = (newHike) => {
 		);
 	});
 };
+
+exports.deleteHike = (hikeID) => {
+	const sql = "DELETE FROM HIKE WHERE hikeID = ?";
+	const params = [hikeID];
+
+	return new Promise((resolve, reject) => {
+		db.run(sql, params, (err) => {
+			if (err) {
+				reject(err);
+				return;
+			} else {
+				resolve(`Hike with ID ${hikeID} deleted correctly`);
+			}
+		});
+	});
+};
+
+exports.setStart = (hikeID, startPointID) => {
+	return new Promise((resolve, reject) => {
+		db.run(
+			"UPDATE HIKE startPointID=? WHERE hikeID =?",
+			[startPointID, hikeID],
+			(err) => {
+				if (err) {
+					reject(err);
+					return;
+				} else {
+					resolve(`Hike with ID ${hikeID} updated correctly`);
+				}
+			}
+		);
+	});
+}
+
+exports.setEnd = (hikeID, endPointID) => {
+	return new Promise((resolve, reject) => {
+		db.run(
+			"UPDATE HIKE endPointID=? WHERE hikeID =?",
+			[endPointID, hikeID],
+			(err) => {
+				if (err) {
+					reject(err);
+					return;
+				} else {
+					resolve(`Hike with ID ${hikeID} updated correctly`);
+				}
+			}
+		);
+	});
+}

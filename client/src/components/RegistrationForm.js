@@ -19,7 +19,7 @@ export function RegistrationForm(props) {
 		props.setMessage('');
 
 		let validateName = (text) => {
-			return !String(text).match(/[^a-z]/i);
+			return !String(text).match(/[^a-zA-Z]/i);
 		};
 
 		let validateEmail = (email) => {
@@ -84,7 +84,7 @@ export function RegistrationForm(props) {
 							<Form.Label>Phone</Form.Label>
 							<Form.Control type='text' value={phoneNumber} onChange={ev => setPhoneNumber(ev.target.value)} />
 						</Form.Group>
-						<Form.Group controlId='type'>
+						<Form.Group>
 							<Form.Label>User Type</Form.Label>
 							<Form.Check type='radio' name='type' label='Hiker' value='hiker' onClick={ev => setType(ev.target.value)} />
 							<Form.Check type='radio' name='type' label='Friend' value='friend' onClick={ev => setType(ev.target.value)} />
@@ -97,7 +97,7 @@ export function RegistrationForm(props) {
 							<Form.Label>Repeat password</Form.Label>
 							<Form.Control type='password' value={repeatPwd} onChange={ev => setRepeatPwd(ev.target.value)} />
 						</Form.Group>
-						<Button type="submit" onClick={handleSubmit}>Register</Button>
+						<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Register</Button>
 					</Form>
 				</Col>
 			</Row>

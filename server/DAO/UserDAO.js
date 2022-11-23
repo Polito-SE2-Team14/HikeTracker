@@ -8,7 +8,7 @@ const db = dbManager.getDB();
 
 const User = require("../Class/User");
 
-function CheckExistingUser(email, phoneNumber){
+function CheckExistingUser(email, phoneNumber) {
 	return new Promise((resolve, reject) => {
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
 
@@ -24,18 +24,25 @@ function EncryptPassword(password) {
 	return new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
 
-		crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
+		crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 			if (err) reject(err);
-			else resolve({
-				salt: salt.toString('base64'),
-				hashedPassword: hashedPassword.toString('base64')
-			});
+			else {
+				resolve({
+					salt: salt.toString('hex'),
+					hashedPassword: hashedPassword.toString('hex')
+				});
+			}
 		});
 	});
 }
 
 exports.getUserById = (id) => {
 	return new Promise((resolve, reject) => {
+
+
+		console.log("provaprova")
+
+
 		const sql = 'SELECT * FROM USER WHERE userID=?';
 		db.get(sql, [id], (err, row) => {
 			if (err)
@@ -57,12 +64,11 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type };
-
-				const salt = row.salt;
-				crypto.scrypt(password, salt, 32, (err, hashedPassword) => {
+				const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
+				const salt = row.salt.toString("hex");
+				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
-					const passwordHex = Buffer.from(row.hash, 'hex');
+					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
 					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
 						resolve(false);
 					else resolve(user);
@@ -72,11 +78,11 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(name, surname, email, phoneNumber, type, salt, password){
+function StoreUser(user, salt, password) {
 	return new Promise((resolve, reject) => {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-		db.run(sql, [name, surname, email, phoneNumber, type, salt, password], function (err) {
+		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password], function (err) {
 			if (err) reject(err);
 			else resolve(this.lastID);
 		})
@@ -94,11 +100,11 @@ function StoreUser(name, surname, email, phoneNumber, type, salt, password){
  * @param {string} password 
  * @returns User object
  */
-exports.Register = (name, surname, email, phoneNumber, type, password) =>
-	CheckExistingUser(email, phoneNumber)
+exports.Register = (user) =>
+	CheckExistingUser(user.email, user.phoneNumber)
 		.then(() =>
-			EncryptPassword(password))
+			EncryptPassword(user.password))
 		.then(pass =>
-			StoreUser(name, surname, email, phoneNumber, type, pass.salt, pass.hashedPassword))
+			StoreUser(user, pass.salt, pass.hashedPassword))
 		.then(id =>
-			new User(id, name, surname, email, phoneNumber, type));
+			new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type));

@@ -69,13 +69,16 @@ router.post(
 			req.body.ascent,
 			req.body.difficulty,
 			req.body.description,
-			null,
-			null
+			req.body.startPointID,
+			req.body.endPointID
 		);
 
 		await hikeController
 			.addHike(newHike)
-			.then((msg) => res.status(201).json(msg))
+			.then((msg) => {
+				console.log(msg);
+				return res.status(201).json(msg);
+			})
 			.catch((err) =>
 				res.status(503).json({
 					error: `Database error during the adding of new hike in the database: ${err}`,
@@ -84,10 +87,11 @@ router.post(
 	}
 );
 
+
 // PUT request to /api/hikes to update an existing hike
 router.put(
 	"",
-	body("hikeID").not().isEmpty().trim().escape(),
+	body("hikeID").not().isEmpty().isInt({ gt: 0 }),
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
@@ -96,14 +100,16 @@ router.put(
 	body("ascent").isInt({ gt: 0 }),
 	async (req, res) => {
 		const errors = validationResult(req);
-		if (!errors.isEmpty()) return res.status(505).json(errors.array());
+		if (!errors.isEmpty()) {
+			console.log(errors.array());
+			return res.status(505).json(errors.array());
+		}
 
 		let present = check_hike(req.body.hikeID);
-		if(!present){
+		if (!present) {
 			return res.status(404).json({ error: `No hike with the given ID found` });
 		}
 
-		console.log(req.body.expectedTime);
 		let hike = new Hike(
 			req.body.hikeID,
 			req.body.title,
@@ -112,13 +118,15 @@ router.put(
 			req.body.ascent,
 			req.body.difficulty,
 			req.body.description,
-			null,
-			null
+			req.body.startPointID,
+			req.body.endPointID
 		);
 
 		await hikeController
 			.updateHike(hike)
-			.then((msg) => {res.status(201).json(msg)})
+			.then((msg) => {
+				res.status(201).json(msg);
+			})
 			.catch((err) =>
 				res.status(503).json({
 					error: `Database error during update of hike ${hike.hikeID}: ${err}`,
@@ -126,5 +134,48 @@ router.put(
 			);
 	}
 );
+
+router.put("/start", async (req, res) => {
+	const hikeID = req.body.hikeID;
+	const startPointID = req.body.startPointID;
+
+	await hikeController.setStart(hikeID, startPointID)
+		.then(() => {
+			res.status(201).end();
+		})
+		.catch((err) =>
+			res.status(505).send(err)
+		);
+})
+
+router.put("/end", async (req, res) => {
+	const hikeID = req.body.hikeID;
+	const endPointID = req.body.startPointID;
+
+	await hikeController.setEnd(hikeID, endPointID)
+		.then(() => res.status(201).end())
+		.catch((err) => res.status(505).send(err));
+})
+
+
+router.delete("/:hikeID", async (req, res) => {
+	//TODO(antonio): validation on req.params.hikeID
+
+	let present = check_hike(req.params.hikeID);
+	if (!present) {
+		return res.status(404).json({ error: `No hike with the given ID found` });
+	}
+
+	await hikeController
+		.deleteHike(req.params.hikeID)
+		.then((msg) => {
+			res.status(201).json(msg);
+		})
+		.catch((err) =>
+			res.status(503).json({
+				error: `Database error during delete of hike ${req.params.hikeID}: ${err}`,
+			})
+		);
+});
 
 module.exports = router;

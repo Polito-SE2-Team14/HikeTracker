@@ -26,9 +26,11 @@ describe('Hikes test suite', async () => {
 	})
 
 	it('Get all hikes', async () => {
-		let expectedArray=[new Hike(1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"),
-		new Hike(2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"),
-		new Hike(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription")];
+		let expectedArray=[
+			new Hike(1, "hike#1", 7, 30, 100, "Tourist", "firstDescription", 1, 4),
+			new Hike(2, "hike#2", 2, 45, 123, "Hiker", "secondDescription", 2, 5),
+			new Hike(3, "hike#3", 3, 60, 514, "Professional Hiker", "thirdDescription", 3, 6)
+		];
 		const response = await hikeAPICall.getHikesCall();
 		assert.equal(response.status, 200, response.status);
 		let actualArray = await response.data;
@@ -38,18 +40,27 @@ describe('Hikes test suite', async () => {
 	})
 
 	it('Insert new hike',async () => {
-		const hikeToInsert=new Hike(5,"hike#5",10,11,12,"Hiker","Test description");
+		const hikeToInsert=new Hike(4,"hike#4",10,11,12,"Hiker","Test description",3,4);
 		const response = await hikeAPICall.addHikeCall(hikeToInsert);
 		assert.equal(response.status, 201, response.status);
+
+		const response2 = await hikeAPICall.getHikesCall();
+		assert.equal(response2.status, 200, response2.status);
+		let actualArray = await response2.data;
+		//console.log(actualArray);
+		// The response is returned as a vector of objects, so we need to convert them to Hikes
+		actualArray=actualArray.map((h)=>new Hike(h.hikeID,h.title,h.length,h.expectedTime,h.ascent,h.difficulty,h.description,h.startPointID,h.endPointID));
+
 		let insertedHike= await response.data;
 		insertedHike = new Hike(insertedHike.hikeID,insertedHike.title,insertedHike.length,insertedHike.expectedTime,insertedHike.ascent,insertedHike.difficulty,insertedHike.description,insertedHike.startPointID,insertedHike.endPointID);
+		//console.log(insertedHike);
 		assert.deepEqual(insertedHike,hikeToInsert,`Expected ${hikeToInsert}, but ${insertedHike} was inserted`);
 
 	})
 
 	it('Update hike 1',async () => {
-		const hikeToUpdate=new Hike(1, "hike#1_modified", 8, 31, 101, "Hiker", 2, 5, "firstDescription_modified");
-		const response = await hikeAPICall.addHikeCall(hikeToUpdate);
+		const hikeToUpdate=new Hike(1, "hike#1_modified", 8, 31, 101, "Hiker", "firstDescription_modified", 2, 5);
+		const response = await hikeAPICall.updateHikeCall(hikeToUpdate);
 		assert.equal(response.status, 201, response.status);
 		let updatedHike= await response.data;
 		updatedHike = new Hike(updatedHike.hikeID,updatedHike.title,updatedHike.length,updatedHike.expectedTime,updatedHike.ascent,updatedHike.difficulty,updatedHike.description,updatedHike.startPointID,updatedHike.endPointID);

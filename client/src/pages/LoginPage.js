@@ -9,15 +9,6 @@ import { LoginForm } from "../components/LoginComponents";
 export function LoginPage(props) {
 	let navigate = useNavigate();
 
-	let [message, setMessage] = useState("");
-
-	let handleLogin = (credentials) => {
-		// TODO: Authentication with server
-		props.setLoggedIn(true);
-		props.setUser({name: "Test", type: "Local guide"});
-		navigate("/");
-	};
-
 	let handleRegistration = () => navigate("/registration");
 
 	return (
@@ -27,13 +18,13 @@ export function LoginPage(props) {
 			</Row>
 			<Row>
 				<LoginForm
-					message={message}
-					setMessage={setMessage}
-					login={handleLogin}
+					message={props.message}
+					setMessage={props.setMessage}
+					login={props.handleLogin}
 				/>
 			</Row>
 			<Row>OR</Row>
 			<Row><Button type="button" onClick={handleRegistration}>Register</Button></Row>
 		</Container>
 	);
-}
+};

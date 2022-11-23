@@ -1,17 +1,17 @@
-function filterHike(hike){
+function filterHike(hike, filters){
 	let invalids = [];
 	let to_return = true;
 
 	if (filters.check_geo_area){
-		if (geographic_area === ''){invalids.push(" geographic_area");}
+		if (filters.geographic_area === ''){invalids.push(" geographic_area");}
 		// geo area check
 	}
 	if (filters.check_diff){
-		if (difficulty===''){invalids.push(" difficulty");}
+		if (filters.difficulty===''){invalids.push(" difficulty");}
 		else if(hike.difficulty!=filters.difficulty){to_return=false};
 	}
 	if (filters.check_len){
-		if (length<=0){invalids.push(" length (it must be >0)");}
+		if (filters.length<=0){invalids.push(" length (it must be >0)");}
 		else{
 			switch(filters.length_operator){
 				case ">":
@@ -29,18 +29,18 @@ function filterHike(hike){
 			}
 		}
 	}
-	if (filters.check_tot_asc){
-		if (total_ascent<=0){invalids.push(" total_ascent (it must be >0)");}
+	if (filters.check_asc){
+		if (filters.ascent<=0){invalids.push(" ascent (it must be >0)");}
 		else{
-			switch(filters.total_ascent_operator){
+			switch(filters.ascent_operator){
 				case ">":
-					if(hike.total_ascent<=filters.total_ascent){to_return = false;}
+					if(hike.ascent<=filters.ascent){to_return = false;}
 					break;
 				case "=":
-					if(hike.total_ascent!=filters.total_ascent){to_return = false;}
+					if(hike.ascent!=filters.ascent){to_return = false;}
 					break;
 				case "<":
-					if(hike.total_ascent>=filters.total_ascent){to_return = false;}
+					if(hike.ascent>=filters.ascent){to_return = false;}
 					break;
 				default:
 					console.log("Unknown operator");
@@ -50,7 +50,7 @@ function filterHike(hike){
 		}
 	}
 	if (filters.check_exp_time){
-		if (expected_time<=0){invalids.push(" expected_time (it must be >0)");}
+		if (filters.expected_time<=0){invalids.push(" expected_time (it must be >0)");}
 		else{
 			switch(filters.expected_time_operator){
 				case ">":
@@ -75,8 +75,11 @@ function filterHike(hike){
 	return to_return;
 }
 
-function filterAllHikes(hikes_list){
-	return hikes_list.filter(filterHike);
+function filterAllHikes(hikes_list,filters){
+	return hikes_list.map(function(hike){
+		hike.show=filterHike(hike,filters);
+		return hike;
+	});
 }
 
 export {filterHike, filterAllHikes}
