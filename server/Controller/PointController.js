@@ -30,16 +30,29 @@ class PointController {
 	}
 
 	async createHut(hut) {
+
+		let { name, latitude, longitude, address, bedspace, hutOwnerID } = hut
+
+		if (typeof name != "string"
+			|| typeof latitude != "number"
+			|| typeof longitude != "number"
+			|| typeof address != "string"
+			|| typeof bedspace != "number"
+			|| typeof hutOwnerID != "number")
+		{
+			console.err("Error type");
+			throw Error("Type")
+		}
+
 		let hutID;
-		//console.log("hut:", hut)
-		await pointsDAO.createPoint(hut.name, Number(hut.latitude), Number(hut.longitude), hut.address)
+		await pointsDAO.createPoint({name: name, latitude:latitude, longitude:longitude, address:address, type:"hut"})
 			.then(newID => hutID = newID)
-			.catch(err => { console.log("controller:", err); throw err });
+			.catch(err => { console.error("controller:", err); throw err });
 
 		await pointsDAO
-			.createHut(hutID, Number(hut.bedspace), Number(hut.hutOwnerID))
+			.createHut({hutID:hutID, bedspace:bedspace, hutOwnerID:hutOwnerID})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 				throw err;
 			});
 
@@ -60,7 +73,7 @@ class PointController {
 
 		await pointsDAO.updateHut(hut)
 			.catch(err => { throw err })
-			}
+	}
 
 	async deleteHut(hutID) {
 		await pointsDAO.deleteHut(hutID)

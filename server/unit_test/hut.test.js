@@ -87,7 +87,6 @@ describe('Hut Tests', () => {
     })
 
     test("Invalid hutOwnerId", async () => {
-        let hut;
         let newErr;
         await pointController.createHut(
             new Hut(0, "nameTest", 3124, 12931, "addresstest", 5,"dawd"))
