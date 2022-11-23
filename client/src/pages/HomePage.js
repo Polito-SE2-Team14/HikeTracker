@@ -1,6 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import { Loading } from "../components/Loading";
-import { AreaSelectMap } from "../components/Map/Maps";
+import { AreaSelectMap, PointSelectMap } from "../components/Map/Maps";
 
 export function HomePage() {
 	return (
@@ -13,7 +13,8 @@ export function HomePage() {
 				it could even be a good home page!<br/>
 			</Row>
 			<Row>
-				<AreaSelectMap onSetArea={(area) => {console.log(area)}}/>
+				{/* <AreaSelectMap onSetArea={(area) => {console.log(area)}}/> */}
+				<PointSelectMap onSetPoint={(point) => console.log(point)}/>
 			</Row>
 		</Container>
 	);

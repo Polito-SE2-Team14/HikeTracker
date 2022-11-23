@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
-import { faBed, faMap, faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
+import {
+	faBed,
+	faMap,
+	faUpRightAndDownLeftFromCenter,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
+
+import PointAPI from "../../api/PointAPI";
 
 export function HutListTable(props) {
 	return (
@@ -12,7 +18,8 @@ export function HutListTable(props) {
 					key={i}
 					user={props.user}
 					hut={hut}
-					setHuts={props.setHuts} />
+					setHuts={props.setHuts}
+				/>
 			))}
 		</Row>
 	);
@@ -28,14 +35,21 @@ function HutListItem(props) {
 		setShowHutModal(true);
 	};
 
+	const handleDeleteHut = async () => {
+		await PointAPI.deleteHut(props.hut.pointID);
+		props.setHuts((old) => old.filter((h) => h.pointID != props.hut.pointID));
+		setShowHutModal(false);
+	};
+
 	return (
 		<>
-			{/*add onDelete, onEdit*/}
 			<HutModal
 				show={showHutModal}
 				hut={props.hut}
 				user={props.user}
-				onClose={() => handleCloseHutModal()} />
+				onClose={() => handleCloseHutModal()}
+				onDelete={() => handleDeleteHut()}
+			/>
 
 			<Col className="mt-3">
 				<Card>
@@ -56,10 +70,10 @@ function HutListItem(props) {
 						</Card.Title>
 						<Row>
 							<Col>
-							<FontAwesomeIcon icon={faMap}/>{' '}{props.hut.address}
+								<FontAwesomeIcon icon={faMap} /> {props.hut.address}
 							</Col>
 							<Col xs={4}>
-							<FontAwesomeIcon icon={faBed}/>{' '}{props.hut.bedspace}
+								<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
 							</Col>
 						</Row>
 					</Card.Body>
