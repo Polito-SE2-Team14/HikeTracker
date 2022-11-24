@@ -68,6 +68,8 @@ export function HikesPage(props) {
 		setHikes(filterAllHikes(hikes, filters));
 	}, [filters]);
 
+
+
 	return (
 		<>
 			{loading ? (
@@ -84,7 +86,7 @@ export function HikesPage(props) {
 								<FontAwesomeIcon icon={faFilter} /> Apply filters
 							</Button>
 						</Col>
-						{props.user.type === "Local guide" ? (
+						{props.user.type === "localGuide" ? (
 							<Col className="text-end">
 								<Button variant="success" onClick={handleShowHikeForm}>
 									<FontAwesomeIcon icon={faPlus} /> New Hike

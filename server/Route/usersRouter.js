@@ -40,11 +40,11 @@ router.post('',
     body("surname").not().isEmpty().trim().escape(),
     body('email').isEmail().normalizeEmail(),
     body("phoneNumber").not().isEmpty().trim().escape(),
-    body("type").not().isEmpty().trim().escape().matches("(hiker|friend)"),
+    body("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
     body("password").not().isEmpty().trim().escape(),
     async (req, res) => {
         if (!validationResult(req).isEmpty())
-            res.status(422).end()//.json(errors.array());
+            return res.status(422).end()//.json(errors.array());
 
         console.log(req.body)
 

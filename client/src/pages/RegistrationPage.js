@@ -18,7 +18,7 @@ export function RegistrationPage(props) {
 		let res = await UserAPI.Register(credentials);
 
 		if (res === true) {
-			props.setLoggedIn(true);
+			//props.setLoggedIn(true);
 			navigate('/');
 
 			return true;

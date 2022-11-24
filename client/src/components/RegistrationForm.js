@@ -87,7 +87,8 @@ export function RegistrationForm(props) {
 						<Form.Group>
 							<Form.Label>User Type</Form.Label>
 							<Form.Check type='radio' name='type' label='Hiker' value='hiker' onClick={ev => setType(ev.target.value)} />
-							<Form.Check type='radio' name='type' label='Friend' value='friend' onClick={ev => setType(ev.target.value)} />
+							<Form.Check type='radio' name='type' label='Local Guide' value='localGuide' onClick={ev => setType(ev.target.value)} />
+							<Form.Check type='radio' name='type' label='Hut Worker' value='hutWorker' onClick={ev => setType(ev.target.value)} />
 						</Form.Group>
 						<Form.Group controlId='password'>
 							<Form.Label>Password</Form.Label>

@@ -29,6 +29,7 @@ function App() {
 					setUser(currentUser);
 					setLoggedIn(true);
 					setUserType(currentUser.type);
+					console.log("user", user)
 				}
 			} catch (error) {
 				console.log(error);
