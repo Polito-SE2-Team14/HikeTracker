@@ -1,5 +1,7 @@
 const sqlite = require("sqlite3");
 //const { db } = require("../database/dbManager");
+const fs = require("fs");
+
 
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
@@ -197,3 +199,21 @@ exports.setEnd = (hikeID, endPointID) => {
 		);
 	});
 }
+
+exports.newTrack = (hikeId, track) =>
+	this.getHike(hikeId)
+		.then(() => {
+			fs.writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), 'utf8', err => {
+				if (err) throw err;
+			})
+
+			return true;
+		})
+		.catch(err => { return err; });
+
+exports.getTrack = (hikeId) =>
+	this.getHike(hikeId)
+		.then(() => {
+			return require(`../database/tracks/_${hikeId}_.trk`);
+		})
+		.catch(err => { return err; });

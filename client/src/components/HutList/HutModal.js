@@ -45,11 +45,11 @@ export function HutModal(props) {
 								<FontAwesomeIcon icon={faTrashCan} /> Delete
 							</Button>
 						</Col>
-						<Col className="d-flex justify-content-end">
+						{/* <Col className="d-flex justify-content-end">
 							<Button className="me-1" variant="warning" onClick={props.onEdit}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Edit
 							</Button>{" "}
-						</Col>
+						</Col> */}
 					</Row>
 				</Col>
 			</Modal.Footer>

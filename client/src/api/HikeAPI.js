@@ -1,3 +1,5 @@
+import gpxParser from "gpxparser";
+
 import REST from "./REST";
 import Hike from "../class/Hike";
 import Point from "../class/Point";
@@ -198,6 +200,31 @@ const getHikePoints = async (hikeID) => {
 	}
 };
 
+/**
+ * Add track to an hike
+ * @param {gpxParser} track - track data
+ * 
+ * @returns {bool}
+ */
+const newTrack = async (hikeId, track) => {
+	//
+	let gpx = new gpxParser();
+	gpx.parse(track);
+	
+	let body = {
+		track: gpx.tracks[0].points.map(p => [p.lat, p.lon])
+	};
+
+	try{
+		await REST.UPDATE('POST', `${api}/${hikeId}/track`, body);
+
+		return true;
+	}
+	catch(e){
+		return false;
+	}
+}
+
 const HikeAPI = {
 	getAllHikes,
 	newHike,
@@ -207,5 +234,6 @@ const HikeAPI = {
 	addEndPoint,
 	addHut,
 	getHikePoints,
+	newTrack
 };
 export default HikeAPI;

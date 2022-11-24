@@ -36,6 +36,7 @@ function App() {
 			}
 		};
 		checkAuth();
+		
 	}, []);
 
 	const handleLogin = async (credentials) => {
