@@ -12,10 +12,6 @@ export function HomePage() {
 				It could be gold, it could be love <br/>
 				it could even be a good home page!<br/>
 			</Row>
-			<Row>
-				{/* <AreaSelectMap onSetArea={(area) => {console.log(area)}}/> */}
-				<PointSelectMap onSetPoint={(point) => console.log(point)}/>
-			</Row>
 		</Container>
 	);
 }

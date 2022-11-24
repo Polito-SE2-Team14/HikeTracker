@@ -6,7 +6,7 @@ class DBManager {
     #db;
     constructor(dbName) {
         // open the database
-        this.#db = new sqlite.Database('./database/' + dbName + ".sqlite", (err) => {
+        this.#db = new sqlite.Database('./database/dbFiles/' + dbName + ".sqlite", (err) => {
             if (err) {
                 console.err("error db manager", err)
                 throw err;
