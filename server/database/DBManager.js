@@ -57,7 +57,7 @@ class DBManager {
 
     async populateUser(users) {
         let db = this.#db;
-        let sql = 'INSERT INTO USER VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
+        let sql = 'INSERT INTO USER(USERID, NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
 
         return Promise.all(users.map(user =>
             new Promise((resolve, reject) => {

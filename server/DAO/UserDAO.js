@@ -84,8 +84,13 @@ function StoreUser(user, salt, password) {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
 		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password], function (err) {
-			if (err) reject(err);
-			else resolve(this.lastID);
+			if (err) {
+				console.err("Err: ", err)
+				reject(err);
+			}
+			else {
+				resolve(this.lastID);
+			}
 		})
 	});
 }
@@ -109,5 +114,7 @@ exports.Register = (user) =>
 			StoreUser(user, pass.salt, pass.hashedPassword))
 		.then(id =>
 		//new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type)
-		{ return { userID: id, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type } }
+		{
+			return { userID: id, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type }
+		}
 		);

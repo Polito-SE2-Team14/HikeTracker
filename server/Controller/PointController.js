@@ -33,15 +33,18 @@ class PointController {
 
 		let { name, latitude, longitude, address, bedspace, hutOwnerID } = hut
 
-		if (typeof name != "string"
-			|| typeof latitude != "number"
-			|| typeof longitude != "number"
-			|| typeof address != "string"
-			|| typeof bedspace != "number"
-			|| typeof hutOwnerID != "number") {
-			console.error("Error type");
-			throw Error("Type")
-		}
+		if (typeof name != "string")
+			throw Error("Type error with name")
+		if (typeof latitude != "number")
+			throw Error("Type error with latitude")
+		if (typeof longitude != "number")
+			throw Error("Type error with longitude")
+		if (typeof address != "string")
+			throw Error("Type error with address")
+		if (typeof bedspace != "number")
+			throw Error("Type error with bedspace")
+		if (typeof hutOwnerID != "number")
+			throw Error("Type error with hutownerID")
 
 		let hutID;
 		await pointsDAO.createPoint({ name: name, latitude: latitude, longitude: longitude, address: address, type: "hut" })
