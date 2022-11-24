@@ -1,16 +1,18 @@
 ## User
 
-| userID |   name   | surname |           email           | phoneNumber |    type    |   salt   | hashedPassword | confirmed |
-| :----: | :------: | :-----: | :-----------------------: | :---------: | :--------: | :------: | :------------: | :-------: |
-|   1    |  mario   |  rossi  |   mario.rossi@email.com   | 12345678901 |   hiker    |  312311  |  awfwafwqafa   |   null    |
-|   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 45124124 |    fwafawfa    |   null    |
-|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorker  | 51512451 | ajdhapduwhpad  |   true    |
+| userID |   name   | surname |           email           | phoneNumber |    type    |               salt               |          hashedPassword          | verified | token |
+| :----: | :------: | :-----: | :-----------------------: | :---------: | :--------: | :------------------------------: | :------------------------------: | :------: | :---: |
+|   1    |  mario   |  rossi  |   mario.rossi@email.com   | 12345678901 |   hiker    | e2c8b3c929cbd232d2b0a4ec86541f2b | 3737b273a3ce89d39a0defe68af81f41 |   null   |       |
+|   2    | antonio  | bianchi | antonio.bianchi@email.com |  234567890  | localGuide | 4d0674a27d4b512b7d1a5e576b7bd22e | 9beb9b87d0ada1dc9a0294f6cda52de2 |   null   |       |
+|   3    | cristian |  verdi  | cristian.verdi@email.com  | 3456789012  | hutWorker  | c916da4ef3a473d862a7b10c65f10ec0 | 214e83c9288a28eeae8ef4c5d90bcbbc |   true   |       |
 
-## hut worker
 
-| userID | hutID | confirmed |
-| :----: | :---: | :-------: |
-|   3    |   1   |     0     |
+Test account:
+|          email           | password |    role     |
+| :----------------------: | :------: | :---------: |
+|  mario.rossi@email.com   | password |    Hiker    |
+| antonio.bianchi@email.co | password | Local Guide |
+| cristian.verdi@email.com | password | Hut Worker  |
 
 ## Point
 

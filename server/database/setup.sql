@@ -15,7 +15,9 @@ CREATE TABLE USER (
     phoneNumber TEXT,
     type TEXT,
     salt TEXT,
-    hashedPassword TEXT
+    hashedPassword TEXT,
+    verified INTEGER,
+    token TEXT
 );
 CREATE TABLE POINT(
     pointID INTEGER PRIMARY KEY,
@@ -69,9 +71,9 @@ CREATE TABLE HUTWORKER(
     confirmed INTEGER NOT NULL
 );
 INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedPassword)
-VALUES (1, "mario", "rossi", "mario.rossi@email.com", "12345678901", "hiker", "312311", "awfwafwqafa"),
-    (2, "antonio", "bianchi", "antonio.bianchi@email.com", "234567890", "localGuide", "45124124", "fwafawfa"),
-    (3, "cristian", "verdi", "cristian.verdi@email.com", "3456789012", "hutWorker", "51512451", "ajdhapduwhpad");
+VALUES (1, "mario", "rossi", "mario.rossi@email.com", "12345678901", "hiker", "e2c8b3c929cbd232d2b0a4ec86541f2b", "3737b273a3ce89d39a0defe68af81f41"),
+    (2, "antonio", "bianchi", "antonio.bianchi@email.com", "234567890", "localGuide", "4d0674a27d4b512b7d1a5e576b7bd22e", "9beb9b87d0ada1dc9a0294f6cda52de2"),
+    (3, "cristian", "verdi", "cristian.verdi@email.com", "3456789012", "hutWorker", "c916da4ef3a473d862a7b10c65f10ec0", "214e83c9288a28eeae8ef4c5d90bcbbc");
 INSERT INTO POINT(pointID, name, latitude, longitude, address, pointType) 
     VALUES (1, "hut#1", "123", "456", "address1", "hut"),
     (2, "park#1", "123", "456", "address2", "parkinglot"),
