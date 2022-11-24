@@ -56,7 +56,7 @@ exports.getAllHikes = () => {
 /**
  * Checks if a hike is present in the database
  * @param {number} wantedID - Id of the searched hike
- * @returns {boolean} Boolean value telling if the hike exists
+ * @returns {Promise} Boolean value telling if the hike exists
  */
 exports.check_hike = (wantedID) => {
 	return new Promise((resolve, reject) => {

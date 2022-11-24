@@ -52,7 +52,9 @@ CREATE TABLE HIKE (
     difficulty TEXT,
     startPointID INTEGER,
     endPointID INTEGER,
-    description TEXT
+    description TEXT,
+    municipality TEXT,
+    province TEXT
 );
 CREATE TABLE HIKEGROUP(
     groupID INTEGER NOT NULL,
@@ -93,10 +95,10 @@ VALUES(1, 1),
     (1, 2),
     (2, 2),
     (2, 4);
-INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, startPointID, endPointID, description    )
-VALUES (1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"),
-    (2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"),
-    (3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription");
+INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, startPointID, endPointID, description, municipality, province    )
+VALUES (1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription","Collegno", "Turin"),
+    (2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription","Collegno", "Turin"),
+    (3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription","Collegno", "Turin");
 INSERT INTO HIKEGROUP(hikeID, groupID, leaderID)
 VALUES (1,1,1),
     (1,2,2);

@@ -102,7 +102,7 @@ router.post(
 // PUT request to /api/hikes to update an existing hike
 router.put(
 	"",
-	body("hikeID").not().isEmpty().isInt({ gt: 0 }),
+	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
@@ -144,7 +144,7 @@ router.put(
 			startPointID: req.body.startPointID,
 			endPointID: req.body.endPointID
 		}
-		
+
 		await hikeController
 			.updateHike(hike)
 			.then((msg) => {
@@ -158,47 +158,51 @@ router.put(
 	}
 );
 
-router.put("/start", async (req, res) => {
-	const hikeID = req.body.hikeID;
-	const startPointID = req.body.startPointID;
+router.put("/start",
+	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
+	body("startPointID").not().isEmpty().isInt({ gt: -1 }),
+	async (req, res) => {
 
-	await hikeController.setStart(hikeID, startPointID)
-		.then(() => {
-			res.status(201).end();
-		})
-		.catch((err) =>
-			res.status(505).send(err)
-		);
-})
-
-router.put("/end", async (req, res) => {
-	const hikeID = req.body.hikeID;
-	const endPointID = req.body.startPointID;
-
-	await hikeController.setEnd(hikeID, endPointID)
-		.then(() => res.status(201).end())
-		.catch((err) => res.status(505).send(err));
-})
-
-
-router.delete("/:hikeID", async (req, res) => {
-	//TODO(antonio): validation on req.params.hikeID
-
-	let present = check_hike(req.params.hikeID);
-	if (!present) {
-		return res.status(404).json({ error: `No hike with the given ID found` });
-	}
-
-	await hikeController
-		.deleteHike(req.params.hikeID)
-		.then((msg) => {
-			res.status(201).json(msg);
-		})
-		.catch((err) =>
-			res.status(503).json({
-				error: `Database error during delete of hike ${req.params.hikeID}: ${err}`,
+		await hikeController.setStart(req.body.hikeID, req.body.startPointID)
+			.then(() => {
+				res.status(201).end();
 			})
-		);
-});
+			.catch((err) =>
+				res.status(505).send(err)
+			);
+	})
+
+router.put("/end",
+	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
+	body("endPointID").not().isEmpty().isInt({ gt: -1 }),
+	async (req, res) => {
+
+		await hikeController.setEnd(req.body.hikeID, req.body.endPointID)
+			.then(() => res.status(201).end())
+			.catch((err) => res.status(505).send(err));
+	})
+
+
+router.delete("/:hikeID",
+	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
+	async (req, res) => {
+
+		let present = await check_hike(req.params.hikeID)
+			.catch(err => { return res.status(404).json({ error: err }) })
+		if (!present) {
+			return res.status(404).json({ error: `No hike with the given ID found` });
+		}
+
+		await hikeController
+			.deleteHike(req.params.hikeID)
+			.then((msg) => {
+				res.status(201).json(msg);
+			})
+			.catch((err) =>
+				res.status(503).json({
+					error: `Database error during delete of hike ${req.params.hikeID}: ${err}`,
+				})
+			);
+	});
 
 module.exports = router;
