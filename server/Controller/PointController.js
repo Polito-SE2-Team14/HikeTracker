@@ -40,7 +40,7 @@ class PointController {
 			|| typeof bedspace != "number"
 			|| typeof hutOwnerID != "number")
 		{
-			console.err("Error type");
+			console.error("Error type");
 			throw Error("Type")
 		}
 

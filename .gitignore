@@ -1,6 +1,8 @@
 *.DS_Store
 server/node_modules/
 server/coverage/
+server/database/testDB.sqlite
+server/database/myDB.sqlite
 server/unit_test/coverage/
 client/node_modules/
 server/package-lock.json
