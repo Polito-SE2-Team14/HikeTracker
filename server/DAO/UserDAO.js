@@ -6,7 +6,7 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-const User = require("../Class/User");
+//const User = require("../Class/User");
 
 function CheckExistingUser(email, phoneNumber) {
 	return new Promise((resolve, reject) => {
@@ -64,7 +64,8 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
+				//const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
+				const user = { userID: row.userID, name: row.name, surname: row.surname, email: row.email, phoneNumber: row.phoneNumber, type: row.type }
 				const salt = row.salt.toString("hex");
 				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
@@ -107,4 +108,6 @@ exports.Register = (user) =>
 		.then(pass =>
 			StoreUser(user, pass.salt, pass.hashedPassword))
 		.then(id =>
-			new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type));
+		//new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type)
+		{ return { userID: id, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type } }
+		);

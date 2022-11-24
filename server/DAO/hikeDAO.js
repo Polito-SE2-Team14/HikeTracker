@@ -24,7 +24,7 @@ exports.getAllHikes = () => {
 			}
 			const hikes = rows.map(
 				(h) =>
-					new Hike(
+					/* new Hike(
 						h.hikeID,
 						h.title,
 						h.length,
@@ -34,7 +34,19 @@ exports.getAllHikes = () => {
 						h.description,
 						h.startPointID,
 						h.endPointID
-					)
+					) */ {
+					return {
+						hikeID: h.hikeID,
+						title: h.title,
+						length: h.length,
+						length: h.expectedTime,
+						ascent: h.ascent,
+						difficulty: h.difficulty,
+						description: h.description,
+						startPointID: h.startPointID,
+						endPointID: h.endPointID
+					}
+				}
 			);
 			resolve(hikes);
 		});
@@ -100,7 +112,7 @@ exports.addHike = (newHike) => {
 					return;
 				} else {
 					resolve(
-						new Hike(
+						/* new Hike(
 							this.lastID,
 							newHike.title,
 							newHike.length,
@@ -110,7 +122,18 @@ exports.addHike = (newHike) => {
 							newHike.description,
 							newHike.startPointID,
 							newHike.endPointID
-						)
+						) */
+						{
+							hikeID: this.lastID,
+							title: newHike.title,
+							length: newHike.length,
+							expectedTime: newHike.expectedTime,
+							ascent: newHike.ascent,
+							difficulty: newHike.difficulty,
+							description: newHike.description,
+							startPointID: newHike.startPointID,
+							endPointID: newHike.endPointID
+						}
 					);
 				}
 			}

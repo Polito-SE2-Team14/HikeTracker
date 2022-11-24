@@ -1,8 +1,8 @@
 import gpxParser from "gpxparser";
 
 import REST from "./REST";
-import Hike from "../class/Hike";
-import Point from "../class/Point";
+//import Hike from "../class/Hike";
+//import Point from "../class/Point";
 
 const api = "/hikes";
 
@@ -18,7 +18,7 @@ const getAllHikes = async () => {
 
 		return hikesJson.map(
 			(h) =>
-				new Hike(
+				/* new Hike(
 					h.hikeID,
 					h.title,
 					h.length,
@@ -28,7 +28,17 @@ const getAllHikes = async () => {
 					h.description,
 					null,
 					null
-				)
+				) */ {
+				return {
+					hikeID: h.hikeID,
+					title: h.title,
+					lenght: h.length,
+					expectedTime: h.expectedTime,
+					ascent: h.ascent,
+					difficulty: h.difficulty,
+					description: h.description,
+				}
+			}
 		);
 	} catch (e) {
 		throw e;
@@ -36,15 +46,15 @@ const getAllHikes = async () => {
 };
 /*
 const getHike = async (hikeID) => {
-    try {
-        let response = await REST.GET(`${api}/${hikeID}`);
-        let hikeJson = await response.json();
+	try {
+		let response = await REST.GET(`${api}/${hikeID}`);
+		let hikeJson = await response.json();
 
-        return hikeJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
-    }
-    catch (e) {
-        throw e;
-    }
+		return hikeJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
+	}
+	catch (e) {
+		throw e;
+	}
 };
 */
 
@@ -186,14 +196,23 @@ const getHikePoints = async (hikeID) => {
 
 		return pointsJson.map(
 			(p) =>
-				new Point(
+				/* new Point(
 					p.pointID,
 					p.name,
 					p.latitude,
 					p.longitude,
 					p.address,
 					p.pointType
-				)
+				) */ {
+				return {
+					pointID: p.pointID,
+					name: p.name,
+					latitude: p.latitude,
+					longitude: p.longitude,
+					address: p.address,
+					pointType: p.pointType
+				}
+			}
 		);
 	} catch (e) {
 		throw e;
@@ -210,17 +229,17 @@ const newTrack = async (hikeId, track) => {
 	//
 	let gpx = new gpxParser();
 	gpx.parse(track);
-	
+
 	let body = {
 		track: gpx.tracks[0].points.map(p => [p.lat, p.lon])
 	};
 
-	try{
+	try {
 		await REST.UPDATE('POST', `${api}/${hikeId}/track`, body);
 
 		return true;
 	}
-	catch(e){
+	catch (e) {
 		return false;
 	}
 }

@@ -7,7 +7,7 @@ const hikeController = new HikeController();
 const PointController = require("../Controller/PointController");
 const pointController = new PointController();
 const { body, validationResult } = require("express-validator");
-const Hike = require("../Class/Hike");
+//const Hike = require("../Class/Hike");
 const { check_hike } = require("../DAO/hikeDAO");
 
 // GET request to /api/hikes to obtain a list of all hikes
@@ -110,7 +110,7 @@ router.put(
 			return res.status(404).json({ error: `No hike with the given ID found` });
 		}
 
-		let hike = new Hike(
+		/* let hike = new Hike(
 			req.body.hikeID,
 			req.body.title,
 			req.body.length,
@@ -120,8 +120,20 @@ router.put(
 			req.body.description,
 			req.body.startPointID,
 			req.body.endPointID
-		);
+		);*/
 
+		let hike = {
+			hikeID: req.body.hikeID,
+			title: req.body.title,
+			length: req.body.length,
+			expectedTime: req.body.expectedTime,
+			ascent: req.body.ascent,
+			difficulty: req.body.difficulty,
+			description: req.body.difficulty,
+			startPointID: req.body.startPointID,
+			endPointID: req.body.endPointID
+		}
+		
 		await hikeController
 			.updateHike(hike)
 			.then((msg) => {

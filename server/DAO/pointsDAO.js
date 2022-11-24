@@ -4,8 +4,8 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-const Point = require("../Class/Point");
-const Hut = require("../Class/Hut")
+//const Point = require("../Class/Point");
+//const Hut = require("../Class/Hut")
 
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
@@ -16,7 +16,8 @@ exports.getPoint = (pointID) => {
                 reject(err);
                 return;
             }
-            const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
+            //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
+            const point = { pointID: row.pointID, name: row.name, latitude: row.latitude, longitude: row.longitude, address: row.address, pointType: row.pointType }
             resolve(point);
         })
     });
@@ -33,7 +34,10 @@ exports.getHikePoints = (hikeID) => {
                 reject(err);
                 return;
             }
-            const points = rows.map((p) => new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType));
+            const points = rows.map((p) =>
+            //new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType)
+            { return { pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude, address: p.address, pointType: p.pointType } }
+            );
             resolve(points);
         })
     });
@@ -72,12 +76,15 @@ exports.getHuts = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID"
         db.all(sql, (err, rows) => {
-            if(err){
+            if (err) {
                 console.log(err);
                 reject(err);
             }
 
-            let huts = rows.map(r => new Hut(r.hutID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID))
+            let huts = rows.map(r =>
+            //new Hut(r.hutID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID)
+            { return { hutID: r.hutID, name: r.name, latitude: r.latitude, longitude: r.longitude, address: r.address, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID } }
+            )
             resolve(huts);
         })
     })
@@ -116,7 +123,7 @@ exports.updateHut = (hut) => {
         const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
         db.run(sql, [hut.bedspace, hut.hutOwnerID, hut.pointID], function (err, row) {
             if (err) {
-                console.log("2",err)
+                console.log("2", err)
                 reject(err);
             }
             resolve();

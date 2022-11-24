@@ -1,5 +1,5 @@
 const pointsDAO = require("../DAO/pointsDAO");
-const Hut = require("../Class/Hut");
+//const Hut = require("../Class/Hut");
 class PointController {
 	constructor() {
 		console.log("Controller started");
@@ -38,25 +38,24 @@ class PointController {
 			|| typeof longitude != "number"
 			|| typeof address != "string"
 			|| typeof bedspace != "number"
-			|| typeof hutOwnerID != "number")
-		{
+			|| typeof hutOwnerID != "number") {
 			console.error("Error type");
 			throw Error("Type")
 		}
 
 		let hutID;
-		await pointsDAO.createPoint({name: name, latitude:latitude, longitude:longitude, address:address, type:"hut"})
+		await pointsDAO.createPoint({ name: name, latitude: latitude, longitude: longitude, address: address, type: "hut" })
 			.then(newID => hutID = newID)
 			.catch(err => { console.error("controller:", err); throw err });
 
 		await pointsDAO
-			.createHut({hutID:hutID, bedspace:bedspace, hutOwnerID:hutOwnerID})
+			.createHut({ hutID: hutID, bedspace: bedspace, hutOwnerID: hutOwnerID })
 			.catch((err) => {
 				console.error(err);
 				throw err;
 			});
 
-		return new Hut(
+		/* return new Hut(
 			hutID,
 			hut.name,
 			hut.latitude,
@@ -64,7 +63,18 @@ class PointController {
 			hut.address,
 			hut.bedspace,
 			hut.hutOwnerID
-		);
+		); */
+
+		let hutToBeReturned = {
+			hutID: hutID,
+			name: hut.name,
+			latitude: hut.latitude,
+			longitude: hut.longitude,
+			address: hut.address,
+			bedspace: hut.bedspace,
+			hutOwnerID: hut.hutOwnerID
+		}
+		return hutToBeReturned;
 	}
 
 	async updateHut(hut) {

@@ -8,7 +8,7 @@ class DBManager {
         // open the database
         this.#db = new sqlite.Database('./database/dbFiles/' + dbName + ".sqlite", (err) => {
             if (err) {
-                console.err("error db manager", err)
+                console.error("error db manager", err)
                 throw err;
             }
             //console.log(dbName + " started")
