@@ -44,7 +44,9 @@ exports.getAllHikes = () => {
 						difficulty: h.difficulty,
 						description: h.description,
 						startPointID: h.startPointID,
-						endPointID: h.endPointID
+						endPointID: h.endPointID,
+						municipality: h.municipality,
+						province: h.province
 					}
 				}
 			);
@@ -95,7 +97,7 @@ exports.getHike = (wantedID) => {
 exports.addHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID) VALUES(?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
 			[
 				newHike.title,
 				newHike.length,
@@ -105,6 +107,8 @@ exports.addHike = (newHike) => {
 				newHike.description,
 				newHike.startPointID,
 				newHike.endPointID,
+				newHike.municipality,
+				newHike.province
 			],
 			function (err) {
 				if (err) {
@@ -132,7 +136,9 @@ exports.addHike = (newHike) => {
 							difficulty: newHike.difficulty,
 							description: newHike.description,
 							startPointID: newHike.startPointID,
-							endPointID: newHike.endPointID
+							endPointID: newHike.endPointID,
+							municipality: newHike.municipality,
+							province: newHike.province
 						}
 					);
 				}
@@ -149,7 +155,7 @@ exports.addHike = (newHike) => {
 exports.updateHike = (newHike) => {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=? WHERE hikeID =?",
+			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=?, municipality=?, province=? WHERE hikeID =?",
 			[
 				newHike.title,
 				newHike.length,
@@ -160,6 +166,8 @@ exports.updateHike = (newHike) => {
 				newHike.startPointID,
 				newHike.endPointID,
 				newHike.hikeID,
+				newHike.municipality,
+				newHike.province
 			],
 			(err) => {
 				if (err) {

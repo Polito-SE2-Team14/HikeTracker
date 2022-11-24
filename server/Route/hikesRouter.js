@@ -54,6 +54,8 @@ router.post(
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
+	body("municipality").not().isEmpty().trim().escape(),
+	body("province").not().isEmpty().trim().escape(),
 	body("length").isInt({ gt: 0 }),
 	body("expectedTime").isInt({ gt: 0 }),
 	body("ascent").isInt({ gt: 0 }),
@@ -81,7 +83,9 @@ router.post(
 			difficulty: req.body.difficulty,
 			description: req.body.description,
 			startPointID: req.body.startPointID,
-			endPointID: req.body.endPointID
+			endPointID: req.body.endPointID,
+			municipality: req.body.municipality,
+			province: req.body.province
 		}
 
 		await hikeController
@@ -106,6 +110,8 @@ router.put(
 	body("title").not().isEmpty().trim().escape(),
 	body("description").not().isEmpty().trim().escape(),
 	body("difficulty").not().isEmpty().trim().escape(),
+	body("municipality").not().isEmpty().trim().escape(),
+	body("province").not().isEmpty().trim().escape(),
 	body("length").isInt({ gt: 0 }),
 	body("expectedTime").isInt({ gt: 0 }),
 	body("ascent").isInt({ gt: 0 }),
@@ -142,7 +148,9 @@ router.put(
 			difficulty: req.body.difficulty,
 			description: req.body.description,
 			startPointID: req.body.startPointID,
-			endPointID: req.body.endPointID
+			endPointID: req.body.endPointID,
+			municipality: req.body.municipality,
+			province: req.body.province
 		}
 
 		await hikeController
