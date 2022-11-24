@@ -51,6 +51,7 @@ class DBManager {
 			(1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription"), 
 			(2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription"), 
 			(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription");`);
+            console.log("done")
             resolve();
         })
     }

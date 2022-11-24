@@ -44,8 +44,6 @@ router.post('',
         if (!validationResult(req).isEmpty())
             return res.status(422).end()//.json(errors.array());
 
-        console.log(req.body)
-
         await userController.register(req.body)
             .then(() => res.status(201).end())
             .catch(err => {

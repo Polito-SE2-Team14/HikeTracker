@@ -25,6 +25,8 @@ CREATE TABLE POINT(
     latitude REAL,
     longitude REAL,
     address TEXT,
+    municipality TEXT,
+    province TEXT,
     pointType TEXT NOT NULL
 );
 CREATE TABLE HUT (
@@ -74,12 +76,12 @@ INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedP
 VALUES (1, "mario", "rossi", "mario.rossi@email.com", "12345678901", "hiker", "e2c8b3c929cbd232d2b0a4ec86541f2b", "3737b273a3ce89d39a0defe68af81f41"),
     (2, "antonio", "bianchi", "antonio.bianchi@email.com", "234567890", "localGuide", "4d0674a27d4b512b7d1a5e576b7bd22e", "9beb9b87d0ada1dc9a0294f6cda52de2"),
     (3, "cristian", "verdi", "cristian.verdi@email.com", "3456789012", "hutWorker", "c916da4ef3a473d862a7b10c65f10ec0", "214e83c9288a28eeae8ef4c5d90bcbbc");
-INSERT INTO POINT(pointID, name, latitude, longitude, address, pointType) 
-    VALUES (1, "hut#1", "123", "456", "address1", "hut"),
-    (2, "park#1", "123", "456", "address2", "parkinglot"),
-    (3, "hut#2", "123", "456", "address3", "hut"),
-    (4, "park#2", "123", "456", "address4", "parkinglot"),
-    (5, "generic#1", "123", "456", "address5", "generic");
+INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, province, pointType) 
+    VALUES (1, "hut#1", "123", "456", "address1", "Collegno", "Turin", "hut"),
+    (2, "park#1", "123", "456", "address2", "Collegno", "Turin","parkinglot"),
+    (3, "hut#2", "123", "456", "address3","Collegno", "Turin", "hut"),
+    (4, "park#2", "123", "456", "address4", "Collegno", "Turin","parkinglot"),
+    (5, "generic#1", "123", "456", "address5", "Collegno", "Turin","generic");
 INSERT INTO HUT (hutID, bedspace, hutOwnerID) 
 VALUES (1, 10, 3),
     (3, 15, 3);

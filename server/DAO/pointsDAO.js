@@ -17,7 +17,10 @@ exports.getPoint = (pointID) => {
                 return;
             }
             //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
-            const point = { pointID: row.pointID, name: row.name, latitude: row.latitude, longitude: row.longitude, address: row.address, pointType: row.pointType }
+            const point = {
+                pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
+                municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType
+            }
             resolve(point);
         })
     });
@@ -36,7 +39,12 @@ exports.getHikePoints = (hikeID) => {
             }
             const points = rows.map((p) =>
             //new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType)
-            { return { pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude, address: p.address, pointType: p.pointType } }
+            {
+                return {
+                    pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude,
+                    municipality: p.municipality, province: p.province, address: p.address, pointType: p.pointType
+                }
+            }
             );
             resolve(points);
         })
@@ -46,12 +54,15 @@ exports.getHikePoints = (hikeID) => {
 
 exports.createPoint = (point) => {
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO POINT (name, latitude, longitude, address, pointType) VALUES (?,?,?,?,?)";
-        db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.type], function (err, row) {
+
+        console.log(point)
+
+        const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType) VALUES (?,?,?,?,?,?,?)";
+        db.run(sql, [point.name, point.latitude, point.longitude, point.municipality, point.province, point.address, point.type], function (err, row) {
 
 
             if (err) {
-                console.log(err)
+                console.log("CreatePoint",err)
                 reject(err);
             }
             resolve(this.lastID);
@@ -106,8 +117,8 @@ exports.createHut = (hut) => {
 
 exports.updatePoint = (point) => {
     return new Promise((resolve, reject) => {
-        const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ? WHERE pointID = ?";
-        db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.pointID], function (err, row) {
+        const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ?, municipality=?, province=? WHERE pointID = ?";
+        db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.municipality, point.province, point.pointID], function (err, row) {
             if (err) {
                 console.log(err)
                 reject(err);

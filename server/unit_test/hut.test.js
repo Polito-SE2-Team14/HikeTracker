@@ -13,7 +13,7 @@ describe('Hut Tests', () => {
             let hut
             await pointController.createHut(
                 {
-                    hutID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
+                    hutID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality:"Moncalieri", province:"Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
                 //new Hut(0, "nameTest", 392131, 12931, "addresstest", 5, 1)
@@ -42,7 +42,7 @@ describe('Hut Tests', () => {
             let newErr;
             await pointController.createHut(
                 {
-                    hutID: 0, name: 2314214, latitude: 392131, longitude: 12931,
+                    hutID: 0, name: 2314214, latitude: 392131, longitude: 12931, municipality:"Moncalieri", province:"Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
                 //new Hut(0, 312313, 123132, 12931, "addresstest", 5, 1)

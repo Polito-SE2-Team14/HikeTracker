@@ -16,13 +16,13 @@ Test account:
 
 ## Point
 
-| pointID |     name     | latitude (REAL) | longitude (REAL) | address  | pointType  |
-| :-----: | :----------: | :-------------: | :--------------: | :------: | :--------: |
-|    1    |    hut#1     |       123       |       456        | address1 |    hut     |
-|    2    | parkinglot#1 |       123       |       456        | address2 | parkinglot |
-|    3    |    hut#2     |       123       |       456        | address3 |    hut     |
-|    4    | parkinglot#2 |       123       |       456        | address4 | parkinglot |
-|    5    |  generic#1   |       123       |       456        | address5 |  generic   |
+| pointID |     name     | latitude (REAL) | longitude (REAL) | address  | Municipality | Province | pointType  |
+| :-----: | :----------: | :-------------: | :--------------: | :------: | :----------: | :------: | :--------: |
+|    1    |    hut#1     |       123       |       456        | address1 |   Collegno   |  Turin   |    hut     |
+|    2    | parkinglot#1 |       123       |       456        | address2 |   Collegno   |  Turin   | parkinglot |
+|    3    |    hut#2     |       123       |       456        | address3 |   Collegno   |  Turin   |    hut     |
+|    4    | parkinglot#2 |       123       |       456        | address4 |   Collegno   |  Turin   | parkinglot |
+|    5    |  generic#1   |       123       |       456        | address5 |   Collegno   |  Turin   |  generic   |
 
 pointType (Hut, ParkingLot, Generic)
 ## Hut

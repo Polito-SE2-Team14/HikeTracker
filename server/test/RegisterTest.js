@@ -1,15 +1,19 @@
+'use strict'
+
 const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-chai.should();
+const assert = chai.assert;
 
-const app = require("../server.js");
-const agent = chai.request.agent(app);
+const UserAPICall = require('./APICalls/UserAPICalls')
+const userAPICall = new UserAPICall()
+
 const api = '/api/users';
+const Singleton = require("../database/DBManagerSingleton")
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getTestInstance();
 
-const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 
-const types = ['hiker', 'friend'];
+const types = ['hiker', 'localGuide', 'hutWorker'];
 let lastId = 0;
 let users = [
 	{ id: ++lastId, name: 'mario', surname: 'rossi', email: 'mario.rossi@ex.com', phoneNumber: '0123456789', type: types[0], password: 'pretest1' }
@@ -23,48 +27,28 @@ let newUsers = [
 
 before('Registration test setup', async () =>
 	await dbManager.clearDb()
-		.then(async() => await dbManager.populateUser(users))
+		.then(async () => await dbManager.populateUser(users))
 );
 
-describe(`POST ${api}`, () => {
-	testCorrectRegistration(newUsers);
+describe(`POST ${api}`, async () => {
+	it('Register new user', async () => {
+		let user = users[0];
 
-	testWrongRegistration(users, newUsers[1]);
+		const response = await userAPICall.addNewUser(user)
+		assert.equal(response.status, 201);
+	});
+
+	it('Register existing user', async () => {
+		let user = users[0];
+
+		const response = await userAPICall.addNewUser(user)
+		assert.equal(response.status, 505);
+	});
+
+	it('Register user with wrong type', async () => {
+		let user = newUsers[1];
+
+		const response = await userAPICall.addNewUser(user)
+		assert.equal(response.status, 422);
+	});
 });
-
-function testCorrectRegistration(users) {
-	it('Register new user', done => {
-		let user = users[0];
-
-		agent.post(api)
-			.send(user)
-			.then(res => {
-				res.should.have.status(201);
-				done();
-			});
-	});
-}
-
-function testWrongRegistration(users, hut) {
-	it('Register existing user', done => {
-		let user = users[0];
-
-		agent.post(api)
-			.send(user)
-			.then(res => {
-				res.should.have.status(401);
-				done();
-			});
-	});
-
-	it('Register user with wrong type', done => {
-		let user = hut;
-
-		agent.post(api)
-			.send(user)
-			.then(res => {
-				res.should.have.status(422);
-				done();
-			});
-	});
-}

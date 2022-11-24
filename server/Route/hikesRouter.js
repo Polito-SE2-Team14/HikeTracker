@@ -61,7 +61,7 @@ router.post(
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
-		let newHike = new Hike(
+		/* let newHike = new Hike(
 			null,
 			req.body.title,
 			req.body.length,
@@ -71,7 +71,18 @@ router.post(
 			req.body.description,
 			req.body.startPointID,
 			req.body.endPointID
-		);
+		); */
+		let newHike = {
+			hikeID: null,
+			title: req.body.title,
+			length: req.body.length,
+			expectedTime: req.body.expectedTime,
+			ascent: req.body.ascent,
+			difficulty: req.body.difficulty,
+			description: req.body.description,
+			startPointID: req.body.startPointID,
+			endPointID: req.body.endPointID
+		}
 
 		await hikeController
 			.addHike(newHike)
@@ -129,7 +140,7 @@ router.put(
 			expectedTime: req.body.expectedTime,
 			ascent: req.body.ascent,
 			difficulty: req.body.difficulty,
-			description: req.body.difficulty,
+			description: req.body.description,
 			startPointID: req.body.startPointID,
 			endPointID: req.body.endPointID
 		}

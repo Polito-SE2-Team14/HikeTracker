@@ -39,7 +39,7 @@ exports.getAllHikes = () => {
 						hikeID: h.hikeID,
 						title: h.title,
 						length: h.length,
-						length: h.expectedTime,
+						expectedTime: h.expectedTime,
 						ascent: h.ascent,
 						difficulty: h.difficulty,
 						description: h.description,
