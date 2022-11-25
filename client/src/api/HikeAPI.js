@@ -32,11 +32,13 @@ const getAllHikes = async () => {
 				return {
 					hikeID: h.hikeID,
 					title: h.title,
-					lenght: h.length,
+					length: h.length,
 					expectedTime: h.expectedTime,
 					ascent: h.ascent,
 					difficulty: h.difficulty,
 					description: h.description,
+					municipality: h.municipality,
+					province: h.province
 				}
 			}
 		);
@@ -68,7 +70,7 @@ const getHike = async (hikeID) => {
  * @param {String} description Description of the new hike
  * @returns {boolean} Success of the operation
  */
-const newHike = async (title, length, eta, ascent, difficulty, description) => {
+const newHike = async (title, length, eta, ascent, difficulty, description, municipality, province) => {
 	let body = {
 		title: title,
 		length: length,
@@ -76,6 +78,8 @@ const newHike = async (title, length, eta, ascent, difficulty, description) => {
 		ascent: ascent,
 		difficulty: difficulty,
 		description: description,
+		municipality: municipality,
+		province: province
 	};
 
 	try {
@@ -105,7 +109,9 @@ const editHike = async (
 	eta,
 	ascent,
 	difficulty,
-	description
+	description,
+	municipality,
+	province
 ) => {
 	// TODO(antonio): client-side validation
 
@@ -117,6 +123,8 @@ const editHike = async (
 		ascent: parseInt(ascent),
 		difficulty: difficulty,
 		description: description,
+		municipality: municipality,
+		province: province
 	};
 
 	try {

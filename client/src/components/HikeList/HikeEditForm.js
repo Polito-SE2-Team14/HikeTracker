@@ -39,6 +39,30 @@ function HikeForm(props) {
 		props.hike ? props.hike.description : ""
 	);
 
+	let [selectedFile, setSelectedFile] = useState("");
+	let [fileContent, setFileContent] = useState("");
+	let [useFile, setUseFile] = useState(false);
+	let [province, setProvince] = useState(
+		props.hike ? props.hike.province : ""
+	);
+	let [municipality, setMunicipality] = useState(
+		props.hike ? props.hike.municipality : ""
+	);
+
+	let fileChangeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+		console.log(selectedFile);
+		const reader = new FileReader();
+		reader.readAsText(event.target.files[0]);
+		reader.onload = () => {
+			setFileContent(reader.result);
+			console.log(fileContent);
+		}
+		reader.onerror = () => {
+			console.log('file error', reader.error)
+		}
+	};
+
 	let handleSubmit = (event) => {
 		event.preventDefault();
 
@@ -51,6 +75,8 @@ function HikeForm(props) {
 			ascent: ascent,
 			difficulty: difficulty,
 			description: description,
+			municipality: municipality,
+			province: province,
 		};
 
 		if (hike.hikeID) {
@@ -62,7 +88,9 @@ function HikeForm(props) {
 				expectedTime,
 				ascent,
 				difficulty,
-				description
+				description,
+				municipality,
+				province
 			)
 				.then(() => {
 					props.setHikes((old) => {
@@ -81,10 +109,16 @@ function HikeForm(props) {
 				expectedTime,
 				ascent,
 				difficulty,
-				description
+				description,
+				municipality,
+				province
 			)
 				.then(() => {
 					props.setHikes((old) => [...old, hike]); //TODO(antonio): temp value, mark differently
+
+
+
+
 				})
 				.catch((e) => {
 					// TODO(antonio): error handling
@@ -97,6 +131,13 @@ function HikeForm(props) {
 
 	return (
 		<Form>
+			<Form.Group controlId="formCheck" className="mb-3">
+				<Form.Label>File Uploading For GPX</Form.Label>
+				<Form.Check type="switch" id="file_switch" size="xl" checked={useFile}
+					onChange={ev => { setUseFile(ev.target.checked) }}>
+				</Form.Check>
+			</Form.Group>
+
 			<Form.Group controlId="formTitle" className="mb-3">
 				<Form.Label>Title</Form.Label>
 				<Form.Control
@@ -107,12 +148,33 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
+			<Form.Group controlId="formMunicipality" className="mb-3">
+				<Form.Label>Municipality</Form.Label>
+				<Form.Control
+					type="text"
+					placeholder={props.hike ? props.hike.municipality : "Enter hike municipality"}
+					value={municipality}
+					onChange={(ev) => setMunicipality(ev.target.value)}
+				/>
+			</Form.Group>
+
+			<Form.Group controlId="formProvince" className="mb-3">
+				<Form.Label>Province</Form.Label>
+				<Form.Control
+					type="text"
+					placeholder={props.hike ? props.hike.province : "Enter hike province"}
+					value={province}
+					onChange={(ev) => setProvince(ev.target.value)}
+				/>
+			</Form.Group>
+
 			<Row>
 				<Col>
 					<Form.Group controlId="formLength" className="mb-3">
 						<Form.Label>Length (meters)</Form.Label>
 						<Form.Control
 							type="number"
+							// disabled={useFile}
 							placeholder={props.hike ? props.hike.length : "Enter hike length"}
 							value={length}
 							onChange={(ev) => setLength(ev.target.value)}
@@ -124,6 +186,7 @@ function HikeForm(props) {
 						<Form.Label>Ascent (meters)</Form.Label>
 						<Form.Control
 							type="number"
+							// disabled={useFile}
 							placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
 							value={ascent}
 							onChange={(ev) => setAscent(ev.target.value)}
@@ -137,6 +200,7 @@ function HikeForm(props) {
 				<InputGroup>
 					<Form.Control
 						type="number"
+						// disabled={useFile}
 						placeholder={
 							props.hike ? props.hike.expectedTime : "Enter expected time"
 						}
@@ -144,7 +208,7 @@ function HikeForm(props) {
 						onChange={(ev) => setExpectedTime(ev.target.value)}
 						aria-describedby="calculate"
 					/>
-					<Button variant="outline-secondary" id="calculate">
+					<Button variant="outline-secondary" id="calculate" disabled={useFile}>
 						<FontAwesomeIcon icon={faCalculator} />
 					</Button>
 				</InputGroup>
@@ -180,6 +244,11 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
+			<Form.Group controlId="formFile" className="mb-3">
+				<Form.Label>GPX File</Form.Label>
+				<Form.Control type="file" name="file" onChange={fileChangeHandler} />
+			</Form.Group>
+
 			<Row>
 				<Col>
 					<div className="text-end">
@@ -192,6 +261,6 @@ function HikeForm(props) {
 					</div>
 				</Col>
 			</Row>
-		</Form>
+		</Form >
 	);
 }
