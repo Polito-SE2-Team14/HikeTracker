@@ -23,7 +23,6 @@ function CheckExistingUser(email, phoneNumber) {
 function EncryptPassword(password) {
 	return new Promise((resolve, reject) => {
 		let salt = crypto.randomBytes(16);
-
 		crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 			if (err) reject(err);
 			else {
@@ -38,10 +37,6 @@ function EncryptPassword(password) {
 
 exports.getUserById = (id) => {
 	return new Promise((resolve, reject) => {
-
-
-		console.log("provaprova")
-
 
 		const sql = 'SELECT * FROM USER WHERE userID=?';
 		db.get(sql, [id], (err, row) => {
@@ -83,13 +78,16 @@ function StoreUser(user, salt, password) {
 	return new Promise((resolve, reject) => {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
+
 		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password], function (err) {
 			if (err) {
 				console.err("Err: ", err)
 				reject(err);
 			}
 			else {
-				resolve(this.lastID);
+				let newUser = { userID: this.lastID, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type }
+				console.error("newUser", newUser)
+				resolve(newUser);
 			}
 		})
 	});
@@ -106,15 +104,23 @@ function StoreUser(user, salt, password) {
  * @param {string} password 
  * @returns User object
  */
-exports.Register = (user) =>
-	CheckExistingUser(user.email, user.phoneNumber)
-		.then(() =>
-			EncryptPassword(user.password))
-		.then(pass =>
-			StoreUser(user, pass.salt, pass.hashedPassword))
-		.then(id =>
-		//new User(id, user.name, user.surname, user.email, user.phoneNumber, user.type)
-		{
-			return { userID: id, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type }
-		}
-		);
+exports.Register = async (user) => {
+
+	await CheckExistingUser(user.email, user.phoneNumber)
+		.catch(err => { throw err })
+
+	let pass;
+	await EncryptPassword(user.password)
+		.then(p => pass = p)
+		.catch(err => { throw err })
+
+	console.log(pass)
+
+	let finalUser;
+	await StoreUser(user, pass.salt, pass.hashedPassword)
+		.then(u => finalUser = u)
+		.catch(err => { throw err })
+
+	console.log(finalUser)
+	return finalUser
+}

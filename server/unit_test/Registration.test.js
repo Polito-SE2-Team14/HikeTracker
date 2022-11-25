@@ -33,15 +33,16 @@ function testCorrectRegistration(lastId, users) {
 
 	test('Registering new user', async () => {
 		let newUser = users[0];
-
-		let user = await Register(newUser.name, newUser.surname, newUser.email, newUser.phoneNumber, newUser.type, newUser.password)
+		let user;
+		await Register(newUser)
 			.then(u => {
 				newId++;
-				return u;
+				user = u;
 			})
-			.catch(err => { return err; });
+			.catch(err => { console.error(err); throw err; });
 
-		
+
+
 		let res = await new Promise((resolve, reject) => {
 			let sql = 'SELECT * FROM User WHERE userId = ?';
 
@@ -63,9 +64,8 @@ function testCorrectRegistration(lastId, users) {
 					pwd: hashedPassword.toString('hex') == u.hashedPassword
 				});
 			})
-		)).catch(err => {return false; });
+		)).catch(err => { return false; });
 
-		console.log(user)
 
 		expect(user).not.toBeUndefined();
 		//expect(user instanceof User).toBe(true);
