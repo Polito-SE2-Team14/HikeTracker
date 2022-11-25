@@ -45,9 +45,40 @@ exports.getUserById = (id) => {
 			else if (row === undefined)
 				resolve({ error: 'User not found' });
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type }
+				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified }
 				resolve(user);
 			}
+		});
+	});
+};
+
+exports.getUserByToken = (token) => {
+	return new Promise((resolve, reject) => {
+
+		const sql = 'SELECT * FROM USER WHERE token=?';
+		db.get(sql, [token], (err, row) => {
+			if (err)
+				reject(err);
+			else if (row === undefined)
+				reject({ error: 'Token is wrong' });
+			else {
+				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified }
+				resolve(user);
+			}
+		});
+	});
+};
+
+exports.verifyUser = (id) => {
+	return new Promise((resolve, reject) => {
+
+		const sql = 'UPDATE USER SET verified = 1 WHERE userID=?';
+		db.run(sql, [id], (err) => {
+			if (err) {
+				reject(err);
+				return;
+			}
+			resolve(true);
 		});
 	});
 };
@@ -74,18 +105,18 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(user, salt, password) {
+function StoreUser(user, salt, password, token) {
 	return new Promise((resolve, reject) => {
-		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?)";
+		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD, TOKEN, VERIFIED) VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)";
 
 
-		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password], function (err) {
+		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password, token], function (err) {
 			if (err) {
 				console.err("Err: ", err)
 				reject(err);
 			}
 			else {
-				let newUser = { userID: this.lastID, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type }
+				let newUser = { userID: this.lastID, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type, token: token, verified: user.verified }
 				console.error("newUser", newUser)
 				resolve(newUser);
 			}
@@ -102,9 +133,10 @@ function StoreUser(user, salt, password) {
  * @param {string} phoneNumber 
  * @param {string} type 
  * @param {string} password 
+ * @param {string} token 
  * @returns User object
  */
-exports.Register = async (user) => {
+exports.Register = async (user, token) => {
 
 	await CheckExistingUser(user.email, user.phoneNumber)
 		.catch(err => { throw err })
@@ -117,7 +149,7 @@ exports.Register = async (user) => {
 	console.log(pass)
 
 	let finalUser;
-	await StoreUser(user, pass.salt, pass.hashedPassword)
+	await StoreUser(user, pass.salt, pass.hashedPassword, token)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 

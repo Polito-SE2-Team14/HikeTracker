@@ -6,6 +6,7 @@ import { AppNavBar } from "./components/AppNavBar";
 import { LoginPage } from "./pages/LoginPage";
 import { RegistrationPage } from "./pages/RegistrationPage";
 import { UserPage } from "./pages/UserPage";
+import { UserVerificationPage } from "./pages/UserVerificationPage";
 import { HomePage } from "./pages/HomePage";
 import { HikesPage } from "./pages/HikesPage";
 import { HutsPage } from "./pages/HutsPage";
@@ -80,6 +81,7 @@ function App() {
 					path="/user"
 					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
 				/>
+				<Route path="/user/verify/:token" element={<UserVerificationPage user={user}/>} />
 				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage />} />

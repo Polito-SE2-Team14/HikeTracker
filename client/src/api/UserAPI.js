@@ -16,10 +16,23 @@ const Register = async (body) => {
 
 const getUserInfo = async () => {
 	try {
-		let response = await REST.GET(`${api}/current`,true);
+		let response = await REST.GET(`${api}/current`, true);
 		if (response.ok) {
 			const user = await response.json();
 			return user;
+		}
+	}
+	catch (error) {
+		const errorJSON = await error.json();
+		throw errorJSON;
+	}
+};
+
+const verifyUser = async (token) => {
+	try {
+		let response = await REST.UPDATE('PUT', `${api}/verify/${token}`);
+		if (response.ok) {
+			return true;
 		}
 	}
 	catch (error) {
@@ -54,5 +67,5 @@ const logOut = async () => {
 };
 
 
-const UserAPI = { Register, getUserInfo, logIn, logOut };
+const UserAPI = { Register, getUserInfo, logIn, logOut,verifyUser };
 export default UserAPI;
