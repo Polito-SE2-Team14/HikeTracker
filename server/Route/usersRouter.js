@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const UserController = require("../Controller/UserController")
@@ -34,13 +34,13 @@ passport.deserializeUser(function (user, cb) {
 })
 
 router.post('',
-    body(["name","surname","password"]).not().isEmpty().trim().escape(),
+    body(["name", "surname", "password"]).not().isEmpty().trim().escape(),
     body('email').isEmail().normalizeEmail(),
     body("phoneNumber").not().isEmpty().isInt(),
     body("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
     async (req, res) => {
         if (!validationResult(req).isEmpty())
-            return res.status(422).end()//.json(errors.array());
+            return res.status(422).end()
 
         await userController.register(req.body)
             .then(() => res.status(201).end())
@@ -50,6 +50,25 @@ router.post('',
                 if (err === "user exists")
                     return res.status(401).send("User already exists")
                 else res.status(505).send("error")
+            })
+
+
+
+    }
+);
+
+router.put('/verify/:token',
+    param("token").not().isEmpty().trim().escape(),
+    async (req, res) => {
+        if (!validationResult(req).isEmpty())
+            return res.status(422).end()
+
+        await userController.verify(req.params.token)
+            .then(() => res.status(201).end())
+            .catch(err => {
+                if (err === "Token is wrong")
+                    return res.status(401).send({ "error": "Token is wrong" })
+                else res.status(505).send(err)
             })
 
 
