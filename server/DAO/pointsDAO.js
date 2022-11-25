@@ -33,7 +33,6 @@ exports.getHikePoints = (hikeID) => {
 
         db.all(sql, params, (err, rows) => {
             if (err) {
-                console.log(err);
                 reject(err);
                 return;
             }
@@ -55,14 +54,12 @@ exports.getHikePoints = (hikeID) => {
 exports.createPoint = (point) => {
     return new Promise((resolve, reject) => {
 
-        console.log(point)
 
         const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType) VALUES (?,?,?,?,?,?,?)";
         db.run(sql, [point.name, point.latitude, point.longitude, point.municipality, point.province, point.address, point.type], function (err, row) {
 
 
             if (err) {
-                console.log("CreatePoint",err)
                 reject(err);
             }
             resolve(this.lastID);
@@ -75,7 +72,6 @@ exports.deletePoint = (pointID) => {
         const sql = "DELETE FROM POINT WHERE pointID = ?";
         db.run(sql, [pointID], function (err, row) {
             if (err) {
-                console.log(err)
                 reject(err);
             }
             resolve();
@@ -88,13 +84,18 @@ exports.getHuts = () => {
         const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID"
         db.all(sql, (err, rows) => {
             if (err) {
-                console.log(err);
                 reject(err);
             }
 
             let huts = rows.map(r =>
-            //new Hut(r.hutID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID)
-            { return { hutID: r.hutID, name: r.name, latitude: r.latitude, longitude: r.longitude, address: r.address, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID } }
+            //new Hut(r.pointID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID)
+            {
+                return {
+                    pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
+                    address: r.address, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
+                    municipality: r.municipality, province: r.province
+                }
+            }
             )
             resolve(huts);
         })
@@ -105,9 +106,8 @@ exports.createHut = (hut) => {
     return new Promise((resolve, reject) => {
 
         const sql = "INSERT INTO HUT (hutID, bedspace, hutOwnerID) VALUES (?,?,?)";
-        db.run(sql, [hut.hutID, hut.bedspace, hut.hutOwnerID], function (err, row) {
+        db.run(sql, [hut.pointID, hut.bedspace, hut.hutOwnerID], function (err, row) {
             if (err) {
-                console.log(err)
                 reject(err);
             }
             resolve();
@@ -120,7 +120,6 @@ exports.updatePoint = (point) => {
         const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ?, municipality=?, province=? WHERE pointID = ?";
         db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.municipality, point.province, point.pointID], function (err, row) {
             if (err) {
-                console.log(err)
                 reject(err);
             }
             resolve();
@@ -130,11 +129,9 @@ exports.updatePoint = (point) => {
 
 exports.updateHut = (hut) => {
     return new Promise((resolve, reject) => {
-        console.log(hut)
         const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
         db.run(sql, [hut.bedspace, hut.hutOwnerID, hut.pointID], function (err, row) {
             if (err) {
-                console.log("2", err)
                 reject(err);
             }
             resolve();
@@ -142,12 +139,11 @@ exports.updateHut = (hut) => {
     })
 }
 
-exports.deleteHut = (hutID) => {
+exports.deleteHut = (pointID) => {
     return new Promise((resolve, reject) => {
         const sql = "DELETE FROM HUT WHERE hutID = ?";
-        db.run(sql, [hutID], function (err, row) {
+        db.run(sql, [pointID], function (err, row) {
             if (err) {
-                console.log(err)
                 reject(err);
             }
             resolve();

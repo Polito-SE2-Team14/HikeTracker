@@ -50,23 +50,23 @@ class PointController {
 		if (isNaN(hutOwnerID))
 			throw Error("Type error with hutownerID")
 
-		let hutID;
+		let pointID;
 		await pointsDAO.createPoint({
 			name: name, latitude: Number(latitude), longitude: Number(longitude),
 			address: address, municipality: municipality, province: province, type: "hut"
 		})
-			.then(newID => hutID = newID)
+			.then(newID => pointID = newID)
 			.catch(err => { console.error("controller:", err); throw err });
 
 		await pointsDAO
-			.createHut({ hutID: hutID, bedspace: Number(bedspace), hutOwnerID: Number(hutOwnerID) })
+			.createHut({ pointID: pointID, bedspace: Number(bedspace), hutOwnerID: Number(hutOwnerID) })
 			.catch((err) => {
 				console.error(err);
 				throw err;
 			});
 
 		/* return new Hut(
-			hutID,
+			pointID,
 			hut.name,
 			hut.latitude,
 			hut.longitude,
@@ -76,7 +76,7 @@ class PointController {
 		); */
 
 		let hutToBeReturned = {
-			hutID: hutID,
+			pointID: pointID,
 			name: hut.name,
 			latitude: hut.latitude,
 			longitude: hut.longitude,
@@ -88,6 +88,26 @@ class PointController {
 	}
 
 	async updateHut(hut) {
+
+		let { name, latitude, longitude, municipality, province, address, bedspace, hutOwnerID } = hut
+
+		if (typeof name != "string")
+			throw Error("Type error with name")
+		if (isNaN(latitude))
+			throw Error("Type error with latitude")
+		if (isNaN(longitude))
+			throw Error("Type error with longitude")
+		if (typeof address != "string")
+			throw Error("Type error with address")
+		if (typeof municipality != "string")
+			throw Error("Type error with address")
+		if (typeof province != "string")
+			throw Error("Type error with address")
+		if (isNaN(bedspace))
+			throw Error("Type error with bedspace")
+		if (isNaN(hutOwnerID))
+			throw Error("Type error with hutownerID")
+
 		await pointsDAO.updatePoint(hut)
 			.catch(err => { throw err })
 
@@ -95,11 +115,11 @@ class PointController {
 			.catch(err => { throw err })
 	}
 
-	async deleteHut(hutID) {
-		await pointsDAO.deleteHut(hutID)
+	async deleteHut(pointID) {
+		await pointsDAO.deleteHut(pointID)
 			.catch(err => { throw err })
 
-		await pointsDAO.deletePoint(hutID)
+		await pointsDAO.deletePoint(pointID)
 			.catch(err => { throw err })
 
 		return

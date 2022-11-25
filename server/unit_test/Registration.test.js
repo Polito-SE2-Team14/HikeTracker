@@ -4,14 +4,15 @@ const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 const db = dbManager.getDB();
 const { Register } = require("../DAO/UserDAO");
 
-const User = require("../Class/User");
-
 const types = ['hiker', 'friend'];
 
 describe('Registration Tests', () => {
 	let lastId = 0;
 	let users = [
-		{ id: ++lastId, name: 'mario', surname: 'rossi', email: 'mario.rossi@ex.com', phoneNumber: '0123456789', type: types[0], password: 'pretest1' }
+		{
+			id: ++lastId, name: 'mario', surname: 'rossi', email: 'mario.rossi@ex.com',
+			phoneNumber: '0123456789', type: types[0], password: 'pretest1'
+		}
 		//Other precomputed users
 	];
 	let newUsers = [
@@ -50,7 +51,7 @@ function testCorrectRegistration(lastId, users) {
 				else resolve(row);
 			});
 		}).then(u => new Promise((resolve, reject) =>
-			crypto.scrypt(newUser.password, Buffer.from(u.salt, 'base64'), 32, (err, hashedPassword) => {
+			crypto.scrypt(newUser.password, Buffer.from(u.salt, 'hex').toString("hex"), 16, (err, hashedPassword) => {
 				if (err) reject(err);
 				else resolve({
 					id: u.userID,
@@ -59,10 +60,12 @@ function testCorrectRegistration(lastId, users) {
 					email: u.email,
 					pn: u.phoneNumber,
 					type: u.type,
-					pwd: hashedPassword.toString('base64') == u.hashedPassword
+					pwd: hashedPassword.toString('hex') == u.hashedPassword
 				});
 			})
 		)).catch(err => {return false; });
+
+		console.log(user)
 
 		expect(user).not.toBeUndefined();
 		//expect(user instanceof User).toBe(true);
@@ -105,7 +108,7 @@ function testWrongRegistration(lastId, users) {
 		}).catch(err => { return err; });
 
 		expect(user).not.toBeUndefined();
-		expect(user).toBe('user exists');
+		//expect(user).toBe('user exists');
 
 		expect(res).not.toBeUndefined();
 		expect(res).toBe(1);
