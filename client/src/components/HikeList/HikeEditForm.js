@@ -51,12 +51,10 @@ function HikeForm(props) {
 
 	let fileChangeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
-		console.log(selectedFile);
 		const reader = new FileReader();
 		reader.readAsText(event.target.files[0]);
 		reader.onload = () => {
 			setFileContent(reader.result);
-			console.log(fileContent);
 		}
 		reader.onerror = () => {
 			console.log('file error', reader.error)
@@ -77,6 +75,7 @@ function HikeForm(props) {
 			description: description,
 			municipality: municipality,
 			province: province,
+			gpxFile : fileContent
 		};
 
 		if (hike.hikeID) {
