@@ -2,10 +2,10 @@
 FROM node:16
 
 ## BUILD TIME
-WORKDIR /app
+WORKDIR /server
 COPY . .
 RUN npm install
 
 ## EXECUTION TIME
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 3001
+CMD ["node", "server.js"]
