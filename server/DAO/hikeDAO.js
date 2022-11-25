@@ -1,20 +1,19 @@
-import sqlite from "sqlite3";
+//import sqlite from "sqlite3";
 //const { db } = require("../database/dbManager");
-import { writeFile, unlink } from "fs";
+const { writeFile, unlink } = require("fs");
 
-
-import { getInstance } from "../database/DBManagerSingleton";
-import DBManager from "../database/DBManager";
+const Singleton = require("../database/DBManagerSingleton");
+const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
-const dbManager = getInstance();
+const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-import Hike from "../Class/Hike";
+const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
  * @returns {Promise} A promise containing a vector with all the hikes or a message error
  */
-export function getAllHikes() {
+exports.getAllHikes = function () {
 	return new Promise((resolve, reject) => {
 		const sql = "SELECT * FROM HIKE";
 		db.all(sql, [], (err, rows) => {
@@ -67,7 +66,7 @@ export function getAllHikes() {
  * @param {number} wantedID - Id of the searched hike
  * @returns {Promise} Boolean value telling if the hike exists
  */
-export function check_hike(wantedID) {
+exports.check_hike = function (wantedID) {
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 			if (err) {
@@ -85,7 +84,7 @@ export function check_hike(wantedID) {
  * @param {number} wantedID - Id of the searched hike
  * @returns {boolean} Boolean value telling if the hike exists
  */
-export function getHike(wantedID) {
+exports.getHike = function (wantedID) {
 	db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 		if (err) {
 			reject(err);
@@ -108,7 +107,7 @@ export function getHike(wantedID) {
  * @param {Hike} newHike - The hike to insert
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
-export function addHike(newHike) {
+exports.addHike = function (newHike) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
@@ -174,7 +173,7 @@ export function addHike(newHike) {
  * @param {Hike} newHike - The updated version of the hike
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
-export function updateHike(newHike) {
+exports.updateHike = function (newHike) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=?, municipality=?, province=? WHERE hikeID =?",
@@ -203,7 +202,7 @@ export function updateHike(newHike) {
 	});
 }
 
-export function deleteHike(hikeID) {
+exports.deleteHike = function (hikeID) {
 	const sql = "DELETE FROM HIKE WHERE hikeID = ?";
 	const params = [hikeID];
 
@@ -213,12 +212,12 @@ export function deleteHike(hikeID) {
 				reject(err);
 				return;
 			} else {
-				try{
+				try {
 					deleteTrack(hikeID);
 
 					resolve(`Hike with ID ${hikeID} deleted correctly`);
 				}
-				catch(e){
+				catch (e) {
 					reject(e);
 				}
 			}
@@ -226,7 +225,7 @@ export function deleteHike(hikeID) {
 	});
 }
 
-export function setStart(hikeID, startPointID) {
+exports.setStart = function (hikeID, startPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE startPointID=? WHERE hikeID =?",
@@ -243,7 +242,7 @@ export function setStart(hikeID, startPointID) {
 	});
 }
 
-export function setEnd(hikeID, endPointID) {
+exports.setEnd = function (hikeID, endPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE endPointID=? WHERE hikeID =?",

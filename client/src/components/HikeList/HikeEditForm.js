@@ -167,6 +167,8 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
+			
+			{!useFile && <div>
 			<Row>
 				<Col>
 					<Form.Group controlId="formLength" className="mb-3">
@@ -212,6 +214,7 @@ function HikeForm(props) {
 					</Button>
 				</InputGroup>
 			</Form.Group>
+			</div>}
 
 			<Form.Group controlId="formDifficulty" className="mb-3">
 				<Form.Label>Difficulty</Form.Label>

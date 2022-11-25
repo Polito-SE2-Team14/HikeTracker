@@ -21,4 +21,4 @@ class Singleton {
 }
 
 
-module.exports =  Singleton
+module.exports = Singleton
