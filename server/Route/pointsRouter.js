@@ -17,14 +17,9 @@ router.get('/huts', async (req, res) => {
 });
 
 router.post('/huts',
-	body("name").not().isEmpty().trim().escape(),
-	body("address").not().isEmpty().trim().escape(),
-	body("province").not().isEmpty().trim().escape(),
-	body("municipality").not().isEmpty().trim().escape(),
-	body("longitude").isFloat().not().isEmpty().trim().escape(),
-	body("latitude").isFloat().not().isEmpty().trim().escape(),
-	body("bedspace").isInt().not().isEmpty().trim().escape(),
-	body("hutOwnerID").isInt().not().isEmpty().trim().escape(),
+	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
+	body("bedspace", "hutOwnerID").isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
@@ -38,15 +33,9 @@ router.post('/huts',
 	});
 
 router.put('/huts',
-	body("pointID").isInt().not().isEmpty().trim().escape(),
-	body("name").not().isEmpty().trim().escape(),
-	body("address").not().isEmpty().trim().escape(),
-	body("province").not().isEmpty().trim().escape(),
-	body("municipality").not().isEmpty().trim().escape(),
-	body("longitude").isFloat().not().isEmpty().trim().escape(),
-	body("latitude").isFloat().not().isEmpty().trim().escape(),
-	body("bedspace").isInt().not().isEmpty().trim().escape(),
-	body("hutOwnerID").isInt().not().isEmpty().trim().escape(),
+	body(["pointID", "bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+	body(["latitude", "longitude"]).isFloat().not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
@@ -60,12 +49,14 @@ router.put('/huts',
 	});
 
 
-router.delete('/huts/:hutID', async (req, res) => {
-	await pointController.deleteHut(req.params.hutID)
-		.then(() => res.status(204).send())
-		.catch(err => { console.error(err); res.status(505).send(err) })
+router.delete('/huts/:hutID',
+	body("hutID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		await pointController.deleteHut(req.params.hutID)
+			.then(() => res.status(204).send())
+			.catch(err => { console.error(err); res.status(505).send(err) })
 
-})
+	})
 
 router.get('/parkinglots', async (req, res) => {
 	await pointController.getParkingLots()

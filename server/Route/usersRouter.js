@@ -34,12 +34,10 @@ passport.deserializeUser(function (user, cb) {
 })
 
 router.post('',
-    body("name").not().isEmpty().trim().escape(),
-    body("surname").not().isEmpty().trim().escape(),
+    body(["name","surname","password"]).not().isEmpty().trim().escape(),
     body('email').isEmail().normalizeEmail(),
-    body("phoneNumber").not().isEmpty().trim().escape(),
+    body("phoneNumber").not().isEmpty().isInt(),
     body("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
-    body("password").not().isEmpty().trim().escape(),
     async (req, res) => {
         if (!validationResult(req).isEmpty())
             return res.status(422).end()//.json(errors.array());

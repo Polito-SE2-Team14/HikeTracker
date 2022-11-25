@@ -23,7 +23,7 @@ router.get("", async (req, res) => {
 // GET request to /api/hikes/:hikeID to obtain the selected hike
 router.get(
 	"/:hikeID",
-	body("hikeID").not().isEmpty().trim().escape(),
+	body("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		await hikeController
 			.getHike(req.params.hikeID)
@@ -37,7 +37,7 @@ router.get(
 //GET request to /api/hikes/:hikeID/points to obtain points of the selected hike
 router.get(
 	"/:hikeID/points/",
-	body("hikeID").not().isEmpty().trim().escape(),
+	body("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		const hikeID = req.params.hikeID;
 
@@ -49,44 +49,15 @@ router.get(
 );
 
 // POST request to /api/hikes to add a new hike
-router.post(
-	"",
-	body("title").not().isEmpty().trim().escape(),
-	body("description").not().isEmpty().trim().escape(),
-	body("difficulty").not().isEmpty().trim().escape(),
-	body("municipality").not().isEmpty().trim().escape(),
-	body("province").not().isEmpty().trim().escape(),
-	body("length").isInt({ gt: 0 }),
-	body("expectedTime").isInt({ gt: 0 }),
-	body("ascent").isInt({ gt: 0 }),
+router.post("",
+	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
+	body(["length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
-		/* let newHike = new Hike(
-			null,
-			req.body.title,
-			req.body.length,
-			req.body.expectedTime,
-			req.body.ascent,
-			req.body.difficulty,
-			req.body.description,
-			req.body.startPointID,
-			req.body.endPointID
-		); */
-		let newHike = {
-			hikeID: null,
-			title: req.body.title,
-			length: req.body.length,
-			expectedTime: req.body.expectedTime,
-			ascent: req.body.ascent,
-			difficulty: req.body.difficulty,
-			description: req.body.description,
-			startPointID: req.body.startPointID,
-			endPointID: req.body.endPointID,
-			municipality: req.body.municipality,
-			province: req.body.province
-		}
+		let newHike = req.body;
+		newHike.hikeID = null;
 
 		await hikeController
 			.addHike(newHike)
@@ -104,22 +75,14 @@ router.post(
 
 
 // PUT request to /api/hikes to update an existing hike
-router.put(
-	"",
-	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
-	body("title").not().isEmpty().trim().escape(),
-	body("description").not().isEmpty().trim().escape(),
-	body("difficulty").not().isEmpty().trim().escape(),
-	body("municipality").not().isEmpty().trim().escape(),
-	body("province").not().isEmpty().trim().escape(),
-	body("length").isInt({ gt: 0 }),
-	body("expectedTime").isInt({ gt: 0 }),
-	body("ascent").isInt({ gt: 0 }),
+router.put("",
+	body(["hikeID", "length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
+	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(errors.array());
-			return res.status(505).json(errors.array());
+			return res.status(422).json(errors.array());
 		}
 
 		let present = check_hike(req.body.hikeID);
@@ -127,31 +90,9 @@ router.put(
 			return res.status(404).json({ error: `No hike with the given ID found` });
 		}
 
-		/* let hike = new Hike(
-			req.body.hikeID,
-			req.body.title,
-			req.body.length,
-			req.body.expectedTime,
-			req.body.ascent,
-			req.body.difficulty,
-			req.body.description,
-			req.body.startPointID,
-			req.body.endPointID
-		);*/
+		let hike = req.body
 
-		let hike = {
-			hikeID: req.body.hikeID,
-			title: req.body.title,
-			length: req.body.length,
-			expectedTime: req.body.expectedTime,
-			ascent: req.body.ascent,
-			difficulty: req.body.difficulty,
-			description: req.body.description,
-			startPointID: req.body.startPointID,
-			endPointID: req.body.endPointID,
-			municipality: req.body.municipality,
-			province: req.body.province
-		}
+		console.log("update", req.body)
 
 		await hikeController
 			.updateHike(hike)
@@ -167,8 +108,7 @@ router.put(
 );
 
 router.put("/start",
-	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
-	body("startPointID").not().isEmpty().isInt({ gt: -1 }),
+	body(["hikeID", "startPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		await hikeController.setStart(req.body.hikeID, req.body.startPointID)
@@ -181,8 +121,7 @@ router.put("/start",
 	})
 
 router.put("/end",
-	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
-	body("endPointID").not().isEmpty().isInt({ gt: -1 }),
+	body(["hikeID", "endPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		await hikeController.setEnd(req.body.hikeID, req.body.endPointID)
@@ -192,7 +131,7 @@ router.put("/end",
 
 
 router.delete("/:hikeID",
-	body("hikeID").not().isEmpty().isInt({ gt: -1 }),
+	body("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		let present = await check_hike(req.params.hikeID)
