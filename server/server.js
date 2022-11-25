@@ -60,6 +60,9 @@ app.use(prefixRoute + 'points', pointsRouter);
 // ################################# User APIs ##########################################
 const usersRouter = require("./Route/usersRouter");
 app.use(prefixRoute + 'users', usersRouter);
+// ################################# Parking lot APIs ####################################
+const pLotRouter = require("./Route/parkingLotRouter");
+app.use(prefixRoute+'parkinglots',pLotRouter);
 
 
 // activate the server
