@@ -6,7 +6,7 @@ class Singleton {
 
     static getInstance() {
         if (this.#instance == null) {
-            this.#instance = new DBManager("testDB")
+            this.#instance = new DBManager("myDB")
         }
         return this.#instance;
     }
@@ -21,4 +21,4 @@ class Singleton {
 }
 
 
-module.exports =  Singleton
+module.exports = Singleton
