@@ -70,7 +70,15 @@ const getHike = async (hikeID) => {
  * @param {String} description Description of the new hike
  * @returns {boolean} Success of the operation
  */
-const newHike = async (title, length, eta, ascent, difficulty, description, municipality, province) => {
+const newHike = async (title, track, difficulty, description, municipality, province) => {
+	let gpx = new gpxParser();
+	gpx.parse(track);
+
+	let length = gpx.tracks[0].distance.total;
+	let ascent = gpx.tracks[0].elevation.pos;
+	let eta = (12.09 * length + 98.4 * ascent) / 1000;
+	let track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
+
 	let body = {
 		title: title,
 		length: length,
@@ -79,7 +87,8 @@ const newHike = async (title, length, eta, ascent, difficulty, description, muni
 		difficulty: difficulty,
 		description: description,
 		municipality: municipality,
-		province: province
+		province: province,
+		track: track
 	};
 
 	try {
@@ -226,31 +235,6 @@ const getHikePoints = async (hikeID) => {
 		throw e;
 	}
 };
-
-/**
- * Add track to an hike
- * @param {gpxParser} track - track data
- * 
- * @returns {bool}
- */
-const newTrack = async (hikeId, track) => {
-	//
-	let gpx = new gpxParser();
-	gpx.parse(track);
-
-	let body = {
-		track: gpx.tracks[0].points.map(p => [p.lat, p.lon])
-	};
-
-	try {
-		await REST.UPDATE('POST', `${api}/${hikeId}/track`, body);
-
-		return true;
-	}
-	catch (e) {
-		return false;
-	}
-}
 
 const HikeAPI = {
 	getAllHikes,

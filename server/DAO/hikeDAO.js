@@ -1,20 +1,20 @@
-const sqlite = require("sqlite3");
+import sqlite from "sqlite3";
 //const { db } = require("../database/dbManager");
-const fs = require("fs");
+import { writeFile, unlink } from "fs";
 
 
-const Singleton = require("../database/DBManagerSingleton");
-const DBManager = require("../database/DBManager");
+import { getInstance } from "../database/DBManagerSingleton";
+import DBManager from "../database/DBManager";
 /** @type {DBManager} */
-const dbManager = Singleton.getInstance();
+const dbManager = getInstance();
 const db = dbManager.getDB();
 
-const Hike = require("../Class/Hike");
+import Hike from "../Class/Hike";
 /**
  * Queries the db to get all hikes
  * @returns {Promise} A promise containing a vector with all the hikes or a message error
  */
-exports.getAllHikes = () => {
+export function getAllHikes() {
 	return new Promise((resolve, reject) => {
 		const sql = "SELECT * FROM HIKE";
 		db.all(sql, [], (err, rows) => {
@@ -22,8 +22,9 @@ exports.getAllHikes = () => {
 				reject(err);
 				return;
 			}
-			const hikes = rows.map(
-				(h) =>
+			try {
+				const hikes = rows.map(
+					(h) =>
 					/* new Hike(
 						h.hikeID,
 						h.title,
@@ -35,32 +36,38 @@ exports.getAllHikes = () => {
 						h.startPointID,
 						h.endPointID
 					) */ {
-					return {
-						hikeID: h.hikeID,
-						title: h.title,
-						length: h.length,
-						expectedTime: h.expectedTime,
-						ascent: h.ascent,
-						difficulty: h.difficulty,
-						description: h.description,
-						startPointID: h.startPointID,
-						endPointID: h.endPointID,
-						municipality: h.municipality,
-						province: h.province
+						return {
+							hikeID: h.hikeID,
+							title: h.title,
+							length: h.length,
+							expectedTime: h.expectedTime,
+							ascent: h.ascent,
+							difficulty: h.difficulty,
+							description: h.description,
+							startPointID: h.startPointID,
+							endPointID: h.endPointID,
+							municipality: h.municipality,
+							province: h.province,
+							track: getTrack(h.hikeID)
+						}
 					}
-				}
-			);
-			resolve(hikes);
+				);
+
+				resolve(hikes);
+			}
+			catch (e) {
+				reject(e);
+			}
 		});
 	});
-};
+}
 
 /**
  * Checks if a hike is present in the database
  * @param {number} wantedID - Id of the searched hike
  * @returns {Promise} Boolean value telling if the hike exists
  */
-exports.check_hike = (wantedID) => {
+export function check_hike(wantedID) {
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 			if (err) {
@@ -71,30 +78,37 @@ exports.check_hike = (wantedID) => {
 			resolve(row !== undefined);
 		});
 	});
-};
+}
 
 /**
  * Get the hike associated to the ID passed
  * @param {number} wantedID - Id of the searched hike
  * @returns {boolean} Boolean value telling if the hike exists
  */
-exports.getHike = (wantedID) => {
+export function getHike(wantedID) {
 	db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 		if (err) {
 			reject(err);
 			return;
 		} else {
-			resolve(row);
+			try {
+				row.track = getTrack(row.id);
+
+				resolve(row);
+			}
+			catch (e) {
+				reject(e);
+			}
 		}
-	});
-};
+	})
+}
 
 /**
  * Inserts a new hike in the database
  * @param {Hike} newHike - The hike to insert
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
-exports.addHike = (newHike) => {
+export function addHike(newHike) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
@@ -115,44 +129,52 @@ exports.addHike = (newHike) => {
 					reject(err);
 					return;
 				} else {
-					resolve(
-						/* new Hike(
-							this.lastID,
-							newHike.title,
-							newHike.length,
-							newHike.expectedTime,
-							newHike.ascent,
-							newHike.difficulty,
-							newHike.description,
-							newHike.startPointID,
-							newHike.endPointID
-						) */
-						{
-							hikeID: this.lastID,
-							title: newHike.title,
-							length: newHike.length,
-							expectedTime: newHike.expectedTime,
-							ascent: newHike.ascent,
-							difficulty: newHike.difficulty,
-							description: newHike.description,
-							startPointID: newHike.startPointID,
-							endPointID: newHike.endPointID,
-							municipality: newHike.municipality,
-							province: newHike.province
-						}
-					);
+					try {
+						newTrack(this.lastID, newHike.track);
+
+						resolve(
+							/* new Hike(
+								this.lastID,
+								newHike.title,
+								newHike.length,
+								newHike.expectedTime,
+								newHike.ascent,
+								newHike.difficulty,
+								newHike.description,
+								newHike.startPointID,
+								newHike.endPointID
+							) */
+							{
+								hikeID: this.lastID,
+								title: newHike.title,
+								length: newHike.length,
+								expectedTime: newHike.expectedTime,
+								ascent: newHike.ascent,
+								difficulty: newHike.difficulty,
+								description: newHike.description,
+								startPointID: newHike.startPointID,
+								endPointID: newHike.endPointID,
+								municipality: newHike.municipality,
+								province: newHike.province,
+								track: newHike.track
+							}
+						);
+					}
+					catch (e) {
+						reject(e);
+					}
 				}
 			}
 		);
 	});
-};
+}
 
 /**
  * Updates a hike in the database
  * @param {Hike} newHike - The updated version of the hike
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
-exports.updateHike = (newHike) => {
+export function updateHike(newHike) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=?, municipality=?, province=? WHERE hikeID =?",
@@ -179,9 +201,9 @@ exports.updateHike = (newHike) => {
 			}
 		);
 	});
-};
+}
 
-exports.deleteHike = (hikeID) => {
+export function deleteHike(hikeID) {
 	const sql = "DELETE FROM HIKE WHERE hikeID = ?";
 	const params = [hikeID];
 
@@ -191,13 +213,20 @@ exports.deleteHike = (hikeID) => {
 				reject(err);
 				return;
 			} else {
-				resolve(`Hike with ID ${hikeID} deleted correctly`);
+				try{
+					deleteTrack(hikeID);
+
+					resolve(`Hike with ID ${hikeID} deleted correctly`);
+				}
+				catch(e){
+					reject(e);
+				}
 			}
 		});
 	});
-};
+}
 
-exports.setStart = (hikeID, startPointID) => {
+export function setStart(hikeID, startPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE startPointID=? WHERE hikeID =?",
@@ -214,7 +243,7 @@ exports.setStart = (hikeID, startPointID) => {
 	});
 }
 
-exports.setEnd = (hikeID, endPointID) => {
+export function setEnd(hikeID, endPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE endPointID=? WHERE hikeID =?",
@@ -231,20 +260,18 @@ exports.setEnd = (hikeID, endPointID) => {
 	});
 }
 
-exports.newTrack = (hikeId, track) =>
-	this.getHike(hikeId)
-		.then(() => {
-			fs.writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), 'utf8', err => {
-				if (err) throw err;
-			})
+function newTrack(hikeId, track) {
+	writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), 'utf8', err => {
+		if (err) throw err;
+	});
+}
 
-			return true;
-		})
-		.catch(err => { return err; });
+function getTrack(hikeId) {
+	return require(`../database/tracks/_${hikeId}_.trk`);
+}
 
-exports.getTrack = (hikeId) =>
-	this.getHike(hikeId)
-		.then(() => {
-			return require(`../database/tracks/_${hikeId}_.trk`);
-		})
-		.catch(err => { return err; });
+function deleteTrack(hikeId) {
+	unlink(`../database/tracks/_${hikeId}_.trk`, err => {
+		if (err) throw err;
+	});
+}
