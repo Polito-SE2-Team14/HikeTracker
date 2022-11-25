@@ -79,30 +79,29 @@ CREATE TABLE HUTWORKER(
 	confirmed INTEGER NOT NULL
 );
 
-INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedPassword)
+INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedPassword, verified, token)
 		VALUES
-		(1,		"Mario",	"Rossi",	"mario.rossi@email.com",	"12345678901",	"hiker",		"e2c8b3c929cbd232d2b0a4ec86541f2b", "3737b273a3ce89d39a0defe68af81f41"),
-		(2,		"Antonio",	"Bianchi",	"antonio.bianchi@email.com","234567890",	"localGuide",	"4d0674a27d4b512b7d1a5e576b7bd22e", "9beb9b87d0ada1dc9a0294f6cda52de2"),
-		(3,		"Cristian",	"Verdi",	"cristian.verdi@email.com",	"3456789012",	"hutWorker",	"c916da4ef3a473d862a7b10c65f10ec0", "214e83c9288a28eeae8ef4c5d90bcbbc"),
-		(4,		"Randolph",	"Carter",	"andolph.arter@email.com",	"3456789012" ,	"hiker",		"19553e12f7a26f5a03e27535bdcaa934", "6c162af51f7d3bd4dcdd3473f5ef966c"),
-		(5,		"Larry",	"Thomas",	".homas@email.com",			"12345678901",	"hiker",		"64338048d65002be18a12aa199f066ab", "614945b9aa9ed013352e086c69de3a69"),
-		(6,		"Frank",	"Johnson",	"rank.ohnson@email.com",	"12345678901",	"hiker",		"eb2262a72a0a66fefc27d41fb5c4fa1b", "76fc845c94171f48fbf760f07bf4b800"),
-		(7,		"Eric",		"Williams",	"ric.illiams@email.com",	"12345678901",	"hiker",		"d462395a99e5bb30410f0df3661f5c6e", "21e4ff57a3613181597028b67c1fddea"),
-		(8,		"Stephen",	"Brown",	"tephen.rown@mail.com",		"12345678901",	"hiker",		"81e1eab27b85250d64e5869f373abb24", "afb686bd9e4f422bed33dc6fa001f6b6"),
-		(9,		"Andrew",	"Miller",	"ndrew.iller@email.com",	"12345678901",	"localGuide",	"ed407a43fe0316eee0aa6162b45e3a20", "bcca6b149b5c978304bcab18bcefa83f"),
-		(10,	"Gregory",	"Jones",	"regory.ones@email.com",	"12345678901",	"localGuide",	"d62ecd543f8f1baf24b2576562c59aaf", "3e8a2844dbf65ca99a3537459ca9ad31"),
-		(11,	"Mary",		"Lee",		"ary.ee@email.com",			"234567890",	"localGuide",	"fd6fc0d277420d47bec20814c789b3f2", "663a3233acb3c6a11d7221f8f8384552"),
-		(12,	"Friede",	"Gonzalez",	"riede.onzalez@email.com",	"234567890",	"localGuide",	"14810b323656d8fe539f965157ea94f5", "c5fcb8fc2860f59520d17f24d869cac9"),
-		(13,	"Patricia",	"Harris",	"atricia.arris@email.com",	"234567890",	"localGuide",	"103398d9b123750bf0035d89fe7f152a", "775b7ec077d60d8d6632bff70c2f7631"),
-		(14,	"Linda",	"Clark",	"inda.lark@email.com",		"234567890",	"localGuide",	"99b5a2008096a75094accd4fd3b622c5", "35e6d9bdc58601c6df083575eca0a85b"),
-		(15,	"Barbara",	"Robinson",	"arbara.obinson@email.com",	"234567890",	"localGuide",	"2b3e4e973bd44c441859307476401419", "d05239a4245ba825e61786cd1649e58d"),
-		(16,	"Elizabeth","Lewis",	"lizabeth.ewis@email.com",	"3456789012",	"hutWorker",	"230f5385efe5cc7eb8e7cf8eb0fcfb05", "160df082f2fb1074cf554feebbcfb736"),
-		(17,	"Jennifer",	"Walker",	"ennifer.alker@email.com",	"3456789012",	"hutWorker",	"4ae199deae86fc7a2adcc7b3d3146087", "4ae199deae86fc7a2adcc7b3d3146087"),
-		(18,	"Maria",	"Hall",		"aria.all@email.com", 		"3456789012",	"hutWorker",	"2e4536acd14508c40cc19d3dc06b3070", "1b89bba839d3a1f69f37b1069bcf32e9"),
-		(19,	"Susan",	"Young",	"usan.oung@email.com",		"3456789012",	"hutWorker",	"986dbcae3953cae1172e8ccc3e38d18c", "ca1171e03a509d2c4347db364d559ee1"),
-		(20,	"Eileen",	"Allen",	"ileen.llen@email.com",		"3456789012",	"hutWorker",	"add7d5daded92afa014417539a998213", "9bc8b87be611f3a15fee8901507f83a3"),
-		(21,	"Dorothy",	"Sanchez",	"orothy.anchez@email.com",	"3456789012",	"hutWorker",	"8df096854b70171f1b802824efa9e2d0", "a19d1cae7186a9d334b3d756d5239d49");
-
+		(1,		"Mario",	"Rossi",	"mario.rossi@email.com",	"12345678901",	"hiker",		"e2c8b3c929cbd232d2b0a4ec86541f2b", "3737b273a3ce89d39a0defe68af81f41", 0, "096f319906eeb497308b"),
+		(2,		"Antonio",	"Bianchi",	"antonio.bianchi@email.com","234567890",	"localGuide",	"4d0674a27d4b512b7d1a5e576b7bd22e", "9beb9b87d0ada1dc9a0294f6cda52de2", 1, "9db183835b5095a2fe3b"),
+		(3,		"Cristian",	"Verdi",	"cristian.verdi@email.com",	"3456789012",	"hutWorker",	"c916da4ef3a473d862a7b10c65f10ec0", "214e83c9288a28eeae8ef4c5d90bcbbc", 0, "b8ad08aad8e0246f9796"),
+		(4,		"Randolph",	"Carter",	"andolph.arter@email.com",	"3456789012" ,	"hiker",		"19553e12f7a26f5a03e27535bdcaa934", "6c162af51f7d3bd4dcdd3473f5ef966c", 1, "9624204ad3e62652572f"),
+		(5,		"Larry",	"Thomas",	".homas@email.com",			"12345678901",	"hiker",		"64338048d65002be18a12aa199f066ab", "614945b9aa9ed013352e086c69de3a69", 0, "92f036e0b3e9cdaca0be"),
+		(6,		"Frank",	"Johnson",	"rank.ohnson@email.com",	"12345678901",	"hiker",		"eb2262a72a0a66fefc27d41fb5c4fa1b", "76fc845c94171f48fbf760f07bf4b800", 1, "95de7689d924b30fc36d"),
+		(7,		"Eric",		"Williams",	"ric.illiams@email.com",	"12345678901",	"hiker",		"d462395a99e5bb30410f0df3661f5c6e", "21e4ff57a3613181597028b67c1fddea", 0, "af0ac3118920c4221d37"),
+		(8,		"Stephen",	"Brown",	"tephen.rown@mail.com",		"12345678901",	"hiker",		"81e1eab27b85250d64e5869f373abb24", "afb686bd9e4f422bed33dc6fa001f6b6", 1, "dcb31fcaeaa09ca1d889"),
+		(9,		"Andrew",	"Miller",	"ndrew.iller@email.com",	"12345678901",	"localGuide",	"ed407a43fe0316eee0aa6162b45e3a20", "bcca6b149b5c978304bcab18bcefa83f", 0, "a7cbaefd65187a2c72dd"),
+		(10,	"Gregory",	"Jones",	"regory.ones@email.com",	"12345678901",	"localGuide",	"d62ecd543f8f1baf24b2576562c59aaf", "3e8a2844dbf65ca99a3537459ca9ad31", 1, "c60030e908b4dfe6ca56"),
+		(11,	"Mary",		"Lee",		"ary.ee@email.com",			"234567890",	"localGuide",	"fd6fc0d277420d47bec20814c789b3f2", "663a3233acb3c6a11d7221f8f8384552", 0, "c5bd845e9d0d842580bb"),
+		(12,	"Friede",	"Gonzalez",	"riede.onzalez@email.com",	"234567890",	"localGuide",	"14810b323656d8fe539f965157ea94f5", "c5fcb8fc2860f59520d17f24d869cac9", 1, "b2d46a8548ea512dd661"),
+		(13,	"Patricia",	"Harris",	"atricia.arris@email.com",	"234567890",	"localGuide",	"103398d9b123750bf0035d89fe7f152a", "775b7ec077d60d8d6632bff70c2f7631", 0, "fbf7d15ab43f19267fc8"),
+ 		(14,	"Linda",	"Clark",	"inda.lark@email.com",		"234567890",	"localGuide",	"99b5a2008096a75094accd4fd3b622c5", "35e6d9bdc58601c6df083575eca0a85b", 1, "9feadc7620ea50b0de06"),
+		(15,	"Barbara",	"Robinson",	"arbara.obinson@email.com",	"234567890",	"localGuide",	"2b3e4e973bd44c441859307476401419", "d05239a4245ba825e61786cd1649e58d", 0, "97af67210f9d7f510d6c"),
+		(16,	"Elizabeth","Lewis",	"lizabeth.ewis@email.com",	"3456789012",	"hutWorker",	"230f5385efe5cc7eb8e7cf8eb0fcfb05", "160df082f2fb1074cf554feebbcfb736", 1, "2943f3fc5c8f9f0900b6"),
+		(17,	"Jennifer",	"Walker",	"ennifer.alker@email.com",	"3456789012",	"hutWorker",	"4ae199deae86fc7a2adcc7b3d3146087", "4ae199deae86fc7a2adcc7b3d3146087", 0, "216884a5fe6f6e91e6d0"), 
+		(18,	"Maria",	"Hall",		"aria.all@email.com", 		"3456789012",	"hutWorker",	"2e4536acd14508c40cc19d3dc06b3070", "1b89bba839d3a1f69f37b1069bcf32e9", 1, "df9e7b5cac18ab2286bd"), 
+		(19,	"Susan",	"Young",	"usan.oung@email.com",		"3456789012",	"hutWorker",	"986dbcae3953cae1172e8ccc3e38d18c", "ca1171e03a509d2c4347db364d559ee1", 0, "882887635bc1ba86472c"), 
+		(20,	"Eileen",	"Allen",	"ileen.llen@email.com",		"3456789012",	"hutWorker",	"add7d5daded92afa014417539a998213", "9bc8b87be611f3a15fee8901507f83a3", 1, "29ed7fceaabfa15b1833"), 
+		(21,	"Dorothy",	"Sanchez",	"orothy.anchez@email.com",	"3456789012",	"hutWorker",	"8df096854b70171f1b802824efa9e2d0", "a19d1cae7186a9d334b3d756d5239d49", 0, "bd3968a7d6b351f09420");
 INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, province, pointType) 
 	VALUES
 		(1, "hut#1", "123", "456", "address1", "Settimo", "Torino", "hut"),
@@ -282,18 +281,18 @@ INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, start
 		(9, "hike#9", 9731, 300, 300, "Professional Hiker", 11, 49, "description9", "Trecate", "Novara"),
 		(10, "hike#10", 1111, 210,  200, "Tourist", 1, 21, "description10", "Settimo", "Torino");
 
-INSERT INTO HIKEGROUP(hikeID, groupID, leaderID)
+INSERT INTO HIKEGROUP(groupID, hikeID, leaderID)
 	VALUES
-		(1,1,1),
-		(2,2,2),
-		(3, 3, 10),
-		(4, 4, 9),
-		(5, 5, 8),
-		(6, 6, 7),
-		(7, 7, 6),
-		(8, 8, 5),
-		(9, 9, 4),
-		(10, 10, 3);
+		(1,	10,	1),
+		(2,	9,	2),
+		(3,	8,	10),
+		(4,	7,	9),
+		(5,	6,	8),
+		(6,	5,	7),
+		(7,	4,	6),
+		(8,	3,	5),
+		(9,	2,	4),
+		(10,1,	3);
 
 INSERT INTO HIKEGROUPMEMBER (groupID, userID, confirmed, completed)
 	VALUES
