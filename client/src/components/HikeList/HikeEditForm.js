@@ -8,17 +8,37 @@ import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 // TODO(antonio): edit points, how??
 // TODO(antonio): proper documentation
 export function HikeEditForm(props) {
+	let [editPoints, setEditPoints] = useState(false);
+	let [hike, setHike] = useState(props.hike);
+
+	let onSubmit = (h) => {
+		props.setHikes(old => hike.hikeID ?
+			old.map(el => el.hikeID == h.hikeID ? h : el) : [...old, h]
+		);
+
+		setHike(h);
+		setEditPoints((e) => !e);
+	};
+
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>Hike Info</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HikeForm
-					hike={props.hike}
-					setHikes={props.setHikes}
-					onHide={props.onHide}
-				/>
+				{!editPoints ?
+					<HikeForm
+						hike={hike}
+						onSubmit={onSubmit}
+						onHide={props.onHide}
+					/>
+					:
+					<EditPointsForm
+						hike={hike}
+						onSubmit={onSubmit}
+						onHide={props.onHide}
+					/>
+				}
 			</Modal.Body>
 		</Modal>
 	);
@@ -61,7 +81,7 @@ function HikeForm(props) {
 		}
 	};
 
-	let handleSubmit = (event) => {
+	let handleSubmit = async (event) => {
 		event.preventDefault();
 
 		// TODO(antonio): validation and error on new hike/edit hike
@@ -75,7 +95,7 @@ function HikeForm(props) {
 			description: description,
 			municipality: municipality,
 			province: province,
-			gpxFile : fileContent
+			gpxFile: fileContent
 		};
 
 		if (hike.hikeID) {
@@ -91,18 +111,13 @@ function HikeForm(props) {
 				municipality,
 				province
 			)
-				.then(() => {
-					props.setHikes((old) => {
-						return old.map((h) => (h.hikeID === props.hike.hikeID ? hike : h));
-					}); //TODO(antonio): temp value, mark differently
-				})
 				.catch((e) => {
 					// TODO(antonio): error handling
 					console.log(e);
 				});
 		} else {
 			// NOTE: adding form
-			HikeAPI.newHike(
+			hike.hikeID = await HikeAPI.newHike(
 				title,
 				length,
 				expectedTime,
@@ -112,20 +127,13 @@ function HikeForm(props) {
 				municipality,
 				province
 			)
-				.then(() => {
-					props.setHikes((old) => [...old, hike]); //TODO(antonio): temp value, mark differently
-
-
-
-
-				})
 				.catch((e) => {
 					// TODO(antonio): error handling
 					console.log(e);
 				});
 		}
 
-		props.onHide();
+		props.onSubmit(hike);
 	};
 
 	return (
@@ -167,53 +175,53 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
-			
-			{!useFile && <div>
-			<Row>
-				<Col>
-					<Form.Group controlId="formLength" className="mb-3">
-						<Form.Label>Length (meters)</Form.Label>
-						<Form.Control
-							type="number"
-							// disabled={useFile}
-							placeholder={props.hike ? props.hike.length : "Enter hike length"}
-							value={length}
-							onChange={(ev) => setLength(ev.target.value)}
-						/>
-					</Form.Group>
-				</Col>
-				<Col>
-					<Form.Group controlId="formAscent" className="mb-3">
-						<Form.Label>Ascent (meters)</Form.Label>
-						<Form.Control
-							type="number"
-							// disabled={useFile}
-							placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
-							value={ascent}
-							onChange={(ev) => setAscent(ev.target.value)}
-						/>
-					</Form.Group>
-				</Col>
-			</Row>
 
-			<Form.Group controlId="formExpectedTime" className="mb-3">
-				<Form.Label>Expected time (minutes)</Form.Label>
-				<InputGroup>
-					<Form.Control
-						type="number"
-						// disabled={useFile}
-						placeholder={
-							props.hike ? props.hike.expectedTime : "Enter expected time"
-						}
-						value={expectedTime}
-						onChange={(ev) => setExpectedTime(ev.target.value)}
-						aria-describedby="calculate"
-					/>
-					<Button variant="outline-secondary" id="calculate" disabled={useFile}>
-						<FontAwesomeIcon icon={faCalculator} />
-					</Button>
-				</InputGroup>
-			</Form.Group>
+			{!useFile && <div>
+				<Row>
+					<Col>
+						<Form.Group controlId="formLength" className="mb-3">
+							<Form.Label>Length (meters)</Form.Label>
+							<Form.Control
+								type="number"
+								// disabled={useFile}
+								placeholder={props.hike ? props.hike.length : "Enter hike length"}
+								value={length}
+								onChange={(ev) => setLength(ev.target.value)}
+							/>
+						</Form.Group>
+					</Col>
+					<Col>
+						<Form.Group controlId="formAscent" className="mb-3">
+							<Form.Label>Ascent (meters)</Form.Label>
+							<Form.Control
+								type="number"
+								// disabled={useFile}
+								placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
+								value={ascent}
+								onChange={(ev) => setAscent(ev.target.value)}
+							/>
+						</Form.Group>
+					</Col>
+				</Row>
+
+				<Form.Group controlId="formExpectedTime" className="mb-3">
+					<Form.Label>Expected time (minutes)</Form.Label>
+					<InputGroup>
+						<Form.Control
+							type="number"
+							// disabled={useFile}
+							placeholder={
+								props.hike ? props.hike.expectedTime : "Enter expected time"
+							}
+							value={expectedTime}
+							onChange={(ev) => setExpectedTime(ev.target.value)}
+							aria-describedby="calculate"
+						/>
+						<Button variant="outline-secondary" id="calculate" disabled={useFile}>
+							<FontAwesomeIcon icon={faCalculator} />
+						</Button>
+					</InputGroup>
+				</Form.Group>
 			</div>}
 
 			<Form.Group controlId="formDifficulty" className="mb-3">
@@ -265,4 +273,8 @@ function HikeForm(props) {
 			</Row>
 		</Form >
 	);
+}
+
+function EditPointsForm(props) {
+
 }

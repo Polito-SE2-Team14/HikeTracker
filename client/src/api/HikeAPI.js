@@ -93,9 +93,10 @@ const newHike = async (title, track, difficulty, description, municipality, prov
 	};
 
 	try {
-		await REST.UPDATE("POST", api, body, true);
+		let response = await REST.UPDATE("POST", api, body, true);
+		let hikeJson = await response.json();
 
-		return true;
+		return hikeJson.hikeID;
 	} catch (e) {
 		throw e;
 	}
