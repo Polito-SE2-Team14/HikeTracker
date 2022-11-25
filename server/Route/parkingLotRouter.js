@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Controller = require("../Controller/ParkingLotController");
-const pLotController = new Controller();
+const PLotController = require("../Controller/ParkingLotController");
+const pLotController = new PLotController();
 const { body, validationResult } = require("express-validator");
 
 router.get("", async(req,res)=>{
@@ -35,6 +35,6 @@ router.delete("/:pLotId",
 		.deleteParkingLot(req.params.pLotId)
 		.then(()=>{res.status(200).end()})
 		.catch(err=>res.status(503).json({err:`Could not remove parking lot ${req.params.pLotId}: ${err}`}));
-})
+});
 
 module.exports = router;
