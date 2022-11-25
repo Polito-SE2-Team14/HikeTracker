@@ -10,7 +10,7 @@ const db = dbManager.getDB();
 
 exports.getAllParkingLots=()=>{
 	return new Promise((resolve, reject) => {
-		db.all("SELECT * FROM PARKING_LOTS",(err,rows)=>{
+		db.all("SELECT * FROM PARKINGLOT",(err,rows)=>{
 			if(err){
 				reject(err);
 				return;
@@ -18,6 +18,7 @@ exports.getAllParkingLots=()=>{
 			const pLots=rows.map(r=>{
 				return{
 					pLotId: r.pLotId,
+					name: r.name,
 					carspaces: r.carspaces,
 					municipality: r.municipality,
 					province: r.province
@@ -30,7 +31,7 @@ exports.getAllParkingLots=()=>{
 
 exports.getParkingLotById=(id)=>{
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKING_LOTS WHERE pLotId=${id}`,(err,row)=>{
+		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`,(err,row)=>{
 			if(err){
 				reject(err);
 				return;
@@ -46,7 +47,7 @@ exports.getParkingLotById=(id)=>{
 
 exports.parkingLotExists=(id)=>{
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKING_LOTS WHERE pLotId=${id}`,(err,row)=>{
+		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`,(err,row)=>{
 			if(err){
 				reject(err);
 				return;
@@ -58,7 +59,7 @@ exports.parkingLotExists=(id)=>{
 
 exports.addParkingLot=(newPLot)=>{
 	return new Promise((resolve, reject) => {
-		db.run(`INSERT INTO PARKING_LOTS (carspaces,municipality,province) VALUES (${newPLot.carspaces},${newPLot.municipality},${newPLot.province})`,function(err){
+		db.run(`INSERT INTO PARKINGLOT (carspaces,municipality,province) VALUES (${newPLot.carspaces},${newPLot.municipality},${newPLot.province})`,function(err){
 			if(err){
 				reject(err);
 				return;
@@ -75,7 +76,7 @@ exports.addParkingLot=(newPLot)=>{
 
 exports.deleteParkingLot=(id)=>{
 	return new Promise((resolve, reject) => {
-		db.run(`DELETE FROM PARKING_LOTS WHERE pLotID=${id}`,(err)=>{
+		db.run(`DELETE FROM PARKINGLOT WHERE pLotID=${id}`,(err)=>{
 			if(err){
 				reject(err);
 				return;
