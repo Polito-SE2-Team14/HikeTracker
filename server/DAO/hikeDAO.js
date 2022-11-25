@@ -1,4 +1,3 @@
-import sqlite from "sqlite3";
 //const { db } = require("../database/dbManager");
 import { writeFile, unlink } from "fs";
 
