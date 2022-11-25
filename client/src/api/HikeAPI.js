@@ -38,7 +38,8 @@ const getAllHikes = async () => {
 					difficulty: h.difficulty,
 					description: h.description,
 					municipality: h.municipality,
-					province: h.province
+					province: h.province,
+					track: h.track
 				}
 			}
 		);
@@ -245,6 +246,5 @@ const HikeAPI = {
 	addEndPoint,
 	addHut,
 	getHikePoints,
-	newTrack
 };
 export default HikeAPI;
