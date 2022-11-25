@@ -35,4 +35,6 @@ router.delete("/:pLotId",
 		.deleteParkingLot(req.params.pLotId)
 		.then(()=>{res.status(200).end()})
 		.catch(err=>res.status(503).json({err:`Could not remove parking lot ${req.params.pLotId}: ${err}`}));
-})
+});
+
+module.exports = router;
