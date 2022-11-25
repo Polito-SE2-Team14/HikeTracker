@@ -23,18 +23,7 @@ exports.getAllHikes = function () {
 			}
 			try {
 				const hikes = rows.map(
-					(h) =>
-					/* new Hike(
-						h.hikeID,
-						h.title,
-						h.length,
-						h.expectedTime,
-						h.ascent,
-						h.difficulty,
-						h.description,
-						h.startPointID,
-						h.endPointID
-					) */ {
+					(h) =>{
 						return {
 							hikeID: h.hikeID,
 							title: h.title,
@@ -48,10 +37,9 @@ exports.getAllHikes = function () {
 							municipality: h.municipality,
 							province: h.province,
 							track: getTrack(h.hikeID)
-						}
+						};
 					}
 				);
-
 				resolve(hikes);
 			}
 			catch (e) {
