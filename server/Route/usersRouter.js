@@ -70,9 +70,22 @@ router.put('/verify/:token',
                     return res.status(401).send({ "error": "Token is wrong" })
                 else res.status(505).send(err)
             })
+    }
+);
 
+router.post('/send-verification/:token',
+    param("token").not().isEmpty().trim().escape(),
+    async (req, res) => {
+        if (!validationResult(req).isEmpty())
+            return res.status(422).end()
 
-
+        await userController.resendVerificationEmail(req.params.token)
+            .then(() => res.status(201).end())
+            .catch(err => {
+                if (err === "Token is wrong")
+                    return res.status(401).send({ "error": "Token is wrong" })
+                else res.status(505).send(err)
+            })
     }
 );
 

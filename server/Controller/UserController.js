@@ -14,12 +14,28 @@ class UserController {
         return user;
     }
 
+    async getUser(userID) {
+        const user = await userDAO.getUserById(userID)
+            .catch(() => { throw Error(); });
+        return user;
+    }
+
     async register(newUser) {
 
         let token = crypto.randomBytes(20).toString('hex');
         const user = await userDAO.Register(newUser, token)
             .catch(err => { throw Error(err) });
 
+        //EMAIL VERIFICATION
+        await this.sendVerificationEmail(user.token, user.email);
+
+        return user;
+
+    }
+
+    async sendVerificationEmail(token, userEmail) {
+        console.log(token);
+        console.log(userEmail);
         //EMAIL VERIFICATION
 
         // let testAccount = await nodemailer.createTestAccount();
@@ -29,27 +45,26 @@ class UserController {
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
-                user: 'zoey.kassulke86@ethereal.email',
-                pass: 'fVdChxSRdWaH3kfKdb'
+                user: 'antoinette86@ethereal.email',
+                pass: 'R79yrJYZBv6xkUfqdX'
             }
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
             from: '"HIKEfive" <support@hikefive.com>', // sender address
-            to: user.email, // list of receivers
+            to: userEmail, // list of receivers
             subject: "HIKEfive | Verify Email", // Subject line
-            html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + user.token + "'>Verify</a></p>", // html body
+            html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
         });
 
         console.log("Message sent: %s", info.messageId);
 
-        return user;
+        return true;
 
     }
 
     async verify(token) {
-
         try {
             let user = await userDAO.getUserByToken(token);
             await userDAO.verifyUser(user.userID);
@@ -57,7 +72,17 @@ class UserController {
         } catch (error) {
             throw (error.error);
         }
+    }
 
+
+    async resendVerificationEmail(token) {
+        try {
+            let user = await userDAO.getUserByToken(token);
+            await this.sendVerificationEmail(token, user.email);
+            return true;
+        } catch (error) {
+            throw (error);
+        }
 
     }
 

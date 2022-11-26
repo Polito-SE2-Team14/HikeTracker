@@ -41,6 +41,19 @@ const verifyUser = async (token) => {
 	}
 };
 
+const sendVerificationEmail = async (token) => {
+	try {
+		let response = await REST.UPDATE('POST', `${api}/send-verification/${token}`);
+		if (response.ok) {
+			return true;
+		}
+	}
+	catch (error) {
+		const errorJSON = await error.json();
+		throw errorJSON;
+	}
+};
+
 const logIn = async (credentials) => {
 	try {
 		let response = await REST.UPDATE('POST', `${api}/login`, credentials, true);
@@ -67,5 +80,5 @@ const logOut = async () => {
 };
 
 
-const UserAPI = { Register, getUserInfo, logIn, logOut,verifyUser };
+const UserAPI = { Register, getUserInfo, logIn, logOut, verifyUser, sendVerificationEmail };
 export default UserAPI;

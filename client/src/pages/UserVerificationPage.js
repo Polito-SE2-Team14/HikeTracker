@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Container, Row } from "react-bootstrap";
+import { Alert, Container, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import UserAPI from "../api/UserAPI";
 import { Loading } from "../components/Loading";
@@ -15,8 +15,12 @@ export function UserVerificationPage(props) {
 		setLoading(true);
 		const verifyUser = async (token) => {
 			try {
-				 await UserAPI.verifyUser(token); 
-				 setLoading(false);
+				await UserAPI.verifyUser(token);
+				setLoading(false);
+				props.setIsVerified(true);
+				setTimeout(() => {
+					navigate('/login')
+				}, 5000)
 			} catch (error) {
 				setHasError(true);
 				setLoading(false);
@@ -26,17 +30,21 @@ export function UserVerificationPage(props) {
 		verifyUser(token);
 	}, []);
 
-	let handleLogout = () => {
-		props.logout();
-		navigate("/");
-	};
-
 	return (
 		<Container>
-			<Loading/>
-			<Row className="d-flex justify-content-center text-center mt-5">
-
-			</Row>
+			{loading ? <Loading /> :
+				<Row className="d-flex justify-content-center text-center mt-5">
+					{hasError ?
+						<Alert key='danger' variant='danger'>
+							An Error happened. Your link is not correct!
+						</Alert>
+						:
+						<Alert key='success' variant='success'>
+							You are successfully verified. You will automatically redirect to login page.
+						</Alert>
+					}
+				</Row>
+			}
 		</Container>
 	);
 }

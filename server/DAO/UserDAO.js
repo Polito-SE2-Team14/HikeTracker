@@ -62,7 +62,7 @@ exports.getUserByToken = (token) => {
 			else if (row === undefined)
 				reject({ error: 'Token is wrong' });
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified }
+				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email }
 				resolve(user);
 			}
 		});
@@ -91,7 +91,7 @@ exports.getUser = (email, password) => {
 			else if (row === undefined) { resolve(false); }
 			else {
 				//const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
-				const user = { userID: row.userID, name: row.name, surname: row.surname, email: row.email, phoneNumber: row.phoneNumber, type: row.type }
+				const user = { userID: row.userID, name: row.name, surname: row.surname, email: row.email, phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified }
 				const salt = row.salt.toString("hex");
 				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);

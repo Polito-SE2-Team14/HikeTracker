@@ -1,5 +1,5 @@
 import "./styles/App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import { AppNavBar } from "./components/AppNavBar";
@@ -7,6 +7,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegistrationPage } from "./pages/RegistrationPage";
 import { UserPage } from "./pages/UserPage";
 import { UserVerificationPage } from "./pages/UserVerificationPage";
+import { UserNotVerifiedPage } from "./pages/UserNotVerifiedPage";
 import { HomePage } from "./pages/HomePage";
 import { HikesPage } from "./pages/HikesPage";
 import { HutsPage } from "./pages/HutsPage";
@@ -18,7 +19,8 @@ import userAPI from "./api/UserAPI";
 function App() {
 	const [user, setUser] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
-	const [userType, setUserType] = useState(null)
+	const [userType, setUserType] = useState(null);
+	const [isVerified, setIsVerified] = useState(false);
 	const [message, setMessage] = useState("");
 
 	useEffect(() => {
@@ -37,7 +39,6 @@ function App() {
 			}
 		};
 		checkAuth();
-		
 	}, []);
 
 	const handleLogin = async (credentials) => {
@@ -46,6 +47,7 @@ function App() {
 			setLoggedIn(true);
 			setUser(currentUser);
 			setUserType(currentUser.type);
+			setIsVerified(currentUser.verified === 1 ? true : false);
 			setMessage("");
 			return true
 		}
@@ -61,6 +63,7 @@ function App() {
 		setLoggedIn(false);
 		setUser(null);
 		setUserType(null);
+		setIsVerified(false);
 		setMessage("");
 	};
 
@@ -68,10 +71,10 @@ function App() {
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
-				<Route path="/" element={<HomePage />} />
+				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? <HomePage /> : <Navigate replace to='/not-verified' />} />
 				<Route
 					path="/login"
-					element={<LoginPage handleLogin={handleLogin} message={message} setMessage={setMessage} />}
+					element={loggedIn ? <Navigate replace to='/' /> : <LoginPage handleLogin={handleLogin} message={message} setMessage={setMessage} />}
 				/>
 				<Route
 					path="/registration"
@@ -81,10 +84,11 @@ function App() {
 					path="/user"
 					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
 				/>
-				<Route path="/user/verify/:token" element={<UserVerificationPage user={user}/>} />
+				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
 				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage />} />
+				<Route path="/not-verified" element={<UserNotVerifiedPage user={user}/>} />
 			</Routes>
 		</Router>
 	);
