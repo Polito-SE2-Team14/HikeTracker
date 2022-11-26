@@ -46,18 +46,20 @@ export function HutFilterModal(props) {
 					</span>
 					{showProvinceForm ? (
 						<>
+							<Form.Label>Province</Form.Label>
 							<Form.Control
 								placeholder="Insert province"
 								value={province}
 								onChange={(e) => setProvince(e.target.value)}
 							/>
-							<Form.Text>Province</Form.Text>
+							<br/>
+							<Form.Label>Municipality</Form.Label>
 							<Form.Control
 								placeholder="Insert municipality"
 								value={municipality}
 								onChange={(e) => setMunicipality(e.target.value)}
 							/>
-							<Form.Text>Municipality</Form.Text>
+							<br/>
 						</>
 					) : (
 						false
