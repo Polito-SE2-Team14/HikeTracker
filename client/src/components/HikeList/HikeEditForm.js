@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col, FormGroup } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,17 +11,27 @@ export function HikeEditForm(props) {
 	let [editPoints, setEditPoints] = useState(false);
 	let [hike, setHike] = useState(props.hike);
 
+	let onHide = () => {
+		setEditPoints(false);
+
+		props.onHide();
+	}
+
 	let onSubmit = (h) => {
 		props.setHikes(old => hike.hikeID ?
-			old.map(el => el.hikeID == h.hikeID ? h : el) : [...old, h]
+			//edited hike
+			old.map(el => el.hikeID == h.hikeID ? h : el) :
+			//new hike
+			[...old, h]
 		);
 
 		setHike(h);
+
 		setEditPoints((e) => !e);
 	};
 
 	return (
-		<Modal show={props.show} onHide={props.onHide}>
+		<Modal show={props.show} onHide={onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>Hike Info</Modal.Title>
 			</Modal.Header>
@@ -30,13 +40,13 @@ export function HikeEditForm(props) {
 					<HikeForm
 						hike={hike}
 						onSubmit={onSubmit}
-						onHide={props.onHide}
+						onHide={onHide}
 					/>
 					:
 					<EditPointsForm
 						hike={hike}
 						onSubmit={onSubmit}
-						onHide={props.onHide}
+						onHide={onHide}
 					/>
 				}
 			</Modal.Body>
@@ -263,7 +273,7 @@ function HikeForm(props) {
 				<Col>
 					<div className="text-end">
 						<Button variant="primary" type="submit" onClick={handleSubmit}>
-							Submit
+							Apply and edit points
 						</Button>{" "}
 						<Button variant="secondary" onClick={props.onHide}>
 							Cancel
@@ -276,5 +286,31 @@ function HikeForm(props) {
 }
 
 function EditPointsForm(props) {
-
+	return (
+		<Form>
+			<Row>
+				<Col>
+					<Form.Group controlId='formStartPoint' className='mb-3'>
+						<Form.Label>Start Point</Form.Label>
+						<Form.Control type='' />
+					</Form.Group>
+				</Col>
+				<Col>
+					<Button onClick={handleShowFilterModal}>
+						<FontAwesomeIcon icon={faFilter} />
+					</Button>
+				</Col>
+			</Row>
+			<Row>
+				<div className="text-end">
+					<Button variant="primary" type="submit" onClick={handleSubmit}>
+						Apply
+					</Button>{" "}
+					<Button variant="secondary" onClick={props.onHide}>
+						Cancel
+					</Button>
+				</div>
+			</Row>
+		</Form>
+	);
 }
