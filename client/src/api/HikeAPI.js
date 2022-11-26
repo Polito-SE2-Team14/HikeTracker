@@ -75,9 +75,9 @@ const newHike = async (title, track, difficulty, description, municipality, prov
 	let gpx = new gpxParser();
 	gpx.parse(track);
 
-	let length = gpx.tracks[0].distance.total;
-	let ascent = gpx.tracks[0].elevation.pos ? gpx.tracks[0].elevation.pos : 0;
-	let eta = (12.09 * length + 98.4 * ascent) / 1000;
+	let length = Math.round(gpx.tracks[0].distance.total);
+	let ascent = gpx.tracks[0].elevation.pos ? Math.round(gpx.tracks[0].elevation.pos.toFixed(0)) : 0;
+	let eta = Math.round((12.09 * length + 98.4 * ascent) / 1000);
 	let points = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 
 	let body = {
@@ -208,6 +208,15 @@ const addHut = async (hikeID, pointID) => {
 	}
 };
 
+const getHikeTrack = async(hikeID) => {
+	let response = await REST.GET(`${api}/${hikeID}/track`);
+	let trackJson = await response.json();
+
+	// trackJson = {[[x1,y1], [x2,y2], ...]}
+
+	return JSON.parse(trackJson);
+}
+
 const getHikePoints = async (hikeID) => {
 	try {
 		let response = await REST.GET(`${api}/${hikeID}/points`);
@@ -243,6 +252,7 @@ const HikeAPI = {
 	newHike,
 	editHike,
 	deleteHike,
+	getHikeTrack,
 	addStartPoint,
 	addEndPoint,
 	addHut,

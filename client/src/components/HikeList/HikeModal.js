@@ -1,5 +1,5 @@
 import { Modal, Button, Row, Col } from "react-bootstrap";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faMountain,
@@ -14,8 +14,25 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { HikeMap } from "../Map/Maps";
 
+import HikeAPI from "../../api/HikeAPI";
+
 export function HikeModal(props) {
 	let hike = props.hike;
+	let show = props.show;
+
+	const [track, setTrack] = useState([]);
+
+	const updatePath = async () => {
+		if(show){
+			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
+			setTrack(newTrack);
+		}
+	} 
+
+	useEffect(() => {
+		updatePath();
+		// eslint-disable-next-line
+	}, [show])
 
 	return props.hike ? (
 		<Modal show={props.show} onHide={props.onClose}>
@@ -24,7 +41,7 @@ export function HikeModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{/*TODO(antonio): pass points to map*/}
-				<HikeMap />
+				<HikeMap track={track}/>
 				<p className="text-muted mt-0">submitted by x/you</p>
 				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 					<Col>

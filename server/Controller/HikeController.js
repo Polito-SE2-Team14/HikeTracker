@@ -50,6 +50,15 @@ class HikeController {
 		}
 	}
 
+	async getHikeTrack(hikeID) {
+		try {
+			let track = await hikeDAO.getHikeTrack(hikeID);
+			return track; 
+		} catch(err){
+			return err;
+		}
+	}
+
 	async setStart(hikeID, startPointID) {
 		await hikeDAO.setStart(hikeID, startPointID)
 			.catch(err => {throw err})

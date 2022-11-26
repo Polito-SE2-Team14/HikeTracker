@@ -1,6 +1,6 @@
 //import sqlite from "sqlite3";
 //const { db } = require("../database/dbManager");
-const { writeFile, unlink } = require("fs");
+const { writeFile, unlink, readFileSync } = require("fs");
 
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
@@ -214,6 +214,18 @@ exports.deleteHike = function (hikeID) {
 			}
 		});
 	});
+}
+
+exports.getHikeTrack = function(hikeID) {
+	let track;
+
+	try {
+		track = readFileSync(path.join(__dirname, `../database/tracks/_${hikeID}_.trk`), 'utf8');
+	} catch(err){
+		console.log(err);
+	}
+	
+	return track;
 }
 
 exports.setStart = function (hikeID, startPointID) {

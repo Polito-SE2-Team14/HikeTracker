@@ -48,6 +48,20 @@ router.get(
 	}
 );
 
+// GET request to /api/hikes/:hikeID/track to obtain coordinates of track points of selected track
+router.get(
+	"/:hikeID/track",
+	body("hikeID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const hikeID = req.params.hikeID;
+
+		await hikeController
+			.getHikeTrack(hikeID)
+			.then((track) => res.json(track))
+			.catch((err) => res.status(err.code).send(err.msg));
+	}
+)
+
 // POST request to /api/hikes to add a new hike
 router.post("",
 	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),

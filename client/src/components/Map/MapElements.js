@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
 import { getLatLon } from "../HikeData";
@@ -42,6 +42,23 @@ var blueIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
+/* var startflagIcon = new L.Icon({
+	iconUrl: "https://poeknows.com/wp-content/uploads/2015/07/red-flag.png",
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41],
+});
+
+var endFlagIcon = new L.Icon({
+	iconUrl:
+		"https://cdn1.iconfinder.com/data/icons/car-racing-cartoon/512/g1407-512.png",
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41],
+}); */
+
 // TODO(antonio): proper documentation
 export function HikeMarker(props) {
 	let position = getLatLon(props.point);
@@ -72,11 +89,20 @@ export function HikeMarker(props) {
 	);
 }
 
+export function TrackMarker(props) {
+	return (
+		<Marker
+			position={props.position}
+			icon={props.start ? redIcon : redIcon}
+		/>
+	);
+}
+
 // TODO(antonio): proper documentation
 export function HikePath(props) {
 	// TODO(antonio):props.expectedtime, length, ascent display on popup, difficulty is color (green, red, blue)
 	return (
-		<AntPath positions={props.positions} options={{ color: "red" }}>
+		<AntPath positions={props.positions} options={{ color: "blue" }}>
 			<HikePopup />
 		</AntPath>
 	);
@@ -99,9 +125,10 @@ function PointPopup(props) {
 function HutPopup(props) {
 	return (
 		<Popup>
-				<Row className="popup-title">{props.hut.name}</Row>
-				<FontAwesomeIcon icon={faMap} /> {props.hut.address}<br/>
-				<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
+			<Row className="popup-title">{props.hut.name}</Row>
+			<FontAwesomeIcon icon={faMap} /> {props.hut.address}
+			<br />
+			<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
 		</Popup>
 	);
 }

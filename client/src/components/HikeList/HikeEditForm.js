@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Form, InputGroup, Row, Col, FormGroup } from "react-bootstrap";
+import {
+	Button,
+	Modal,
+	Form,
+	InputGroup,
+	Row,
+	Col,
+	FormGroup,
+} from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { isInArea } from "../HikeData";
@@ -17,14 +25,15 @@ export function HikeEditForm(props) {
 		props.onHide();
 
 		setEditPoints(false);
-	}
+	};
 
 	let onSubmit = (h) => {
-		props.setHikes(old => hike ?
-			//edited hike
-			old.map(el => el.hikeID == h.hikeID ? h : el) :
-			//new hike
-			[...old, h]
+		props.setHikes((old) =>
+			hike
+				? //edited hike
+				  old.map((el) => (el.hikeID == h.hikeID ? h : el))
+				: //new hike
+				  [...old, h]
 		);
 
 		setHike(h);
@@ -38,19 +47,11 @@ export function HikeEditForm(props) {
 				<Modal.Title>Hike Info</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{!editPoints ?
-					<HikeForm
-						hike={hike}
-						onSubmit={onSubmit}
-						onHide={onHide}
-					/>
-					:
-					<EditPointsForm
-						hike={hike}
-						onSubmit={onSubmit}
-						onHide={onHide}
-					/>
-				}
+				{!editPoints ? (
+					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
+				) : (
+					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
+				)}
 			</Modal.Body>
 		</Modal>
 	);
@@ -74,9 +75,7 @@ function HikeForm(props) {
 	let [selectedFile, setSelectedFile] = useState("");
 	let [fileContent, setFileContent] = useState("");
 	let [useFile, setUseFile] = useState(false);
-	let [province, setProvince] = useState(
-		props.hike ? props.hike.province : ""
-	);
+	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
 	let [municipality, setMunicipality] = useState(
 		props.hike ? props.hike.municipality : ""
 	);
@@ -87,10 +86,10 @@ function HikeForm(props) {
 		reader.readAsText(event.target.files[0]);
 		reader.onload = () => {
 			setFileContent(reader.result);
-		}
+		};
 		reader.onerror = () => {
-			console.log('file error', reader.error)
-		}
+			console.log("file error", reader.error);
+		};
 	};
 
 	let handleSubmit = async (event) => {
@@ -100,14 +99,14 @@ function HikeForm(props) {
 		let hike = {
 			hikeID: props.hike ? props.hike.hikeID : null,
 			title: title,
-			length: length,
+			length: Math.round(length),
 			expectedTime: expectedTime,
 			ascent: ascent,
 			difficulty: difficulty,
 			description: description,
 			municipality: municipality,
 			province: province,
-			gpxFile: fileContent
+			gpxFile: fileContent,
 		};
 
 		if (hike.hikeID) {
@@ -115,18 +114,17 @@ function HikeForm(props) {
 			HikeAPI.editHike(
 				props.hike.hikeID,
 				title,
-				length,
+				Math.round(length),
 				expectedTime,
 				ascent,
 				difficulty,
 				description,
 				municipality,
 				province
-			)
-				.catch((e) => {
-					// TODO(antonio): error handling
-					console.log(e);
-				});
+			).catch((e) => {
+				// TODO(antonio): error handling
+				console.log(e);
+			});
 		} else {
 			// NOTE: adding form
 			hike.hikeID = await HikeAPI.newHike(
@@ -136,11 +134,10 @@ function HikeForm(props) {
 				description,
 				municipality,
 				province
-			)
-				.catch((e) => {
-					// TODO(antonio): error handling
-					console.log(e);
-				});
+			).catch((e) => {
+				// TODO(antonio): error handling
+				console.log(e);
+			});
 		}
 
 		props.onSubmit(hike);
@@ -150,9 +147,15 @@ function HikeForm(props) {
 		<Form>
 			<Form.Group controlId="formCheck" className="mb-3">
 				<Form.Label>File Uploading For GPX</Form.Label>
-				<Form.Check type="switch" id="file_switch" size="xl" checked={useFile}
-					onChange={ev => { setUseFile(ev.target.checked) }}>
-				</Form.Check>
+				<Form.Check
+					type="switch"
+					id="file_switch"
+					size="xl"
+					checked={useFile}
+					onChange={(ev) => {
+						setUseFile(ev.target.checked);
+					}}
+				></Form.Check>
 			</Form.Group>
 
 			<Form.Group controlId="formTitle" className="mb-3">
@@ -169,7 +172,9 @@ function HikeForm(props) {
 				<Form.Label>Municipality</Form.Label>
 				<Form.Control
 					type="text"
-					placeholder={props.hike ? props.hike.municipality : "Enter hike municipality"}
+					placeholder={
+						props.hike ? props.hike.municipality : "Enter hike municipality"
+					}
 					value={municipality}
 					onChange={(ev) => setMunicipality(ev.target.value)}
 				/>
@@ -185,8 +190,7 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
-
-			{!useFile &&
+			{!useFile && (
 				<div>
 					<Row>
 						<Col>
@@ -195,7 +199,9 @@ function HikeForm(props) {
 								<Form.Control
 									type="number"
 									// disabled={useFile}
-									placeholder={props.hike ? props.hike.length : "Enter hike length"}
+									placeholder={
+										props.hike ? props.hike.length : "Enter hike length"
+									}
 									value={length}
 									onChange={(ev) => setLength(ev.target.value)}
 								/>
@@ -207,7 +213,9 @@ function HikeForm(props) {
 								<Form.Control
 									type="number"
 									// disabled={useFile}
-									placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
+									placeholder={
+										props.hike ? props.hike.ascent : "Enter hike ascent"
+									}
 									value={ascent}
 									onChange={(ev) => setAscent(ev.target.value)}
 								/>
@@ -228,13 +236,17 @@ function HikeForm(props) {
 								onChange={(ev) => setExpectedTime(ev.target.value)}
 								aria-describedby="calculate"
 							/>
-							<Button variant="outline-secondary" id="calculate" disabled={useFile}>
+							<Button
+								variant="outline-secondary"
+								id="calculate"
+								disabled={useFile}
+							>
 								<FontAwesomeIcon icon={faCalculator} />
 							</Button>
 						</InputGroup>
 					</Form.Group>
 				</div>
-			}
+			)}
 
 			<Form.Group controlId="formDifficulty" className="mb-3">
 				<Form.Label>Difficulty</Form.Label>
@@ -283,7 +295,7 @@ function HikeForm(props) {
 					</div>
 				</Col>
 			</Row>
-		</Form >
+		</Form>
 	);
 }
 
@@ -297,20 +309,23 @@ function EditPointsForm(props) {
 		try {
 			let points = await PointAPI.getAllPoints();
 
-			setStartPoints(points/*.filter(p =>
+			setStartPoints(
+				points /*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[0],
 					radius: 200
 				}))
-			*/);
-			setEndPoints(points/*.filter(p =>
+			*/
+			);
+			setEndPoints(
+				points /*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[props.hike.track.length - 1],
 					radius: 200
 				}))
-			*/);
-		}
-		catch (e) {
+			*/
+			);
+		} catch (e) {
 			console.log(e);
 		}
 	};
@@ -321,7 +336,7 @@ function EditPointsForm(props) {
 		HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
 
 		props.onHide();
-		props.onSubmit();
+		props.onSubmit(props.hike);
 	};
 
 	useEffect(() => {
@@ -330,20 +345,32 @@ function EditPointsForm(props) {
 
 	return (
 		<Form>
+			<Row>map</Row>
 			<Row>
-				map
-			</Row>
-			<Row>
-				<Form.Group controlId='formStartPoint' className='mb-3'>
-					<Form.Select aria-label='Start Point' onChange={ev => setStart(startPoints[ev.target.value])}>
-						{startPoints.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
+				<Form.Group controlId="formStartPoint" className="mb-3">
+					<Form.Select
+						aria-label="Start Point"
+						onChange={(ev) => setStart(startPoints[ev.target.value])}
+					>
+						{startPoints.map((p, i) => (
+							<option key={i} value={i}>
+								{p.name}
+							</option>
+						))}
 					</Form.Select>
 				</Form.Group>
 			</Row>
 			<Row>
-				<Form.Group controlId='formEndPoint' className='mb-3'>
-					<Form.Select aria-label='Start Point' onChange={ev => setEnd(endPoints[ev.target.value])}>
-						{endPoints.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
+				<Form.Group controlId="formEndPoint" className="mb-3">
+					<Form.Select
+						aria-label="Start Point"
+						onChange={(ev) => setEnd(endPoints[ev.target.value])}
+					>
+						{endPoints.map((p, i) => (
+							<option key={i} value={i}>
+								{p.name}
+							</option>
+						))}
 					</Form.Select>
 				</Form.Group>
 			</Row>
