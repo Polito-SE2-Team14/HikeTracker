@@ -20,7 +20,7 @@ export function NewPLotForm(props){
 		props.onHide();
 	}
 	return(
-		<Modal show={props.show} onHide={props.Hide}>
+		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>New parking lot</Modal.Title>
 			</Modal.Header>
