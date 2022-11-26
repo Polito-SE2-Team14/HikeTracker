@@ -15,7 +15,7 @@ router.get("", async(req,res)=>{
 
 router.post("",async(req,res)=>{
 	await pLotController
-		.addParkingLot(req.body)
+		.addParkingLot(req.body.ParkingLotToAdd)
 		.then(()=>{res.status(200).end()})
 		.catch(()=>res.status(500).end());;
 });

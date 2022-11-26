@@ -8,18 +8,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { PLotModal } from "./PLotModal";
-import HikeAPI from "../../api/HikeAPI";
 
 function PLotListTable(props){
 	return(
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 			{props.lots.map((lot,i)=>(
-				<>
+				<div key={i}>
 					<PLotListItem
-						key={i}
 						lot={lot}
 					/>
-				</>
+				</div>
 			))}
 		</Row>
 	);
@@ -56,7 +54,7 @@ function PLotListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row classname="d-flex justify-content-between">
+							<Row className="d-flex justify-content-between">
 								<Col>{props.lot.name}</Col>
 								<Col className="d-flex justify-content-end">
 									<Button
@@ -73,7 +71,7 @@ function PLotListItem(props) {
 							<Row>
 								<Col>
 									<FontAwesomeIcon icon={faCar}/>{" "}
-									{(props.lot.carspaces).toFixed(0)}
+									{props.lot.carspace.toFixed(0)}
 								</Col>
 							</Row>
 						</Container>

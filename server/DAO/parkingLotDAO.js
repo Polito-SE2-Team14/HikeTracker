@@ -19,7 +19,7 @@ exports.getAllParkingLots=()=>{
 				return{
 					pLotId: r.pLotId,
 					name: r.name,
-					carspaces: r.carspaces,
+					carspace: r.carspace,
 					municipality: r.municipality,
 					province: r.province
 				}
@@ -59,14 +59,18 @@ exports.parkingLotExists=(id)=>{
 
 exports.addParkingLot=(newPLot)=>{
 	return new Promise((resolve, reject) => {
-		db.run(`INSERT INTO PARKINGLOT (carspaces,municipality,province) VALUES (${newPLot.carspaces},${newPLot.municipality},${newPLot.province})`,function(err){
+		db.run("INSERT INTO PARKINGLOT (name,municipality,province,carspace) VALUES (?,?,?,?);",
+		[newPLot.name,newPLot.municipality,newPLot.province,newPLot.carspace],
+		function(err){
 			if(err){
+				console.log(err);
 				reject(err);
 				return;
 			}
 			resolve({
 				pLotId: this.lastID,
-				carspaces: newPLot.carspaces,
+				name: newPLot.name,
+				carspace: newPLot.carspace,
 				municipality: newPLot.municipality,
 				province: newPLot.province
 			});
@@ -75,6 +79,7 @@ exports.addParkingLot=(newPLot)=>{
 };
 
 exports.deleteParkingLot=(id)=>{
+	console.log(id);
 	return new Promise((resolve, reject) => {
 		db.run(`DELETE FROM PARKINGLOT WHERE pLotID=${id}`,(err)=>{
 			if(err){
