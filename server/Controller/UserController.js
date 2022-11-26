@@ -34,19 +34,17 @@ class UserController {
     }
 
     async sendVerificationEmail(token, userEmail) {
-        console.log(token);
-        console.log(userEmail);
         //EMAIL VERIFICATION
 
         // let testAccount = await nodemailer.createTestAccount();
 
         // create reusable transporter object using the default SMTP transport
         const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
+            host: 'smtp.gmail.com',
+            port: 465,
             auth: {
-                user: 'antoinette86@ethereal.email',
-                pass: 'R79yrJYZBv6xkUfqdX'
+                user: 'hikefiveteam14@gmail.com',
+                pass: 'tywjwgzzhvkrcdcc'
             }
         });
 
