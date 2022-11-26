@@ -17,7 +17,7 @@ exports.getAllParkingLots=()=>{
 			}
 			const pLots=rows.map(r=>{
 				return{
-					pLotId: r.pLotId,
+					pLotId: r.parkingLotId,
 					name: r.name,
 					carspace: r.carspace,
 					municipality: r.municipality,
@@ -47,7 +47,7 @@ exports.getParkingLotById=(id)=>{
 
 exports.parkingLotExists=(id)=>{
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`,(err,row)=>{
+		db.get(`SELECT * FROM PARKINGLOT WHERE parkingLotId=${id}`,(err,row)=>{
 			if(err){
 				reject(err);
 				return;
@@ -79,9 +79,8 @@ exports.addParkingLot=(newPLot)=>{
 };
 
 exports.deleteParkingLot=(id)=>{
-	console.log(id);
 	return new Promise((resolve, reject) => {
-		db.run(`DELETE FROM PARKINGLOT WHERE pLotID=${id}`,(err)=>{
+		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`,(err)=>{
 			if(err){
 				reject(err);
 				return;
