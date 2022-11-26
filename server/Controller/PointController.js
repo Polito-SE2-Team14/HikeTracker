@@ -5,6 +5,14 @@ class PointController {
 		console.log("Controller started");
 	}
 
+	async getAllPoints() {
+		const points = await pointsDAO.getAllPoints().catch(() => {
+			throw Error();
+		})
+
+		return points;
+	}
+
 	async getHuts() {
 		const huts = await pointsDAO.getHuts().catch(() => {
 			throw Error();

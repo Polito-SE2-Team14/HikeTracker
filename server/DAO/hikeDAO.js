@@ -43,6 +43,7 @@ exports.getAllHikes = function () {
 				resolve(hikes);
 			}
 			catch (e) {
+				console.log(e)
 				reject(e);
 			}
 		});
@@ -248,7 +249,7 @@ exports.setEnd = function (hikeID, endPointID) {
 }
 
 function newTrack(hikeId, track) {
-	writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), 'utf8', err => {
+	writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), {flag: 'wx', encoding: 'utf8'}, err => {
 		if (err) throw err;
 	});
 }

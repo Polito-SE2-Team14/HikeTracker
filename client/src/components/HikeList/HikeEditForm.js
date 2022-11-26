@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col, FormGroup } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
-import ParkingLotAPI from "../../api/ParkingLotAPI";
-import { isInArea } from "../components/HikeData";
+import { isInArea } from "../HikeData";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
@@ -15,13 +14,13 @@ export function HikeEditForm(props) {
 	let [hike, setHike] = useState(props.hike);
 
 	let onHide = () => {
-		setEditPoints(false);
-
 		props.onHide();
+
+		setEditPoints(false);
 	}
 
 	let onSubmit = (h) => {
-		props.setHikes(old => hike.hikeID ?
+		props.setHikes(old => hike ?
 			//edited hike
 			old.map(el => el.hikeID == h.hikeID ? h : el) :
 			//new hike
@@ -132,9 +131,7 @@ function HikeForm(props) {
 			// NOTE: adding form
 			hike.hikeID = await HikeAPI.newHike(
 				title,
-				length,
-				expectedTime,
-				ascent,
+				fileContent,
 				difficulty,
 				description,
 				municipality,
@@ -296,22 +293,22 @@ function EditPointsForm(props) {
 	let [endPoints, setEndPoints] = useState([]);
 	let [end, setEnd] = useState(null);
 
-	let getPoints = () => {
+	let getPoints = async () => {
 		try {
-			let points = [...PointAPI.getAllHuts(), ...ParkingLotAPI.getAllParkingLots()];
+			let points = await PointAPI.getAllPoints();
 
-			setStartPoints(points.filter(p =>
+			setStartPoints(points/*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[0],
 					radius: 200
 				}))
-			);
-			setEndPoints(points.filter(p =>
+			*/);
+			setEndPoints(points/*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[props.hike.track.length - 1],
 					radius: 200
 				}))
-			);
+			*/);
 		}
 		catch (e) {
 			console.log(e);
@@ -322,7 +319,7 @@ function EditPointsForm(props) {
 		HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
 		HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
 
-		props.onHide(),
+		props.onHide();
 		props.onSubmit();
 	};
 
@@ -336,32 +333,18 @@ function EditPointsForm(props) {
 				map
 			</Row>
 			<Row>
-				<Col>
-					<Form.Group controlId='formStartPoint' className='mb-3'>
-						<Form.Select aria-label='Start Point' onChange={ev => setStart(startPoints[ev.target.value])}>
-							{startPoints.map((p, i) => <option value={i}>{p.name}</option>)}
-						</Form.Select>
-					</Form.Group>
-				</Col>
-				<Col>
-					<Button onClick={() => handleShowFilterModal(setStartPoints)}>
-						<FontAwesomeIcon icon={faFilter} />
-					</Button>
-				</Col>
+				<Form.Group controlId='formStartPoint' className='mb-3'>
+					<Form.Select aria-label='Start Point' onChange={ev => setStart(startPoints[ev.target.value])}>
+						{startPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+					</Form.Select>
+				</Form.Group>
 			</Row>
 			<Row>
-				<Col>
-					<Form.Group controlId='formEndPoint' className='mb-3'>
-						<Form.Select aria-label='Start Point' onChange={ev => setEnd(endPoints[ev.target.value])}>
-							{endPoints.map((p, i) => <option value={i}>{p.name}</option>)}
-						</Form.Select>
-					</Form.Group>
-				</Col>
-				<Col>
-					<Button onClick={() => handleShowFilterModal(setEndPoints)}>
-						<FontAwesomeIcon icon={faFilter} />
-					</Button>
-				</Col>
+				<Form.Group controlId='formEndPoint' className='mb-3'>
+					<Form.Select aria-label='Start Point' onChange={ev => setEnd(endPoints[ev.target.value])}>
+						{endPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+					</Form.Select>
+				</Form.Group>
 			</Row>
 			{/* reference points */}
 			<Row>
@@ -374,23 +357,6 @@ function EditPointsForm(props) {
 					</Button>
 				</div>
 			</Row>
-			<Modal show={showFilterForm} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>Filter</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<FilterForm
-						onHide={handleClose}
-						filters={filters}
-						setFilters={setFilters}
-					></FilterForm>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="secondary" onClick={handleClose}>
-						Close
-					</Button>
-				</Modal.Footer>
-			</Modal>
 		</Form>
 	);
 }

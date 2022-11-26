@@ -76,7 +76,7 @@ const newHike = async (title, track, difficulty, description, municipality, prov
 	gpx.parse(track);
 
 	let length = gpx.tracks[0].distance.total;
-	let ascent = gpx.tracks[0].elevation.pos;
+	let ascent = gpx.tracks[0].elevation.pos ? gpx.tracks[0].elevation.pos : 0;
 	let eta = (12.09 * length + 98.4 * ascent) / 1000;
 	let points = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 

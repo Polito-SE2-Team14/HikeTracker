@@ -5,9 +5,9 @@ const PointController = require("../Controller/PointController")
 const pointController = new PointController();
 
 router.get('', async (req, res) => {
-	await pointsDAO.getAllPoints()
+	await pointController.getAllPoints()
 		.then(points => res.json(points))
-		.catch(err => res.status(err.code).send(err.msg))
+		.catch(err => res.status(505).send('Error'))
 });
 
 router.get('/huts', async (req, res) => {

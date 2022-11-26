@@ -7,6 +7,25 @@ const db = dbManager.getDB();
 //const Point = require("../Class/Point");
 //const Hut = require("../Class/Hut")
 
+exports.getAllPoints = () => new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM POINT";
+    
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            reject(err);
+            return;
+        }
+        //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
+        const points = rows.map(row => {
+            return {
+                pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
+                municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType
+            }
+        });
+        resolve(points);
+    })
+});
+
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM POINT WHERE pointID = ?";

@@ -2,6 +2,26 @@ import REST from "./REST";
 
 const api = "/points";
 
+const getAllPoints = async () => {
+	try {
+		let response = await REST.GET(api);
+		let pointsJson = await response.json();
+
+		return pointsJson.map(p => {
+			return {
+				pointID: p.pointID,
+				name: p.name,
+				lat: p.latitude,
+				province: p.province,
+				municipality: p.municipality,
+				lon: p.longitude,
+				address: p.address,
+				pointType: p.pointType
+			};
+		});
+	} catch (err) { }
+};
+
 /**
  * Returns all huts in the database
  * @returns {Hut[]} Array of all huts
@@ -12,7 +32,7 @@ const getAllHuts = async () => {
 		let hutsJson = await response.json();
 
 		return hutsJson;
-	} catch (err) {}
+	} catch (err) { }
 };
 
 const createHut = async (hut) => {
@@ -29,7 +49,7 @@ const createHut = async (hut) => {
 
 const deleteHut = async (hutID) => {
 	try {
-		let response = await REST.DELETE(api+"/huts/"+hutID)
+		let response = await REST.DELETE(api + "/huts/" + hutID)
 		if (!response.status)
 			throw Error()
 	}
@@ -39,5 +59,5 @@ const deleteHut = async (hutID) => {
 }
 
 
-const PointAPI = { getAllHuts, createHut, deleteHut};
+const PointAPI = { getAllPoints, getAllHuts, createHut, deleteHut };
 export default PointAPI;

@@ -51,9 +51,10 @@ router.get(
 // POST request to /api/hikes to add a new hike
 router.post("",
 	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
-	body(["length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
+	body(["length", "expectedTime", "ascent"]).not().isEmpty(),
 	async (req, res) => {
 		const errors = validationResult(req);
+		console.log(req.body)
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
 		let newHike = req.body;
