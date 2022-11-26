@@ -12,6 +12,7 @@ export function HomePage() {
 				It could be gold, it could be love <br/>
 				it could even be a good home page!<br/>
 			</Row>
+			<PointSelectMap onSetPoint={(point) => {console.log(point)}}/>
 		</Container>
 	);
 }
