@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import {
 	faBed,
+	faCity,
 	faMap,
 	faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
@@ -70,7 +71,8 @@ function HutListItem(props) {
 						</Card.Title>
 						<Row>
 							<Col>
-								<FontAwesomeIcon icon={faMap} /> {props.hut.address}
+								
+								<FontAwesomeIcon icon={faCity} /> {` ${props.hut.municipality} (${props.hut.province})`}
 							</Col>
 							<Col xs={4}>
 								<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}

@@ -6,6 +6,7 @@ import {
 	faTrashCan,
 	faBed,
 	faMap,
+	faCity,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -17,7 +18,14 @@ export function HutModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<LocationMap point={props.hut} />
-				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+				<Row className=" mt-2">
+					<Col>
+						<FontAwesomeIcon icon={faCity} />
+						<strong>{" Province:"}</strong>
+						{` ${props.hut.municipality} (${props.hut.province})`}
+					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top">
 					<Col>
 						<FontAwesomeIcon icon={faMap} />
 						<strong>{" Address:"}</strong>

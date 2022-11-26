@@ -23,6 +23,8 @@ export function HutsPage(props) {
 		name: "",
 		area: {},
 		address: "",
+		province: "",
+		municipality: "",
 		bedspace: 0,
 	});
 
@@ -51,16 +53,20 @@ export function HutsPage(props) {
 		latitude,
 		longitude,
 		address,
+		province,
+		municipality,
 		bedspace,
 		hutOwnerID
 	) => {
-		console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
+		//console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
 
 		let hut = {
 			name: name,
 			latitude: Number(latitude),
 			longitude: Number(longitude),
 			address: address,
+			province: province,
+			municipality: municipality,
 			bedspace: Number(bedspace),
 			hutOwnerID: Number(hutOwnerID),
 		};
@@ -84,7 +90,7 @@ export function HutsPage(props) {
 		if (hutOwnerID == null || hutOwnerID === "" || Number.isNaN(hutOwnerID))
 			invalids.push(" hutOwnerID");
 
-		console.log(invalids.length);
+		//console.log(invalids.length);
 
 		if (invalids.length === 0) {
 			PointAPI.createHut(hut)
@@ -182,6 +188,8 @@ function applyFilters(huts, filters) {
 	return huts.filter(
 		(h) =>
 			h.name.startsWith(filters.name) &&
+			h.province.startsWith(filters.province) &&
+			h.municipality.startsWith(filters.municipality) &&
 			isInArea(h, filters.area) &&
 			h.address.includes(filters.address) &&
 			h.bedspace >= filters.bedspace
