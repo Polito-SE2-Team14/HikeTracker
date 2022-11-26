@@ -16,6 +16,7 @@ export function ParkingLotsPage(props) {
 	const [selectedLot, setSelectedLot] = useState(null);
 	const [showLotForm, setShowLotForm] = useState(false);
 
+	// 	PROPS.USER?
 	const getAllParkingLots = async() => {
 		try{
 			let allLots=await ParkingLotAPI.getAllParkingLots();
@@ -38,6 +39,7 @@ export function ParkingLotsPage(props) {
 		getAllParkingLots();
 	}, [lots.length]);
 
+
 	return (
 	<>
 		{loading ? 
@@ -46,7 +48,7 @@ export function ParkingLotsPage(props) {
 			<Container>
 				<Row className="mt-3">
 					{
-						props.user.type === "Local guide"?
+						props.user.type === "localGuide"?
 						<Col className="text-end">
 							<Button variant="success" onClick={handleShowLotForm}>
 								<FontAwesomeIcon icon={faPlus} /> Add new parking lot

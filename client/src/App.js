@@ -87,7 +87,7 @@ function App() {
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
 				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
-				<Route path="/parking-lots" element={<ParkingLotsPage />} />
+				<Route path="/parking-lots" element={<ParkingLotsPage user={user}/>} />
 				<Route path="/not-verified" element={<UserNotVerifiedPage user={user}/>} />
 			</Routes>
 		</Router>

@@ -3,8 +3,9 @@ FROM node:16
 
 ## BUILD TIME
 WORKDIR /server
-COPY . .
+COPY package*.json .
 RUN npm install
+COPY . .
 
 ## EXECUTION TIME
 EXPOSE 3001

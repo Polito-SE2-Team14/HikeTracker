@@ -12,10 +12,15 @@ const getAllParkingLots = async () => {
 	try {
 		let response = await REST.GET(api);
 		let returnedJson = await response.json();
-
+		
 		return returnedJson.map(
-			(pL) =>
-				new ParkingLot(pL.parkingLotID,pL.carspace)
+			(pL) =>{
+				return{pLotId: pL.pLotId,
+					name: pL.name,
+					carspace: pL.carspace,
+					municipality: pL.municipality,
+					province: pL.province
+				}}
 		);
 	} catch(err){
 		throw err;

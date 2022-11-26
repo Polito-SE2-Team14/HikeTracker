@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Modal, Form, Row } from "react-bootstrap";
+import { Modal, Form, Row, Col, Button } from "react-bootstrap";
 import ParkingLotAPI from "../../api/ParkingLotAPI";
 
 export function NewPLotForm(props){
 	let [lotName, setLotName] = useState("");
-	let [carspaces, setCarspaces] = useState(0);
+	let [carspace, setCarspace] = useState(0);
+	let [municipality, setMunicipality] = useState("");
+	let [province, setProvince] = useState("");
 	let handleSubmit = (event) => {
 		event.preventDefault();
-		let newLot={name:lotName, carspaces:carspaces};
+		let newLot={name:lotName, municipality:municipality, province:province, carspace:carspace};
 		ParkingLotAPI.addParkingLot(newLot)
 			.then(()=>{
 				props.setLots((old)=>[...old,newLot]);
@@ -18,9 +20,9 @@ export function NewPLotForm(props){
 		props.onHide();
 	}
 	return(
-		<Modal show={props.show} onHide={props.Hide}>
+		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
-				<Modal.title>New parking lot</Modal.title>
+				<Modal.Title>New parking lot</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Form>
@@ -36,15 +38,44 @@ export function NewPLotForm(props){
 						</Form.Group>
 					</Row>
 					<Row>
-						<Form.Group controlId="Carspaces" className="mb-3">
-							<Form.Label>Carspaces</Form.Label>
-							<Form.Control type ="number" value={carspaces} onChange={ev => setCarspaces(ev.target.value)}
+						<Form.Group controlId="Municipality" className="mb-3">
+							<Form.Label>Municipality</Form.Label>
+							<Form.Control type ="text" value={municipality} onChange={ev => setMunicipality(ev.target.value)}
 								onKeyPress={ev=>{
 									if(ev.key==="Enter"){
 										handleSubmit(ev);
 									}
 								}}/>
 						</Form.Group>
+					</Row>
+					<Row>
+						<Form.Group controlId="Province" className="mb-3">
+							<Form.Label>Province</Form.Label>
+							<Form.Control type ="text" value={province} onChange={ev => setProvince(ev.target.value)}
+								onKeyPress={ev=>{
+									if(ev.key==="Enter"){
+										handleSubmit(ev);
+									}
+								}}/>
+						</Form.Group>
+					</Row>
+					<Row>
+						<Form.Group controlId="Carspace" className="mb-3">
+							<Form.Label>Carspace</Form.Label>
+							<Form.Control type ="number" value={carspace} onChange={ev => setCarspace(ev.target.value)}
+								onKeyPress={ev=>{
+									if(ev.key==="Enter"){
+										handleSubmit(ev);
+									}
+								}}/>
+						</Form.Group>
+					</Row>
+					<Row>
+						<Col>
+							<div className="text-end">
+								<Button variant="primary" type='submit' onClick={handleSubmit}>Create</Button>
+							</div>
+						</Col>
 					</Row>
 				</Form>
 			</Modal.Body>

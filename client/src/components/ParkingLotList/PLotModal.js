@@ -4,21 +4,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faCar,
 	faXmark,
-	faTrashCan
+	faTrashCan,
+	faCity,
+	faHouse
 } from "@fortawesome/free-solid-svg-icons";
 
 export function PLotModal(props){
 	return(
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
-				<Modal.Title>{props.lot.title}</Modal.Title>
+				<Modal.Title>{props.lot.name}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
 				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 					<Col>
+						<FontAwesomeIcon icon={faHouse}/>
+						<strong>{" Municipality: "}</strong>
+						{props.lot.municipality}
+					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+					<Col>
+						<FontAwesomeIcon icon={faCity}/>
+						<strong>{" Province: "}</strong>
+						{props.lot.province}
+					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+					<Col>
 						<FontAwesomeIcon icon={faCar}/>
-						<strong>{"Carspaces: "}</strong>
-						{props.lot.carspaces}
+						<strong>{" Carspace: "}</strong>
+						{props.lot.carspace}
 					</Col>
 				</Row>
 			</Modal.Body>

@@ -31,6 +31,8 @@ function HutCreationForm(props) {
 	const [latitude, setLatitude] = useState(undefined);
 	const [longitude, setLongitude] = useState(undefined);
 	const [address, setAddress] = useState(undefined);
+	const [province, setProvince] = useState(undefined);
+	const [municipality, setMunicipality] = useState(undefined);
 	const [bedspace, setBedspace] = useState(undefined);
 	const [hutOwnerID, setHutOwnerID] = useState(undefined);
 
@@ -41,6 +43,8 @@ function HutCreationForm(props) {
 			latitude,
 			longitude,
 			address,
+			province,
+			municipality,
 			bedspace,
 			hutOwnerID
 		);
@@ -81,6 +85,26 @@ function HutCreationForm(props) {
 					}}
 				/>
 			</Row>
+
+			<Form.Group className="mb-3">
+				<Row>
+				<Col>
+				<Form.Label>Province</Form.Label>
+				<Form.Control
+					type="text"
+					required={true}
+					onChange={(ev) => setProvince(ev.target.value)}
+				/>
+				</Col>
+				<Col>
+				<Form.Label>Municipality</Form.Label>
+				<Form.Control
+					type="text"
+					required={true}
+					onChange={(ev) => setMunicipality(ev.target.value)}
+				/></Col>
+				</Row>
+			</Form.Group>
 
 			<Form.Group className="mb-3">
 				<Form.Label>Address</Form.Label>

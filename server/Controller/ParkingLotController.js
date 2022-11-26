@@ -25,6 +25,7 @@ class ParkingLotController{
 	}
 
 	async addParkingLot(newPLot){
+		// console.log(newPLot);
 		const addedPLot = await pLotDAO.addParkingLot(newPLot).catch((err)=>{
 			throw err;
 		});

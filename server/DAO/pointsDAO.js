@@ -81,7 +81,7 @@ exports.deletePoint = (pointID) => {
 
 exports.getHuts = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID"
+        const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID AND pointType = 'hut'"
         db.all(sql, (err, rows) => {
             if (err) {
                 reject(err);
@@ -92,7 +92,7 @@ exports.getHuts = () => {
             {
                 return {
                     pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
-                    address: r.address, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
+                    address: r.address, pointType: r.pointType, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
                     municipality: r.municipality, province: r.province
                 }
             }
