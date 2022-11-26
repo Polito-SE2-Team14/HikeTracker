@@ -289,9 +289,9 @@ function HikeForm(props) {
 
 function EditPointsForm(props) {
 	let [startPoints, setStartPoints] = useState([]);
-	let [start, setStart] = useState(null);
+	let [start, setStart] = useState("start");
 	let [endPoints, setEndPoints] = useState([]);
-	let [end, setEnd] = useState(null);
+	let [end, setEnd] = useState("end");
 
 	let getPoints = async () => {
 		try {
@@ -315,7 +315,8 @@ function EditPointsForm(props) {
 		}
 	};
 
-	let handleSubmit = () => {
+	let handleSubmit = (event) => {
+		event.preventDefault();
 		HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
 		HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
 
@@ -335,14 +336,14 @@ function EditPointsForm(props) {
 			<Row>
 				<Form.Group controlId='formStartPoint' className='mb-3'>
 					<Form.Select aria-label='Start Point' onChange={ev => setStart(startPoints[ev.target.value])}>
-						{startPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+						{startPoints.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
 					</Form.Select>
 				</Form.Group>
 			</Row>
 			<Row>
 				<Form.Group controlId='formEndPoint' className='mb-3'>
 					<Form.Select aria-label='Start Point' onChange={ev => setEnd(endPoints[ev.target.value])}>
-						{endPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+						{endPoints.map((p, i) => <option key={i} value={i}>{p.name}</option>)}
 					</Form.Select>
 				</Form.Group>
 			</Row>
