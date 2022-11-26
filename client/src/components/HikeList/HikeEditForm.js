@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col, FormGroup } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
+import PointAPI from "../../api/PointAPI";
+import ParkingLotAPI from "../../api/ParkingLotAPI";
+import { isInArea } from "../components/HikeData";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
@@ -186,53 +189,55 @@ function HikeForm(props) {
 			</Form.Group>
 
 
-			{!useFile && <div>
-				<Row>
-					<Col>
-						<Form.Group controlId="formLength" className="mb-3">
-							<Form.Label>Length (meters)</Form.Label>
-							<Form.Control
-								type="number"
-								// disabled={useFile}
-								placeholder={props.hike ? props.hike.length : "Enter hike length"}
-								value={length}
-								onChange={(ev) => setLength(ev.target.value)}
-							/>
-						</Form.Group>
-					</Col>
-					<Col>
-						<Form.Group controlId="formAscent" className="mb-3">
-							<Form.Label>Ascent (meters)</Form.Label>
-							<Form.Control
-								type="number"
-								// disabled={useFile}
-								placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
-								value={ascent}
-								onChange={(ev) => setAscent(ev.target.value)}
-							/>
-						</Form.Group>
-					</Col>
-				</Row>
+			{!useFile &&
+				<div>
+					<Row>
+						<Col>
+							<Form.Group controlId="formLength" className="mb-3">
+								<Form.Label>Length (meters)</Form.Label>
+								<Form.Control
+									type="number"
+									// disabled={useFile}
+									placeholder={props.hike ? props.hike.length : "Enter hike length"}
+									value={length}
+									onChange={(ev) => setLength(ev.target.value)}
+								/>
+							</Form.Group>
+						</Col>
+						<Col>
+							<Form.Group controlId="formAscent" className="mb-3">
+								<Form.Label>Ascent (meters)</Form.Label>
+								<Form.Control
+									type="number"
+									// disabled={useFile}
+									placeholder={props.hike ? props.hike.ascent : "Enter hike ascent"}
+									value={ascent}
+									onChange={(ev) => setAscent(ev.target.value)}
+								/>
+							</Form.Group>
+						</Col>
+					</Row>
 
-				<Form.Group controlId="formExpectedTime" className="mb-3">
-					<Form.Label>Expected time (minutes)</Form.Label>
-					<InputGroup>
-						<Form.Control
-							type="number"
-							// disabled={useFile}
-							placeholder={
-								props.hike ? props.hike.expectedTime : "Enter expected time"
-							}
-							value={expectedTime}
-							onChange={(ev) => setExpectedTime(ev.target.value)}
-							aria-describedby="calculate"
-						/>
-						<Button variant="outline-secondary" id="calculate" disabled={useFile}>
-							<FontAwesomeIcon icon={faCalculator} />
-						</Button>
-					</InputGroup>
-				</Form.Group>
-			</div>}
+					<Form.Group controlId="formExpectedTime" className="mb-3">
+						<Form.Label>Expected time (minutes)</Form.Label>
+						<InputGroup>
+							<Form.Control
+								type="number"
+								// disabled={useFile}
+								placeholder={
+									props.hike ? props.hike.expectedTime : "Enter expected time"
+								}
+								value={expectedTime}
+								onChange={(ev) => setExpectedTime(ev.target.value)}
+								aria-describedby="calculate"
+							/>
+							<Button variant="outline-secondary" id="calculate" disabled={useFile}>
+								<FontAwesomeIcon icon={faCalculator} />
+							</Button>
+						</InputGroup>
+					</Form.Group>
+				</div>
+			}
 
 			<Form.Group controlId="formDifficulty" className="mb-3">
 				<Form.Label>Difficulty</Form.Label>
@@ -286,21 +291,79 @@ function HikeForm(props) {
 }
 
 function EditPointsForm(props) {
+	let [startPoints, setStartPoints] = useState([]);
+	let [start, setStart] = useState(null);
+	let [endPoints, setEndPoints] = useState([]);
+	let [end, setEnd] = useState(null);
+
+	let getPoints = () => {
+		try {
+			let points = [...PointAPI.getAllHuts(), ...ParkingLotAPI.getAllParkingLots()];
+
+			setStartPoints(points.filter(p =>
+				isInArea(p, {
+					center: props.hike.track[0],
+					radius: 200
+				}))
+			);
+			setEndPoints(points.filter(p =>
+				isInArea(p, {
+					center: props.hike.track[props.hike.track.length - 1],
+					radius: 200
+				}))
+			);
+		}
+		catch (e) {
+			console.log(e);
+		}
+	};
+
+	let handleSubmit = () => {
+		HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
+		HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
+
+		props.onHide(),
+		props.onSubmit();
+	};
+
+	useEffect(() => {
+		getPoints();
+	}, []);
+
 	return (
 		<Form>
 			<Row>
+				map
+			</Row>
+			<Row>
 				<Col>
 					<Form.Group controlId='formStartPoint' className='mb-3'>
-						<Form.Label>Start Point</Form.Label>
-						<Form.Control type='' />
+						<Form.Select aria-label='Start Point' onChange={ev => setStart(startPoints[ev.target.value])}>
+							{startPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+						</Form.Select>
 					</Form.Group>
 				</Col>
 				<Col>
-					<Button onClick={handleShowFilterModal}>
+					<Button onClick={() => handleShowFilterModal(setStartPoints)}>
 						<FontAwesomeIcon icon={faFilter} />
 					</Button>
 				</Col>
 			</Row>
+			<Row>
+				<Col>
+					<Form.Group controlId='formEndPoint' className='mb-3'>
+						<Form.Select aria-label='Start Point' onChange={ev => setEnd(endPoints[ev.target.value])}>
+							{endPoints.map((p, i) => <option value={i}>{p.name}</option>)}
+						</Form.Select>
+					</Form.Group>
+				</Col>
+				<Col>
+					<Button onClick={() => handleShowFilterModal(setEndPoints)}>
+						<FontAwesomeIcon icon={faFilter} />
+					</Button>
+				</Col>
+			</Row>
+			{/* reference points */}
 			<Row>
 				<div className="text-end">
 					<Button variant="primary" type="submit" onClick={handleSubmit}>
@@ -311,6 +374,23 @@ function EditPointsForm(props) {
 					</Button>
 				</div>
 			</Row>
+			<Modal show={showFilterForm} onHide={handleClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>Filter</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<FilterForm
+						onHide={handleClose}
+						filters={filters}
+						setFilters={setFilters}
+					></FilterForm>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Close
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</Form>
 	);
 }
