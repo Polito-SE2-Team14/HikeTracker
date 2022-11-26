@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
  */
 function LoginForm(props) {
 	let navigate = useNavigate();
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState('antonio.bianchi@email.com');
+	const [password, setPassword] = useState('password');
 
 	const handleSubmit = async (event) => {
 

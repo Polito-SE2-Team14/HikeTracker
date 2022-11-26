@@ -8,6 +8,8 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
+const path = require("path");
+
 const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
@@ -248,18 +250,21 @@ exports.setEnd = function (hikeID, endPointID) {
 	});
 }
 
-function newTrack(hikeId, track) {
-	writeFile(`../database/tracks/_${hikeId}_.trk`, JSON.stringify(track), {flag: 'wx', encoding: 'utf8'}, err => {
+
+function newTrack(hikeId, track) {	
+	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
+	writeFile(SOURCE, JSON.stringify(track), {flag: 'wx', encoding: 'utf8'}, err => {
 		if (err) throw err;
 	});
 }
 
 function getTrack(hikeId) {
-	return require(`../database/tracks/_${hikeId}_.trk`);
+	return require(path.join(__dirname, `../database/tracks/_${hikeId}_.trk`));
 }
 
 function deleteTrack(hikeId) {
-	unlink(`../database/tracks/_${hikeId}_.trk`, err => {
+	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
+	unlink(SOURCE, err => {
 		if (err) throw err;
 	});
 }
