@@ -10,14 +10,15 @@ const db = dbManager.getDB();
 
 exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
-		db.all("SELECT * FROM POINT P, PARKINGLOT PA WHERE P.pointID = PA.parkinglotID AND pointType = 'parkinglot'", (err, rows) => {
+		db.all("SELECT * FROM POINT P, PARKINGLOT PA WHERE P.pointID = PA.parkingLotId AND pointType = 'parkinglot'", (err, rows) => {
 			if (err) {
 				reject(err);
 				return;
 			}
 			const pLots = rows.map(r => {
+				console.log(r)
 				return {
-					pLotId: r.parkinglotID,
+					pLotId: r.pointID,
 					name: r.name,
 					carspace: r.carspace,
 					municipality: r.municipality,
@@ -29,6 +30,7 @@ exports.getAllParkingLots = () => {
 					pointType: r.pointType
 				}
 			});
+			console.log(pLots)
 			resolve(pLots);
 		});
 	});
@@ -62,10 +64,10 @@ exports.parkingLotExists = (id) => {
 	});
 };
 
-exports.addParkingLot = (newPLot) => {
+exports.addParkingLot = (pointID, carspace) => {
 	return new Promise((resolve, reject) => {
-		db.run("INSERT INTO PARKINGLOT (name,municipality,province,carspace) VALUES (?,?,?,?);",
-			[newPLot.name, newPLot.municipality, newPLot.province, newPLot.carspace],
+		db.run("INSERT INTO PARKINGLOT (pointID, carspace) VALUES (?,?,?,?);",
+			[pointID, carspace],
 			function (err) {
 				if (err) {
 					console.log(err);

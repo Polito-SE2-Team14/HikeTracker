@@ -1,11 +1,12 @@
 const pLotDAO = require("../DAO/parkingLotDAO");
+const pointsDAO = require("../DAO/pointsDAO");
 
 class ParkingLotController{
 	constructor() {}
 
 	async getAllParkingLots(){
-		const parkingLots = await pLotDAO.getAllParkingLots().catch(()=>{
-			throw Error();
+		const parkingLots = await pLotDAO.getAllParkingLots()
+			.catch((err) => {throw err;
 		});
 		return parkingLots;
 	}
@@ -24,10 +25,33 @@ class ParkingLotController{
 		return exists;
 	}
 
-	async addParkingLot(newPLot){
-		const addedPLot = await pLotDAO.addParkingLot(newPLot).catch((err)=>{
-			throw err;
-		});
+	async addParkingLot(newPLot) {
+		
+		let { name, latitude, longitude, municipality, province, address, carspace } = newPLot
+
+
+		let pointID;
+		await pointsDAO.createPoint({
+			name: name, latitude: Number(latitude), longitude: Number(longitude),
+			address: address, municipality: municipality, province: province, type: "parkinglot"
+		})
+			.then(newID => pointID = newID)
+			.catch(err => { console.error("controller:", err); throw err });
+
+
+		await pLotDAO.addParkingLot(pointID, carspace)
+			.catch((err) => { throw err; });
+		
+		const addedPLot = 
+		{
+			pointID: pointID,
+			name: newPLot.name,
+			latitude: newPLot.latitude,
+			longitude: newPLot.longitude,
+			address: newPLot.address,
+			carspace: newPLot.carspace
+		}
+		
 		return addedPLot;
 	}
 

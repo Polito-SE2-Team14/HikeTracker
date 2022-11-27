@@ -10,19 +10,20 @@ router.get('', async (req, res) => {
 		.catch(err => res.status(505).send('Error'))
 });
 
-router.get('/:pointID',
-	body("pointID").not().isEmpty().isInt({ min: 0 }), 
-	async (req, res) => {
-	await pointController.getPoint(req.params.pointID)
-		.then(points => res.json(points))
-		.catch(err => res.status(505).send('Error'))
-});
 
 router.get('/huts', async (req, res) => {
 	await pointController.getHuts()
-		.then(huts => { res.status(200).json(huts) })
-		.catch(err => res.status(err.code).send(err.msg))
+	.then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
+	.catch(err => res.status(err.code).send(err.msg))
 });
+
+router.get('/:pointID',
+	body("pointID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		await pointController.getPoint(req.params.pointID)
+			.then(points => res.json(points))
+			.catch(err => res.status(505).send('Error'))
+	});
 
 router.post('/huts',
 	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
@@ -66,7 +67,7 @@ router.delete('/huts/:hutID',
 
 	})
 
-router.get('/parkinglots', async (req, res) => {
+/* router.get('/parkinglots', async (req, res) => {
 	await pointController.getParkingLots()
 		.then(parkingLots => res.json(parkingLots))
 		.catch(err => res.status(err.code).send(err.msg))
@@ -79,6 +80,6 @@ router.post('/parkinglots', async (req, res) => {
 	await pointsDAO.createParkingLot(parkingLot)
 		.then(() => res.status(200).end())
 		.catch(err => res.status(err.code).send(err.msg))
-});
+}); */
 
 module.exports = router;

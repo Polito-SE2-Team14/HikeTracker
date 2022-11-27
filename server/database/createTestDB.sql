@@ -37,9 +37,6 @@ CREATE TABLE HUT (
 );
 CREATE TABLE PARKINGLOT (
 	parkingLotId INTEGER PRIMARY KEY,
-	name TEXT,
-	municipality TEXT,
-	province TEXT,
 	carspace INTEGER
 );
 CREATE TABLE HIKEREFERENCEPOINT (
@@ -102,6 +99,7 @@ INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedP
 		(19,	"Susan",	"Young",	"usan.oung@email.com",		"3456789012",	"hutWorker",	"986dbcae3953cae1172e8ccc3e38d18c", "ca1171e03a509d2c4347db364d559ee1", 0, "882887635bc1ba86472c"), 
 		(20,	"Eileen",	"Allen",	"ileen.llen@email.com",		"3456789012",	"hutWorker",	"add7d5daded92afa014417539a998213", "9bc8b87be611f3a15fee8901507f83a3", 1, "29ed7fceaabfa15b1833"), 
 		(21,	"Dorothy",	"Sanchez",	"orothy.anchez@email.com",	"3456789012",	"hutWorker",	"8df096854b70171f1b802824efa9e2d0", "a19d1cae7186a9d334b3d756d5239d49", 0, "bd3968a7d6b351f09420");
+		
 INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, province, pointType) 
 	VALUES
 		(1, "Al Sap", "44.87021540832461", "7.161989618049187", "Alpe del Sap, 215", "Angrogna", "Torino", "hut"), /*height: 1480*/
@@ -122,7 +120,7 @@ INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, pro
 		(19, "Avanzà", "45.181048386933924", " 6.949786842590845", "Passo Avanzà", "Venaus", "Torino", "hut"), /*height: 2580*/
 		(20, "Baita Gimont", "44.941458755424115", " 6.760199666306238", "Pian Gimont", "Cesana", "Torino", "hut"), /*height: 2035*/
 		(21, "Cà d'Asti", "45.20134583464137", "7.074022245228914", "Cà d'Asti", "Mompanero", "Torino",  "hut"), /*height: 2854*/
-		(2, "park#1", "123", "456", "address2", "Settimo", "Torino", "parkinglot"),
+		(2, "park#1", "45.181048386933924", "6.949786842590845", "address2", "Settimo", "Torino", "parkinglot"),
 		(4, "park#2", "123", "456", "address4", "Settimo", "Torino", "parkinglot"),
 		(22, "park#3", "123", "456", "address22", "Trecate", "Novara", "parkinglot"),
 		(23, "park#4", "123", "456", "address23", "Settimo", "Torino",  "parkinglot"),
@@ -176,58 +174,22 @@ INSERT INTO HUT (hutID, bedspace, hutOwnerID)
 		(20, 31, 2),
 		(21, 30, 2);
 
-INSERT INTO PARKINGLOT (parkingLotId, name, municipality, province, carspace)
+INSERT INTO PARKINGLOT (parkingLotId, carspace)
 	VALUES
-		(1, "p_lot_1", "Settimo", "Torino", 1),
-		(2, "p_lot_2", "Settimo", "Torino", 2),
-		(3, "p_lot_3", "Settimo", "Torino", 3),
-		(4, "p_lot_4", "Settimo", "Torino", 4),
-		(5, "p_lot_5", "Settimo", "Torino", 5),
-		(6, "p_lot_6", "Settimo", "Torino", 6),
-		(7, "p_lot_7", "Settimo", "Torino", 7),
-		(8, "p_lot_8", "Settimo", "Torino", 8),
-		(9, "p_lot_9", "Settimo", "Torino", 9),
-		(10, "p_lot_10", "Settimo", "Torino", 10),
-		(11, "p_lot_11", "Candelo", "Biella", 11),
-		(12, "p_lot_12", "Trecate", "Novara", 12),
-		(13, "p_lot_13", "Candelo", "Biella", 13),
-		(14, "p_lot_14", "Trecate", "Novara", 14),
-		(15, "p_lot_15", "Candelo", "Biella", 15),
-		(16, "p_lot_16", "Trecate", "Novara", 16),
-		(17, "p_lot_17", "Candelo", "Biella", 17),
-		(18, "p_lot_18", "Refrancore", "Asti", 18),
-		(19, "p_lot_19", "Trecate", "Novara", 19),
-		(20, "p_lot_20", "Refrancore", "Asti", 20),
-		(21, "p_lot_21", "Trecate", "Novara", 21), 
-		(22, "p_lot_22", "Refrancore", "Asti", 22),
-		(23, "p_lot_23", "Candelo", "Biella", 23),
-		(24, "p_lot_24", "Refrancore", "Asti", 24),
-		(25, "p_lot_25", "Refrancore", "Asti", 25),
-		(26, "p_lot_26", "Trecate", "Novara", 26),
-		(27, "p_lot_27", "Refrancore", "Asti", 27),
-		(28, "p_lot_28", "Refrancore", "Asti", 28),
-		(29, "p_lot_29", "Trecate", "Novara", 29),
-		(30, "p_lot_30", "Refrancore", "Asti", 30),
-		(31, "p_lot_31", "Candelo", "Biella", 31),
-		(32, "p_lot_32", "Refrancore", "Asti", 32),
-		(33, "p_lot_33", "Trecate", "Novara", 33),
-		(34, "p_lot_34", "Trecate", "Novara", 34),
-		(35, "p_lot_35", "Refrancore", "Asti", 35),
-		(36, "p_lot_36", "Trecate", "Novara", 36),
-		(37, "p_lot_37", "Candelo", "Biella", 37),
-		(38, "p_lot_38", "Candelo", "Biella", 38),
-		(39, "p_lot_39", "Candelo", "Biella", 39),
-		(40, "p_lot_40", "Candelo", "Biella", 40),
-		(41, "p_lot_41", "Settimo", "Torino", 41), 
-		(42, "p_lot_42", "Settimo", "Torino", 42),
-		(43, "p_lot_43", "Settimo", "Torino", 43),
-		(44, "p_lot_44", "Settimo", "Torino", 44),
-		(45, "p_lot_45", "Settimo", "Torino", 45),
-		(46, "p_lot_46", "Settimo", "Torino", 46),
-		(47, "p_lot_47", "Settimo", "Torino", 47),
-		(48, "p_lot_48", "Settimo", "Torino", 48),
-		(49, "p_lot_49", "Settimo", "Torino", 49),
-		(50, "p_lot_50", "Settimo", "Torino", 50);
+		(2,100),
+		(4,100),
+		(22,100),
+		(23,100),
+		(24,100),
+		(25,100),
+		(26,100),
+		(27,100),
+		(28,100),
+		(29,100),
+		(30,100),
+		(31,100),
+		(32,100),
+		(33,100);
 
 INSERT INTO HIKEREFERENCEPOINT (hikeID, referencePointId)
 	VALUES
