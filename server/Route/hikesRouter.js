@@ -185,3 +185,5 @@ router.delete("/:hikeID",
 			});
 
 	});
+
+module.exports = router;
