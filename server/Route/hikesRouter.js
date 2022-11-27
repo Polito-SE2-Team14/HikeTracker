@@ -17,7 +17,10 @@ router.get("", async (req, res) => {
 		.then((hikes) => {
 			return res.status(200).json(hikes);
 		})
-		.catch(() => res.status(500).end());
+		.catch((err) => {
+			console.error(err)
+			return res.status(500).end()
+		});
 });
 
 // GET request to /api/hikes/:hikeID to obtain the selected hike
@@ -30,7 +33,10 @@ router.get(
 			.then((hike) => {
 				return res.status(200).json(hike);
 			})
-			.catch(() => res.status(500).end());
+			.catch((err) => {
+				console.error(err)
+				return res.status(500).end()
+			});
 	}
 );
 
@@ -44,7 +50,10 @@ router.get(
 		await pointController
 			.getHikePoints(hikeID)
 			.then((points) => res.json(points))
-			.catch((err) => res.status(err.code).send(err.msg));
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
 	}
 );
 
@@ -58,7 +67,10 @@ router.get(
 		await hikeController
 			.getHikeTrack(hikeID)
 			.then((track) => res.json(track))
-			.catch((err) => res.status(err.code).send(err.msg));
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
 	}
 )
 
@@ -80,11 +92,11 @@ router.post("",
 				console.log(msg);
 				return res.status(201).json(msg);
 			})
-			.catch((err) =>
-				res.status(503).json({
-					error: `Database error during the adding of new hike in the database: ${err}`,
-				})
-			);
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
+
 	}
 );
 
@@ -114,11 +126,10 @@ router.put("",
 			.then((msg) => {
 				res.status(201).json(msg);
 			})
-			.catch((err) =>
-				res.status(503).json({
-					error: `Database error during update of hike ${hike.hikeID}: ${err}`,
-				})
-			);
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
 	}
 );
 
@@ -130,9 +141,11 @@ router.put("/start",
 			.then(() => {
 				res.status(201).end();
 			})
-			.catch((err) =>
-				res.status(505).send(err)
-			);
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
+
 	})
 
 router.put("/end",
@@ -141,8 +154,14 @@ router.put("/end",
 
 		await hikeController.setEnd(req.body.hikeID, req.body.endPointID)
 			.then(() => res.status(201).end())
-			.catch((err) => res.status(505).send(err));
-	})
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
+	}
+
+
+)
 
 
 router.delete("/:hikeID",
@@ -160,11 +179,9 @@ router.delete("/:hikeID",
 			.then((msg) => {
 				res.status(201).json(msg);
 			})
-			.catch((err) =>
-				res.status(503).json({
-					error: `Database error during delete of hike ${req.params.hikeID}: ${err}`,
-				})
-			);
-	});
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
 
-module.exports = router;
+	});

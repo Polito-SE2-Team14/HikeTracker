@@ -19,8 +19,11 @@ router.get("", async (req, res) => {
 router.post("", async (req, res) => {
 	await pLotController
 		.addParkingLot(req.body.ParkingLotToAdd)
-		.then(() => { res.status(200).end() })
-		.catch(() => res.status(500).end());;
+		.then(() => res.status(200).end())
+		.catch(() => {
+			console.error(err)
+			return res.status(500).end()
+		});
 });
 
 router.delete("/:pLotId",
@@ -28,7 +31,10 @@ router.delete("/:pLotId",
 	async (req, res) => {
 
 		let found = await pLotController.parkingLotExists(req.params.pLotId)
-			.catch(err => { return res.status(404).json({ error: err }) });
+			.catch(err => {
+				console.error(err)
+				return res.status(404).json({ error: err })
+			});
 
 		if (!found) {
 			return res.status(404).json({ error: `No parking lot has id ${req.params.pLotId}` });
@@ -37,7 +43,10 @@ router.delete("/:pLotId",
 		await pLotController
 			.deleteParkingLot(req.params.pLotId)
 			.then(() => { res.status(200).end() })
-			.catch(err => res.status(503).json({ err: `Could not remove parking lot ${req.params.pLotId}: ${err}` }));
+			.catch(err => {
+				console.error(err)
+				return res.status(503).json({ err: `Could not remove parking lot ${req.params.pLotId}: ${err}` })
+			});
 	});
 
 module.exports = router;

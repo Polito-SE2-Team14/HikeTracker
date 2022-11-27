@@ -66,7 +66,7 @@ exports.parkingLotExists = (id) => {
 
 exports.addParkingLot = (pointID, carspace) => {
 	return new Promise((resolve, reject) => {
-		db.run("INSERT INTO PARKINGLOT (pointID, carspace) VALUES (?,?,?,?);",
+		db.run("INSERT INTO PARKINGLOT (pointID, carspace) VALUES (?,?);",
 			[pointID, carspace],
 			function (err) {
 				if (err) {
@@ -74,13 +74,7 @@ exports.addParkingLot = (pointID, carspace) => {
 					reject(err);
 					return;
 				}
-				resolve({
-					pLotId: this.lastID,
-					name: newPLot.name,
-					carspace: newPLot.carspace,
-					municipality: newPLot.municipality,
-					province: newPLot.province
-				});
+				resolve();
 			})
 	});
 };

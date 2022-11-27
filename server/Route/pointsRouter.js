@@ -7,14 +7,20 @@ const pointController = new PointController();
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()
 		.then(points => res.json(points))
-		.catch(err => res.status(505).send('Error'))
-});
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).end
+		});});
 
 
 router.get('/huts', async (req, res) => {
 	await pointController.getHuts()
 	.then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
-	.catch(err => res.status(err.code).send(err.msg))
+	.catch((err) => {
+		console.error(err);
+		return res.status(500).end
+	});
+
 });
 
 router.get('/:pointID',
@@ -22,8 +28,10 @@ router.get('/:pointID',
 	async (req, res) => {
 		await pointController.getPoint(req.params.pointID)
 			.then(points => res.json(points))
-			.catch(err => res.status(505).send('Error'))
-	});
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});	});
 
 router.post('/huts',
 	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
@@ -38,8 +46,10 @@ router.post('/huts',
 
 		await pointController.createHut(req.body)
 			.then(hut => res.status(204).json(hut))
-			.catch(err => { console.error(err); res.status(505).send(err) })
-	});
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});	});
 
 router.put('/huts',
 	body(["pointID", "bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
@@ -54,8 +64,10 @@ router.put('/huts',
 
 		await pointController.updateHut(req.body)
 			.then(hut => res.status(204).send())
-			.catch(err => { console.error(err); res.status(505).send(err) })
-	});
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});	});
 
 
 router.delete('/huts/:hutID',
@@ -63,8 +75,10 @@ router.delete('/huts/:hutID',
 	async (req, res) => {
 		await pointController.deleteHut(req.params.hutID)
 			.then(() => res.status(204).send())
-			.catch(err => { console.error(err); res.status(505).send(err) })
-
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
 	})
 
 /* router.get('/parkinglots', async (req, res) => {
