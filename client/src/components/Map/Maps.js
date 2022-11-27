@@ -14,7 +14,6 @@ import {
 	Circle,
 	useMapEvents,
 } from "react-leaflet";
-import { getTestData } from "../../testData";
 import { getLatLon } from "../HikeData";
 import { HikeMarker, HikePath, TrackMarker } from "./MapElements";
 
@@ -27,23 +26,12 @@ import {
 
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
-	// TODO(antonio):
-	// extract info from props.hike
-	// hike.hikeID, hike.title, hike.length, hike.Ascent, hike.Difficulty hike.startPointID, hike.endPointID, hike.description
-	// get info from start, end and reference points
-	// let startPoint = API.getPoint(hike.startPointID)
-	// let endPoint = API.getPoint(hike.endPointID)
-	//
-	// let points = API.getHikePoints(hike.hikeID);
-	// OR 		  = props.points;
-
-	// eslint-disable-next-line
-	let [hike, points] = getTestData(); // TEST
+	//let [hike, points] = getTestData(); // TEST
 	let track = props.track;
 
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
-			return "loading..."; // TODO(antonio): put loading animation
+			return "track not available"; // TODO(antonio): put loading animation
 		} else{
 			return (
 				<MapContainer center={track[Math.round(track.length/2)]} zoom={13} scrollWheelZoom={false}>
