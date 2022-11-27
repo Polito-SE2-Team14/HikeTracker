@@ -43,12 +43,33 @@ function LoginForm(props) {
 		if (invalids.length === 0) {
 			const value = await props.login(credentials);
 			console.log("value", value)
-			if ( value === true)
+			if (value === true)
 				navigate("/");
 		} else {
 			props.setMessage(`Invalid${invalids.toString()}`);
 		}
 	};
+
+	/* return (
+		<Container>
+			<Row>
+				<Col>
+					<Form>
+						{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
+						<Form.Group controlId='username'>
+							<Form.Label>E-mail</Form.Label>
+							<Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)} />
+						</Form.Group>
+						<Form.Group controlId='password'>
+							<Form.Label>Password</Form.Label>
+							<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} />
+						</Form.Group>
+						<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Login</Button>
+					</Form>
+				</Col>
+			</Row>
+		</Container>
+	) */
 
 	return (
 		<Container>
@@ -64,7 +85,9 @@ function LoginForm(props) {
 							<Form.Label>Password</Form.Label>
 							<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} />
 						</Form.Group>
-						<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Login</Button>
+						<Row>
+							<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Login</Button>
+						</Row>
 					</Form>
 				</Col>
 			</Row>

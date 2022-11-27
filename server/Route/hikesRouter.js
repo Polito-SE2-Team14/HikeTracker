@@ -76,11 +76,12 @@ router.get(
 
 // POST request to /api/hikes to add a new hike
 router.post("",
-	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
-	body(["length", "expectedTime", "ascent"]).not().isEmpty(),
+	body(["title", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
+	body(["description"]).optional().trim().escape(),
+	//body(["length", "expectedTime", "ascent"]).not().isEmpty(),
 	async (req, res) => {
 		const errors = validationResult(req);
-		console.log(req.body)
+		//console.log(req.body)
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
 		let newHike = req.body;
@@ -89,7 +90,7 @@ router.post("",
 		await hikeController
 			.addHike(newHike)
 			.then((msg) => {
-				console.log(msg);
+				//console.log(msg);
 				return res.status(201).json(msg);
 			})
 			.catch((err) => {
@@ -185,3 +186,5 @@ router.delete("/:hikeID",
 			});
 
 	});
+
+	module.exports = router;

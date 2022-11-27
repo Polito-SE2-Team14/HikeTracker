@@ -21,6 +21,27 @@ class HikeController {
 	}
 
 	async addHike(hike) {
+
+		let { name, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
+
+		if (typeof name != "string")
+			throw Error("Type error with name")
+		if (isNaN(length))
+			throw Error("Type error with length")
+		if (isNaN(ascent))
+			throw Error("Type error with ascent")
+		if (isNaN(expectedTime))
+			throw Error("Type error with expectedTime")
+		if (typeof description != "string")
+			throw Error("Type error with description")
+		if (typeof municipality != "string")
+			throw Error("Type error with municipality")
+		if (typeof province != "string")
+			throw Error("Type error with province")
+		if (typeof difficulty != "string" || !["Tourist", "Hiker", "Professional Hiker"].includes(difficulty))
+			throw Error("Type error with difficulty")
+
+
 		const addedHike = await hikeDAO.addHike(hike).catch((err) => {
 			throw err;
 		});
@@ -53,24 +74,24 @@ class HikeController {
 	async getHikeTrack(hikeID) {
 		try {
 			let track = await hikeDAO.getHikeTrack(hikeID);
-			return track; 
-		} catch(err){
+			return track;
+		} catch (err) {
 			return err;
 		}
 	}
 
 	async setStart(hikeID, startPointID) {
 		await hikeDAO.setStart(hikeID, startPointID)
-			.catch(err => {throw err})
-	
+			.catch(err => { throw err })
+
 		return
 	}
 
 	async setEnd(hikeID, endPointID) {
 		await hikeDAO.setEnd(hikeID, endPointID)
-			.catch(err => {throw err})
-	
+			.catch(err => { throw err })
+
 		return
-	}F
+	} F
 }
 module.exports = HikeController;

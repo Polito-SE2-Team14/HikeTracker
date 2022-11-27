@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
+import { PointSelectMap } from "../Map/Maps";
 import ParkingLotAPI from "../../api/ParkingLotAPI";
 
 export function NewPLotForm(props){
 	let [lotName, setLotName] = useState("");
 	let [carspace, setCarspace] = useState(0);
+	let [latitude, setLatitude] = useState(undefined);
+	let [longitude, setLongitude] = useState(undefined);
 	let [municipality, setMunicipality] = useState("");
 	let [province, setProvince] = useState("");
 	let handleSubmit = (event) => {
 		event.preventDefault();
-		let newLot={name:lotName, municipality:municipality, province:province, carspace:carspace};
+		let newLot={name:lotName, municipality:municipality, province:province, carspace:Number(carspace), latitude:latitude, longitude:longitude};
 		ParkingLotAPI.addParkingLot(newLot)
 			.then(()=>{
 				props.setLots((old)=>[...old,newLot]);
@@ -37,6 +40,16 @@ export function NewPLotForm(props){
 								}}/>
 						</Form.Group>
 					</Row>
+
+					<Row>
+						<PointSelectMap
+							onSetPoint={(newPoint)=>{
+								setLatitude(newPoint[0]);
+								setLongitude(newPoint[1]);
+							}}
+						/>
+					</Row>
+
 					<Row>
 						<Form.Group controlId="Municipality" className="mb-3">
 							<Form.Label>Municipality</Form.Label>
@@ -62,7 +75,7 @@ export function NewPLotForm(props){
 					<Row>
 						<Form.Group controlId="Carspace" className="mb-3">
 							<Form.Label>Carspace</Form.Label>
-							<Form.Control type ="number" value={carspace} onChange={ev => setCarspace(ev.target.value)}
+							<Form.Control type ="number" value={carspace} onChange={ev => {setCarspace(ev.target.value)}}
 								onKeyPress={ev=>{
 									if(ev.key==="Enter"){
 										handleSubmit(ev);
