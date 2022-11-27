@@ -26,6 +26,7 @@ class ParkingLotController{
 	}
 
 	async addParkingLot(newPLot) {
+		console.log(newPLot);
 		
 		let { name, latitude, longitude, municipality, province, address, carspace } = newPLot
 
@@ -51,7 +52,7 @@ class ParkingLotController{
 			address: newPLot.address,
 			carspace: newPLot.carspace
 		}
-		
+
 		return addedPLot;
 	}
 

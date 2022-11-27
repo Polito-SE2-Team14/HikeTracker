@@ -45,7 +45,6 @@ const addParkingLot = async(ParkingLotToAdd) =>{
 }
 
 const deleteParkingLot = async(idToDelete) =>{
-	console.log(idToDelete);
 	try {
 		await REST.DELETE(`${api}/${idToDelete}`);
 		return true;
