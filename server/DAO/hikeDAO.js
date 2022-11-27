@@ -265,7 +265,7 @@ exports.setEnd = function (hikeID, endPointID) {
 
 function newTrack(hikeId, track) {	
 	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	writeFile(SOURCE, JSON.stringify(track), {flag: 'wx', encoding: 'utf8'}, err => {
+	writeFile(SOURCE, JSON.stringify(track), {flag: 'w', encoding: 'utf8'}, err => {
 		if (err) throw err;
 	});
 }

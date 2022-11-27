@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
-import { isInArea } from "../HikeData";
+import { HikeMap } from "../Map/Maps";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
@@ -31,9 +31,9 @@ export function HikeEditForm(props) {
 		props.setHikes((old) =>
 			hike
 				? //edited hike
-				  old.map((el) => (el.hikeID == h.hikeID ? h : el))
+				old.map((el) => (el.hikeID == h.hikeID ? h : el))
 				: //new hike
-				  [...old, h]
+				[...old, h]
 		);
 
 		setHike(h);
@@ -127,7 +127,7 @@ function HikeForm(props) {
 			});
 		} else {
 			// NOTE: adding form
-			hike.hikeID = await HikeAPI.newHike(
+			hike = await HikeAPI.newHike(
 				title,
 				fileContent,
 				difficulty,
@@ -145,18 +145,20 @@ function HikeForm(props) {
 
 	return (
 		<Form>
-			<Form.Group controlId="formCheck" className="mb-3">
-				<Form.Label>File Uploading For GPX</Form.Label>
-				<Form.Check
-					type="switch"
-					id="file_switch"
-					size="xl"
-					checked={useFile}
-					onChange={(ev) => {
-						setUseFile(ev.target.checked);
-					}}
-				></Form.Check>
-			</Form.Group>
+			{props.hike &&
+				<Form.Group controlId="formCheck" className="mb-3">
+					<Form.Label>File Uploading For GPX</Form.Label>
+					<Form.Check
+						type="switch"
+						id="file_switch"
+						size="xl"
+						checked={useFile}
+						onChange={(ev) => {
+							setUseFile(ev.target.checked);
+						}}
+					></Form.Check>
+				</Form.Group>
+			}
 
 			<Form.Group controlId="formTitle" className="mb-3">
 				<Form.Label>Title</Form.Label>
@@ -190,7 +192,7 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
-			{!useFile && (
+			{props.hike && !useFile && (
 				<div>
 					<Row>
 						<Col>
@@ -301,19 +303,20 @@ function HikeForm(props) {
 
 function EditPointsForm(props) {
 	let [startPoints, setStartPoints] = useState([]);
-	let [start, setStart] = useState("start");
+	let [start, setStart] = useState(props.hike.track[0]);
 	let [endPoints, setEndPoints] = useState([]);
-	let [end, setEnd] = useState("end");
+	let [end, setEnd] = useState(props.hike.track[props.hike.track.length - 1]);
 
 	let getPoints = async () => {
 		try {
 			let points = await PointAPI.getAllPoints();
+			points = points ? points : [];
 
 			setStartPoints(
 				points /*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[0],
-					radius: 200
+					radius: 500
 				}))
 			*/
 			);
@@ -321,7 +324,7 @@ function EditPointsForm(props) {
 				points /*.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[props.hike.track.length - 1],
-					radius: 200
+					radius: 500
 				}))
 			*/
 			);
@@ -345,13 +348,19 @@ function EditPointsForm(props) {
 
 	return (
 		<Form>
-			<Row>map</Row>
+			<Row>
+				<HikeMap
+					track={props.hike.track}
+					markers={[start, end]}
+				/>
+			</Row>
 			<Row>
 				<Form.Group controlId="formStartPoint" className="mb-3">
+					<Form.Label>Start Point</Form.Label>
 					<Form.Select
-						aria-label="Start Point"
 						onChange={(ev) => setStart(startPoints[ev.target.value])}
 					>
+						<option value={0}>Start Point</option>
 						{startPoints.map((p, i) => (
 							<option key={i} value={i}>
 								{p.name}
@@ -362,10 +371,11 @@ function EditPointsForm(props) {
 			</Row>
 			<Row>
 				<Form.Group controlId="formEndPoint" className="mb-3">
+					<Form.Label>End Point</Form.Label>
 					<Form.Select
-						aria-label="Start Point"
 						onChange={(ev) => setEnd(endPoints[ev.target.value])}
 					>
+						<option value={0}>End Point</option>
 						{endPoints.map((p, i) => (
 							<option key={i} value={i}>
 								{p.name}

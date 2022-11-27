@@ -32,20 +32,26 @@ export function HikeMap(props) {
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
 			return "track not available"; // TODO(antonio): put loading animation
-		} else{
+		} else {
 			return (
-				<MapContainer center={track[Math.round(track.length/2)]} zoom={13} scrollWheelZoom={false}>
+				<MapContainer center={track[Math.round(track.length / 2)]} zoom={13} scrollWheelZoom={false}>
 					<TileLayer
 						attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
 								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
-					<TrackMarker position={track[0]} start/>
-					<TrackMarker position={track[track.length - 1]}/>
+					{props.markers ?
+						props.markers.map(m => <TrackMarker position={m} />) :
+						<div>
+							<TrackMarker position={track[0]} start />
+							<TrackMarker position={track[track.length - 1]} />
+						</div>
+					}
 					<HikePath positions={track} />
 				</MapContainer>
-			);}
-	}, [track]);
+			);
+		}
+	}, [track, props.markers]);
 
 	return (
 		<>
