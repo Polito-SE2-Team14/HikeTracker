@@ -40,7 +40,6 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{/*TODO(antonio): pass points to map*/}
 				<HikeMap track={track}/>
 				<p className="text-muted mt-0">submitted by x/you</p>
 				<Row xs={1} md={2} className="d-flex align-items-top mt-2">

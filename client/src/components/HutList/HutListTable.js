@@ -56,9 +56,9 @@ function HutListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row className="d-flex justify-content-between">
-								<Col>{props.hut.name}</Col>
-								<Col className="d-flex justify-content-end">
+							<Row>
+								<Col sm={9}>{props.hut.name}</Col>
+								<Col className="text-end">
 									<Button
 										size="sm"
 										variant="outline-secondary"
