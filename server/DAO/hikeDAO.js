@@ -10,7 +10,7 @@ const db = dbManager.getDB();
 
 const path = require("path");
 
-const Hike = require("../Class/Hike");
+//const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
  * @returns {Promise} A promise containing a vector with all the hikes or a message error
@@ -97,7 +97,6 @@ exports.getHike = function (wantedID) {
 
 /**
  * Inserts a new hike in the database
- * @param {Hike} newHike - The hike to insert
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike = function (newHike) {
@@ -163,7 +162,6 @@ exports.addHike = function (newHike) {
 
 /**
  * Updates a hike in the database
- * @param {Hike} newHike - The updated version of the hike
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.updateHike = function (newHike) {
