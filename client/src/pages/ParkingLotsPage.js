@@ -17,9 +17,10 @@ export function ParkingLotsPage(props) {
 	const [showLotForm, setShowLotForm] = useState(false);
 
 	// 	PROPS.USER?
-	const getAllParkingLots = async() => {
+	const getAllParkingLots = async () => {
 		try{
 			let allLots = await ParkingLotAPI.getAllParkingLots();
+			
 			setLots(allLots);
 			setLoading(false);
 		}catch(err){
