@@ -88,7 +88,7 @@ function App() {
 				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage user={user}/>} />
-				<Route path="/not-verified" element={<UserNotVerifiedPage user={user}/>} />
+				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
 			</Routes>
 		</Router>
 	);
