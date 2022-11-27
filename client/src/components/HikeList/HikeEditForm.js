@@ -29,6 +29,7 @@ export function HikeEditForm(props) {
 
 	let onSubmit = async (hikeID) => {
 		let newHike = await HikeAPI.getHike(hikeID);
+		newHike.show = true;
 
 		props.setHikes(old =>
 			hike

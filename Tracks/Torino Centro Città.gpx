@@ -1,0 +1,783 @@
+<?xml version="1.0"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.1" creator="AllTrails.com" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name><![CDATA[Torino Centro Città]]></name>
+    <desc><![CDATA[]]></desc>
+    <link href="http://www.alltrails.com">
+      <text>AllTrails, LLC</text>
+    </link>
+    <bounds minlat="45.04839" minlon="7.67011" maxlat="45.07677" maxlon="7.69889"/>
+  </metadata>
+  <wpt lat="45.0763277" lon="7.6706833">
+    <name><![CDATA[Piazza Statuto]]></name>
+    <desc><![CDATA[Starting point of the tour, the square is named after Statuto Albertino, the Statute Chart released by King Charles Albert in 1848. Not only this document was adopted when Italy was later unified in 1861, but survived until 1946 when the new Constitution of Italy was introduced.
+The monument in the middle of the square was erected to commemorate the Frejus railroad tunnel connecting with France, the rocks forming the pyramid were actually excavated from such tunnel. On its eastern side, the square opens onto Via Garibaldi.]]></desc>
+  </wpt>
+  <wpt lat="45.0734448" lon="7.6788157">
+    <name><![CDATA[Via Garibaldi]]></name>
+    <desc><![CDATA[Leading to Piazza Castello, at nearly one kilometer in length (.6 mi) this is the longest straight pedestrian stretch in Europe and one of the city's favorites for strolls and mid-price shopping, mainly for clothing and shoes. No curbs, the street is entirely paved with stone slabs.]]></desc>
+  </wpt>
+  <wpt lat="45.0730357" lon="7.6814094">
+    <name><![CDATA[Piazza Palazzo di Citta']]></name>
+    <desc><![CDATA[Overlooked by the City Hall building, the otherwise quiet square turns busy on the 1st Sundays and 4th Saturdays of every month (except Jan, Jul, Aug) with a lively Farmers' Market. A great opportunity for sourcing excellent seasonal food products.
+Local, fresh and reasonably priced vegetables, fruit, cheese, salame and the like, bread, honey and much more. The fine bronze statue is a monument to Amedeo VI of Savoy, nicknamed "Conte Verde".]]></desc>
+  </wpt>
+  <wpt lat="45.0749336" lon="7.6845986">
+    <name><![CDATA[Porta Palatina]]></name>
+    <desc><![CDATA[A couple of decades B.C. Torino acquired the status of Roman City with the name of Augusta Taurinorum. The Roman city layout was the usual gridlock with evenly-spaced streets intersecting at square angles. The squared off, walled city had an access gate located in the middle of each side and one of these, which was the Northern Gate, still stands today with the name of Porte Palatine. The brick building has two towers which served a number of scopes through the centuries, even as a prison.
+The largest street market in town, nearby Porta Palazzo, obviously took its name from this Roman feature.]]></desc>
+  </wpt>
+  <wpt lat="45.0735092" lon="7.684958">
+    <name><![CDATA[Duomo]]></name>
+    <desc><![CDATA[The linen commonly defined as the "Holy Shroud of Turin" is kept in this cathedral and is undoubtedly interesting aside of the debate around it.
+Some believe it's the cloth that wrapped the body of Jesus Christ, some claim it's absolutely not. Studies conducted though various technologies have proved the Shroud to be dating back to the 12th century and concluding that the full body image, front and back, was left on the linen by the corpse of a crucified man.
+Regardless of the age or the origin of this cloth, it's a rare and impressive testimony of the cruel practice of terminating somebody by crucifixion and a horrible public death to be suffered.
+A copy of the linen is displayed inside the Duomo church at all times, while the original is only displayed once every several years and seen by hundreds of thousands of visitors.
+Near the church south side, a pedestrian passage leads to the front yard of the imposing Palazzo Reale.]]></desc>
+  </wpt>
+  <wpt lat="45.0725678" lon="7.6860577">
+    <name><![CDATA[Palazzo Reale (Royal Palace)]]></name>
+    <desc><![CDATA[Main residence of the Savoy Kings, its facade is preceded by a large fenced front yard. The spire in the background is that of the Duomo. The complex is a museum featuring the original decorated rooms, paintings and furniture. Part of the Royal Gardens, located behind the building, are a public park.]]></desc>
+  </wpt>
+  <wpt lat="45.071221" lon="7.6850867">
+    <name><![CDATA[Piazza Castello]]></name>
+    <desc><![CDATA[Piazza Castello (Castle Square) is the heart of the city and the perfect location for a journey through the ages. Its center is dominated by the imposing medieval castle that retains two of its original typical corner towers. It was built on top of the Roman Western Gate and fortification walls, remnants of which are still visible at ground level. The west side of the Castle was later rebuilt into a magnificent baroque facade and building, serving as the seat of the first Italian Senate and named Palazzo Madama. "Madama" means "lady" in Turinese dialect - which is similar to French language - and since used as as the building's nickname because it was the residence of Maria Cristina of France.
+Palazzo Madama recently underwent restoration works that lasted for 20 years. Should one not have the time to visit one of the 43 museums in town, do at least access this building.
+Tourist Information Center and merchandise located at the corner with Via Garibaldi.]]></desc>
+  </wpt>
+  <wpt lat="45.069484" lon="7.6865231">
+    <name><![CDATA[Galleria Subalpina]]></name>
+    <desc><![CDATA[Connecting Piazza Castello with Piazza Carlo Alberto, this elegant gallery was the seat of the Ministry of Finances.]]></desc>
+  </wpt>
+  <wpt lat="45.0687168" lon="7.6864654">
+    <name><![CDATA[Piazza Carlo Alberto]]></name>
+    <desc><![CDATA[Opposite to the National Library, the beautiful Museum of Resurgence building is the backside of Palazzo Carignano with a walk-through passage to the homonym square.]]></desc>
+  </wpt>
+  <wpt lat="45.0679439" lon="7.6905155">
+    <name><![CDATA[Via Po]]></name>
+    <desc><![CDATA[Like Via Pietro Micca and Via Roma, Via Po is lined with porticoes providing shelter on rainy days and shade through hot summer days. Several historical cafes and ice-cream parlors are ideal options for an alfresco break.]]></desc>
+  </wpt>
+  <wpt lat="45.0691411" lon="7.6929134">
+    <name><![CDATA[Mole Antonelliana]]></name>
+    <desc><![CDATA[Icon of the city, and minted on the backside of the Italian 2 Eurocent coin, this downtown spire dwarfs all other city buildings. It hosts the National Museum of Cinema and at 167 m (548 ft) it's the tallest building in the world made of bricks.
+You can choose whether to visit the National Museum of Cinema and/or take the elevator for a few Euro fee. This elevator takes up to the observation deck and it's not recommended to those who are afraid of height. The car runs on cables right in the center axis of the building with empty space around and a few friends felt extremely uncomfortable.
+The observation deck offers a magnificent 270º view over the Alps. Just avoid hazy days.]]></desc>
+  </wpt>
+  <wpt lat="45.0648806" lon="7.6952899">
+    <name><![CDATA[Piazza Vittorio Veneto]]></name>
+    <desc><![CDATA[This is one among the largest squares in Europe. Charming view over the city hill which lies on the right bank of the Po River, the major of the four streams in Torino, the Gran Madre di Dio church and the Monte dei Cappuccini monastery. Lively location, the western portion of the square turns into an open-air party most every night - especially in summer. The riverfront here, nicknamed "Murazzi", is lined with cafes and clubs and is the pivoting point of the city nightlife.
+It hosts occasional events such as free concerts and exhibitions.]]></desc>
+  </wpt>
+  <wpt lat="45.0625997" lon="7.6988116">
+    <name><![CDATA[Chiesa Gran Madre di Dio]]></name>
+    <desc><![CDATA[Similar to that of the Pantheon in Rome, but much more recent, this large round-shaped church is said to be founded on the ruins of a Roman temple.
+A certain exotericism revolves around this church, mainly due to the symbolic attributes featured in the front side statues representing two women.]]></desc>
+  </wpt>
+  <wpt lat="45.0599368" lon="7.6974128">
+    <name><![CDATA[Monte dei Cappuccini]]></name>
+    <desc><![CDATA[Monastery perched on the hill and overlooking the quiet Po river, the complex also hosts the National Museum of Mountains. A relaxed walk up here reveals the best view of the city and the impressive Alps range.]]></desc>
+  </wpt>
+  <wpt lat="45.05597" lon="7.68735">
+    <name><![CDATA[Parco del Valentino]]></name>
+    <desc><![CDATA[A short riverfront walk from the Gran Madre yields a pleasant view of the hill while reaching the most famous - but not the largest - city park. Several species of plants and flowers from around the world, water streams, the "Twelve Months" fountain and other highlights.]]></desc>
+  </wpt>
+  <wpt lat="45.0489308" lon="7.6851323">
+    <name><![CDATA[Borgo Medievale]]></name>
+    <desc><![CDATA[It must be said in first place that this is not an original medieval complex but it was built to host the International Exhibition of 1884. It's anyway a sort of living museum as it represents the model architecture, materials and decoration of typical streets, houses, churches and craftsmen business of the medieval times in Piedmont. Free access, except for the "castle".]]></desc>
+  </wpt>
+  <wpt lat="45.0543503" lon="7.6858163">
+    <name><![CDATA[Castello del Valentino]]></name>
+    <desc><![CDATA[Following subsequent remodeling, the final French-style appearance of the castle dates back to AD 1630, when Duchess Maria Cristina of France (spouse to Vittorio Amedeo I) chose to live there.
+The complex hosts the School of Architecture with the city university.]]></desc>
+  </wpt>
+  <wpt lat="45.0630676" lon="7.6892763">
+    <name><![CDATA[Giardini Cavour]]></name>
+    <desc><![CDATA[A pleasant, unexpected green space on a couple of knolls.]]></desc>
+  </wpt>
+  <wpt lat="45.0663867" lon="7.6886407">
+    <name><![CDATA[Piazza Carlo Emanuele II]]></name>
+    <desc><![CDATA[Statue of Camillo Benso Conte di Cavour. Considered the "father" of the unification of Italy in 1861, he was Prime Minister at the time.]]></desc>
+  </wpt>
+  <wpt lat="45.0691544" lon="7.6849714">
+    <name><![CDATA[Piazza Carignano]]></name>
+    <desc><![CDATA[Palazzo Carignano is a beautiful brick building and one among the finest examples of Baroque featuring an unusual sinuous facade. King Vittorio Emanuele II was born here, as the huge cast bronze plaque reports, and the building was the seat of the Parliament starting in 1848. With the unification of Italy in 1861, it then became the seat of the first Italian Parliament. Actually too small to host the increase number of the members, sessions were temporarily held in the courtyard. Walk inside to find it, and note the different - newer - bricks that were used to expand the bulding. 
+Teatro Carignano sits on the opposite side of this pedestrian square.]]></desc>
+  </wpt>
+  <wpt lat="45.0683644" lon="7.6844752">
+    <name><![CDATA[Museo Egizio]]></name>
+    <desc><![CDATA[The first archeological expeditions sponsored by the House of Savoy prompted the dedication of an area inside the university building, the "Accademia delle Scienze", where artifacts were collected and stored. Most of these were acquired from the French consul in Cairo. Later transformed into the Egyptian Museum, the extraordinary importance of the structure is today only second to that of Cairo, Egypt.
+The museum has recently been upgraded to a more visitor-friendly scale and it's very rich. There's even a complete original tomb, parts of which were donated and relocated by the Egyptian government as a recognition to the important discoveries and studies carried out by Schiaparelli in early 1900.
+Mummies are the main obvious objects to drag visitors, although the impressive statues section is arranged in two rooms where lights and sound effects create an impressive ambience.]]></desc>
+  </wpt>
+  <wpt lat="45.0679022" lon="7.6827586">
+    <name><![CDATA[Piazza San Carlo]]></name>
+    <desc><![CDATA[Piazza San Carlo is one among the most elegant squares in Turin. For its charming quietness it was dubbed "Europe's sitting room". Nevertheless it was and it's still possible today to sit for a coffee in fine cafes with amazing marbles and decorations.
+The large square space recently underwent heavy excavations to build underground parking space, but every cobblestone and stone slab went back to the original place. After such upgrade the square was banned to motor traffic and finally turned into a space to enjoy, especially on the occasion of public stage events.
+Right in the middle of the square stands the "Caval 'd Brons" (Bronze Horse) statue.]]></desc>
+  </wpt>
+  <wpt lat="45.0665951" lon="7.6818104">
+    <name><![CDATA[Piazza CLN]]></name>
+    <desc><![CDATA[Piazza CLN (Comitato di Liberazione Nazionale) sits behind the twin churches of 
+San Carlo Borromeo and Santa Cristina, both built in the first half of 1600 with their baroque facades overlooking Piazza San Carlo. Piazza CLN still carries the portico continuity although it shows an architecture leap of 300 years. These elegant marble-cladded buildings were built around 1935 in the typical "squareness" style of the Fascist era. Two impressive fountains portray a male and a female sculptured figures representing the Po and the Dora rivers respectively.]]></desc>
+  </wpt>
+  <wpt lat="45.0696905" lon="7.6839602">
+    <name><![CDATA[Via Roma]]></name>
+    <desc><![CDATA[Marble columns line the street's portico with elegance and soberness. Traditional "strip" for high-end shopping and people watching.]]></desc>
+  </wpt>
+  <wpt lat="45.0706869" lon="7.6822382">
+    <name><![CDATA[Via Pietro Micca]]></name>
+    <desc><![CDATA[Another street with portico. Torino has an extensive network of ancient underground tunnels and passageways that were used to connect buildings, churches and some palaces of the House of Savoy. These tunnels were also used during wartime from the 1600 to WWII for defense and shelter purposes. 
+Here Pietro Micca's heroic defense held off and resolved the French siege of 1706 to spare the city from falling to the enemy.
+The Pietro Micca museum organizes guided tours through the underground tunnels.]]></desc>
+  </wpt>
+  <wpt lat="45.0698287" lon="7.6777147">
+    <name><![CDATA[Piazza Solferino]]></name>
+    <desc><![CDATA["Four Seasons" fountain.]]></desc>
+  </wpt>
+  <wpt lat="45.07501" lon="7.67725">
+    <name><![CDATA[Piazza Savoia and Quadrilatero Romano]]></name>
+    <desc><![CDATA[The curious obelisk in the middle of the square was erected in 1953. Three blocks north of here lies the Chiesa della Consolata - on the homonym street - which was built on top of the former Roman West Gate, remains of which are still visible.]]></desc>
+  </wpt>
+  <wpt lat="45.0760701" lon="7.674374">
+    <name><![CDATA[Quartieri Militari]]></name>
+    <desc><![CDATA[Seat of the Military Headquarters in XVIII century, a portion of the dark bricks building is now dedicated to the Museo della Resistenza.]]></desc>
+  </wpt>
+  <wpt lat="45.04175" lon="7.65002">
+    <name><![CDATA[Olympic Stadium]]></name>
+    <desc><![CDATA[Formerly named Stadio Comunale, the Stadio Olimpico was renovated to host the XX Winter Olympic Games held in year 2006.
+Both city soccer teams, Juventus and Torino, play here.]]></desc>
+  </wpt>
+  <wpt lat="44.99594" lon="7.60525">
+    <name><![CDATA[Stupinigi - Palazzina di Caccia]]></name>
+    <desc><![CDATA[Definitely a highlight, Stupinigi is too far to be included in this walking tour.
+This stunning palace was one of the hunting lodges built for the leisure of the House of Savoy, and part of the network of residences scattered around Torino. Other than the Royal rooms, gardens and woods, the complex also included farms and warehouses still existing today despite their scope had changed through the years.
+The somptuous entrance behind an elaborate iron fencing and gate is watched by a large elk statue perched atop the building.
+
+- Excerpt from UNESCO document -
+When Emmanuel-Philibert, Duke of Savoy, moved his capital to Turin in 1562, he began a vast series of building projects (continued by his successors) to demonstrate the power of the ruling house. This outstanding complex of buildings, designed and embellished by the leading architects and artists of the time, radiates out into the surrounding countryside from the Royal Palace in the 'Command Area' of Turin to include many country residences and hunting lodges.
+The Residences of the Royal House of Savoy in and around Turin represent a comprehensive overview of European monumental architecture in the 17th and 18th centuries, using style, dimensions, and space to illustrate in an exceptional way the prevailing doctrine of absolute monarchy in material terms.]]></desc>
+  </wpt>
+  <wpt lat="45.13529" lon="7.62547">
+    <name><![CDATA[Reggia di Venaria]]></name>
+    <desc><![CDATA[Definitely a highlight, Venaria is too far to be included in this walking tour.
+The castle was used as a residential hunting lodge and is the largest show-off among those of the House of Savoy. The beautiful "Galleria di Diana" design, with its extensive use of windows, inspired the "Hall of Mirrors" later built by jealous King Louis XIV of France in Versailles.]]></desc>
+  </wpt>
+  <trk>
+    <name><![CDATA[Torino Centro Città]]></name>
+    <src>AllTrails</src>
+    <trkseg>
+      <trkpt lat="45.07677" lon="7.6704">
+        <ele>256.12</ele>
+      </trkpt>
+      <trkpt lat="45.07646" lon="7.6702">
+        <ele>257.33</ele>
+      </trkpt>
+      <trkpt lat="45.07633" lon="7.67011">
+        <ele>257.87</ele>
+      </trkpt>
+      <trkpt lat="45.07595" lon="7.67119">
+        <ele>250.53</ele>
+      </trkpt>
+      <trkpt lat="45.07579" lon="7.67107">
+        <ele>252.36</ele>
+      </trkpt>
+      <trkpt lat="45.07534" lon="7.67235">
+        <ele>250.78</ele>
+      </trkpt>
+      <trkpt lat="45.07564" lon="7.67254">
+        <ele>249.02</ele>
+      </trkpt>
+      <trkpt lat="45.07274" lon="7.68087">
+        <ele>259.07</ele>
+      </trkpt>
+      <trkpt lat="45.07349" lon="7.68142">
+        <ele>260.4</ele>
+      </trkpt>
+      <trkpt lat="45.07349" lon="7.68365">
+        <ele>252.17</ele>
+      </trkpt>
+      <trkpt lat="45.07496" lon="7.68457">
+        <ele>238.77</ele>
+      </trkpt>
+      <trkpt lat="45.07493" lon="7.68465">
+        <ele>238.58</ele>
+      </trkpt>
+      <trkpt lat="45.07419" lon="7.6842">
+        <ele>244.86</ele>
+      </trkpt>
+      <trkpt lat="45.07385" lon="7.6852">
+        <ele>248.36</ele>
+      </trkpt>
+      <trkpt lat="45.07328" lon="7.68489">
+        <ele>256.56</ele>
+      </trkpt>
+      <trkpt lat="45.07292" lon="7.68555">
+        <ele>254.43</ele>
+      </trkpt>
+      <trkpt lat="45.07238" lon="7.68593">
+        <ele>257.79</ele>
+      </trkpt>
+      <trkpt lat="45.07164" lon="7.68541">
+        <ele>245.71</ele>
+      </trkpt>
+      <trkpt lat="45.07081" lon="7.68513">
+        <ele>254.62</ele>
+      </trkpt>
+      <trkpt lat="45.07037" lon="7.68618">
+        <ele>252.18</ele>
+      </trkpt>
+      <trkpt lat="45.07041" lon="7.68639">
+        <ele>249.68</ele>
+      </trkpt>
+      <trkpt lat="45.07068" lon="7.68658">
+        <ele>245.53</ele>
+      </trkpt>
+      <trkpt lat="45.07101" lon="7.68682">
+        <ele>244.11</ele>
+      </trkpt>
+      <trkpt lat="45.07116" lon="7.68704">
+        <ele>245.99</ele>
+      </trkpt>
+      <trkpt lat="45.07122" lon="7.68738">
+        <ele>249.22</ele>
+      </trkpt>
+      <trkpt lat="45.07116" lon="7.68758">
+        <ele>250.14</ele>
+      </trkpt>
+      <trkpt lat="45.07037" lon="7.68704">
+        <ele>253.04</ele>
+      </trkpt>
+      <trkpt lat="45.07028" lon="7.68711">
+        <ele>257.1</ele>
+      </trkpt>
+      <trkpt lat="45.0692" lon="7.68632">
+        <ele>244.24</ele>
+      </trkpt>
+      <trkpt lat="45.06912" lon="7.68659">
+        <ele>242.37</ele>
+      </trkpt>
+      <trkpt lat="45.06999" lon="7.6873">
+        <ele>261.04</ele>
+      </trkpt>
+      <trkpt lat="45.06722" lon="7.69144">
+        <ele>264.64</ele>
+      </trkpt>
+      <trkpt lat="45.06916" lon="7.69292">
+        <ele>244.88</ele>
+      </trkpt>
+      <trkpt lat="45.06915" lon="7.69295">
+        <ele>244.49</ele>
+      </trkpt>
+      <trkpt lat="45.06837" lon="7.69237">
+        <ele>251.34</ele>
+      </trkpt>
+      <trkpt lat="45.06785" lon="7.69382">
+        <ele>242.27</ele>
+      </trkpt>
+      <trkpt lat="45.06723" lon="7.69333">
+        <ele>243.75</ele>
+      </trkpt>
+      <trkpt lat="45.06671" lon="7.69269">
+        <ele>261.59</ele>
+      </trkpt>
+      <trkpt lat="45.06603" lon="7.69371">
+        <ele>246.58</ele>
+      </trkpt>
+      <trkpt lat="45.06603" lon="7.69395">
+        <ele>244.77</ele>
+      </trkpt>
+      <trkpt lat="45.06592" lon="7.69413">
+        <ele>242.65</ele>
+      </trkpt>
+      <trkpt lat="45.06579" lon="7.69413">
+        <ele>239.97</ele>
+      </trkpt>
+      <trkpt lat="45.06514" lon="7.69516">
+        <ele>231.5</ele>
+      </trkpt>
+      <trkpt lat="45.06513" lon="7.69537">
+        <ele>231.8</ele>
+      </trkpt>
+      <trkpt lat="45.06474" lon="7.69595">
+        <ele>230.52</ele>
+      </trkpt>
+      <trkpt lat="45.06461" lon="7.69596">
+        <ele>228.25</ele>
+      </trkpt>
+      <trkpt lat="45.064" lon="7.69693">
+        <ele>212.93</ele>
+      </trkpt>
+      <trkpt lat="45.06394" lon="7.69686">
+        <ele>213.62</ele>
+      </trkpt>
+      <trkpt lat="45.06299" lon="7.69832">
+        <ele>224.15</ele>
+      </trkpt>
+      <trkpt lat="45.063" lon="7.69846">
+        <ele>226.21</ele>
+      </trkpt>
+      <trkpt lat="45.06307" lon="7.69857">
+        <ele>227.12</ele>
+      </trkpt>
+      <trkpt lat="45.06286" lon="7.69889">
+        <ele>235.24</ele>
+      </trkpt>
+      <trkpt lat="45.0627" lon="7.69869">
+        <ele>232.86</ele>
+      </trkpt>
+      <trkpt lat="45.06252" lon="7.69843">
+        <ele>226.48</ele>
+      </trkpt>
+      <trkpt lat="45.06276" lon="7.69806">
+        <ele>223.95</ele>
+      </trkpt>
+      <trkpt lat="45.06292" lon="7.69822">
+        <ele>223.87</ele>
+      </trkpt>
+      <trkpt lat="45.06387" lon="7.69676">
+        <ele>214.83</ele>
+      </trkpt>
+      <trkpt lat="45.06382" lon="7.69663">
+        <ele>217.21</ele>
+      </trkpt>
+      <trkpt lat="45.06338" lon="7.69608">
+        <ele>230.47</ele>
+      </trkpt>
+      <trkpt lat="45.06312" lon="7.69574">
+        <ele>228.31</ele>
+      </trkpt>
+      <trkpt lat="45.0629" lon="7.69547">
+        <ele>231.34</ele>
+      </trkpt>
+      <trkpt lat="45.06255" lon="7.69509">
+        <ele>232.71</ele>
+      </trkpt>
+      <trkpt lat="45.06216" lon="7.69464">
+        <ele>219.61</ele>
+      </trkpt>
+      <trkpt lat="45.0617" lon="7.69416">
+        <ele>212.11</ele>
+      </trkpt>
+      <trkpt lat="45.06126" lon="7.69372">
+        <ele>215.73</ele>
+      </trkpt>
+      <trkpt lat="45.06099" lon="7.69343">
+        <ele>216.85</ele>
+      </trkpt>
+      <trkpt lat="45.06068" lon="7.69314">
+        <ele>210.76</ele>
+      </trkpt>
+      <trkpt lat="45.06042" lon="7.69293">
+        <ele>206.35</ele>
+      </trkpt>
+      <trkpt lat="45.05994" lon="7.69252">
+        <ele>202.74</ele>
+      </trkpt>
+      <trkpt lat="45.05987" lon="7.6924">
+        <ele>205.79</ele>
+      </trkpt>
+      <trkpt lat="45.0597" lon="7.6922">
+        <ele>206.64</ele>
+      </trkpt>
+      <trkpt lat="45.05958" lon="7.69208">
+        <ele>210.1</ele>
+      </trkpt>
+      <trkpt lat="45.059" lon="7.69164">
+        <ele>229.8</ele>
+      </trkpt>
+      <trkpt lat="45.0588" lon="7.69142">
+        <ele>233.02</ele>
+      </trkpt>
+      <trkpt lat="45.05869" lon="7.69121">
+        <ele>234.5</ele>
+      </trkpt>
+      <trkpt lat="45.05866" lon="7.69105">
+        <ele>235.55</ele>
+      </trkpt>
+      <trkpt lat="45.05853" lon="7.69097">
+        <ele>233.98</ele>
+      </trkpt>
+      <trkpt lat="45.05846" lon="7.69106">
+        <ele>232.92</ele>
+      </trkpt>
+      <trkpt lat="45.05817" lon="7.69085">
+        <ele>228.93</ele>
+      </trkpt>
+      <trkpt lat="45.05814" lon="7.69041">
+        <ele>226.66</ele>
+      </trkpt>
+      <trkpt lat="45.05803" lon="7.69002">
+        <ele>223.49</ele>
+      </trkpt>
+      <trkpt lat="45.05779" lon="7.68974">
+        <ele>222.74</ele>
+      </trkpt>
+      <trkpt lat="45.05765" lon="7.68961">
+        <ele>226.8</ele>
+      </trkpt>
+      <trkpt lat="45.05715" lon="7.68938">
+        <ele>234.37</ele>
+      </trkpt>
+      <trkpt lat="45.05695" lon="7.68924">
+        <ele>234.27</ele>
+      </trkpt>
+      <trkpt lat="45.05681" lon="7.68901">
+        <ele>231.67</ele>
+      </trkpt>
+      <trkpt lat="45.0566" lon="7.68853">
+        <ele>231.43</ele>
+      </trkpt>
+      <trkpt lat="45.056" lon="7.6884">
+        <ele>226.95</ele>
+      </trkpt>
+      <trkpt lat="45.05561" lon="7.68821">
+        <ele>222.69</ele>
+      </trkpt>
+      <trkpt lat="45.05483" lon="7.6877">
+        <ele>230.95</ele>
+      </trkpt>
+      <trkpt lat="45.05372" lon="7.68696">
+        <ele>235.92</ele>
+      </trkpt>
+      <trkpt lat="45.05287" lon="7.68648">
+        <ele>233.78</ele>
+      </trkpt>
+      <trkpt lat="45.05242" lon="7.6863">
+        <ele>232.63</ele>
+      </trkpt>
+      <trkpt lat="45.05167" lon="7.6861">
+        <ele>234.03</ele>
+      </trkpt>
+      <trkpt lat="45.05115" lon="7.68596">
+        <ele>231.38</ele>
+      </trkpt>
+      <trkpt lat="45.05037" lon="7.68575">
+        <ele>234.4</ele>
+      </trkpt>
+      <trkpt lat="45.04987" lon="7.68564">
+        <ele>234.8</ele>
+      </trkpt>
+      <trkpt lat="45.04945" lon="7.68554">
+        <ele>231.92</ele>
+      </trkpt>
+      <trkpt lat="45.04942" lon="7.68542">
+        <ele>231.15</ele>
+      </trkpt>
+      <trkpt lat="45.04913" lon="7.68527">
+        <ele>232.76</ele>
+      </trkpt>
+      <trkpt lat="45.04892" lon="7.68514">
+        <ele>235.95</ele>
+      </trkpt>
+      <trkpt lat="45.04868" lon="7.68512">
+        <ele>235.42</ele>
+      </trkpt>
+      <trkpt lat="45.04841" lon="7.68497">
+        <ele>233.98</ele>
+      </trkpt>
+      <trkpt lat="45.04841" lon="7.68479">
+        <ele>234.92</ele>
+      </trkpt>
+      <trkpt lat="45.04842" lon="7.6847">
+        <ele>235.58</ele>
+      </trkpt>
+      <trkpt lat="45.04839" lon="7.68462">
+        <ele>236.53</ele>
+      </trkpt>
+      <trkpt lat="45.04843" lon="7.68456">
+        <ele>237.28</ele>
+      </trkpt>
+      <trkpt lat="45.04845" lon="7.68441">
+        <ele>238.85</ele>
+      </trkpt>
+      <trkpt lat="45.0485" lon="7.68428">
+        <ele>239.47</ele>
+      </trkpt>
+      <trkpt lat="45.04857" lon="7.68419">
+        <ele>239.34</ele>
+      </trkpt>
+      <trkpt lat="45.04878" lon="7.6842">
+        <ele>235.3</ele>
+      </trkpt>
+      <trkpt lat="45.04901" lon="7.68431">
+        <ele>230.82</ele>
+      </trkpt>
+      <trkpt lat="45.04914" lon="7.68444">
+        <ele>228.48</ele>
+      </trkpt>
+      <trkpt lat="45.04963" lon="7.68505">
+        <ele>226.36</ele>
+      </trkpt>
+      <trkpt lat="45.0502" lon="7.68554">
+        <ele>237.21</ele>
+      </trkpt>
+      <trkpt lat="45.05065" lon="7.68563">
+        <ele>232.6</ele>
+      </trkpt>
+      <trkpt lat="45.0511" lon="7.68557">
+        <ele>232.9</ele>
+      </trkpt>
+      <trkpt lat="45.05187" lon="7.68583">
+        <ele>237.4</ele>
+      </trkpt>
+      <trkpt lat="45.0525" lon="7.68584">
+        <ele>239.86</ele>
+      </trkpt>
+      <trkpt lat="45.05277" lon="7.68564">
+        <ele>237.06</ele>
+      </trkpt>
+      <trkpt lat="45.05316" lon="7.68479">
+        <ele>236.74</ele>
+      </trkpt>
+      <trkpt lat="45.05339" lon="7.68472">
+        <ele>241.02</ele>
+      </trkpt>
+      <trkpt lat="45.05417" lon="7.68514">
+        <ele>233.54</ele>
+      </trkpt>
+      <trkpt lat="45.05427" lon="7.68534">
+        <ele>233.44</ele>
+      </trkpt>
+      <trkpt lat="45.05465" lon="7.68558">
+        <ele>237.92</ele>
+      </trkpt>
+      <trkpt lat="45.05475" lon="7.68546">
+        <ele>239.81</ele>
+      </trkpt>
+      <trkpt lat="45.05525" lon="7.68582">
+        <ele>236.02</ele>
+      </trkpt>
+      <trkpt lat="45.05578" lon="7.68629">
+        <ele>240.14</ele>
+      </trkpt>
+      <trkpt lat="45.05651" lon="7.68686">
+        <ele>239.4</ele>
+      </trkpt>
+      <trkpt lat="45.05675" lon="7.68666">
+        <ele>244.48</ele>
+      </trkpt>
+      <trkpt lat="45.05687" lon="7.68667">
+        <ele>245.48</ele>
+      </trkpt>
+      <trkpt lat="45.0572" lon="7.68684">
+        <ele>245.69</ele>
+      </trkpt>
+      <trkpt lat="45.05762" lon="7.68721">
+        <ele>242.3</ele>
+      </trkpt>
+      <trkpt lat="45.05774" lon="7.68766">
+        <ele>235.7</ele>
+      </trkpt>
+      <trkpt lat="45.05819" lon="7.68772">
+        <ele>234.14</ele>
+      </trkpt>
+      <trkpt lat="45.05876" lon="7.68796">
+        <ele>236.64</ele>
+      </trkpt>
+      <trkpt lat="45.05903" lon="7.68815">
+        <ele>236.51</ele>
+      </trkpt>
+      <trkpt lat="45.05917" lon="7.68805">
+        <ele>239.07</ele>
+      </trkpt>
+      <trkpt lat="45.05936" lon="7.68755">
+        <ele>241.85</ele>
+      </trkpt>
+      <trkpt lat="45.05976" lon="7.68787">
+        <ele>243.85</ele>
+      </trkpt>
+      <trkpt lat="45.05975" lon="7.68794">
+        <ele>244.25</ele>
+      </trkpt>
+      <trkpt lat="45.06186" lon="7.68947">
+        <ele>239.8</ele>
+      </trkpt>
+      <trkpt lat="45.06226" lon="7.68838">
+        <ele>239.0</ele>
+      </trkpt>
+      <trkpt lat="45.06305" lon="7.68895">
+        <ele>238.69</ele>
+      </trkpt>
+      <trkpt lat="45.0632" lon="7.68889">
+        <ele>239.04</ele>
+      </trkpt>
+      <trkpt lat="45.06326" lon="7.68876">
+        <ele>240.03</ele>
+      </trkpt>
+      <trkpt lat="45.06385" lon="7.68718">
+        <ele>240.89</ele>
+      </trkpt>
+      <trkpt lat="45.06583" lon="7.68856">
+        <ele>247.14</ele>
+      </trkpt>
+      <trkpt lat="45.06652" lon="7.68822">
+        <ele>244.77</ele>
+      </trkpt>
+      <trkpt lat="45.0675" lon="7.68556">
+        <ele>252.05</ele>
+      </trkpt>
+      <trkpt lat="45.06868" lon="7.68642">
+        <ele>241.88</ele>
+      </trkpt>
+      <trkpt lat="45.06915" lon="7.68509">
+        <ele>249.71</ele>
+      </trkpt>
+      <trkpt lat="45.06796" lon="7.68419">
+        <ele>258.26</ele>
+      </trkpt>
+      <trkpt lat="45.06822" lon="7.6834">
+        <ele>254.48</ele>
+      </trkpt>
+      <trkpt lat="45.06699" lon="7.6825">
+        <ele>260.0</ele>
+      </trkpt>
+      <trkpt lat="45.06645" lon="7.6821">
+        <ele>253.78</ele>
+      </trkpt>
+      <trkpt lat="45.06673" lon="7.68137">
+        <ele>252.53</ele>
+      </trkpt>
+      <trkpt lat="45.06848" lon="7.68264">
+        <ele>253.48</ele>
+      </trkpt>
+      <trkpt lat="45.06864" lon="7.68229">
+        <ele>254.82</ele>
+      </trkpt>
+      <trkpt lat="45.06951" lon="7.68285">
+        <ele>257.38</ele>
+      </trkpt>
+      <trkpt lat="45.06946" lon="7.68306">
+        <ele>256.82</ele>
+      </trkpt>
+      <trkpt lat="45.0707" lon="7.68389">
+        <ele>248.61</ele>
+      </trkpt>
+      <trkpt lat="45.07074" lon="7.68406">
+        <ele>250.56</ele>
+      </trkpt>
+      <trkpt lat="45.07087" lon="7.68405">
+        <ele>252.14</ele>
+      </trkpt>
+      <trkpt lat="45.07088" lon="7.68371">
+        <ele>254.47</ele>
+      </trkpt>
+      <trkpt lat="45.07115" lon="7.68278">
+        <ele>257.13</ele>
+      </trkpt>
+      <trkpt lat="45.07152" lon="7.68174">
+        <ele>258.18</ele>
+      </trkpt>
+      <trkpt lat="45.07201" lon="7.68039">
+        <ele>262.33</ele>
+      </trkpt>
+      <trkpt lat="45.07045" lon="7.67926">
+        <ele>278.2</ele>
+      </trkpt>
+      <trkpt lat="45.0704" lon="7.67837">
+        <ele>258.27</ele>
+      </trkpt>
+      <trkpt lat="45.07029" lon="7.67835">
+        <ele>254.16</ele>
+      </trkpt>
+      <trkpt lat="45.06995" lon="7.67817">
+        <ele>249.53</ele>
+      </trkpt>
+      <trkpt lat="45.0702" lon="7.6775">
+        <ele>248.16</ele>
+      </trkpt>
+      <trkpt lat="45.07042" lon="7.67763">
+        <ele>250.7</ele>
+      </trkpt>
+      <trkpt lat="45.07063" lon="7.67707">
+        <ele>258.65</ele>
+      </trkpt>
+      <trkpt lat="45.07075" lon="7.67693">
+        <ele>258.58</ele>
+      </trkpt>
+      <trkpt lat="45.07111" lon="7.67712">
+        <ele>264.33</ele>
+      </trkpt>
+      <trkpt lat="45.07152" lon="7.67696">
+        <ele>259.8</ele>
+      </trkpt>
+      <trkpt lat="45.07166" lon="7.67655">
+        <ele>257.29</ele>
+      </trkpt>
+      <trkpt lat="45.07097" lon="7.67607">
+        <ele>261.44</ele>
+      </trkpt>
+      <trkpt lat="45.07129" lon="7.67518">
+        <ele>257.46</ele>
+      </trkpt>
+      <trkpt lat="45.07321" lon="7.67644">
+        <ele>250.97</ele>
+      </trkpt>
+      <trkpt lat="45.07335" lon="7.67644">
+        <ele>251.78</ele>
+      </trkpt>
+      <trkpt lat="45.07375" lon="7.67672">
+        <ele>256.98</ele>
+      </trkpt>
+      <trkpt lat="45.07383" lon="7.67661">
+        <ele>257.7</ele>
+      </trkpt>
+      <trkpt lat="45.0747" lon="7.6772">
+        <ele>252.33</ele>
+      </trkpt>
+      <trkpt lat="45.07483" lon="7.67733">
+        <ele>253.79</ele>
+      </trkpt>
+      <trkpt lat="45.07495" lon="7.67706">
+        <ele>252.62</ele>
+      </trkpt>
+      <trkpt lat="45.0751" lon="7.67691">
+        <ele>255.69</ele>
+      </trkpt>
+      <trkpt lat="45.07547" lon="7.67593">
+        <ele>265.94</ele>
+      </trkpt>
+      <trkpt lat="45.07602" lon="7.67439">
+        <ele>257.28</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07612" lon="7.67396">
+        <ele>253.34</ele>
+      </trkpt>
+      <trkpt lat="45.07537" lon="7.67342">
+        <ele>249.47</ele>
+      </trkpt>
+      <trkpt lat="45.0757" lon="7.67258">
+        <ele>249.47</ele>
+      </trkpt>
+      <trkpt lat="45.07595" lon="7.67273">
+        <ele>254.2</ele>
+      </trkpt>
+      <trkpt lat="45.07677" lon="7.6704">
+        <ele>256.12</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

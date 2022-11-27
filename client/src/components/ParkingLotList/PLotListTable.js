@@ -72,7 +72,7 @@ function PLotListItem(props) {
 							<Row>
 								<Col>
 									<FontAwesomeIcon icon={faCar}/>{" "}
-									{props.lot.carspace.toFixed(0)}
+									{props.lot.carspace}
 								</Col>
 							</Row>
 						</Container>
