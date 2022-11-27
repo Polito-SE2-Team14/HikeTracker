@@ -25,7 +25,7 @@ exports.getAllHikes = function () {
 			}
 			try {
 				const hikes = rows.map(
-					(h) =>{
+					(h) => {
 						return {
 							hikeID: h.hikeID,
 							title: h.title,
@@ -76,21 +76,23 @@ exports.check_hike = function (wantedID) {
  * @returns {boolean} Boolean value telling if the hike exists
  */
 exports.getHike = function (wantedID) {
-	db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
-		if (err) {
-			reject(err);
-			return;
-		} else {
-			try {
-				row.track = getTrack(row.id);
+	return new Promise((resolve, reject) => {
+		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
+			if (err) {
+				reject(err);
+				return;
+			} else {
+				try {
+					row.track = getTrack(row.hikeID);
 
-				resolve(row);
+					resolve(row);
+				}
+				catch (e) {
+					reject(e);
+				}
 			}
-			catch (e) {
-				reject(e);
-			}
-		}
-	})
+		});
+	});
 }
 
 /**
@@ -216,22 +218,22 @@ exports.deleteHike = function (hikeID) {
 	});
 }
 
-exports.getHikeTrack = function(hikeID) {
+exports.getHikeTrack = function (hikeID) {
 	let track;
 
 	try {
 		track = readFileSync(path.join(__dirname, `../database/tracks/_${hikeID}_.trk`), 'utf8');
-	} catch(err){
+	} catch (err) {
 		console.log(err);
 	}
-	
+
 	return track;
 }
 
 exports.setStart = function (hikeID, startPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"UPDATE HIKE startPointID=? WHERE hikeID =?",
+			"UPDATE HIKE SET startPointID=? WHERE hikeID =?",
 			[startPointID, hikeID],
 			(err) => {
 				if (err) {
@@ -248,7 +250,7 @@ exports.setStart = function (hikeID, startPointID) {
 exports.setEnd = function (hikeID, endPointID) {
 	return new Promise((resolve, reject) => {
 		db.run(
-			"UPDATE HIKE endPointID=? WHERE hikeID =?",
+			"UPDATE HIKE SET endPointID=? WHERE hikeID =?",
 			[endPointID, hikeID],
 			(err) => {
 				if (err) {
@@ -263,9 +265,9 @@ exports.setEnd = function (hikeID, endPointID) {
 }
 
 
-function newTrack(hikeId, track) {	
+function newTrack(hikeId, track) {
 	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	writeFile(SOURCE, JSON.stringify(track), {flag: 'w', encoding: 'utf8'}, err => {
+	writeFile(SOURCE, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
 		if (err) throw err;
 	});
 }

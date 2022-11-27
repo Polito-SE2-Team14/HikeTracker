@@ -58,6 +58,7 @@ export function HikesPage(props) {
 
 	const handleCloseHikeForm = () => {
 		setShowHikeForm(false);
+		setSelectedHike(null);
 	};
 
 	useEffect(() => {

@@ -19,7 +19,29 @@ const getAllPoints = async () => {
 				pointType: p.pointType
 			};
 		});
-	} catch (err) { }
+	} catch (e) {
+		throw e;
+	}
+};
+
+const getPoint = async (pointID) => {
+	try {
+		let response = await REST.GET(`${api}/${pointID}`);
+		let pointJson = await response.json();
+
+		return {
+			pointID: pointJson.pointID,
+			name: pointJson.name,
+			lat: pointJson.latitude,
+			province: pointJson.province,
+			municipality: pointJson.municipality,
+			lon: pointJson.longitude,
+			address: pointJson.address,
+			pointType: pointJson.pointType
+		};
+	} catch (e) {
+		throw e;
+	}
 };
 
 /**
@@ -59,5 +81,5 @@ const deleteHut = async (hutID) => {
 }
 
 
-const PointAPI = { getAllPoints, getAllHuts, createHut, deleteHut };
+const PointAPI = { getAllPoints, getPoint, getAllHuts, createHut, deleteHut };
 export default PointAPI;

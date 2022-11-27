@@ -13,7 +13,7 @@ class HikeController {
 	}
 
 	async getHike(hikeID) {
-		const hike = await hikeDAO.getHike(hikeID).catch(() => {
+		const hike = await hikeDAO.getHike(hikeID).catch((err) => {
 			throw Error();
 		});
 

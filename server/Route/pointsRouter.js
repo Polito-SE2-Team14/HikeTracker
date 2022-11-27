@@ -10,6 +10,14 @@ router.get('', async (req, res) => {
 		.catch(err => res.status(505).send('Error'))
 });
 
+router.get('/:pointID',
+	body("pointID").not().isEmpty().isInt({ min: 0 }), 
+	async (req, res) => {
+	await pointController.getPoint(req.params.pointID)
+		.then(points => res.json(points))
+		.catch(err => res.status(505).send('Error'))
+});
+
 router.get('/huts', async (req, res) => {
 	await pointController.getHuts()
 		.then(huts => { res.status(200).json(huts) })

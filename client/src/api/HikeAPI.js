@@ -39,27 +39,40 @@ const getAllHikes = async () => {
 					description: h.description,
 					municipality: h.municipality,
 					province: h.province,
-					track: h.track
-				}
+					startPointID: h.startPointID,
+					endPointID: h.endPointID
+				};
 			}
 		);
 	} catch (e) {
 		throw e;
 	}
 };
-/*
+
 const getHike = async (hikeID) => {
 	try {
 		let response = await REST.GET(`${api}/${hikeID}`);
 		let hikeJson = await response.json();
 
-		return hikeJson.map(h => new Hike(h.hikeID, h.title, h.length, h.expectedTime, h.ascent, h.difficulty, h.description, null, null));
+		return {
+			hikeID: hikeJson.hikeID,
+			title: hikeJson.title,
+			length: hikeJson.length,
+			expectedTime: hikeJson.expectedTime,
+			ascent: hikeJson.ascent,
+			difficulty: hikeJson.difficulty,
+			description: hikeJson.description,
+			municipality: hikeJson.municipality,
+			province: hikeJson.province,
+			startPointID: hikeJson.startPointID,
+			endPointID: hikeJson.endPointID
+		};
 	}
 	catch (e) {
 		throw e;
 	}
 };
-*/
+
 
 /**
  * Insert a new hike in the database
@@ -208,13 +221,17 @@ const addHut = async (hikeID, pointID) => {
 	}
 };
 
-const getHikeTrack = async(hikeID) => {
-	let response = await REST.GET(`${api}/${hikeID}/track`);
-	let trackJson = await response.json();
-
-	// trackJson = {[[x1,y1], [x2,y2], ...]}
-
-	return JSON.parse(trackJson);
+const getHikeTrack = async (hikeID) => {
+	try{
+		let response = await REST.GET(`${api}/${hikeID}/track`);
+		let trackJson = await response.json();
+		// trackJson = {[[x1,y1], [x2,y2], ...]}
+		
+		return JSON.parse(trackJson);
+	}
+	catch(e){
+		throw e;
+	}
 }
 
 const getHikePoints = async (hikeID) => {
@@ -249,6 +266,7 @@ const getHikePoints = async (hikeID) => {
 
 const HikeAPI = {
 	getAllHikes,
+	getHike,
 	newHike,
 	editHike,
 	deleteHike,

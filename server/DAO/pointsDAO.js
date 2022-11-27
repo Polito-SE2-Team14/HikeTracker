@@ -30,17 +30,17 @@ exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM POINT WHERE pointID = ?";
         const params = [pointID];
-        db.run(sql, params, (err, row) => {
+        db.get(sql, params, (err, row) => {
             if (err) {
                 reject(err);
                 return;
             }
             //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
-            const point = {
+            /*const point = {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
                 municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType
-            }
-            resolve(point);
+            }*/
+            resolve(row);
         })
     });
 }

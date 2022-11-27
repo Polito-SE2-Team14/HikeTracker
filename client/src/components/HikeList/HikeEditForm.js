@@ -27,18 +27,20 @@ export function HikeEditForm(props) {
 		setEditPoints(false);
 	};
 
-	let onSubmit = (h) => {
-		props.setHikes((old) =>
+	let onSubmit = async (hikeID) => {
+		let newHike = await HikeAPI.getHike(hikeID);
+
+		props.setHikes(old =>
 			hike
 				? //edited hike
-				old.map((el) => (el.hikeID == h.hikeID ? h : el))
+				old.map(h => (h.hikeID == newHike.hikeID ? newHike : h))
 				: //new hike
-				[...old, h]
+				[...old, newHike]
 		);
 
-		setHike(h);
+		setHike(newHike);
 
-		setEditPoints((e) => !e);
+		setEditPoints(true);
 	};
 
 	return (
@@ -140,7 +142,7 @@ function HikeForm(props) {
 			});
 		}
 
-		props.onSubmit(hike);
+		props.onSubmit(hike.hikeID);
 	};
 
 	return (
@@ -303,14 +305,18 @@ function HikeForm(props) {
 
 function EditPointsForm(props) {
 	let [startPoints, setStartPoints] = useState([]);
-	let [start, setStart] = useState(props.hike.track[0]);
+	let [start, setStart] = useState([]);
 	let [endPoints, setEndPoints] = useState([]);
-	let [end, setEnd] = useState(props.hike.track[props.hike.track.length - 1]);
+	let [end, setEnd] = useState([]);
+	let [track, setTrack] = useState([]);
 
 	let getPoints = async () => {
 		try {
+			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
 			points = points ? points : [];
+
+			setTrack(newTrack);
 
 			setStartPoints(
 				points /*.filter(p =>
@@ -328,18 +334,27 @@ function EditPointsForm(props) {
 				}))
 			*/
 			);
+
+			setStart(newTrack[0]);
+			setEnd(newTrack[newTrack.length - 1]);
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
-	let handleSubmit = (event) => {
+	let handleSubmit = async (event) => {
 		event.preventDefault();
-		HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
-		HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
 
-		props.onHide();
-		props.onSubmit(props.hike);
+		try{
+			await HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
+			await HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
+
+			props.onSubmit(props.hike.hikeID);
+			props.onHide();
+		}
+		catch(e){
+			console.log(e);
+		}
 	};
 
 	useEffect(() => {
@@ -350,7 +365,7 @@ function EditPointsForm(props) {
 		<Form>
 			<Row>
 				<HikeMap
-					track={props.hike.track}
+					track={track}
 					markers={[start, end]}
 				/>
 			</Row>

@@ -15,22 +15,32 @@ import {
 import { HikeMap } from "../Map/Maps";
 
 import HikeAPI from "../../api/HikeAPI";
+import PointAPI from "../../api/PointAPI";
 
 export function HikeModal(props) {
 	let hike = props.hike;
 	let show = props.show;
 
 	const [track, setTrack] = useState([]);
+	const [markers, setMarkers] = useState([]);
 
 	const updatePath = async () => {
-		if(show){
+		if (show) {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			setTrack(newTrack);
 		}
-	} 
+	}
+
+	let getMarkers = async () => {
+		let start = await PointAPI.getPoint(hike.startPointID);
+		let end = await PointAPI.getPoint(hike.endPointID);
+
+		setMarkers([start, end]);
+	};
 
 	useEffect(() => {
 		updatePath();
+		getMarkers();
 		// eslint-disable-next-line
 	}, [show])
 
@@ -40,7 +50,7 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HikeMap track={track}/>
+				<HikeMap track={track} markers={markers} />
 				<p className="text-muted mt-0">submitted by x/you</p>
 				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 					<Col>
