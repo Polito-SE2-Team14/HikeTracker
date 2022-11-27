@@ -1,40 +1,43 @@
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LocationMap } from "../Map/Maps";
 import {
-	faCar,
 	faXmark,
+	faPenToSquare,
 	faTrashCan,
+	faBed,
+	faMap,
 	faCity,
-	faHouse
+	faHouse,
+	faCar,
 } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function PLotModal(props){
-	return(
+export function PLotModal(props) {
+	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>{props.lot.name}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+				<LocationMap point={props.lot} />
+				<Row className=" mt-2">
 					<Col>
-						<FontAwesomeIcon icon={faHouse}/>
-						<strong>{" Municipality: "}</strong>
-						{props.lot.municipality}
+						<FontAwesomeIcon icon={faCity} />
+						<strong>{" Province:"}</strong>
+						{` ${props.lot.municipality} (${props.lot.province})`}
 					</Col>
 				</Row>
-				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
+				<Row xs={1} md={2} className="d-flex align-items-top">
 					<Col>
-						<FontAwesomeIcon icon={faCity}/>
-						<strong>{" Province: "}</strong>
-						{props.lot.province}
+						<FontAwesomeIcon icon={faMap} />
+						<strong>{" Address:"}</strong>
+						{` ${props.lot.address}`}
 					</Col>
-				</Row>
-				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 					<Col>
-						<FontAwesomeIcon icon={faCar}/>
-						<strong>{" Carspace: "}</strong>
-						{props.lot.carspace}
+						<FontAwesomeIcon icon={faBed} />
+						<strong>{" Carspace:"}</strong>
+						{` ${props.lot.carspace}`}
 					</Col>
 				</Row>
 			</Modal.Body>

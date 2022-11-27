@@ -8,20 +8,25 @@ const { captureRejectionSymbol } = require("events");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-exports.getAllParkingLots=()=>{
+exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
-		db.all("SELECT * FROM PARKINGLOT",(err,rows)=>{
-			if(err){
+		db.all("SELECT * FROM POINT P, PARKINGLOT PA WHERE P.pointID = PA.parkinglotID AND pointType = 'parkinglot'", (err, rows) => {
+			if (err) {
 				reject(err);
 				return;
 			}
-			const pLots=rows.map(r=>{
-				return{
-					pLotId: r.parkingLotId,
+			const pLots = rows.map(r => {
+				return {
+					pLotId: r.parkinglotID,
 					name: r.name,
 					carspace: r.carspace,
 					municipality: r.municipality,
-					province: r.province
+					province: r.province,
+					latitude: r.latitude,
+					longitude: r.longitude,
+					pointID: r.pointID,
+					address: r.address,
+					pointType: r.pointType
 				}
 			});
 			resolve(pLots);
@@ -29,14 +34,14 @@ exports.getAllParkingLots=()=>{
 	});
 };
 
-exports.getParkingLotById=(id)=>{
+exports.getParkingLotById = (id) => {
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`,(err,row)=>{
-			if(err){
+		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`, (err, row) => {
+			if (err) {
 				reject(err);
 				return;
 			}
-			if(row==undefined){
+			if (row == undefined) {
 				reject("No parking lot has the given id");
 				return;
 			}
@@ -45,43 +50,43 @@ exports.getParkingLotById=(id)=>{
 	});
 };
 
-exports.parkingLotExists=(id)=>{
+exports.parkingLotExists = (id) => {
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKINGLOT WHERE parkingLotId=${id}`,(err,row)=>{
-			if(err){
+		db.get(`SELECT * FROM PARKINGLOT WHERE parkingLotId=${id}`, (err, row) => {
+			if (err) {
 				reject(err);
 				return;
 			}
-			resolve(row!==undefined);
+			resolve(row !== undefined);
 		});
 	});
 };
 
-exports.addParkingLot=(newPLot)=>{
+exports.addParkingLot = (newPLot) => {
 	return new Promise((resolve, reject) => {
 		db.run("INSERT INTO PARKINGLOT (name,municipality,province,carspace) VALUES (?,?,?,?);",
-		[newPLot.name,newPLot.municipality,newPLot.province,newPLot.carspace],
-		function(err){
-			if(err){
-				console.log(err);
-				reject(err);
-				return;
-			}
-			resolve({
-				pLotId: this.lastID,
-				name: newPLot.name,
-				carspace: newPLot.carspace,
-				municipality: newPLot.municipality,
-				province: newPLot.province
-			});
-		})
+			[newPLot.name, newPLot.municipality, newPLot.province, newPLot.carspace],
+			function (err) {
+				if (err) {
+					console.log(err);
+					reject(err);
+					return;
+				}
+				resolve({
+					pLotId: this.lastID,
+					name: newPLot.name,
+					carspace: newPLot.carspace,
+					municipality: newPLot.municipality,
+					province: newPLot.province
+				});
+			})
 	});
 };
 
-exports.deleteParkingLot=(id)=>{
+exports.deleteParkingLot = (id) => {
 	return new Promise((resolve, reject) => {
-		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`,(err)=>{
-			if(err){
+		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`, (err) => {
+			if (err) {
 				reject(err);
 				return;
 			}

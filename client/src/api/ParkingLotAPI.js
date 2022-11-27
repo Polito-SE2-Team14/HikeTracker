@@ -19,7 +19,12 @@ const getAllParkingLots = async () => {
 					name: pL.name,
 					carspace: pL.carspace,
 					municipality: pL.municipality,
-					province: pL.province
+					province: pL.province,
+					latitude: Number(pL.latitude),
+					longitude: Number(pL.longitude),
+					pointID: pL.pointID,
+					address: pL.address,
+					pointType: pL.pointType
 				}}
 		);
 	} catch(err){

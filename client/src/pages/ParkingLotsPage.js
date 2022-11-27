@@ -19,7 +19,7 @@ export function ParkingLotsPage(props) {
 	// 	PROPS.USER?
 	const getAllParkingLots = async() => {
 		try{
-			let allLots=await ParkingLotAPI.getAllParkingLots();
+			let allLots = await ParkingLotAPI.getAllParkingLots();
 			setLots(allLots);
 			setLoading(false);
 		}catch(err){

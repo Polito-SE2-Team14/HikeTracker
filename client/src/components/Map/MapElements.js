@@ -62,7 +62,6 @@ var endFlagIcon = new L.Icon({
 // TODO(antonio): proper documentation
 export function HikeMarker(props) {
 	let position = getLatLon(props.point);
-
 	let popup, icon;
 	switch (props.point.pointType) {
 		case "generic":
@@ -73,7 +72,7 @@ export function HikeMarker(props) {
 			popup = <HutPopup hut={props.point} />;
 			icon = redIcon;
 			break;
-		case "parkingLot":
+		case "parkinglot":
 			popup = <ParkingLotPopup parkingLot={props.point} />;
 			icon = blueIcon;
 			break;
