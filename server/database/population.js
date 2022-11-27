@@ -3,14 +3,14 @@ const path = require("path");
 const gpxParser = require('gpxparser');
 
 const Singleton = require('./DBManagerSingleton');
-const dbManager = Singleton.getInstance();
+const DBManager = Singleton.getInstance();
 
 const HikeDAO = require('../DAO/hikeDAO');
 
 function script() {
 	let sql = 'INSERT INTO Hike VALUES(?, ?, ?, ?, ?, ?, NULL, NULL, "A description", ?, ?)';
 
-	dbManager.clearDb();
+	DBManager.deleteAllHikes();
 
 	let hikes = [
 		{ title: 'Mergozzo Sentiero Azzurro', difficulty: 'Hiker', municipality: 'Mergozzo', province: 'Verbano' },
