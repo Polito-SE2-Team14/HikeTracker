@@ -153,11 +153,16 @@ export function HutsPage(props) {
 								</Button>
 							</Form>
 						</Col>
-						<Col xs={5} className="text-end">
-							<Button variant="success" onClick={() => handleSubmit()}>
-								<FontAwesomeIcon icon={faPlus} /> Register Hut
-							</Button>
-						</Col>
+
+						{
+							props.user.type === "localGuide" ?
+								<Col xs={5} className="text-end">
+									<Button variant="success" onClick={() => handleSubmit()}>
+										<FontAwesomeIcon icon={faPlus} /> Register Hut
+									</Button>
+									</Col>
+								:
+								<></>}
 					</Row>
 					<HutFilterModal
 						show={showFilterModal}

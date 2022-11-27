@@ -66,22 +66,13 @@ class PointController {
 			.then(newID => pointID = newID)
 			.catch(err => { console.error("controller:", err); throw err });
 
+		
 		await pointsDAO
 			.createHut({ pointID: pointID, bedspace: Number(bedspace), hutOwnerID: Number(hutOwnerID) })
 			.catch((err) => {
 				console.error(err);
 				throw err;
 			});
-
-		/* return new Hut(
-			pointID,
-			hut.name,
-			hut.latitude,
-			hut.longitude,
-			hut.address,
-			hut.bedspace,
-			hut.hutOwnerID
-		); */
 
 		let hutToBeReturned = {
 			pointID: pointID,
