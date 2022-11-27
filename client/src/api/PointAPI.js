@@ -54,7 +54,9 @@ const getAllHuts = async () => {
 		let hutsJson = await response.json();
 
 		return hutsJson;
-	} catch (err) { }
+	} catch (err) {
+		throw err;
+	}
 };
 
 const createHut = async (hut) => {
