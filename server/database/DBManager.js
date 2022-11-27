@@ -1,3 +1,4 @@
+const path = require("path"); 
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
 
@@ -6,7 +7,7 @@ class DBManager {
     #db;
     constructor(dbName) {
         // open the database
-        this.#db = new sqlite.Database('./database/dbFiles/' + dbName + ".sqlite", (err) => {
+        this.#db = new sqlite.Database(path.join(__dirname, './dbFiles/' + dbName + ".sqlite"), (err) => {
             if (err) {
                 console.error("error db manager", err)
                 throw err;

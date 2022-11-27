@@ -13,6 +13,7 @@
     "dayjs": "^1.11.5",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
+    "gpxparser": "^3.0.8",
     "mocha": "^10.1.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.8.0",
