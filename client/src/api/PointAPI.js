@@ -28,8 +28,6 @@ const getPoint = async (pointID) => {
 	try {
 		let response = await REST.GET(`${api}/${pointID}`);
 		let pointJson = await response.json();
-		console.log(pointID)
-		console.log(pointJson)
 
 		return {
 			pointID: pointJson.pointID,
