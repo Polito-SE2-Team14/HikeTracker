@@ -20,7 +20,7 @@ router.get('', async (req, res) => {
 
 router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
-		.then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
+		.then(huts => {  return res.status(200).json(huts) })
 		.catch((err) => {
 			console.error(err);
 			return res.status(500).end
