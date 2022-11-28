@@ -2,7 +2,6 @@ const { readFileSync } = require("fs");
 const path = require("path");
 const gpxParser = require('gpxparser');
 const crypto = require("crypto");
-const fs = require("fs");
 
 const Singleton = require('./DBManagerSingleton');
 const DBManager = require("../database/DBManager");
@@ -13,7 +12,7 @@ const HikeDAO = require('../DAO/hikeDAO');
 const userDAO = require("../DAO/userDAO")
 
 function hikesCreation() {
-
+	const gpx = new gpxParser();
 
 	let hikes = [
 		{ title: 'Mergozzo Sentiero Azzurro', difficulty: 'Hiker', municipality: 'Mergozzo', province: 'Verbano' },
@@ -71,7 +70,7 @@ function hikesCreation() {
 	let i = 1;
 	return hikes.map(h => {
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
-		let gpx = new gpxParser();
+		
 		gpx.parse(data);
 
 		h.length = Math.round(gpx.tracks[0].distance.total);
@@ -85,9 +84,7 @@ function hikesCreation() {
 }
 
 function usersCreation() {
-
-
-	const jsonString = fs.readFileSync("./dbFiles/user.json");
+	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/user.json"));
 	const users = JSON.parse(jsonString).users;
 
 	let i = 1
@@ -128,9 +125,9 @@ function parkingLotsCreation() {
 }
 
 
-Promise.resolve(dbManager.clearDb())
-Promise.all(pointsCreation())
-Promise.all(hutsCreation())
-Promise.all(parkingLotsCreation())
-Promise.all(usersCreation())
-Promise.all(hikesCreation())
+Promise.resolve(dbManager.clearDb());
+Promise.all(pointsCreation());
+Promise.all(hutsCreation());
+Promise.all(parkingLotsCreation());
+Promise.all(usersCreation());
+Promise.all(hikesCreation());
