@@ -22,9 +22,10 @@ class HikeController {
 
 	async addHike(hike) {
 
-		let { name, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
+		let { title, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
+		console.log(hike)
 
-		if (typeof name != "string")
+		if (typeof title != "string")
 			throw Error("Type error with name")
 		if (isNaN(length))
 			throw Error("Type error with length")
