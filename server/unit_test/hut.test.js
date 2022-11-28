@@ -15,7 +15,6 @@ describe('Hut Tests', () => {
                 .catch(err => {
                     console.error(err)
                     expect(true).toBe(false)
-                    return
                 }
                 )
 

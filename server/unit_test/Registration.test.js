@@ -71,14 +71,12 @@ function testCorrectRegistration(lastId, users) {
 
 
 		expect(user).not.toBeUndefined();
-		//expect(user instanceof User).toBe(true);
 		expect(user.userID).toBe(lastId + 1);
 		expect(user.name).toBe(newUser.name);
 		expect(user.surname).toBe(newUser.surname);
 		expect(user.email).toBe(newUser.email);
 		expect(user.phoneNumber).toBe(newUser.phoneNumber);
 		expect(user.type).toBe(newUser.type);
-
 		expect(res).not.toBeUndefined();
 		expect(res).not.toBe(false);
 		expect(res.id).toBe(lastId + 1);
@@ -111,8 +109,6 @@ function testWrongRegistration(lastId, users) {
 		}).catch(err => { return err; });
 
 		expect(user).not.toBeUndefined();
-		//expect(user).toBe('user exists');
-
 		expect(res).not.toBeUndefined();
 		expect(res).toBe(1);
 	});
