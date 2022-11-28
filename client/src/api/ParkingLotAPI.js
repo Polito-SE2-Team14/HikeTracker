@@ -34,7 +34,7 @@ const getAllParkingLots = async () => {
 }
 
 const addParkingLot = async (ParkingLotToAdd) => {
-	let body = { ParkingLotToAdd };
+	let body =  ParkingLotToAdd ;
 
 	try {
 		await REST.UPDATE("POST", api, body, true);

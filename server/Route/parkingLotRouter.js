@@ -17,10 +17,13 @@ router.get("", async (req, res) => {
 });
 
 router.post("",
-	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+	body(["name", "province","municipality"]).not().isEmpty().trim().escape(),
 	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
 	body("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
+
+		console.log(req.body)
+
 
 		if (!validationResult(req).isEmpty()) {
 			console.error(validationResult(req).array())
@@ -28,9 +31,9 @@ router.post("",
 		}
 
 		await pLotController
-			.addParkingLot(req.body.ParkingLotToAdd)
+			.addParkingLot(req.body)
 			.then(() => res.status(200).end())
-			.catch(() => {
+			.catch((err) => {
 				console.error(err)
 				return res.status(500).end()
 			});

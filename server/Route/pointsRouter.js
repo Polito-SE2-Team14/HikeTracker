@@ -39,6 +39,7 @@ router.post('/huts',
 	body(["bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
 
+
 		if (!validationResult(req).isEmpty()) {
 			console.error(validationResult(req).array())
 			return res.status(422).json({ err: validationResult(req).array })
