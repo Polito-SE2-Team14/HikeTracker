@@ -1,5 +1,3 @@
-//import sqlite from "sqlite3";
-//const { db } = require("../database/dbManager");
 const { writeFile, unlink, readFileSync } = require("fs");
 
 const Singleton = require("../database/DBManagerSingleton");
@@ -10,7 +8,6 @@ const db = dbManager.getDB();
 
 const path = require("path");
 
-//const Hike = require("../Class/Hike");
 /**
  * Queries the db to get all hikes
  * @returns {Promise} A promise containing a vector with all the hikes or a message error
