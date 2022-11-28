@@ -1,14 +1,19 @@
 const { readFileSync } = require("fs");
 const path = require("path");
 const gpxParser = require('gpxparser');
+const crypto = require("crypto");
+
 
 const Singleton = require('./DBManagerSingleton');
-const DBManager = Singleton.getInstance();
+const DBManager = require("../database/DBManager");
+/** @type {DBManager} */
+const dbManager = Singleton.getInstance();
 
 const HikeDAO = require('../DAO/hikeDAO');
+const userDAO = require("../DAO/userDAO")
 
-function script() {
-	DBManager.deleteAllHikes();
+function hikesCreation() {
+
 
 	let hikes = [
 		{ title: 'Mergozzo Sentiero Azzurro', difficulty: 'Hiker', municipality: 'Mergozzo', province: 'Verbano' },
@@ -63,6 +68,7 @@ function script() {
 		{ title: 'Lago Sottano della Sella', difficulty: 'Professional Hiker', municipality: 'Aisone', province: 'Cuneo' },
 	];
 
+	let i = 1;
 	return hikes.map(h => {
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
 		let gpx = new gpxParser();
@@ -73,9 +79,76 @@ function script() {
 		h.expectedTime = Math.round((12.09 * h.length + 98.4 * h.ascent) / 1000);
 		h.track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 		h.description = "A description";
-
+		console.log(i++,"- Hike added")
 		return HikeDAO.addHike(h);
 	});
 }
 
-Promise.all(script());
+function usersCreation() {
+
+
+	let users = [
+		{ name: "Mario", surname: "Rossi", email: "mario.rossi@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Antonio", surname: "Bianchi", email: "antonio.bianchi@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Cristian", surname: "Verdi", email: "cristian.verdi@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Randolph", surname: "Carter", email: "randolph.carter@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Larry", surname: "Thomas", email: "larry.thomas@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Frank", surname: "Johnson", email: "frank.johnson@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Eric", surname: "Williams", email: "eric.williams@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Stephen", surname: "Brown", email: "stephen.brown@mail.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
+		{ name: "Andrew", surname: "Miller", email: "andrew.miller@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Gregory", surname: "Jones", email: "gregory.jones@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Mary", surname: "Lee", email: "mary.lee@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Friede", surname: "Gonzalez", email: "friede.gonzalez@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Patricia", surname: "Harris", email: "patricia.harris@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Linda", surname: "Clark", email: "linda.clark@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Barbara", surname: "Robinson", email: "barbara.robinson@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
+		{ name: "Elizabeth", surname: "Lewis", email: "elizabeth.lewis@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Jennifer", surname: "Walker", email: "jennifer.walker@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Maria", surname: "Hall", email: "maria.hall@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Susan", surname: "Young", email: "susan.young@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Eileen", surname: "Allen", email: "eileen.allen@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
+		{ name: "Dorothy", surname: "Sanchez", email: "dorothy.sanchez@email.com", phoneNumber: "3456789012", type: "hutWorker", password: "password" }
+	]
+
+	let i=1
+	return users.map(u => {
+		console.log(i++,"- User added")
+		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'))
+	})
+}
+
+function pointsCreation() {
+	let points = []
+
+	let i=1
+	return points.map(u => {
+		console.log(i++,"- Point added")
+		return new Promise(1)
+	})}
+
+function hutsCreation() {
+	let huts = []
+
+	let i=1
+	return huts.map(u => {
+		console.log(i++,"- Hut added")
+		return new Promise(1)
+	})}
+
+function parkingLotsCreation() {
+	let pLot = []
+
+	let i=1
+	return pLot.map(u => {
+		console.log(i++,"- Parking Lot added")
+		return new Promise(1)
+	})}
+
+
+Promise.resolve(dbManager.clearDb())
+Promise.all(pointsCreation())
+Promise.all(hutsCreation())
+Promise.all(parkingLotsCreation())
+Promise.all(usersCreation())
+Promise.all(hikesCreation())
