@@ -34,3 +34,11 @@ npm start
 - You can access the web-app on `http://localhost:3000`
 
 ### From dockerhub
+
+1. from root folder of the repository run
+
+```
+docker-compose up
+```
+
+2. Connect to https://localhost:30000
