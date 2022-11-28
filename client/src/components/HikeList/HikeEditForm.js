@@ -25,6 +25,7 @@ export function HikeEditForm(props) {
 		props.onHide();
 
 		setEditPoints(false);
+		setHike(null);
 	};
 
 	let onSubmit = async (hikeID) => {
@@ -315,7 +316,7 @@ function EditPointsForm(props) {
 		try {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
-			points = points ? points : [];
+			points = points ? points.filter(p => p.pointType != 'generic') : [];
 
 			setTrack(newTrack);
 
