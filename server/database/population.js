@@ -67,11 +67,11 @@ console.log("Start")
 Promise.resolve(dbManager.clearDb()).then(
 	() => {
 		Promise.all(hikesCreation())
-			.catch((err) => { "Hike", console.error(err) })
+			.catch((err) => { console.error("Hike", err) })
 		Promise.all(usersCreation())
-			.catch((err) => { "User", console.error(err) })
+			.catch((err) => { console.error("User", err) })
 		Promise.all(pointsCreation())
-			.catch((err) => { "Points", console.error(err) })
+			.catch((err) => { console.error("Points", err) })
 
 		console.log("Finish")
 	})
