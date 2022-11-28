@@ -24,16 +24,16 @@ export function PLotModal(props) {
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{" Province:"}</strong>
+						<strong>{" Municipality (Province):"}</strong>
 						{` ${props.lot.municipality} (${props.lot.province})`}
 					</Col>
 				</Row>
 				<Row xs={1} md={2} className="d-flex align-items-top">
-					<Col>
+					{props.lot.address!=null && <Col>
 						<FontAwesomeIcon icon={faMap} />
 						<strong>{" Address:"}</strong>
 						{` ${props.lot.address}`}
-					</Col>
+					</Col>}
 					<Col>
 						<FontAwesomeIcon icon={faBed} />
 						<strong>{" Carspace:"}</strong>
