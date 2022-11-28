@@ -11,10 +11,8 @@ const db = dbManager.getDB();
 exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
 		db.all("SELECT * FROM POINT P, PARKINGLOT PA WHERE P.pointID = PA.parkingLotId AND pointType = 'parkinglot'", (err, rows) => {
-			if (err) {
+			if (err)
 				reject(err);
-				return;
-			}
 			const pLots = rows.map(r => {
 				console.log(r)
 				return {
@@ -38,13 +36,11 @@ exports.getAllParkingLots = () => {
 exports.getParkingLotById = (id) => {
 	return new Promise((resolve, reject) => {
 		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`, (err, row) => {
-			if (err) {
+			if (err)
 				reject(err);
-				return;
-			}
+
 			if (row == undefined) {
 				reject("No parking lot has the given id");
-				return;
 			}
 			resolve(row);
 		});
@@ -54,10 +50,9 @@ exports.getParkingLotById = (id) => {
 exports.parkingLotExists = (id) => {
 	return new Promise((resolve, reject) => {
 		db.get(`SELECT * FROM PARKINGLOT WHERE parkingLotId=${id}`, (err, row) => {
-			if (err) {
+			if (err)
 				reject(err);
-				return;
-			}
+
 			resolve(row !== undefined);
 		});
 	});
@@ -68,11 +63,8 @@ exports.addParkingLot = (pointID, carspace) => {
 		db.run("INSERT INTO PARKINGLOT (parkingLotId, carspace) VALUES (?,?);",
 			[pointID, carspace],
 			function (err) {
-				if (err) {
-					console.log(err);
+				if (err)
 					reject(err);
-					return;
-				}
 				resolve(
 					// {
 					// 	pLotId: this.lastID,
@@ -89,10 +81,8 @@ exports.addParkingLot = (pointID, carspace) => {
 exports.deleteParkingLot = (id) => {
 	return new Promise((resolve, reject) => {
 		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`, (err) => {
-			if (err) {
+			if (err) 
 				reject(err);
-				return;
-			}
 			resolve();
 		})
 	});

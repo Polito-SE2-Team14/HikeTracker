@@ -8,12 +8,9 @@ exports.getHuts = () => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID AND pointType = 'hut'"
         db.all(sql, (err, rows) => {
-            if (err) {
+            if (err)
                 reject(err);
-            }
-
-            let huts = rows.map(r =>
-            {
+            let huts = rows.map(r => {
                 return {
                     pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
                     address: r.address, pointType: r.pointType, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
@@ -31,9 +28,8 @@ exports.createHut = (hut) => {
 
         const sql = "INSERT INTO HUT (hutID, bedspace, hutOwnerID) VALUES (?,?,?)";
         db.run(sql, [hut.pointID, hut.bedspace, hut.hutOwnerID], function (err, row) {
-            if (err) {
+            if (err)
                 reject(err);
-            }
             resolve();
         })
     });
@@ -44,9 +40,8 @@ exports.updateHut = (hut) => {
     return new Promise((resolve, reject) => {
         const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
         db.run(sql, [hut.bedspace, hut.hutOwnerID, hut.pointID], function (err, row) {
-            if (err) {
+            if (err)
                 reject(err);
-            }
             resolve();
         })
     })
@@ -56,9 +51,8 @@ exports.deleteHut = (pointID) => {
     return new Promise((resolve, reject) => {
         const sql = "DELETE FROM HUT WHERE hutID = ?";
         db.run(sql, [pointID], function (err, row) {
-            if (err) {
+            if (err)
                 reject(err);
-            }
             resolve();
         })
     })

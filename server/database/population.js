@@ -11,6 +11,8 @@ const dbManager = Singleton.getInstance();
 
 const HikeDAO = require('../DAO/hikeDAO');
 const userDAO = require("../DAO/userDAO")
+const hutDAO = require("../DAO/hutDAO")
+const parkingLotDAO = require("../DAO/parkingLotDAO")
 
 function hikesCreation() {
 
@@ -79,7 +81,7 @@ function hikesCreation() {
 		h.expectedTime = Math.round((12.09 * h.length + 98.4 * h.ascent) / 1000);
 		h.track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 		h.description = "A description";
-		console.log(i++, "- Hike added")
+		//console.log(i++, "- Hike added")
 		return HikeDAO.addHike(h);
 	});
 }
@@ -92,9 +94,9 @@ function usersCreation() {
 
 	let i = 1
 	return users.map(u => {
-		console.log(i++, "- User added")
+		//console.log(i++, "- User added")
 		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'))
-	}) 
+	})
 }
 
 function pointsCreation() {
@@ -102,35 +104,80 @@ function pointsCreation() {
 
 	let i = 1
 	return points.map(u => {
-		console.log(i++, "- Point added")
+		//console.log(i++, "- Point added")
 		return new Promise(1)
 	})
 }
 
 function hutsCreation() {
-	let huts = []
+	let huts = [
+		{ pointID: 1, bedspace: 50, hutOwnerID: 3 },
+		{ pointID: 3, bedspace: 48, hutOwnerID: 3 },
+		{ pointID: 6, bedspace: 45, hutOwnerID: 3 },
+		{ pointID: 7, bedspace: 44, hutOwnerID: 3 },
+		{ pointID: 8, bedspace: 43, hutOwnerID: 3 },
+		{ pointID: 9, bedspace: 42, hutOwnerID: 3 },
+		{ pointID: 10, bedspace: 41, hutOwnerID: 3 },
+		{ pointID: 11, bedspace: 40, hutOwnerID: 3 },
+		{ pointID: 12, bedspace: 39, hutOwnerID: 3 },
+		{ pointID: 13, bedspace: 38, hutOwnerID: 3 },
+		{ pointID: 14, bedspace: 37, hutOwnerID: 3 },
+		{ pointID: 15, bedspace: 36, hutOwnerID: 3 },
+		{ pointID: 16, bedspace: 35, hutOwnerID: 3 },
+		{ pointID: 17, bedspace: 34, hutOwnerID: 3 },
+		{ pointID: 18, bedspace: 33, hutOwnerID: 2 },
+		{ pointID: 19, bedspace: 32, hutOwnerID: 2 },
+		{ pointID: 20, bedspace: 31, hutOwnerID: 2 },
+		{ pointID: 21, bedspace: 30, hutOwnerID: 2 }
+	]
 
 	let i = 1
-	return huts.map(u => {
-		console.log(i++, "- Hut added")
-		return new Promise(1)
+	return huts.map(h => {
+		//console.log(i++, "- Hut added")
+		return hutDAO.createHut(h)
 	})
 }
 
 function parkingLotsCreation() {
-	let pLot = []
+	let pLot = [
+		{ pointID: 2, carspace: 100 },
+		{ pointID: 4, carspace: 100 },
+		{ pointID: 22, carspace: 100 },
+		{ pointID: 23, carspace: 100 },
+		{ pointID: 24, carspace: 100 },
+		{ pointID: 25, carspace: 100 },
+		{ pointID: 26, carspace: 100 },
+		{ pointID: 27, carspace: 100 },
+		{ pointID: 28, carspace: 100 },
+		{ pointID: 29, carspace: 100 },
+		{ pointID: 30, carspace: 100 },
+		{ pointID: 31, carspace: 100 },
+		{ pointID: 32, carspace: 100 },
+		{ pointID: 33, carspace: 100 }
+	]
 
 	let i = 1
-	return pLot.map(u => {
-		console.log(i++, "- Parking Lot added")
-		return new Promise(1)
+	return pLot.map(p => {
+		//console.log(i++, "- Parking Lot added")
+		return parkingLotDAO.addParkingLot(p.pointID,p.carspace)
 	})
 }
 
 
-Promise.resolve(dbManager.clearDb())
-Promise.all(pointsCreation())
-Promise.all(hutsCreation())
-Promise.all(parkingLotsCreation())
-Promise.all(usersCreation())
-Promise.all(hikesCreation())
+Promise.resolve(dbManager.clearDb()).then(
+	() => {
+		Promise.all(hikesCreation())
+		.catch((err)=>{"Hike",console.error(err)})
+		Promise.all(usersCreation())
+		.catch((err)=>{"User",console.error(err)})
+
+		Promise.all(pointsCreation())
+		.catch((err)=>{console.error(err)})
+
+		Promise.all(hutsCreation())
+		.catch((err)=>{"Hut",console.error(err)})
+
+		Promise.all(parkingLotsCreation())
+		.catch((err)=>{"ParkingLot",console.error(err)})
+
+	})
