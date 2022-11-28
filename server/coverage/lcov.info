@@ -1,5 +1,5 @@
 TN:
-SF:Controller/HikeController.js
+SF:Controller\HikeController.js
 FN:4,(anonymous_0)
 FN:8,(anonymous_1)
 FN:9,(anonymous_2)
@@ -104,7 +104,7 @@ BRF:18
 BRH:17
 end_of_record
 TN:
-SF:Controller/HutController.js
+SF:Controller\HutController.js
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FN:10,(anonymous_2)
@@ -227,7 +227,7 @@ BRF:32
 BRH:28
 end_of_record
 TN:
-SF:Controller/UserController.js
+SF:Controller\UserController.js
 FN:6,(anonymous_0)
 FN:10,(anonymous_1)
 FN:12,(anonymous_2)
@@ -309,7 +309,7 @@ BRF:12
 BRH:10
 end_of_record
 TN:
-SF:DAO/UserDAO.js
+SF:DAO\UserDAO.js
 FN:9,CheckExistingUser
 FN:10,(anonymous_1)
 FN:13,(anonymous_2)
@@ -477,7 +477,7 @@ BRF:26
 BRH:4
 end_of_record
 TN:
-SF:DAO/hikeDAO.js
+SF:DAO\hikeDAO.js
 FN:18,(anonymous_0)
 FN:19,(anonymous_1)
 FN:21,(anonymous_2)
@@ -660,7 +660,7 @@ BRF:20
 BRH:0
 end_of_record
 TN:
-SF:DAO/hutDAO.js
+SF:DAO\hutDAO.js
 FN:7,(anonymous_0)
 FN:8,(anonymous_1)
 FN:10,(anonymous_2)
@@ -679,7 +679,7 @@ FNH:10
 FNDA:1,(anonymous_0)
 FNDA:1,(anonymous_1)
 FNDA:1,(anonymous_2)
-FNDA:1,(anonymous_3)
+FNDA:2,(anonymous_3)
 FNDA:2,(anonymous_4)
 FNDA:2,(anonymous_5)
 FNDA:2,(anonymous_6)
@@ -700,7 +700,7 @@ DA:10,1
 DA:11,1
 DA:12,0
 DA:15,1
-DA:17,1
+DA:17,2
 DA:24,1
 DA:29,1
 DA:30,2
@@ -737,7 +737,7 @@ BRF:8
 BRH:3
 end_of_record
 TN:
-SF:DAO/pointsDAO.js
+SF:DAO\pointsDAO.js
 FN:7,(anonymous_0)
 FN:7,(anonymous_1)
 FN:10,(anonymous_2)
@@ -854,7 +854,7 @@ BRF:12
 BRH:2
 end_of_record
 TN:
-SF:database/DBManager.js
+SF:database\DBManager.js
 FN:8,(anonymous_0)
 FN:10,(anonymous_1)
 FN:19,(anonymous_2)
@@ -951,7 +951,7 @@ BRF:6
 BRH:3
 end_of_record
 TN:
-SF:database/DBManagerSingleton.js
+SF:database\DBManagerSingleton.js
 FN:7,(anonymous_0)
 FN:14,(anonymous_1)
 FNF:2

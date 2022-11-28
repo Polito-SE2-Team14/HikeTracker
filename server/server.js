@@ -63,7 +63,9 @@ app.use(prefixRoute + 'users', usersRouter);
 // ################################# Parking lot APIs ####################################
 const pLotRouter = require("./Route/parkingLotRouter");
 app.use(prefixRoute + 'parkinglots', pLotRouter);
-
+// ################################# Huts APIs ##########################################
+const hutsRouter = require("./Route/hutsRouter");
+app.use(prefixRoute + 'huts', hutsRouter);
 
 // activate the server
 app.listen(port, () => {

@@ -8,8 +8,6 @@ const DBManager = Singleton.getInstance();
 const HikeDAO = require('../DAO/hikeDAO');
 
 function script() {
-	let sql = 'INSERT INTO Hike VALUES(?, ?, ?, ?, ?, ?, NULL, NULL, "A description", ?, ?)';
-
 	DBManager.deleteAllHikes();
 
 	let hikes = [

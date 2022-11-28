@@ -21,7 +21,6 @@ exports.getAllHikes = function () {
 		db.all(sql, [], (err, rows) => {
 			if (err) {
 				reject(err);
-				return;
 			}
 			try {
 				const hikes = rows.map(
@@ -80,7 +79,6 @@ exports.getHike = function (wantedID) {
 		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
 			if (err) {
 				reject(err);
-				return;
 			} else {
 				try {
 					row.track = getTrack(row.hikeID);
@@ -114,7 +112,6 @@ exports.addHike = function (newHike) {
 			function (err) {
 				if (err) {
 					reject(err);
-					return;
 				} else {
 					try {
 						newTrack(this.lastID, track);
@@ -157,13 +154,12 @@ exports.updateHike = function (newHike) {
 		db.run(
 			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=?, municipality=?, province=? WHERE hikeID =?",
 			[
-				title,length,expectedTime,ascent,difficulty,
-				description,startPointID,endPointID,hikeID,municipality,province
+				title, length, expectedTime, ascent, difficulty,
+				description, startPointID, endPointID, hikeID, municipality, province
 			],
 			(err) => {
 				if (err) {
 					reject(err);
-					return;
 				} else {
 					resolve(`Hike with ID ${hikeID} updated correctly`);
 				}
@@ -180,7 +176,6 @@ exports.deleteHike = function (hikeID) {
 		db.run(sql, params, (err) => {
 			if (err) {
 				reject(err);
-				return;
 			} else {
 				try {
 					deleteTrack(hikeID);
@@ -215,7 +210,6 @@ exports.setStart = function (hikeID, startPointID) {
 			(err) => {
 				if (err) {
 					reject(err);
-					return;
 				} else {
 					resolve(`Hike with ID ${hikeID} updated correctly`);
 				}
@@ -232,7 +226,6 @@ exports.setEnd = function (hikeID, endPointID) {
 			(err) => {
 				if (err) {
 					reject(err);
-					return;
 				} else {
 					resolve(`Hike with ID ${hikeID} updated correctly`);
 				}

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1669639623310" clover="3.2.0">
-  <project timestamp="1669639623310" name="All files">
+<coverage generated="1669648172959" clover="3.2.0">
+  <project timestamp="1669648172959" name="All files">
     <metrics statements="459" coveredstatements="205" conditionals="140" coveredconditionals="71" methods="151" coveredmethods="51" elements="750" coveredelements="327" complexity="0" loc="459" ncloc="459" packages="3" files="9" classes="9"/>
     <package name="Controller">
       <metrics statements="143" coveredstatements="76" conditionals="62" coveredconditionals="55" methods="39" coveredmethods="9"/>
-      <file name="HikeController.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/Controller/HikeController.js">
+      <file name="HikeController.js" path="C:\Users\edoar\code\HikeTracker\server\Controller\HikeController.js">
         <metrics statements="46" coveredstatements="19" conditionals="18" coveredconditionals="17" methods="16" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
@@ -53,7 +53,7 @@
         <line num="95" count="0" type="stmt"/>
         <line num="98" count="1" type="stmt"/>
       </file>
-      <file name="HutController.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/Controller/HutController.js">
+      <file name="HutController.js" path="C:\Users\edoar\code\HikeTracker\server\Controller\HutController.js">
         <metrics statements="56" coveredstatements="42" conditionals="32" coveredconditionals="28" methods="13" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -112,7 +112,7 @@
         <line num="99" count="0" type="stmt"/>
         <line num="104" count="1" type="stmt"/>
       </file>
-      <file name="UserController.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/Controller/UserController.js">
+      <file name="UserController.js" path="C:\Users\edoar\code\HikeTracker\server\Controller\UserController.js">
         <metrics statements="41" coveredstatements="15" conditionals="12" coveredconditionals="10" methods="10" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -159,7 +159,7 @@
     </package>
     <package name="DAO">
       <metrics statements="259" coveredstatements="96" conditionals="66" coveredconditionals="9" methods="92" coveredmethods="29"/>
-      <file name="UserDAO.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/DAO/UserDAO.js">
+      <file name="UserDAO.js" path="C:\Users\edoar\code\HikeTracker\server\DAO\UserDAO.js">
         <metrics statements="77" coveredstatements="34" conditionals="26" coveredconditionals="4" methods="28" coveredmethods="13"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -239,7 +239,7 @@
         <line num="163" count="0" type="stmt"/>
         <line num="165" count="1" type="stmt"/>
       </file>
-      <file name="hikeDAO.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/DAO/hikeDAO.js">
+      <file name="hikeDAO.js" path="C:\Users\edoar\code\HikeTracker\server\DAO\hikeDAO.js">
         <metrics statements="92" coveredstatements="15" conditionals="20" coveredconditionals="0" methods="31" coveredmethods="0"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -334,7 +334,7 @@
         <line num="258" count="0" type="stmt"/>
         <line num="259" count="0" type="cond" truecount="0" falsecount="2"/>
       </file>
-      <file name="hutDAO.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/DAO/hutDAO.js">
+      <file name="hutDAO.js" path="C:\Users\edoar\code\HikeTracker\server\DAO\hutDAO.js">
         <metrics statements="34" coveredstatements="25" conditionals="8" coveredconditionals="3" methods="13" coveredmethods="10"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -347,7 +347,7 @@
         <line num="11" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="12" count="0" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="2" type="stmt"/>
@@ -371,7 +371,7 @@
         <line num="60" count="0" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
       </file>
-      <file name="pointsDAO.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/DAO/pointsDAO.js">
+      <file name="pointsDAO.js" path="C:\Users\edoar\code\HikeTracker\server\DAO\pointsDAO.js">
         <metrics statements="56" coveredstatements="22" conditionals="12" coveredconditionals="2" methods="20" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -433,7 +433,7 @@
     </package>
     <package name="database">
       <metrics statements="57" coveredstatements="33" conditionals="12" coveredconditionals="7" methods="20" coveredmethods="13"/>
-      <file name="DBManager.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/database/DBManager.js">
+      <file name="DBManager.js" path="C:\Users\edoar\code\HikeTracker\server\database\DBManager.js">
         <metrics statements="46" coveredstatements="22" conditionals="6" coveredconditionals="3" methods="18" coveredmethods="11"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -482,7 +482,7 @@
         <line num="86" count="0" type="stmt"/>
         <line num="90" count="3" type="stmt"/>
       </file>
-      <file name="DBManagerSingleton.js" path="/Users/edoardocolella/Desktop/HikeTracker/server/database/DBManagerSingleton.js">
+      <file name="DBManagerSingleton.js" path="C:\Users\edoar\code\HikeTracker\server\database\DBManagerSingleton.js">
         <metrics statements="11" coveredstatements="11" conditionals="6" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="3" type="stmt"/>
         <line num="4" count="3" type="stmt"/>

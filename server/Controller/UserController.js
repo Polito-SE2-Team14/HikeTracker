@@ -97,6 +97,7 @@ class UserController {
             await this.sendVerificationEmail(token, user.email);
             return true;
         } catch (error) {
+            console.error("Error in UserController", error)
             throw (error);
         }
 
