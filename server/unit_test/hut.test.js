@@ -1,6 +1,7 @@
-const HutController = require("../Controller/HutController");
-const hutController = new HutController()
+/* const HutController = require("../Controller/HutController");
+const hutController = new HutController()*/
 
+const hutController = require("../Controller/HutControllerNew");
 describe('Hut Tests', () => {
     describe("creation of new hut", () => {
         test("Valid insertion a new hut", async () => {

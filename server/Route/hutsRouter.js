@@ -66,3 +66,5 @@ router.delete('/:hutID',
                 return res.status(500).end
             });
     })
+
+    module.exports = router;
