@@ -1,11 +1,13 @@
 version: "3.8"
 services:
   server:
+      image: s294714/hike-tracker-team-14:server
       build: ./server
       container_name: server_c
       ports:
         - '3001:3001'
   client:
+    image: s294714/hike-tracker-team-14:client
     build: ./client
     container_name: client_c
     ports:
