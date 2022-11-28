@@ -73,9 +73,10 @@ exports.getHikePoints = (hikeID) => {
 exports.createPoint = (point) => {
     return new Promise((resolve, reject) => {
 
+        let {name, latitude, longitude, municipality, province, address, type} = point
 
         const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType) VALUES (?,?,?,?,?,?,?)";
-        db.run(sql, [point.name, point.latitude, point.longitude, point.municipality, point.province, point.address, point.type], function (err, row) {
+        db.run(sql, [name, latitude, longitude, municipality, province, address, type], function (err, row) {
 
 
             if (err) {
@@ -107,7 +108,6 @@ exports.getHuts = () => {
             }
 
             let huts = rows.map(r =>
-            //new Hut(r.pointID, r.name, r.latitude, r.longitude, r.address, r.bedspace, r.hutOwnerID)
             {
                 return {
                     pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
@@ -135,9 +135,12 @@ exports.createHut = (hut) => {
 }
 
 exports.updatePoint = (point) => {
+
+    let {name, latitude, longitude, municipality, province, address, pointID} = point
+
     return new Promise((resolve, reject) => {
         const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ?, municipality=?, province=? WHERE pointID = ?";
-        db.run(sql, [point.name, point.latitude, point.longitude, point.address, point.municipality, point.province, point.pointID], function (err, row) {
+        db.run(sql, [name, latitude, longitude, address, municipality, province, pointID], function (err, row) {
             if (err) {
                 reject(err);
             }

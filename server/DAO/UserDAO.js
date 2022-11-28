@@ -106,20 +106,24 @@ exports.getUser = (email, password) => {
 };
 
 function StoreUser(user, salt, password, token) {
+
+	let { name, surname, email, phoneNumber, type } = user
+
 	return new Promise((resolve, reject) => {
 		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD, TOKEN, VERIFIED) VALUES(?, ?, ?, ?, ?, ?, ?, ?, 0)";
 
-
-		db.run(sql, [user.name, user.surname, user.email, user.phoneNumber, user.type, salt, password, token], function (err) {
+		db.run(sql, [name, surname, email, phoneNumber, type, salt, password, token], function (err) {
 			if (err) {
 				console.err("Err: ", err)
 				reject(err);
 			}
-			else {
-				let newUser = { userID: this.lastID, name: user.name, surname: user.surname, email: user.email, phoneNumber: user.phoneNumber, type: user.type, token: token, verified: user.verified }
-				console.error("newUser", newUser)
-				resolve(newUser);
+
+			let newUser = {
+				userID: this.lastID, name: name, surname: surname, email: email,
+				phoneNumber: phoneNumber, type: type, token: token, verified: user.verified
 			}
+			resolve(newUser);
+
 		})
 	});
 }
@@ -146,13 +150,13 @@ exports.Register = async (user, token) => {
 		.then(p => pass = p)
 		.catch(err => { throw err })
 
-	console.log(pass)
+	//console.log(pass)
 
 	let finalUser;
 	await StoreUser(user, pass.salt, pass.hashedPassword, token)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 
-	console.log(finalUser)
+	//console.log(finalUser)
 	return finalUser
 }

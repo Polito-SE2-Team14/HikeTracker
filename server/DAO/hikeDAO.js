@@ -100,20 +100,16 @@ exports.getHike = function (wantedID) {
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike = function (newHike) {
+
+	let { title, length, expectedTime, ascent, difficulty, description,
+		startPointID, endPointID, municipality, province, track } = newHike
+
 	return new Promise((resolve, reject) => {
 		db.run(
 			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
 			[
-				newHike.title,
-				newHike.length,
-				newHike.expectedTime,
-				newHike.ascent,
-				newHike.difficulty,
-				newHike.description,
-				newHike.startPointID,
-				newHike.endPointID,
-				newHike.municipality,
-				newHike.province
+				title, length, expectedTime, ascent, difficulty, description,
+				startPointID, endPointID, municipality, province
 			],
 			function (err) {
 				if (err) {
@@ -121,33 +117,21 @@ exports.addHike = function (newHike) {
 					return;
 				} else {
 					try {
-						newTrack(this.lastID, newHike.track);
-
+						newTrack(this.lastID, track);
 						resolve(
-							/* new Hike(
-								this.lastID,
-								newHike.title,
-								newHike.length,
-								newHike.expectedTime,
-								newHike.ascent,
-								newHike.difficulty,
-								newHike.description,
-								newHike.startPointID,
-								newHike.endPointID
-							) */
 							{
 								hikeID: this.lastID,
-								title: newHike.title,
-								length: newHike.length,
-								expectedTime: newHike.expectedTime,
-								ascent: newHike.ascent,
-								difficulty: newHike.difficulty,
-								description: newHike.description,
-								startPointID: newHike.startPointID,
-								endPointID: newHike.endPointID,
-								municipality: newHike.municipality,
-								province: newHike.province,
-								track: newHike.track
+								title: title,
+								length: length,
+								expectedTime: expectedTime,
+								ascent: ascent,
+								difficulty: difficulty,
+								description: description,
+								startPointID: startPointID,
+								endPointID: endPointID,
+								municipality: municipality,
+								province: province,
+								track: track
 							}
 						);
 					}
@@ -165,28 +149,23 @@ exports.addHike = function (newHike) {
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.updateHike = function (newHike) {
+
+	let { hikeID, title, length, expectedTime, ascent, difficulty, description,
+		startPointID, endPointID, municipality, province, track } = newHike
+
 	return new Promise((resolve, reject) => {
 		db.run(
 			"UPDATE HIKE SET title=?, length=?, expectedTime=?, ascent=?, difficulty=?, description=?, startPointID=?, endPointID=?, municipality=?, province=? WHERE hikeID =?",
 			[
-				newHike.title,
-				newHike.length,
-				newHike.expectedTime,
-				newHike.ascent,
-				newHike.difficulty,
-				newHike.description,
-				newHike.startPointID,
-				newHike.endPointID,
-				newHike.hikeID,
-				newHike.municipality,
-				newHike.province
+				title,length,expectedTime,ascent,difficulty,
+				description,startPointID,endPointID,hikeID,municipality,province
 			],
 			(err) => {
 				if (err) {
 					reject(err);
 					return;
 				} else {
-					resolve(`Hike with ID ${newHike.hikeID} updated correctly`);
+					resolve(`Hike with ID ${hikeID} updated correctly`);
 				}
 			}
 		);

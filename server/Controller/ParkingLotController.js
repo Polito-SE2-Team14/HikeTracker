@@ -46,11 +46,11 @@ class ParkingLotController {
 		const addedPLot =
 		{
 			pointID: pointID,
-			name: newPLot.name,
-			latitude: newPLot.latitude,
-			longitude: newPLot.longitude,
-			address: newPLot.address,
-			carspace: newPLot.carspace
+			name: name,
+			latitude: latitude,
+			longitude: longitude,
+			address: address,
+			carspace: carspace
 		}
 
 		return addedPLot;

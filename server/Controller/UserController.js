@@ -22,6 +22,22 @@ class UserController {
 
     async register(newUser) {
 
+        let { name, surname, email, phoneNumber, type } = newUser
+
+
+        if (typeof name != "string")
+            throw Error("Type error with name")
+        if (typeof surname != "string")
+            throw Error("Type error with surname")
+        if (typeof email != "string")
+            throw Error("Type error with email")
+        if (isNaN(phoneNumber))
+            throw Error("Type error with phoneNumber")
+        if (typeof type != "string" || !["localGuide", "hiker", "hutWorker"].includes(type))
+            throw Error("Type error with difficulty")
+
+
+
         let token = crypto.randomBytes(20).toString('hex');
         const user = await userDAO.Register(newUser, token)
             .catch(err => { throw Error(err) });

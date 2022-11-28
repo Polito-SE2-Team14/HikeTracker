@@ -16,19 +16,34 @@ router.get("", async (req, res) => {
 		});
 });
 
-router.post("", async (req, res) => {
-	await pLotController
-		.addParkingLot(req.body.ParkingLotToAdd)
-		.then(() => res.status(200).end())
-		.catch(() => {
-			console.error(err)
-			return res.status(500).end()
-		});
-});
+router.post("",
+	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
+	body("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	async (req, res) => {
+
+		if (!validationResult(req).isEmpty()) {
+			console.error(validationResult(req).array())
+			return res.status(422).json({ err: validationResult(req).array })
+		}
+
+		await pLotController
+			.addParkingLot(req.body.ParkingLotToAdd)
+			.then(() => res.status(200).end())
+			.catch(() => {
+				console.error(err)
+				return res.status(500).end()
+			});
+	});
 
 router.delete("/:pLotId",
-	body("pLotId").not().isEmpty().isInt({ min: 0 }),
+	body("pLotId").isInt({ min: 0 }).not().isEmpty(),
 	async (req, res) => {
+
+		if (!validationResult(req).isEmpty()) {
+			console.error(validationResult(req).array())
+			return res.status(422).json({ err: validationResult(req).array })
+		}
 
 		let found = await pLotController.parkingLotExists(req.params.pLotId)
 			.catch(err => {

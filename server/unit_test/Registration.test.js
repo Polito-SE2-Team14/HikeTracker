@@ -3,6 +3,9 @@ const crypto = require("crypto");
 const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 const db = dbManager.getDB();
 const { Register } = require("../DAO/UserDAO");
+const UserController = require("../Controller/UserController")
+const userController = new UserController()
+
 
 const types = ['hiker', 'friend'];
 
@@ -113,4 +116,88 @@ function testWrongRegistration(lastId, users) {
 		expect(res).not.toBeUndefined();
 		expect(res).toBe(1);
 	});
+
+	test('Invalid name', async () => {
+		let newErr
+		let wrongUser = {
+			name: 111, surname: "Surname", phoneNumber: 1234567890,
+			email: "Email@mail.com", type: "hiker", password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
+
+	test('Invalid surname', async () => {
+		let newErr
+		let wrongUser = {
+			name: "Name", surname: 111, phoneNumber: 1234567890,
+			email: "Email@mail.com", type: "hiker", password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
+
+	test('Invalid phoneNumber', async () => {
+		let newErr
+		let wrongUser = {
+			name: "Name", surname: "surname", phoneNumber: "invalid",
+			email: "Email@mail.com", type: "hiker", password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
+
+	test('Invalid email', async () => {
+		let newErr
+		let wrongUser = {
+			name: "Name", surname: "Surname", phoneNumber: 1234567890,
+			email: 12311244, type: "hiker", password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
+
+	test('Invalid type (not standard)', async () => {
+		let newErr
+		let wrongUser = {
+			name: "Name", surname: 111, phoneNumber: 1234567890,
+			email: "Email@mail.com", type: "hiker", password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
+
+	test('Invalid type (not a string)', async () => {
+		let newErr
+		let wrongUser = {
+			name: "Name", surname: "surname", phoneNumber: 1234567890,
+			email: "Email@mail.com", type: 111, password: "password"
+		}
+
+		await userController.register(wrongUser)
+			.catch(err => newErr = err);
+
+		expect(newErr).not.toBe(null)
+		expect(newErr).not.toBe(undefined)
+	})
 }

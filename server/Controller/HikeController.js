@@ -23,7 +23,7 @@ class HikeController {
 	async addHike(hike) {
 
 		let { title, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
-		console.log(hike)
+		//console.log(hike)
 
 		if (typeof title != "string")
 			throw Error("Type error with name")
@@ -93,6 +93,6 @@ class HikeController {
 			.catch(err => { throw err })
 
 		return
-	} F
+	}
 }
 module.exports = HikeController;

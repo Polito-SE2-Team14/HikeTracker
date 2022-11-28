@@ -36,7 +36,7 @@ router.get('/:pointID',
 router.post('/huts',
 	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
 	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
-	body("bedspace", "hutOwnerID").isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	body(["bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {

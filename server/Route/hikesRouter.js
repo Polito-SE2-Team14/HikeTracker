@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
-// const prefixRoute = '/api/';
-//const hikeDAO = require('../DAO/hikeDAO');
 const HikeController = require("../Controller/HikeController");
 const hikeController = new HikeController();
 const PointController = require("../Controller/PointController");
 const pointController = new PointController();
 const { body, validationResult } = require("express-validator");
-//const Hike = require("../Class/Hike");
 const { check_hike } = require("../DAO/hikeDAO");
 
 // GET request to /api/hikes to obtain a list of all hikes
