@@ -19,8 +19,9 @@ const getAllPoints = async () => {
 				pointType: p.pointType
 			};
 		});
-	} catch (e) {
-		throw e;
+	} catch (err) {
+		console.error("Error in PointAPI.js", err)
+		throw err;
 	}
 };
 
@@ -39,8 +40,9 @@ const getPoint = async (pointID) => {
 			address: pointJson.address,
 			pointType: pointJson.pointType
 		};
-	} catch (e) {
-		throw e;
+	} catch (err) {
+		console.error("Error in PointAPI.js", err)
+		throw err;
 	}
 };
 
@@ -55,6 +57,7 @@ const getAllHuts = async () => {
 
 		return hutsJson;
 	} catch (err) {
+		console.error("Error in PointAPI.js", err)
 		throw err;
 	}
 };
@@ -67,6 +70,7 @@ const createHut = async (hut) => {
 			throw Error()
 	}
 	catch (err) {
+		console.error("Error in PointAPI.js", err)
 		throw err
 	}
 }
@@ -78,6 +82,7 @@ const deleteHut = async (hutID) => {
 			throw Error()
 	}
 	catch (err) {
+		console.error("Error in PointAPI.js", err)
 		throw err
 	}
 }

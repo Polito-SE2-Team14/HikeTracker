@@ -9,7 +9,7 @@ import * as L from "leaflet";
 import { faBed, faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-var redIcon = new L.Icon({
+const redIcon = new L.Icon({
 	iconUrl:
 		"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
 	shadowUrl:
@@ -20,7 +20,7 @@ var redIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
-var greenIcon = new L.Icon({
+const greenIcon = new L.Icon({
 	iconUrl:
 		"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
 	shadowUrl:
@@ -31,7 +31,7 @@ var greenIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
-var blueIcon = new L.Icon({
+const blueIcon = new L.Icon({
 	iconUrl:
 		"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
 	shadowUrl:

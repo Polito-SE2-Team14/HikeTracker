@@ -45,6 +45,7 @@ const getAllHikes = async () => {
 			}
 		);
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
@@ -111,6 +112,7 @@ const newHike = async (title, track, difficulty, description, municipality, prov
 
 		return hikeJson;
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
@@ -156,6 +158,7 @@ const editHike = async (
 
 		return true;
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
@@ -187,6 +190,7 @@ const addStartPoint = async (hikeID, pointID) => {
 
 		return true;
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
@@ -202,6 +206,7 @@ const addEndPoint = async (hikeID, pointID) => {
 
 		return true;
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
@@ -217,19 +222,21 @@ const addHut = async (hikeID, pointID) => {
 
 		return true;
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };
 
 const getHikeTrack = async (hikeID) => {
-	try{
+	try {
 		let response = await REST.GET(`${api}/${hikeID}/track`);
 		let trackJson = await response.json();
 		// trackJson = {[[x1,y1], [x2,y2], ...]}
-		
+
 		return JSON.parse(trackJson);
 	}
-	catch(e){
+	catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 }
@@ -260,6 +267,7 @@ const getHikePoints = async (hikeID) => {
 			}
 		);
 	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
 		throw e;
 	}
 };

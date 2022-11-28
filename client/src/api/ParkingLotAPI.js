@@ -29,6 +29,7 @@ const getAllParkingLots = async () => {
 			}
 		);
 	} catch (err) {
+		console.error("Error in ParkingLotAPI.js", err)
 		throw err;
 	}
 }
@@ -41,6 +42,7 @@ const addParkingLot = async (ParkingLotToAdd) => {
 
 		return true;
 	} catch (err) {
+		console.error("Error in ParkingLotAPI.js", err)
 		throw err;
 	}
 }
@@ -50,6 +52,7 @@ const deleteParkingLot = async(idToDelete) =>{
 		await REST.DELETE(`${api}/${idToDelete}`);
 		return true;
 	} catch (err) {
+		console.error("Error in ParkingLotAPI.js", err)
 		throw err;
 	}
 }
