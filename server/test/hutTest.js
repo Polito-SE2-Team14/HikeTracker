@@ -35,14 +35,14 @@ describe('Hut test suite', async () => {
         it("name invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "", 13214141.5, 13214141.5, "testAddress", 5, 1)
-                { pointID: 0, name: "", latitude: 13214141.5, longitude: 13214141.5, address: "testAddress", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "", latitude: 13214141.5, longitude: 13214141.5, province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
         })
         it("latitude invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", "wadawd.5", 13214141.5, "testAddress", 5, 1)
-                { pointID: 0, name: "name", latitude: "wadawd.5", longitude: 13214141.5, address: "testAddress", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: "wadawd.5", longitude: 13214141.5,  province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -50,7 +50,7 @@ describe('Hut test suite', async () => {
         it("longitude invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, "adwadw.5", "testAddress", 5, 1)
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: "adwadw.5", address: "testAddress", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: "adwadw.5", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -58,7 +58,7 @@ describe('Hut test suite', async () => {
         it("address invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, 13214141.5, "", 5, 1)
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "", province: "Turin", bedspace: 5, hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -66,7 +66,7 @@ describe('Hut test suite', async () => {
         it("municipality invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, 13214141.5, "", 5, 1)
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "testAddress", province: "", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, province: "", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -74,7 +74,7 @@ describe('Hut test suite', async () => {
         it("province invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, 13214141.5, "", 5, 1)
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "testAddress", province: "", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5,  province: "", address: "testAddress", bedspace: 5, hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -82,7 +82,7 @@ describe('Hut test suite', async () => {
         it("bedspace invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, 13214141.5, "testAddress", "dawdwa", 1)
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "testAddress", province: "Turin", address: "testAddress", bedspace:"dawdwa", hutOwnerID: 1 }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5,  province: "Turin", address: "testAddress", bedspace:"dawdwa", hutOwnerID: 1 }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)
@@ -90,7 +90,7 @@ describe('Hut test suite', async () => {
         it("hutOwnerID invalid", async () => {
             const hutToInsert =
                 //new Hut(0, "name", 13214141.5, 13214141.5, "testAddress", 5, "dwaawd")
-                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5, address: "testAddress", province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID:"dwaawd" }
+                { pointID: 0, name: "name", latitude: 13214141.5, longitude: 13214141.5,  province: "Turin", address: "testAddress", bedspace: 5, hutOwnerID:"dwaawd" }
 
             const response = await hutAPICall.addHutCall(hutToInsert);
             assert.equal(response.status, 422)

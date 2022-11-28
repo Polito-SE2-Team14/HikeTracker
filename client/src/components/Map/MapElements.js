@@ -92,7 +92,7 @@ export function TrackMarker(props) {
 	return (
 		<Marker
 			position={props.position}
-			icon={props.start ? redIcon : redIcon}
+			icon={props.start ? redIcon : greenIcon}
 		/>
 	);
 }
