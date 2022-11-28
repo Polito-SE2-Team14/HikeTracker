@@ -20,7 +20,7 @@ class DBManager {
         return this.#db
     }
 
-    async clearDb() {
+     async clearDb() {
         let db = this.#db;
         return new Promise(function (resolve, reject) {
             db.run("DELETE FROM USER WHERE 1=1;")
@@ -56,7 +56,7 @@ class DBManager {
             console.log("done")
             resolve();
         })
-    }
+    } 
 
     async populateUser(users) {
         let db = this.#db;

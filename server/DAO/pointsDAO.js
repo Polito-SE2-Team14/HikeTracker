@@ -4,9 +4,6 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-//const Point = require("../Class/Point");
-//const Hut = require("../Class/Hut")
-
 exports.getAllPoints = () => new Promise((resolve, reject) => {
     const sql = "SELECT * FROM POINT";
     
@@ -15,7 +12,6 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
             reject(err);
             return;
         }
-        //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
         const points = rows.map(row => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
@@ -35,11 +31,6 @@ exports.getPoint = (pointID) => {
                 reject(err);
                 return;
             }
-            //const point = new Point(row.pointID, row.name, row.latitude, row.longitude, row.address, row.pointType);
-            /*const point = {
-                pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
-                municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType
-            }*/
             resolve(row);
         })
     });
@@ -56,7 +47,6 @@ exports.getHikePoints = (hikeID) => {
                 return;
             }
             const points = rows.map((p) =>
-            //new Point(p.pointID, p.name, p.latitude, p.longitude, p.address, p.pointType)
             {
                 return {
                     pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude,
@@ -99,41 +89,6 @@ exports.deletePoint = (pointID) => {
     })
 }
 
-exports.getHuts = () => {
-    return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID AND pointType = 'hut'"
-        db.all(sql, (err, rows) => {
-            if (err) {
-                reject(err);
-            }
-
-            let huts = rows.map(r =>
-            {
-                return {
-                    pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
-                    address: r.address, pointType: r.pointType, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
-                    municipality: r.municipality, province: r.province
-                }
-            }
-            )
-            resolve(huts);
-        })
-    })
-}
-
-exports.createHut = (hut) => {
-    return new Promise((resolve, reject) => {
-
-        const sql = "INSERT INTO HUT (hutID, bedspace, hutOwnerID) VALUES (?,?,?)";
-        db.run(sql, [hut.pointID, hut.bedspace, hut.hutOwnerID], function (err, row) {
-            if (err) {
-                reject(err);
-            }
-            resolve();
-        })
-    });
-}
-
 exports.updatePoint = (point) => {
 
     let {name, latitude, longitude, municipality, province, address, pointID} = point
@@ -141,30 +96,6 @@ exports.updatePoint = (point) => {
     return new Promise((resolve, reject) => {
         const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ?, municipality=?, province=? WHERE pointID = ?";
         db.run(sql, [name, latitude, longitude, address, municipality, province, pointID], function (err, row) {
-            if (err) {
-                reject(err);
-            }
-            resolve();
-        })
-    })
-}
-
-exports.updateHut = (hut) => {
-    return new Promise((resolve, reject) => {
-        const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
-        db.run(sql, [hut.bedspace, hut.hutOwnerID, hut.pointID], function (err, row) {
-            if (err) {
-                reject(err);
-            }
-            resolve();
-        })
-    })
-}
-
-exports.deleteHut = (pointID) => {
-    return new Promise((resolve, reject) => {
-        const sql = "DELETE FROM HUT WHERE hutID = ?";
-        db.run(sql, [pointID], function (err, row) {
             if (err) {
                 reject(err);
             }

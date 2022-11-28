@@ -3,6 +3,8 @@ const router = express.Router()
 const { body, validationResult } = require('express-validator');
 const PointController = require("../Controller/PointController")
 const pointController = new PointController();
+const HutController = require("../Controller/HutController")
+const hutController = new HutController()
 
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()
@@ -14,7 +16,7 @@ router.get('', async (req, res) => {
 
 
 router.get('/huts', async (req, res) => {
-	await pointController.getHuts()
+	await hutController.getHuts()
 	.then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
 	.catch((err) => {
 		console.error(err);
@@ -45,7 +47,7 @@ router.post('/huts',
 			return res.status(422).json({ err: validationResult(req).array })
 		}
 
-		await pointController.createHut(req.body)
+		await hutController.createHut(req.body)
 			.then(hut => res.status(204).json(hut))
 			.catch((err) => {
 				console.error(err);
@@ -63,7 +65,7 @@ router.put('/huts',
 			return res.status(422).json({ err: validationResult(req).array })
 		}
 
-		await pointController.updateHut(req.body)
+		await hutController.updateHut(req.body)
 			.then(hut => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
@@ -74,7 +76,7 @@ router.put('/huts',
 router.delete('/huts/:hutID',
 	body("hutID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
-		await pointController.deleteHut(req.params.hutID)
+		await hutController.deleteHut(req.params.hutID)
 			.then(() => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
@@ -82,19 +84,5 @@ router.delete('/huts/:hutID',
 			});
 	})
 
-/* router.get('/parkinglots', async (req, res) => {
-	await pointController.getParkingLots()
-		.then(parkingLots => res.json(parkingLots))
-		.catch(err => res.status(err.code).send(err.msg))
-});
-
-router.post('/parkinglots', async (req, res) => {
-
-	const parkingLot = req.body.parkingLot;
-
-	await pointsDAO.createParkingLot(parkingLot)
-		.then(() => res.status(200).end())
-		.catch(err => res.status(err.code).send(err.msg))
-}); */
 
 module.exports = router;

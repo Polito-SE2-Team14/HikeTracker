@@ -1,11 +1,11 @@
-const PointController = require("../Controller/PointController")
-const pointController = new PointController()
+const HutController = require("../Controller/HutController");
+const hutController = new HutController()
 
 describe('Hut Tests', () => {
     describe("creation of new hut", () => {
         test("Valid insertion a new hut", async () => {
             let hut
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
@@ -31,7 +31,7 @@ describe('Hut Tests', () => {
 
         test("Invalid name", async () => {
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: 2314214, latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
@@ -48,7 +48,7 @@ describe('Hut Tests', () => {
         test("Invalid Latitude", async () => {
             let hut;
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: "invalid", longitude: 12931,
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
@@ -65,7 +65,7 @@ describe('Hut Tests', () => {
         test("Invalid Longitude", async () => {
             let hut;
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: "invalid",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
@@ -82,7 +82,7 @@ describe('Hut Tests', () => {
         test("Invalid address", async () => {
             let hut;
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: 1414214, bedspace: 5, hutOwnerID: 1
@@ -99,7 +99,7 @@ describe('Hut Tests', () => {
         test("Invalid bedspace", async () => {
             let hut;
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: "addressTest", bedspace: "invalid", hutOwnerID: 1
@@ -115,7 +115,7 @@ describe('Hut Tests', () => {
 
         test("Invalid hutOwnerId", async () => {
             let newErr;
-            await pointController.createHut(
+            await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: "addressTest", bedspace: 5, hutOwnerID: "invalid"
@@ -137,7 +137,7 @@ describe('Hut Tests', () => {
 
 
 
-            let hut = await pointController.createHut(
+            let hut = await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
@@ -153,8 +153,8 @@ describe('Hut Tests', () => {
             hut.bedspace = 2
             hut.hutOwnerID = 2
 
-            await pointController.updateHut(hut)
-            let huts = await pointController.getHuts()
+            await hutController.updateHut(hut)
+            let huts = await hutController.getHuts()
 
             //console.log("lastID", hut.pointID)
 
@@ -181,7 +181,7 @@ describe('Hut Tests', () => {
 
         test("Invalid name of hut", async () => {
 
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: 12313, latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
@@ -194,7 +194,7 @@ describe('Hut Tests', () => {
 
 
         test("Invalid latitude of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: "fawfa", longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
@@ -207,7 +207,7 @@ describe('Hut Tests', () => {
 
 
         test("Invalid longitude of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: "invalid", municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
@@ -219,7 +219,7 @@ describe('Hut Tests', () => {
         });
 
         test("Invalid address of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: 5241, bedspace: 1, hutOwnerID: 1
@@ -231,7 +231,7 @@ describe('Hut Tests', () => {
         });
 
         test("Invalid bedspace of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: "ddwad", hutOwnerID: 1
@@ -243,7 +243,7 @@ describe('Hut Tests', () => {
         });
 
         test("Invalid municipality of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: 2313, province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
@@ -255,7 +255,7 @@ describe('Hut Tests', () => {
         });
 
         test("Invalid province of hut", async () => {
-            await pointController.updateHut(
+            await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: 31231,
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
