@@ -1,5 +1,4 @@
 import REST from './REST';
-//import User from '../class/User';
 
 const api = '/users'
 
@@ -10,6 +9,7 @@ const Register = async (body) => {
 		return true;
 	}
 	catch (e) {
+		console.error("Error in UserAPI.js",e)
 		return e;
 	}
 };
@@ -63,6 +63,7 @@ const logIn = async (credentials) => {
 		}
 	}
 	catch (e) {
+		console.error("Error in UserAPI.js",e)
 		throw e;
 	}
 };
@@ -75,6 +76,7 @@ const logOut = async () => {
 		}
 	}
 	catch (e) {
+		console.error("Error in UserAPI.js",e)
 		return e;
 	}
 };

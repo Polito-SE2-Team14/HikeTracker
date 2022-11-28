@@ -6,8 +6,6 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
-//const User = require("../Class/User");
-
 function CheckExistingUser(email, phoneNumber) {
 	return new Promise((resolve, reject) => {
 		let sql = "SELECT COUNT(*) as N FROM User WHERE email = ? OR phoneNumber = ?";
@@ -45,7 +43,10 @@ exports.getUserById = (id) => {
 			else if (row === undefined)
 				resolve({ error: 'User not found' });
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified }
+				const user = {
+					userID: row.userID, name: row.name, surname: row.surname,
+					phoneNumber: row.phoneNumber, type: row.type, verified: row.verified
+				}
 				resolve(user);
 			}
 		});
@@ -62,7 +63,10 @@ exports.getUserByToken = (token) => {
 			else if (row === undefined)
 				reject({ error: 'Token is wrong' });
 			else {
-				const user = { userID: row.userID, name: row.name, surname: row.surname, phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email }
+				const user = {
+					userID: row.userID, name: row.name, surname: row.surname,
+					phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email
+				}
 				resolve(user);
 			}
 		});
@@ -90,8 +94,10 @@ exports.getUser = (email, password) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
 			else {
-				//const user = new User(row.userID, row.name, row.surname, row.email, row.phoneNumber, row.type);
-				const user = { userID: row.userID, name: row.name, surname: row.surname, email: row.email, phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified }
+				const user = {
+					userID: row.userID, name: row.name, surname: row.surname, email: row.email,
+					phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
+				}
 				const salt = row.salt.toString("hex");
 				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
 					if (err) reject(err);
@@ -150,13 +156,11 @@ exports.Register = async (user, token) => {
 		.then(p => pass = p)
 		.catch(err => { throw err })
 
-	//console.log(pass)
 
 	let finalUser;
 	await StoreUser(user, pass.salt, pass.hashedPassword, token)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 
-	//console.log(finalUser)
 	return finalUser
 }

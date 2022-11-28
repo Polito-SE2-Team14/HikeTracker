@@ -1,5 +1,4 @@
 const pointsDAO = require("../DAO/pointsDAO");
-//const Hut = require("../Class/Hut");
 class PointController {
 	constructor() {
 		console.log("Controller started");
@@ -121,7 +120,6 @@ class PointController {
 		await pointsDAO.deletePoint(pointID)
 			.catch(err => { throw err })
 
-		return
 	}
 }
 

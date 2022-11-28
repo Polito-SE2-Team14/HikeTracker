@@ -1,9 +1,5 @@
 import gpxParser from "gpxparser";
-
 import REST from "./REST";
-//import Hike from "../class/Hike";
-//import Point from "../class/Point";
-
 const api = "/hikes";
 
 /**
@@ -18,17 +14,7 @@ const getAllHikes = async () => {
 
 		return hikesJson.map(
 			(h) =>
-				/* new Hike(
-					h.hikeID,
-					h.title,
-					h.length,
-					h.expectedTime,
-					h.ascent,
-					h.difficulty,
-					h.description,
-					null,
-					null
-				) */ {
+				 {
 				return {
 					hikeID: h.hikeID,
 					title: h.title,
@@ -70,6 +56,7 @@ const getHike = async (hikeID) => {
 		};
 	}
 	catch (e) {
+		console.error(e)
 		throw e;
 	}
 };
@@ -248,14 +235,7 @@ const getHikePoints = async (hikeID) => {
 
 		return pointsJson.map(
 			(p) =>
-				/* new Point(
-					p.pointID,
-					p.name,
-					p.latitude,
-					p.longitude,
-					p.address,
-					p.pointType
-				) */ {
+				{
 				return {
 					pointID: p.pointID,
 					name: p.name,

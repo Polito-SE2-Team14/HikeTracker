@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 
 class UserController {
     constructor() {
+        //console.log("UserController has started")
     }
 
     async login(email, password) {
@@ -84,6 +85,7 @@ class UserController {
             await userDAO.verifyUser(user.userID);
             return true;
         } catch (error) {
+            console.error("Error in UserController", error.error)
             throw (error.error);
         }
     }

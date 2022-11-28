@@ -2,7 +2,9 @@ const pLotDAO = require("../DAO/parkingLotDAO");
 const pointsDAO = require("../DAO/pointsDAO");
 
 class ParkingLotController {
-	constructor() { }
+	constructor() { 
+		//console.log("ParkingLotController has started")
+	}
 
 	async getAllParkingLots() {
 		const parkingLots = await pLotDAO.getAllParkingLots()
