@@ -2,7 +2,7 @@ const { readFileSync } = require("fs");
 const path = require("path");
 const gpxParser = require('gpxparser');
 const crypto = require("crypto");
-
+const fs = require("fs");
 
 const Singleton = require('./DBManagerSingleton');
 const DBManager = require("../database/DBManager");
@@ -79,7 +79,7 @@ function hikesCreation() {
 		h.expectedTime = Math.round((12.09 * h.length + 98.4 * h.ascent) / 1000);
 		h.track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 		h.description = "A description";
-		console.log(i++,"- Hike added")
+		console.log(i++, "- Hike added")
 		return HikeDAO.addHike(h);
 	});
 }
@@ -87,7 +87,10 @@ function hikesCreation() {
 function usersCreation() {
 
 
-	let users = [
+	const jsonString = fs.readFileSync("./user.json");
+	const users = JSON.parse(jsonString).users;
+	//console.log(users)
+	/* let users = [
 		{ name: "Mario", surname: "Rossi", email: "mario.rossi@email.com", phoneNumber: "12345678901", type: "hiker", password: "password" },
 		{ name: "Antonio", surname: "Bianchi", email: "antonio.bianchi@email.com", phoneNumber: "12345678901", type: "localGuide", password: "password" },
 		{ name: "Cristian", surname: "Verdi", email: "cristian.verdi@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
@@ -109,41 +112,44 @@ function usersCreation() {
 		{ name: "Susan", surname: "Young", email: "susan.young@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
 		{ name: "Eileen", surname: "Allen", email: "eileen.allen@email.com", phoneNumber: "12345678901", type: "hutWorker", password: "password" },
 		{ name: "Dorothy", surname: "Sanchez", email: "dorothy.sanchez@email.com", phoneNumber: "3456789012", type: "hutWorker", password: "password" }
-	]
+	] */
 
-	let i=1
+	let i = 1
 	return users.map(u => {
-		console.log(i++,"- User added")
+		console.log(i++, "- User added")
 		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'))
-	})
+	}) 
 }
 
 function pointsCreation() {
 	let points = []
 
-	let i=1
+	let i = 1
 	return points.map(u => {
-		console.log(i++,"- Point added")
+		console.log(i++, "- Point added")
 		return new Promise(1)
-	})}
+	})
+}
 
 function hutsCreation() {
 	let huts = []
 
-	let i=1
+	let i = 1
 	return huts.map(u => {
-		console.log(i++,"- Hut added")
+		console.log(i++, "- Hut added")
 		return new Promise(1)
-	})}
+	})
+}
 
 function parkingLotsCreation() {
 	let pLot = []
 
-	let i=1
+	let i = 1
 	return pLot.map(u => {
-		console.log(i++,"- Parking Lot added")
+		console.log(i++, "- Parking Lot added")
 		return new Promise(1)
-	})}
+	})
+}
 
 
 Promise.resolve(dbManager.clearDb())

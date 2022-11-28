@@ -14,13 +14,19 @@ describe('Registration Tests', () => {
 	let users = [
 		{
 			id: ++lastId, name: 'mario', surname: 'rossi', email: 'mario.rossi@ex.com',
-			phoneNumber: '0123456789', type: types[0], password: 'pretest1'
+			phoneNumber: '0123456789', type: types[0], password: crypto.randomBytes(16).toString("hex")
 		}
 		//Other precomputed users
 	];
 	let newUsers = [
-		{ name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111', type: types[0], password: 'test1' },
-		{ name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222', type: types[0], password: 'test2' }
+		{
+			name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111',
+			type: types[0], password: crypto.randomBytes(16).toString("hex")
+		},
+		{
+			name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+			type: types[0], password: crypto.randomBytes(16).toString("hex")
+		}
 		//Other test users
 	];
 
@@ -117,7 +123,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: 111, surname: "Surname", phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -131,7 +137,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: 111, phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -145,7 +151,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "surname", phoneNumber: "invalid",
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -159,7 +165,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "Surname", phoneNumber: 1234567890,
-			email: 12311244, type: "hiker", password: "password"
+			email: 12311244, type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -173,7 +179,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: 111, phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -187,7 +193,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "surname", phoneNumber: 1234567890,
-			email: "Email@mail.com", type: 111, password: "password"
+			email: "Email@mail.com", type: 111, password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
