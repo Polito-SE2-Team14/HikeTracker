@@ -18,9 +18,10 @@ jobs:
         with:
           node-version: 16.x
       - name: test
-        run: cd ./server
-        run: npm install
-        run: npm test
+        - steps:
+          run: cd ./server
+          run: npm install
+          run: npm test
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
