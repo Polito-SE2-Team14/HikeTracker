@@ -16,7 +16,7 @@ jobs:
       - name: Open server directory
         run: cd ./server
       - name: test
-        run: echo ./README.md
+        run: cat README.md
       - name: Install dependencies
         run: npm ci
       - name: Test and coverage
