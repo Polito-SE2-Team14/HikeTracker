@@ -10,7 +10,7 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - run: cd server
+      - run: cd ./server
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
