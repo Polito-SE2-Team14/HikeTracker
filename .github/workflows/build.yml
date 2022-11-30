@@ -17,11 +17,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
-      - name: Open server directory
+      - name: test
         run: cd ./server
-      - name: Install dependencies
         run: npm install
-      - name: Test and coverage
         run: npm test
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
