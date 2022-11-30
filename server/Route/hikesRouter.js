@@ -73,10 +73,8 @@ router.get(
 router.post("",
 	body(["title", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
 	body(["description"]).optional().trim().escape(),
-	//body(["length", "expectedTime", "ascent"]).not().isEmpty(),
 	async (req, res) => {
 		const errors = validationResult(req);
-		//console.log(req.body)
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
 		let newHike = req.body;
@@ -85,7 +83,6 @@ router.post("",
 		await hikeController
 			.addHike(newHike)
 			.then((msg) => {
-				//console.log(msg);
 				return res.status(201).json(msg);
 			})
 			.catch((err) => {

@@ -102,24 +102,24 @@ INSERT INTO USER (userID, name, surname, email, phoneNumber, type, salt, hashedP
 		
 INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, province, pointType) 
 	VALUES
-		(1, "Al Sap", "44.87021540832461", "7.161989618049187", "Alpe del Sap, 215", "Angrogna", "Torino", "hut"), /*height: 1480*/
-		(3, "Barbara Lowrie", "44.76013231583071", "7.084189202618271", "Pis della Rossa","Bobbio Pellice", "Torino", "hut"), /*height: 1753*/
-		(6,  "Giuseppe Melano Casa Canada", "44.974323728091", "7.299674437120998", "Rocca Sbarua", "Frossasco", "Torino", "hut"), /*height: 1060*/
-		(7,  "Battaglione Alpini Monte Granero", "44.75212487414308", "7.041395441417518", "Adrec del Laus", "Bobbio Pellice", "Torino", "hut"), /*height: 2377*/
-		(8,  "Troncea", "44.9748395084994", "6.961313725385879", "Frazione Troncea", "Pragelato", "Torino", "hut"), /*height: */
-		(9,  "Severino Bessone al Lago Verde", "44.848984612543376", "7.009471574959937", "Founset, Lago", "Prali", "Torino", "hut"), /*height: */
-		(10, "Willy Jervis", "44.781275965331645", "7.036207939450853", "Conca del Prà", "Bobbio Pellice", "Torino", "hut"), /*height: */
-		(11, "Salza", "44.97762748047302", "6.839397138848224", "Borgata Didietro, 16", "Salza di Pinerolo", "Torino", "hut"), /*height: */
-		(12, "Ciabota del Prà", "44.779813801333994", "7.036207939162996", "Prà del Mirabores", "Bobbio Pellice", "Torino", "hut"), /*height: */
-		(13, "La Foresteria di Massello", "44.96606539680167", "7.055764188864649", "Borgata Molino, 4", "Massello", "Torino", "hut"), /*height: */
-		(14, "Pzit Rei", "45.07289553862993", "7.020671525603902", "Via della Rocca, 1", "Usseaux", "Torino", "hut"), /*height: */
-		(15, "Selleries", "45.05829677248282", "7.118452955805334", "Alpe Selleries", "Roure", "Torino", "hut"), /*height: */
-		(16, "Villanova", "44.81076401991162", "7.056185604385492", "Borgata Villanova", "Bobbio Pellice", "Torino", "hut"), /*height: */
-		(17, "Alpe Balma", "45.051410442504775", "7.190947337226893", "Alpe della Balma", "Coazze", "Torino", "hut"), /*height: 1986*/
-		(18, "Alpeggio Toglie", "45.100620071304604", "7.121516296162575", "Toglie", "Mattie", "Torino", "hut"), /*height: 1530*/
-		(19, "Avanzà", "45.181048386933924", " 6.949786842590845", "Passo Avanzà", "Venaus", "Torino", "hut"), /*height: 2580*/
-		(20, "Baita Gimont", "44.941458755424115", " 6.760199666306238", "Pian Gimont", "Cesana", "Torino", "hut"), /*height: 2035*/
-		(21, "Cà d'Asti", "45.20134583464137", "7.074022245228914", "Cà d'Asti", "Mompanero", "Torino",  "hut"), /*height: 2854*/
+		(1, "Al Sap", "44.87021540832461", "7.161989618049187", "Alpe del Sap, 215", "Angrogna", "Torino", "hut"), --height: 1480
+		(3, "Barbara Lowrie", "44.76013231583071", "7.084189202618271", "Pis della Rossa","Bobbio Pellice", "Torino", "hut"), --height: 1753
+		(6,  "Giuseppe Melano Casa Canada", "44.974323728091", "7.299674437120998", "Rocca Sbarua", "Frossasco", "Torino", "hut"), --height: 1060
+		(7,  "Battaglione Alpini Monte Granero", "44.75212487414308", "7.041395441417518", "Adrec del Laus", "Bobbio Pellice", "Torino", "hut"), --height: 2377
+		(8,  "Troncea", "44.9748395084994", "6.961313725385879", "Frazione Troncea", "Pragelato", "Torino", "hut"), --height: 
+		(9,  "Severino Bessone al Lago Verde", "44.848984612543376", "7.009471574959937", "Founset, Lago", "Prali", "Torino", "hut"), --height: 
+		(10, "Willy Jervis", "44.781275965331645", "7.036207939450853", "Conca del Prà", "Bobbio Pellice", "Torino", "hut"), --height: 
+		(11, "Salza", "44.97762748047302", "6.839397138848224", "Borgata Didietro, 16", "Salza di Pinerolo", "Torino", "hut"), --height: 
+		(12, "Ciabota del Prà", "44.779813801333994", "7.036207939162996", "Prà del Mirabores", "Bobbio Pellice", "Torino", "hut"), --height: 
+		(13, "La Foresteria di Massello", "44.96606539680167", "7.055764188864649", "Borgata Molino, 4", "Massello", "Torino", "hut"), --height: 
+		(14, "Pzit Rei", "45.07289553862993", "7.020671525603902", "Via della Rocca, 1", "Usseaux", "Torino", "hut"), --height: 
+		(15, "Selleries", "45.05829677248282", "7.118452955805334", "Alpe Selleries", "Roure", "Torino", "hut"), --height: 
+		(16, "Villanova", "44.81076401991162", "7.056185604385492", "Borgata Villanova", "Bobbio Pellice", "Torino", "hut"), --height: 
+		(17, "Alpe Balma", "45.051410442504775", "7.190947337226893", "Alpe della Balma", "Coazze", "Torino", "hut"), --height: 1986
+		(18, "Alpeggio Toglie", "45.100620071304604", "7.121516296162575", "Toglie", "Mattie", "Torino", "hut"), --height: 1530
+		(19, "Avanzà", "45.181048386933924", " 6.949786842590845", "Passo Avanzà", "Venaus", "Torino", "hut"), --height: 2580
+		(20, "Baita Gimont", "44.941458755424115", " 6.760199666306238", "Pian Gimont", "Cesana", "Torino", "hut"), --height: 2035
+		(21, "Cà d'Asti", "45.20134583464137", "7.074022245228914", "Cà d'Asti", "Mompanero", "Torino",  "hut"), --height: 2854
 		(2, "park#1", "45.181048386933924", "6.949786842590845", "address2", "Settimo", "Torino", "parkinglot"),
 		(4, "park#2", "123", "456", "address4", "Settimo", "Torino", "parkinglot"),
 		(22, "park#3", "123", "456", "address22", "Trecate", "Novara", "parkinglot"),
