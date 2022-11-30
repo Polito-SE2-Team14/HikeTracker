@@ -9,7 +9,7 @@ exports.getAllParkingLots = async () => {
 	return parkingLots;
 }
 
-getParkingLotById = async (id) => {
+exports.getParkingLotById = async (id) => {
 	const parkingLot = await pLotDAO.getParkingLotById(id).catch(() => {
 		throw Error();
 	});

@@ -42,3 +42,14 @@ docker-compose up
 ```
 
 2. Connect to https://localhost:30000
+
+## Test users
+> Antonio Bianchi (local guide)
+
+username: antonio.bianchi@email.com
+password: password
+
+> Cristian Verdi (local guide)
+
+username: cristian.verdi@email.com
+password: password
