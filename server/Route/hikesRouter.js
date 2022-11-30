@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const HikeController = require("../Controller/HikeController");
-const hikeController = new HikeController();
-const PointController = require("../Controller/PointController");
-const pointController = new PointController();
+const hikeController = require("../Controller/HikeController");
+const pointController = require("../Controller/PointController");
 const { body, validationResult } = require("express-validator");
 const { check_hike } = require("../DAO/hikeDAO");
 

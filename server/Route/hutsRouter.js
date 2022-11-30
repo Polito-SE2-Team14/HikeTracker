@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const HutController = require("../Controller/HutController");
-const hutController = new HutController();
+const hutController = require("../Controller/HutController");
 const { body, validationResult } = require("express-validator");
 
 

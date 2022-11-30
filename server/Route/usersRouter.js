@@ -3,8 +3,7 @@ const router = express.Router()
 const { body, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const UserController = require("../Controller/UserController")
-const userController = new UserController()
+const userController = require("../Controller/UserController")
 
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
