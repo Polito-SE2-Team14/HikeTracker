@@ -57,11 +57,11 @@ function HutListItem(props) {
 					<Card.Body>
 						<Card.Title>
 							<Row>
-								<Col sm={9}>{props.hut.name}</Col>
+								<Col xs={8} sm={9}>{props.hut.name}</Col>
 								<Col className="text-end">
 									<Button
 										size="sm"
-										variant="outline-secondary"
+										variant="secondary"
 										onClick={handleShowHutModal}
 									>
 										<FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />

@@ -83,12 +83,12 @@ function HikeListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row className="d-flex justify-content-between">
-								<Col>{props.hike.title}</Col>
-								<Col className="d-flex justify-content-end">
+							<Row>
+								<Col xs={8} sm={9}>{props.hike.title}</Col>
+								<Col className="text-end" >
 									<Button
 										size="sm"
-										variant="outline-secondary"
+										variant="secondary"
 										onClick={handleShowHikeModal}
 									>
 										<FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
