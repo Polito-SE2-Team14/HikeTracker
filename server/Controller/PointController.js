@@ -1,34 +1,28 @@
 const pointsDAO = require("../DAO/pointsDAO");
-class PointController {
-	constructor() {
-		console.log("Controller started");
-	}
 
-	async getAllPoints() {
-		const points = await pointsDAO.getAllPoints().catch(() => {
-			throw Error();
-		})
+exports.getAllPoints = async () => {
+	const points = await pointsDAO.getAllPoints().catch(() => {
+		throw Error();
+	})
 
-		return points;
-	}
-
-	
-	async getPoint(pointID) {
-		const point = await pointsDAO.getPoint(pointID).catch(() => {
-			throw Error();
-		});
-		
-		return point;
-	}
-	
-	async getHikePoints(hikeID) {
-		const points = await pointsDAO.getHikePoints(hikeID).catch(() => {
-			throw Error();
-		});
-		
-		return points;
-	}
-	
+	return points;
 }
 
-module.exports = PointController;
+
+exports.getPoint = async (pointID) => {
+	const point = await pointsDAO.getPoint(pointID).catch(() => {
+		throw Error();
+	});
+
+	return point;
+}
+
+exports.getHikePoints = async (hikeID) => {
+	const points = await pointsDAO.getHikePoints(hikeID).catch(() => {
+		throw Error();
+	});
+
+	return points;
+}
+
+

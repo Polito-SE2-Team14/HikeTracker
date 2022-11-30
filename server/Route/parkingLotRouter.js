@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const PLotController = require("../Controller/ParkingLotController");
-const pLotController = new PLotController();
+const pLotController = require("../Controller/ParkingLotController");
 const { body, validationResult } = require("express-validator");
 
 router.get("", async (req, res) => {

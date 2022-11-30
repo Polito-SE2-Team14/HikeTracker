@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const { body, validationResult } = require('express-validator');
-const PointController = require("../Controller/PointController")
-const pointController = new PointController();
-/* const HutController = require("../Controller/HutController")
-const hutController = new HutController()*/
-
-const hutController = require("../Controller/HutControllerNew")
+const pointController = require("../Controller/PointController")
+const hutController = require("../Controller/HutController")
 
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()

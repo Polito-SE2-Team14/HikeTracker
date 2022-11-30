@@ -3,10 +3,7 @@ const crypto = require("crypto");
 const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 const db = dbManager.getDB();
 const { Register } = require("../DAO/UserDAO");
-/* const UserController = require("../Controller/UserController")
-const userController = new UserController() */
-
-const userController = require("../Controller/UserControllerNew")
+const userController = require("../Controller/UserController")
 
 
 const types = ['hiker', 'friend'];

@@ -2,108 +2,100 @@ const userDAO = require("../DAO/UserDAO")
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
-class UserController {
-    constructor() {
-        //console.log("UserController has started")
-    }
 
-    async login(email, password) {
-        const user = await userDAO.getUser(email, password)
-            .catch(() => { throw Error(); });
+exports.login = async (email, password) => {
+    const user = await userDAO.getUser(email, password)
+        .catch(() => { throw Error(); });
 
 
-        return user;
-    }
+    return user;
+}
 
-    async getUser(userID) {
-        const user = await userDAO.getUserById(userID)
-            .catch(() => { throw Error(); });
-        return user;
-    }
+exports.getUser = async (userID) => {
+    const user = await userDAO.getUserById(userID)
+        .catch(() => { throw Error(); });
+    return user;
+}
 
-    async register(newUser) {
+exports.register = async (newUser) => {
 
-        let { name, surname, email, phoneNumber, type } = newUser
+    let { name, surname, email, phoneNumber, type } = newUser
 
 
-        if (typeof name != "string")
-            throw Error("Type error with name")
-        if (typeof surname != "string")
-            throw Error("Type error with surname")
-        if (typeof email != "string")
-            throw Error("Type error with email")
-        if (isNaN(phoneNumber))
-            throw Error("Type error with phoneNumber")
-        if (typeof type != "string" || !["localGuide", "hiker", "hutWorker"].includes(type))
-            throw Error("Type error with difficulty")
+    if (typeof name != "string")
+        throw Error("Type error with name")
+    if (typeof surname != "string")
+        throw Error("Type error with surname")
+    if (typeof email != "string")
+        throw Error("Type error with email")
+    if (isNaN(phoneNumber))
+        throw Error("Type error with phoneNumber")
+    if (typeof type != "string" || !["localGuide", "hiker", "hutWorker"].includes(type))
+        throw Error("Type error with difficulty")
 
 
 
-        let token = crypto.randomBytes(20).toString('hex');
-        const user = await userDAO.Register(newUser, token)
-            .catch(err => { throw err });
+    let token = crypto.randomBytes(20).toString('hex');
+    const user = await userDAO.Register(newUser, token)
+        .catch(err => { throw err });
 
-        //EMAIL VERIFICATION
-        await this.sendVerificationEmail(user.token, user.email);
+    //EMAIL VERIFICATION
+    await this.sendVerificationEmail(user.token, user.email);
 
-        return user;
-
-    }
-
-    async sendVerificationEmail(token, userEmail) {
-        //EMAIL VERIFICATION
-
-        // let testAccount = await nodemailer.createTestAccount();
-
-        // create reusable transporter object using the default SMTP transport
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            auth: {
-                user: 'hikefiveteam14@gmail.com',
-                pass: 'tywjwgzzhvkrcdcc'
-            }
-        });
-
-        // send mail with defined transport object
-        let info = await transporter.sendMail({
-            from: '"HIKEfive" <hikefiveteam14@gmail.com>', // sender address
-            to: userEmail, // list of receivers
-            subject: "HIKEfive | Verify Email", // Subject line
-            html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
-        });
-
-        console.log("Message sent: %s", info.messageId);
-
-        return true;
-
-    }
-
-    async verify(token) {
-        try {
-            let user = await userDAO.getUserByToken(token);
-            await userDAO.verifyUser(user.userID);
-            return true;
-        } catch (error) {
-            console.error("Error in UserController", error.error)
-            throw (error.error);
-        }
-    }
-
-
-    async resendVerificationEmail(token) {
-        try {
-            let user = await userDAO.getUserByToken(token);
-            await this.sendVerificationEmail(token, user.email);
-            return true;
-        } catch (error) {
-            console.error("Error in UserController", error)
-            throw (error);
-        }
-
-    }
-
+    return user;
 
 }
 
-module.exports = UserController
+exports.sendVerificationEmail = async (token, userEmail) => {
+    //EMAIL VERIFICATION
+
+    // let testAccount = await nodemailer.createTestAccount();
+
+    // create reusable transporter object using the default SMTP transport
+    const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        auth: {
+            user: 'hikefiveteam14@gmail.com',
+            pass: 'tywjwgzzhvkrcdcc'
+        }
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"HIKEfive" <hikefiveteam14@gmail.com>', // sender address
+        to: userEmail, // list of receivers
+        subject: "HIKEfive | Verify Email", // Subject line
+        html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
+    });
+
+    console.log("Message sent: %s", info.messageId);
+
+    return true;
+
+}
+
+exports.verify = async (token) => {
+    try {
+        let user = await userDAO.getUserByToken(token);
+        await userDAO.verifyUser(user.userID);
+        return true;
+    } catch (error) {
+        console.error("Error in UserController", error.error)
+        throw (error.error);
+    }
+}
+
+
+exports.resendVerificationEmail = async (token) => {
+    try {
+        let user = await userDAO.getUserByToken(token);
+        await this.sendVerificationEmail(token, user.email);
+        return true;
+    } catch (error) {
+        console.error("Error in UserController", error)
+        throw (error);
+    }
+
+}
+

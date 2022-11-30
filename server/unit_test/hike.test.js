@@ -1,7 +1,4 @@
-/* const HikeController = require("../Controller/HikeController")
-const hikeController = new HikeController()*/
-
-const hikeController = require("../Controller/HikeControllerNew")
+const hikeController = require("../Controller/HikeController")
 
 describe('Hike Tests', () => {
     describe("creation of new Hike", () => {
