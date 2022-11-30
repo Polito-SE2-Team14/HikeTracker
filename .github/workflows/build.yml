@@ -13,8 +13,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Install dependencies
+      - name: Open server directory
         run: cd server
+      - name: Install dependencies
         run: npm i
       - name: Test and coverage
         run: npm run test
