@@ -9,13 +9,10 @@ const userController = new UserController()
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
 
-    /* if (!validateEmail(username)) {
-        return cb("Invalid Email")
-    }
 
     if (String(password).length <= 6) {
-        return cb("Invalid password")
-    } */
+        return cb("Invalid password (less than 6 chars)")
+    } 
 
     const user = await userController.login(username, password)
         .catch(() => { return res.status(422).send("Unprocessable entity") });

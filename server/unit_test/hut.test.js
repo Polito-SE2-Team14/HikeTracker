@@ -1,6 +1,7 @@
-const HutController = require("../Controller/HutController");
-const hutController = new HutController()
+/* const HutController = require("../Controller/HutController");
+const hutController = new HutController()*/
 
+const hutController = require("../Controller/HutControllerNew");
 describe('Hut Tests', () => {
     describe("creation of new hut", () => {
         test("Valid insertion a new hut", async () => {
@@ -10,13 +11,11 @@ describe('Hut Tests', () => {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
-                //new Hut(0, "nameTest", 392131, 12931, "addresstest", 5, 1)
             )
                 .then(value => hut = value)
                 .catch(err => {
                     console.error(err)
                     expect(true).toBe(false)
-                    return
                 }
                 )
 
@@ -36,9 +35,7 @@ describe('Hut Tests', () => {
                     pointID: 0, name: 2314214, latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
-                //new Hut(0, 312313, 123132, 12931, "addresstest", 5, 1)
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -46,16 +43,13 @@ describe('Hut Tests', () => {
         })
 
         test("Invalid Latitude", async () => {
-            let hut;
             let newErr;
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: "invalid", longitude: 12931,
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
-                //new Hut(0, "nameTest", "dawdwad", 12931, "addresstest", 5, 1)
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -63,16 +57,13 @@ describe('Hut Tests', () => {
         })
 
         test("Invalid Longitude", async () => {
-            let hut;
             let newErr;
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: "invalid",
                     address: "addressTest", bedspace: 5, hutOwnerID: 1
                 }
-                //new Hut(0, "nameTest", 12931, "fawdfwa", "addresstest", 5, 1)
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -80,16 +71,13 @@ describe('Hut Tests', () => {
         })
 
         test("Invalid address", async () => {
-            let hut;
             let newErr;
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: 1414214, bedspace: 5, hutOwnerID: 1
                 }
-                //new Hut(0, "nameTest", 3123134, 12931, 14214, 5, 1)
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -97,16 +85,13 @@ describe('Hut Tests', () => {
         })
 
         test("Invalid bedspace", async () => {
-            let hut;
             let newErr;
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: "addressTest", bedspace: "invalid", hutOwnerID: 1
                 }
-                //new Hut(0, "nameTest", 3123134, 12931, 421124, "bedspace", 1)
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -120,9 +105,7 @@ describe('Hut Tests', () => {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931,
                     address: "addressTest", bedspace: 5, hutOwnerID: "invalid"
                 }
-                //new Hut(0, "nameTest", 3124, 12931, "addresstest", 5, "dawd")
             )
-                .then(value => hut = value)
                 .catch(err => newErr = err)
 
 
@@ -134,8 +117,6 @@ describe('Hut Tests', () => {
     })
     describe("Update of new hut", () => {
         test("Valid update of a hut", async () => {
-
-
 
             let hut = await hutController.createHut(
                 {
@@ -156,10 +137,7 @@ describe('Hut Tests', () => {
             await hutController.updateHut(hut)
             let huts = await hutController.getHuts()
 
-            //console.log("lastID", hut.pointID)
-
             huts = huts.filter((h) => {
-                //console.log(h.pointID, hut.pointID, h.pointID === hut.pointID)
                 return h.pointID === hut.pointID
             })
             if (huts.length !== 1)
@@ -180,13 +158,12 @@ describe('Hut Tests', () => {
         });
 
         test("Invalid name of hut", async () => {
-
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: 12313, latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -194,12 +171,12 @@ describe('Hut Tests', () => {
 
 
         test("Invalid latitude of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: "fawfa", longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
@@ -207,60 +184,60 @@ describe('Hut Tests', () => {
 
 
         test("Invalid longitude of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: "invalid", municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
         });
 
         test("Invalid address of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: 5241, bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
         });
 
         test("Invalid bedspace of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
                     address: "addressTest", bedspace: "ddwad", hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
         });
 
         test("Invalid municipality of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: 2313, province: "Turin",
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
         });
 
         test("Invalid province of hut", async () => {
+            let newErr;
             await hutController.updateHut(
                 {
                     pointID: 0, name: "test", latitude: 123, longitude: 123, municipality: "Moncalieri", province: 31231,
                     address: "addressTest", bedspace: 1, hutOwnerID: 1
                 })
-                .then(value => hut = value)
                 .catch(err => newErr = err)
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)

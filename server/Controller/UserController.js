@@ -41,7 +41,7 @@ class UserController {
 
         let token = crypto.randomBytes(20).toString('hex');
         const user = await userDAO.Register(newUser, token)
-            .catch(err => { throw Error(err) });
+            .catch(err => { throw err });
 
         //EMAIL VERIFICATION
         await this.sendVerificationEmail(user.token, user.email);
@@ -97,6 +97,7 @@ class UserController {
             await this.sendVerificationEmail(token, user.email);
             return true;
         } catch (error) {
+            console.error("Error in UserController", error)
             throw (error);
         }
 

@@ -1,6 +1,5 @@
-import { Row, Col, Button, FormControl} from 'react-bootstrap';
+import { Row, Col, Button, FormControl, Form, Alert} from 'react-bootstrap';
 import { useState } from 'react';
-import { Form, Alert } from 'react-bootstrap';
 
 /**
  * @param props.filters - object containing all the filters and the flags indicating whether they must be applied or not

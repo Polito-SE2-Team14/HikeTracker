@@ -3,8 +3,10 @@ const crypto = require("crypto");
 const dbManager = require("../database/DBManagerSingleton").getTestInstance();
 const db = dbManager.getDB();
 const { Register } = require("../DAO/UserDAO");
-const UserController = require("../Controller/UserController")
-const userController = new UserController()
+/* const UserController = require("../Controller/UserController")
+const userController = new UserController() */
+
+const userController = require("../Controller/UserControllerNew")
 
 
 const types = ['hiker', 'friend'];
@@ -14,13 +16,19 @@ describe('Registration Tests', () => {
 	let users = [
 		{
 			id: ++lastId, name: 'mario', surname: 'rossi', email: 'mario.rossi@ex.com',
-			phoneNumber: '0123456789', type: types[0], password: 'pretest1'
+			phoneNumber: '0123456789', type: types[0], password: crypto.randomBytes(16).toString("hex")
 		}
 		//Other precomputed users
 	];
 	let newUsers = [
-		{ name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111', type: types[0], password: 'test1' },
-		{ name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222', type: types[0], password: 'test2' }
+		{
+			name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111',
+			type: types[0], password: crypto.randomBytes(16).toString("hex")
+		},
+		{
+			name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+			type: types[0], password: crypto.randomBytes(16).toString("hex")
+		}
 		//Other test users
 	];
 
@@ -71,14 +79,12 @@ function testCorrectRegistration(lastId, users) {
 
 
 		expect(user).not.toBeUndefined();
-		//expect(user instanceof User).toBe(true);
 		expect(user.userID).toBe(lastId + 1);
 		expect(user.name).toBe(newUser.name);
 		expect(user.surname).toBe(newUser.surname);
 		expect(user.email).toBe(newUser.email);
 		expect(user.phoneNumber).toBe(newUser.phoneNumber);
 		expect(user.type).toBe(newUser.type);
-
 		expect(res).not.toBeUndefined();
 		expect(res).not.toBe(false);
 		expect(res.id).toBe(lastId + 1);
@@ -111,8 +117,6 @@ function testWrongRegistration(lastId, users) {
 		}).catch(err => { return err; });
 
 		expect(user).not.toBeUndefined();
-		//expect(user).toBe('user exists');
-
 		expect(res).not.toBeUndefined();
 		expect(res).toBe(1);
 	});
@@ -121,7 +125,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: 111, surname: "Surname", phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -135,7 +139,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: 111, phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -149,7 +153,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "surname", phoneNumber: "invalid",
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -163,7 +167,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "Surname", phoneNumber: 1234567890,
-			email: 12311244, type: "hiker", password: "password"
+			email: 12311244, type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -177,7 +181,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: 111, phoneNumber: 1234567890,
-			email: "Email@mail.com", type: "hiker", password: "password"
+			email: "Email@mail.com", type: "hiker", password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)
@@ -191,7 +195,7 @@ function testWrongRegistration(lastId, users) {
 		let newErr
 		let wrongUser = {
 			name: "Name", surname: "surname", phoneNumber: 1234567890,
-			email: "Email@mail.com", type: 111, password: "password"
+			email: "Email@mail.com", type: 111, password: crypto.randomBytes(16).toString("hex")
 		}
 
 		await userController.register(wrongUser)

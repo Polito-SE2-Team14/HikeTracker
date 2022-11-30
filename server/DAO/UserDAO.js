@@ -42,13 +42,12 @@ exports.getUserById = (id) => {
 				reject(err);
 			else if (row === undefined)
 				resolve({ error: 'User not found' });
-			else {
-				const user = {
-					userID: row.userID, name: row.name, surname: row.surname,
-					phoneNumber: row.phoneNumber, type: row.type, verified: row.verified
-				}
-				resolve(user);
+			const user = {
+				userID: row.userID, name: row.name, surname: row.surname,
+				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified
 			}
+			resolve(user);
+
 		});
 	});
 };
@@ -62,13 +61,12 @@ exports.getUserByToken = (token) => {
 				reject(err);
 			else if (row === undefined)
 				reject({ error: 'Token is wrong' });
-			else {
-				const user = {
-					userID: row.userID, name: row.name, surname: row.surname,
-					phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email
-				}
-				resolve(user);
+			const user = {
+				userID: row.userID, name: row.name, surname: row.surname,
+				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email
 			}
+			resolve(user);
+
 		});
 	});
 };
@@ -78,10 +76,7 @@ exports.verifyUser = (id) => {
 
 		const sql = 'UPDATE USER SET verified = 1 WHERE userID=?';
 		db.run(sql, [id], (err) => {
-			if (err) {
-				reject(err);
-				return;
-			}
+			if (err) reject(err);
 			resolve(true);
 		});
 	});
@@ -93,20 +88,19 @@ exports.getUser = (email, password) => {
 		db.get(sql, [email], (err, row) => {
 			if (err) { reject(err); }
 			else if (row === undefined) { resolve(false); }
-			else {
-				const user = {
-					userID: row.userID, name: row.name, surname: row.surname, email: row.email,
-					phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
-				}
-				const salt = row.salt.toString("hex");
-				crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
-					if (err) reject(err);
-					const passwordHex = Buffer.from(row.hashedPassword, 'hex');
-					if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
-						resolve(false);
-					else resolve(user);
-				});
+			const user = {
+				userID: row.userID, name: row.name, surname: row.surname, email: row.email,
+				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
 			}
+			const salt = row.salt.toString("hex");
+			crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
+				if (err) reject(err);
+				const passwordHex = Buffer.from(row.hashedPassword, 'hex');
+				if (!crypto.timingSafeEqual(passwordHex, hashedPassword))
+					resolve(false);
+				else resolve(user);
+			});
+
 		});
 	});
 };

@@ -3,8 +3,10 @@ const router = express.Router()
 const { body, validationResult } = require('express-validator');
 const PointController = require("../Controller/PointController")
 const pointController = new PointController();
-const HutController = require("../Controller/HutController")
-const hutController = new HutController()
+/* const HutController = require("../Controller/HutController")
+const hutController = new HutController()*/
+
+const hutController = require("../Controller/HutControllerNew")
 
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()
@@ -12,16 +14,17 @@ router.get('', async (req, res) => {
 		.catch((err) => {
 			console.error(err);
 			return res.status(500).end
-		});});
+		});
+});
 
 
 router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
-	.then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
-	.catch((err) => {
-		console.error(err);
-		return res.status(500).end
-	});
+		.then(huts => {  return res.status(200).json(huts) })
+		.catch((err) => {
+			console.error(err);
+			return res.status(500).end
+		});
 
 });
 
@@ -33,7 +36,8 @@ router.get('/:pointID',
 			.catch((err) => {
 				console.error(err);
 				return res.status(500).end
-			});	});
+			});
+	});
 
 router.post('/huts',
 	body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
@@ -52,7 +56,8 @@ router.post('/huts',
 			.catch((err) => {
 				console.error(err);
 				return res.status(500).end
-			});	});
+			});
+	});
 
 router.put('/huts',
 	body(["pointID", "bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
@@ -70,7 +75,8 @@ router.put('/huts',
 			.catch((err) => {
 				console.error(err);
 				return res.status(500).end
-			});	});
+			});
+	});
 
 
 router.delete('/huts/:hutID',
