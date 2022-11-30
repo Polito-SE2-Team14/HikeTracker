@@ -13,20 +13,14 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
     steps:
       - uses: actions/checkout@v3
+      - run: cd ./server
       - name: Setup Node 16.x
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: npm
-      - run: cd ./server
       - run: npm ci
       - run: npm test
       - name: SonarCloud Scan
