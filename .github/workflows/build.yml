@@ -19,8 +19,6 @@ jobs:
           node-version: 14.x
       - name: Open server directory
         run: cd ./server
-      - name: test
-        run: cat README.md
       - name: Install dependencies
         run: npm ci
       - name: Test and coverage
