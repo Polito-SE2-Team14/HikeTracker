@@ -16,7 +16,7 @@ router.get('', async (req, res) => {
 
 router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
-		.then(huts => {  return res.status(200).json(huts) })
+		.then(huts => { { console.log(huts.map(h => h.pointID)); return res.status(200).json(huts)} })
 		.catch((err) => {
 			console.error(err);
 			return res.status(500).end

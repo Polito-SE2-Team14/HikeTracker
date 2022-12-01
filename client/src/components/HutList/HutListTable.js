@@ -71,11 +71,16 @@ function HutListItem(props) {
 						</Card.Title>
 						<Row>
 							<Col>
-								
+
 								<FontAwesomeIcon icon={faCity} /> {` ${props.hut.municipality} (${props.hut.province})`}
 							</Col>
 							<Col xs={4}>
 								<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
+							</Col>
+						</Row>
+						<Row>
+							<Col>
+							{`by ${props.hut.creatorSurname} ${props.hut.creatorName} `}
 							</Col>
 						</Row>
 					</Card.Body>

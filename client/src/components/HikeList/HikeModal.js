@@ -73,8 +73,12 @@ export function HikeModal(props) {
 						<strong>{" Expected time:"}</strong>
 						{` ${hike.expectedTime} minutes`}
 					</Col>
+
 				</Row>
 				<Row className="mt-3">
+					<Col>
+						{`by ${hike.creatorSurname} ${hike.creatorName} `}
+					</Col>
 					<Col>
 						<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 					</Col>

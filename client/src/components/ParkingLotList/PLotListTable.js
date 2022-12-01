@@ -9,10 +9,10 @@ import {
 
 import { PLotModal } from "./PLotModal";
 
-function PLotListTable(props){
-	return(
+function PLotListTable(props) {
+	return (
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center mb-5">
-			{props.lots.map((lot,i)=>(
+			{props.lots.map((lot, i) => (
 				<div key={i}>
 					<PLotListItem
 						lot={lot}
@@ -26,23 +26,23 @@ function PLotListTable(props){
 
 function PLotListItem(props) {
 	const [showModal, setShowModal] = useState(false);
-	const handleShowModal=()=>{
+	const handleShowModal = () => {
 		setShowModal(true);
 	}
-	const handleHideModal=()=>{
+	const handleHideModal = () => {
 		setShowModal(false);
 	}
-	const handleDeletePLot=(lot)=>{
+	const handleDeletePLot = (lot) => {
 		setShowModal(false);
 		ParkingLotAPI.deleteParkingLot(lot.pLotId)
-			.then(()=>{
-				props.setLots((old)=>
-					old.filter((oldLot)=>oldLot.pLotId!==lot.pLotId)
+			.then(() => {
+				props.setLots((old) =>
+					old.filter((oldLot) => oldLot.pLotId !== lot.pLotId)
 				);
 			})
-			.catch((err)=>console.log(err));
+			.catch((err) => console.log(err));
 	};
-	return(
+	return (
 		<>
 			<PLotModal
 				lot={props.lot}
@@ -71,8 +71,11 @@ function PLotListItem(props) {
 						<Container>
 							<Row>
 								<Col>
-									<FontAwesomeIcon icon={faCar}/>{" "}
+									<FontAwesomeIcon icon={faCar} />{" "}
 									{props.lot.carspace}
+								</Col>
+								<Col>
+									{`by ${props.lot.creatorSurname} ${props.lot.creatorName} `}
 								</Col>
 							</Row>
 						</Container>

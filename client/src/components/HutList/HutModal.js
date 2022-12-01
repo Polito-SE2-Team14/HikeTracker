@@ -21,8 +21,8 @@ export function HutModal(props) {
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{" Province:"}</strong>
-						{` ${props.hut.municipality} (${props.hut.province})`}
+						<strong>{"Municipality (Province, Country):"}</strong>
+						{` ${props.hut.municipality} (${props.hut.province}, ${props.hut.country})`}
 					</Col>
 				</Row>
 				<Row xs={1} md={2} className="d-flex align-items-top">
@@ -35,6 +35,9 @@ export function HutModal(props) {
 						<FontAwesomeIcon icon={faBed} />
 						<strong>{" Available beds:"}</strong>
 						{` ${props.hut.bedspace}`}
+					</Col>
+					<Col>
+						{`by ${props.hut.creatorSurname} ${props.hut.creatorName} `}
 					</Col>
 				</Row>
 			</Modal.Body>

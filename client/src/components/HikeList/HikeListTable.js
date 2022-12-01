@@ -117,6 +117,11 @@ function HikeListItem(props) {
 									{" '"}
 								</Col>
 							</Row>
+							<Row>
+								<Col>
+								{`by ${props.hike.creatorSurname} ${props.hike.creatorName} `}
+								</Col>
+							</Row>
 						</Container>
 					</Card.Body>
 				</Card>
