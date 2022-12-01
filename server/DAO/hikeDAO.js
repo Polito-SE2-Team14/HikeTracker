@@ -14,7 +14,7 @@ const path = require("path");
  */
 exports.getAllHikes = function () {
 	return new Promise((resolve, reject) => {
-		const sql = "SELECT * FROM HIKE";
+		const sql =`SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID`;
 		db.all(sql, [], (err, rows) => {
 			if (err) {
 				reject(err);
@@ -34,15 +34,18 @@ exports.getAllHikes = function () {
 							endPointID: h.endPointID,
 							municipality: h.municipality,
 							province: h.province,
+							country: h.country,
 							track: getTrack(h.hikeID),
-							creatorID: h.creatorID
+							creatorID: h.creatorID,
+							creatorName: h.name,
+							creatorSurname: h.surname
 						};
 					}
 				);
 				resolve(hikes);
 			}
 			catch (e) {
-				console.log(e)
+				console.error(e)
 				reject(e);
 			}
 		});
@@ -56,7 +59,7 @@ exports.getAllHikes = function () {
  */
 exports.check_hike = function (wantedID) {
 	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
+		db.get(`SELECT * FROM HIKE WHERE hikeID=?`, [wantedID], (err, row) => {
 			if (err) {
 				// TODO(antonio): better error handling
 				reject(err);
@@ -105,7 +108,7 @@ exports.addHike = function (newHike) {
 			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province, creatorID) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
 			[
 				title, length, expectedTime, ascent, difficulty, description,
-				startPointID, endPointID, municipality, province,creatorID
+				startPointID, endPointID, municipality, province, creatorID
 			],
 			function (err) {
 				if (err)
@@ -190,7 +193,7 @@ exports.getHikeTrack = function (hikeID) {
 	try {
 		track = readFileSync(path.join(__dirname, `../database/tracks/_${hikeID}_.trk`), 'utf8');
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
 
 	return track;

@@ -6,15 +6,21 @@ const db = dbManager.getDB();
 
 exports.getHuts = () => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM POINT P, HUT H WHERE P.pointID = H.hutID AND pointType = 'hut'"
+        const sql = `SELECT pointID, P.name, latitude, longitude, address
+                    pointType, bedspace, municipality, province, country, U.name AS creatorName, surname, creatorID  
+                    FROM POINT P, HUT H, USER U 
+                    WHERE P.pointID = H.hutID 
+                        AND pointType = 'hut' 
+                        AND U.userID = P.creatorID`
         db.all(sql, (err, rows) => {
             if (err)
                 reject(err);
             let huts = rows.map(r => {
+
                 return {
-                    pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
-                    address: r.address, pointType: r.pointType, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
-                    municipality: r.municipality, province: r.province, creatorID: r.creatorID
+                    pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude, address: r.address,
+                    pointType: r.pointType, bedspace: r.bedspace, municipality: r.municipality, country: r.country,
+                    province: r.province, creatorID: r.creatorID, creatorName: r.creatorName, creatorSurname: r.surname
                 }
             }
             )

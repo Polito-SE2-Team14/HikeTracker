@@ -105,14 +105,14 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(user, salt, password, token, verified) {
+function StoreUser(user, salt, password, token, verified=0, approved=0) {
 
 	let { name, surname, email, phoneNumber, type } = user
 
 	return new Promise((resolve, reject) => {
-		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD, TOKEN, VERIFIED) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		let sql = "INSERT INTO User(NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD, TOKEN, VERIFIED, APPROVED) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		db.run(sql, [name, surname, email, phoneNumber, type, salt, password, token, verified], function (err) {
+		db.run(sql, [name, surname, email, phoneNumber, type, salt, password, token, verified, approved], function (err) {
 			if (err) {
 				console.error("Err: ", err)
 				reject(err);
@@ -140,7 +140,7 @@ function StoreUser(user, salt, password, token, verified) {
  * @param {string} token 
  * @returns User object
  */
-exports.Register = async (user, token, verified) => {
+exports.Register = async (user, token, verified, approved) => {
 
 	await CheckExistingUser(user.email, user.phoneNumber)
 		.catch(err => { throw err })
@@ -152,7 +152,7 @@ exports.Register = async (user, token, verified) => {
 
 
 	let finalUser;
-	await StoreUser(user, pass.salt, pass.hashedPassword, token, verified)
+	await StoreUser(user, pass.salt, pass.hashedPassword, token, verified, approved)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 
