@@ -14,7 +14,7 @@ exports.getHuts = () => {
                 return {
                     pointID: r.pointID, name: r.name, latitude: r.latitude, longitude: r.longitude,
                     address: r.address, pointType: r.pointType, bedspace: r.bedspace, hutOwnerID: r.hutOwnerID,
-                    municipality: r.municipality, province: r.province
+                    municipality: r.municipality, province: r.province, creatorID: r.creatorID
                 }
             }
             )
@@ -26,8 +26,8 @@ exports.getHuts = () => {
 exports.createHut = (hut) => {
     return new Promise((resolve, reject) => {
 
-        const sql = "INSERT INTO HUT (hutID, bedspace, hutOwnerID) VALUES (?,?,?)";
-        db.run(sql, [hut.pointID, hut.bedspace, hut.hutOwnerID], function (err, row) {
+        const sql = "INSERT INTO HUT (hutID, bedspace) VALUES (?,?)";
+        db.run(sql, [hut.pointID, hut.bedspace], function (err, row) {
             if (err)
                 reject(err);
             resolve();

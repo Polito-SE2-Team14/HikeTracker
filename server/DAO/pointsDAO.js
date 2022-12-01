@@ -13,7 +13,7 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
         const points = rows.map(row => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province,
-                municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType
+                municipality: row.municipality, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID
             }
         });
         resolve(points);
@@ -43,7 +43,7 @@ exports.getHikePoints = (hikeID) => {
             const points = rows.map((p) => {
                 return {
                     pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude,
-                    municipality: p.municipality, province: p.province, address: p.address, pointType: p.pointType
+                    municipality: p.municipality, province: p.province, address: p.address, pointType: p.pointType, 
                 }
             }
             );
@@ -56,10 +56,10 @@ exports.getHikePoints = (hikeID) => {
 exports.createPoint = (point) => {
     return new Promise((resolve, reject) => {
 
-        let { name, latitude, longitude, municipality, province, address, type } = point
+        let { name, latitude, longitude, municipality, province, address, type, creatorID } = point
 
-        const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType) VALUES (?,?,?,?,?,?,?)";
-        db.run(sql, [name, latitude, longitude, municipality, province, address, type], function (err, row) {
+        const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType, creatorID) VALUES (?,?,?,?,?,?,?,?)";
+        db.run(sql, [name, latitude, longitude, municipality, province, address, type, creatorID], function (err, row) {
 
 
             if (err)

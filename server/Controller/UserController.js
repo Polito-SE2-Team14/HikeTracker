@@ -36,7 +36,7 @@ exports.register = async (newUser) => {
 
 
     let token = crypto.randomBytes(20).toString('hex');
-    const user = await userDAO.Register(newUser, token)
+    const user = await userDAO.Register(newUser, token, 0)
         .catch(err => { throw err });
 
     //EMAIL VERIFICATION

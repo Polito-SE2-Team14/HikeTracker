@@ -11,10 +11,12 @@ const dbManager = Singleton.getInstance();
 const HikeDAO = require('../DAO/hikeDAO');
 const userDAO = require("../DAO/userDAO")
 const pointsDAO = require("../DAO/pointsDAO")
-const hutController = require("../Controller/HutControllerNew")
-const parkingLotController = require("../Controller/ParkingLotControllerNew")
+const hutController = require("../Controller/HutController")
+const parkingLotController = require("../Controller/ParkingLotController")
 
 function hikesCreation() {
+	console.log("Adding hikes")
+
 	const gpx = new gpxParser();
 
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/hikes.json"));
@@ -22,7 +24,6 @@ function hikesCreation() {
 
 	return hikes.map(h => {
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
-
 		gpx.parse(data);
 
 		h.length = Math.round(gpx.tracks[0].distance.total);
@@ -36,16 +37,18 @@ function hikesCreation() {
 }
 
 function usersCreation() {
+	console.log("Adding users")
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/user.json"));
 	const users = JSON.parse(jsonString).users;
 
 	return users.map(u => {
 		//console.log(i++, "- User added")
-		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'))
+		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'), 1)
 	})
 }
 
 function pointsCreation() {
+	console.log("Adding points")
 
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/points.json"));
 	const points = JSON.parse(jsonString).points;
@@ -63,15 +66,57 @@ function pointsCreation() {
 
 }
 
-console.log("Start")
-Promise.resolve(dbManager.clearDb()).then(
-	() => {
-		Promise.all(hikesCreation())
-			.catch((err) => { console.error("Hike", err) })
-		Promise.all(usersCreation())
-			.catch((err) => { console.error("User", err) })
-		Promise.all(pointsCreation())
-			.catch((err) => { console.error("Points", err) })
+function tablesDropping() {
+	console.log("TableDropping")
+	const commands = [
+		` DROP TABLE IF EXISTS HUT;`,
+		`DROP TABLE IF EXISTS PARKINGLOT;`,
+		`DROP TABLE IF EXISTS HIKEREFERENCEPOINT;`,
+		`DROP TABLE IF EXISTS POINT;`,
+		`DROP TABLE IF EXISTS HIKE;`,
+		`DROP TABLE IF EXISTS USER;`,
+		`DROP TABLE IF EXISTS HIKEGROUP;`,
+		`DROP TABLE IF EXISTS HIKEGROUPMEMBER;`,
+		`DROP TABLE IF EXISTS HUTWORKER;`
+	]
+	return commands.map(sql => dbManager.createDropTables(sql))
 
-		console.log("Finish")
+}
+
+function tablesCreations() {
+	console.log("TableCreation")
+	const commands = [
+		` CREATE TABLE USER (userID INTEGER PRIMARY KEY,name TEXT,surname TEXT,email TEXT,phoneNumber TEXT,type TEXT,salt TEXT,	hashedPassword TEXT,verified INTEGER,token TEXT);`,
+		` CREATE TABLE POINT(pointID INTEGER PRIMARY KEY,name TEXT,latitude REAL,longitude REAL,address TEXT,municipality TEXT,province TEXT,pointType TEXT NOT NULL,creatorID INTEGER);`,
+		` CREATE TABLE HUT (hutID INTEGER PRIMARY KEY,bedspace INTEGER);`,
+		` CREATE TABLE PARKINGLOT(parkingLotId INTEGER PRIMARY KEY,	carspace INTEGER);`,
+		` CREATE TABLE HIKEREFERENCEPOINT(hikeID INTEGER NOT NULL,referencePointId INTEGER NOT NULL,PRIMARY KEY(hikeID, referencePointId));`,
+		` CREATE TABLE HIKE(hikeID INTEGER PRIMARY KEY,title TEXT,length INTEGER,expectedTime INTEGER,ascent INTEGER,difficulty TEXT,startPointID INTEGER,endPointID INTEGER,description TEXT,municipality TEXT,province TEXT,creatorID INTEGER	);`,
+		` CREATE TABLE HIKEGROUP(groupID INTEGER NOT NULL,hikeID INTEGER NOT NULL,leaderID INTEGER NOT NULL,PRIMARY KEY(groupID, hikeID));`,
+		` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
+		` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
+	]
+	return commands.map(sql => dbManager.createDropTables(sql))
+
+}
+
+console.log("Start")
+
+Promise.all(tablesDropping())
+	.then(() => {
+		Promise.all(tablesCreations())
+			.catch((err) => { console.error("TablesCreation", err) })
+			.then(() => {
+				Promise.all(hikesCreation())
+					.catch((err) => { console.error("Hike", err) })
+			}).then(() => {
+				Promise.all(usersCreation())
+					.catch((err) => { console.error("User", err) })
+			}).then(() => {
+				Promise.all(pointsCreation())
+					.catch((err) => { console.error("Points", err) })
+			})
+			.then(() => {
+				console.log("Finish")
+			})
 	})

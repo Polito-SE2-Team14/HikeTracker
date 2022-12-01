@@ -25,7 +25,8 @@ exports.getAllParkingLots = () => {
 					longitude: r.longitude,
 					pointID: r.pointID,
 					address: r.address,
-					pointType: r.pointType
+					pointType: r.pointType,
+					creatorID: r.creatorID
 				}
 			});
 			resolve(pLots);
@@ -81,7 +82,7 @@ exports.addParkingLot = (pointID, carspace) => {
 exports.deleteParkingLot = (id) => {
 	return new Promise((resolve, reject) => {
 		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`, (err) => {
-			if (err) 
+			if (err)
 				reject(err);
 			resolve();
 		})

@@ -28,12 +28,12 @@ CREATE TABLE POINT(
 	address TEXT,
 	municipality TEXT,
 	province TEXT,
-	pointType TEXT NOT NULL
+	pointType TEXT NOT NULL,
+	creatorID INTEGER
 );
 CREATE TABLE HUT (
 	hutID INTEGER PRIMARY KEY,
-	bedspace INTEGER,
-	hutOwnerID INTEGER
+	bedspace INTEGER
 );
 CREATE TABLE PARKINGLOT (
 	parkingLotId INTEGER PRIMARY KEY,
@@ -55,7 +55,8 @@ CREATE TABLE HIKE (
 	endPointID INTEGER,
 	description TEXT,
 	municipality TEXT,
-	province TEXT
+	province TEXT,
+	creatorID INTEGER
 );
 CREATE TABLE HIKEGROUP(
 	groupID INTEGER NOT NULL,
@@ -153,26 +154,26 @@ INSERT INTO POINT(pointID, name, latitude, longitude, address, municipality, pro
 		(49, "generic#17", "123", "456", "address49", "Refrancore", "Asti", "generic"),
 		(50, "generic#18", "123", "456", "address50", "Settimo", "Torino", "generic");
 
-INSERT INTO HUT (hutID, bedspace, hutOwnerID) 
+INSERT INTO HUT (hutID, bedspace) 
 	VALUES
-		(1, 50, 3),
-		(3, 48, 3),
-		(6, 45, 3),
-		(7, 44, 3),
-		(8, 43, 3),
-		(9, 42, 3),
-		(10, 41, 3),
-		(11, 40, 3),
-		(12, 39, 3),
-		(13, 38, 3),
-		(14, 37, 3),
-		(15, 36, 3),
-		(16, 35, 3),
-		(17, 34, 3),
-		(18, 33, 2),
-		(19, 32, 2),
-		(20, 31, 2),
-		(21, 30, 2);
+		(1, 50),
+		(3, 48),
+		(6, 45),
+		(7, 44),
+		(8, 43),
+		(9, 42),
+		(10, 41),
+		(11, 40),
+		(12, 39),
+		(13, 38),
+		(14, 37),
+		(15, 36),
+		(16, 35),
+		(17, 34),
+		(18, 33),
+		(19, 32),
+		(20, 31),
+		(21, 30);
 
 INSERT INTO PARKINGLOT (parkingLotId, carspace)
 	VALUES

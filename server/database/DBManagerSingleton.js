@@ -2,19 +2,14 @@ const DBManager = require('./DBManager')
 class Singleton {
 
     static #instance = null;
-    static #testInstance = false;
+
+    static #test = true;
 
     static getInstance() {
         if (this.#instance == null) {
-            this.#instance = new DBManager("testDB")
-        }
-        return this.#instance;
-    }
-
-    static getTestInstance() {
-        if (this.#instance == null || !this.#testInstance) {
-            this.#instance = new DBManager("testDB")
-            this.#testInstance = true
+            if (this.#test === true)
+                this.#instance = new DBManager("./dbFiles/testDB")
+            else this.#instance = new DBManager("myDB")
         }
         return this.#instance;
     }

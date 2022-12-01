@@ -1,4 +1,4 @@
-const path = require("path"); 
+const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
 
@@ -7,7 +7,7 @@ class DBManager {
     #db;
     constructor(dbName) {
         // open the database
-        this.#db = new sqlite.Database(path.join(__dirname, './dbFiles/' + dbName + ".sqlite"), (err) => {
+        this.#db = new sqlite.Database(path.join(__dirname, './' + dbName + ".sqlite"), (err) => {
             if (err) {
                 console.error("error db manager", err)
                 throw err;
@@ -20,7 +20,7 @@ class DBManager {
         return this.#db
     }
 
-     async clearDb() {
+    async clearDb() {
         let db = this.#db;
         return new Promise(function (resolve, reject) {
             db.run("DELETE FROM USER WHERE 1=1;")
@@ -56,7 +56,7 @@ class DBManager {
             console.log("done")
             resolve();
         })
-    } 
+    }
 
     async populateUser(users) {
         let db = this.#db;
@@ -85,6 +85,19 @@ class DBManager {
             )
         ))).catch(err => { throw err });
     }
+
+
+    async createDropTables(sql) {
+        let db = this.#db;
+        return new Promise((resolve, reject) => {
+            db.run(sql, err => {
+                if (err) { console.error(sql, err); reject(err); }
+                else resolve();
+            })
+        })
+    }
+
+
 }
 
 module.exports = DBManager

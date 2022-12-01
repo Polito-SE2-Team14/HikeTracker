@@ -34,7 +34,8 @@ exports.getAllHikes = function () {
 							endPointID: h.endPointID,
 							municipality: h.municipality,
 							province: h.province,
-							track: getTrack(h.hikeID)
+							track: getTrack(h.hikeID),
+							creatorID: h.creatorID
 						};
 					}
 				);
@@ -97,14 +98,14 @@ exports.getHike = function (wantedID) {
 exports.addHike = function (newHike) {
 
 	let { title, length, expectedTime, ascent, difficulty, description,
-		startPointID, endPointID, municipality, province, track } = newHike
+		startPointID, endPointID, municipality, province, track, creatorID } = newHike
 
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province, creatorID) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
 			[
 				title, length, expectedTime, ascent, difficulty, description,
-				startPointID, endPointID, municipality, province
+				startPointID, endPointID, municipality, province,creatorID
 			],
 			function (err) {
 				if (err)
