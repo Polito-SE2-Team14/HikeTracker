@@ -100,15 +100,15 @@ exports.getHike = function (wantedID) {
  */
 exports.addHike = function (newHike) {
 
-	let { title, length, expectedTime, ascent, difficulty, description,
+	let { title, length, expectedTime, ascent, difficulty, description, country,
 		startPointID, endPointID, municipality, province, track, creatorID } = newHike
 
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province, creatorID) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,country,municipality,province, creatorID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 			[
 				title, length, expectedTime, ascent, difficulty, description,
-				startPointID, endPointID, municipality, province, creatorID
+				startPointID, endPointID, country, municipality, province, creatorID
 			],
 			function (err) {
 				if (err)
@@ -129,6 +129,7 @@ exports.addHike = function (newHike) {
 							endPointID: endPointID,
 							municipality: municipality,
 							province: province,
+							country: country,
 							track: track
 						}
 					);

@@ -57,10 +57,10 @@ exports.getHikePoints = (hikeID) => {
 exports.createPoint = (point) => {
     return new Promise((resolve, reject) => {
 
-        let { name, latitude, longitude, municipality, province, address, type, creatorID } = point
+        let { name, latitude, longitude, municipality, province, country, address, type, creatorID } = point
 
-        const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, address, pointType, creatorID) VALUES (?,?,?,?,?,?,?,?)";
-        db.run(sql, [name, latitude, longitude, municipality, province, address, type, creatorID], function (err, row) {
+        const sql = "INSERT INTO POINT (name, latitude, longitude, municipality, province, country, address, pointType, creatorID) VALUES (?,?,?,?,?,?,?,?,?)";
+        db.run(sql, [name, latitude, longitude, municipality, province, country, address, type, creatorID], function (err, row) {
 
 
             if (err)

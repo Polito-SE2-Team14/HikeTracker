@@ -12,7 +12,7 @@ exports.getHuts = async () => {
 
 exports.createHut = async (hut) => {
 
-	let { name, latitude, longitude, municipality, province, address, bedspace, creatorID } = hut
+	let { name, latitude, longitude, municipality, province, address, bedspace, creatorID, country } = hut
 
 	if (typeof name != "string")
 		throw Error("Type error with name")
@@ -33,7 +33,7 @@ exports.createHut = async (hut) => {
 
 	let pointID;
 	await pointsDAO.createPoint({
-		name: name, latitude: Number(latitude), longitude: Number(longitude),
+		name: name, latitude: Number(latitude), longitude: Number(longitude), country: country,
 		address: address, municipality: municipality, province: province, type: "hut", creatorID: Number(creatorID)
 	})
 		.then(newID => pointID = newID)

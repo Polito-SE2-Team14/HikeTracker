@@ -25,12 +25,12 @@ exports.parkingLotExists = async (pLotId) => {
 
 exports.addParkingLot = async (newPLot) => {
 
-	let { name, latitude, longitude, municipality, province, address, carspace, creatorID } = newPLot
+	let { name, latitude, longitude, municipality, province, address, carspace, creatorID, country } = newPLot
 
 
 	let pointID;
 	await pointsDAO.createPoint({
-		name: name, latitude: Number(latitude), longitude: Number(longitude),
+		name: name, latitude: Number(latitude), longitude: Number(longitude), country: country,
 		address: address, municipality: municipality, province: province, type: "parkinglot", creatorID: Number(creatorID)
 	})
 		.then(newID => pointID = newID)
