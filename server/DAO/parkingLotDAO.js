@@ -10,14 +10,17 @@ const db = dbManager.getDB();
 
 exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
-		db.all(`SELECT pointID, carspace, municipality, province, country,
-				latitude, longitude, address, creatorID, U.name as creatorName, surname 
-				FROM POINT P, PARKINGLOT PA, USER U
-				WHERE P.pointID = PA.parkingLotId
-				AND pointType = 'parkinglot'
-				AND U.userID = P.creatorID`, (err, rows) => {
-			if (err)
+		const sql = `SELECT pointID, P.name, carspace, municipality, province, country,
+		latitude, longitude, address, creatorID, U.name as creatorName, surname 
+		FROM POINT P, PARKINGLOT PA, USER U
+		WHERE P.pointID = PA.parkingLotId
+		AND pointType = 'parkinglot'
+		AND U.userID = P.creatorID`
+		db.all(sql, (err, rows) => {
+			if (err) {
+				console.error(err)
 				reject(err);
+			}
 			const pLots = rows.map(r => {
 				return {
 					pLotId: r.pointID,

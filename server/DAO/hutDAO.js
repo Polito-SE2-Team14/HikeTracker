@@ -6,7 +6,10 @@ const db = dbManager.getDB();
 
 exports.getHuts = () => {
 	return new Promise((resolve, reject) => {
-		const sql = `SELECT pointID, P.name, latitude, longitude, address, pointType, bedspace, municipality, province, country, U.name AS creatorName, surname, creatorID FROM POINT P, HUT H, USER U WHERE P.pointID = H.hutID AND pointType = 'hut' AND U.userID = P.creatorID`;
+		const sql =
+			`SELECT pointID, P.name, latitude, longitude, address, pointType, bedspace, municipality, province, country, U.name AS creatorName, surname, creatorID 
+		FROM POINT P, HUT H, USER U
+		WHERE P.pointID = H.hutID AND pointType = 'hut' AND U.userID = P.creatorID`;
 		db.all(sql, (err, rows) => {
 			if (err) reject(err);
 			let huts = rows.map((r) => {
@@ -46,7 +49,7 @@ exports.updateHut = (hut) => {
 		const sql = "UPDATE HUT SET bedspace = ? WHERE hutID = ?";
 		db.run(
 			sql,
-			[hut.bedspace,  hut.pointID],
+			[hut.bedspace, hut.pointID],
 			function (err, row) {
 				if (err) reject(err);
 				resolve();
