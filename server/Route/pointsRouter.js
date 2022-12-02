@@ -9,7 +9,7 @@ router.get('', async (req, res) => {
 		.then(points => res.json(points))
 		.catch((err) => {
 			console.error(err);
-			return res.status(500).end
+			return res.status(500).end();
 		});
 });
 
@@ -19,7 +19,7 @@ router.get('/huts', async (req, res) => {
 		.then(huts => { { console.log(huts.map(h => h.pointID)); return res.status(200).json(huts)} })
 		.catch((err) => {
 			console.error(err);
-			return res.status(500).end
+			return res.status(500).end();
 		});
 
 });
@@ -31,7 +31,7 @@ router.get('/:pointID',
 			.then(points => res.json(points))
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -51,7 +51,7 @@ router.post('/huts',
 			.then(hut => res.status(204).json(hut))
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -70,7 +70,7 @@ router.put('/huts',
 			.then(hut => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -82,7 +82,7 @@ router.delete('/huts/:hutID',
 			.then(() => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	})
 
