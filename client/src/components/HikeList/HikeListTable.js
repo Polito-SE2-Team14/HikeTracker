@@ -21,14 +21,14 @@ function HikeListTable(props) {
 	return (
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 			{props.hikes.filter((h)=>h.show).map((hike, i) => (
-				<div key={i}>
+				<Col key={i}>
 					<HikeListItem
 						user={props.user}
 						hike={hike}
 						setHikes={props.setHikes}
 						handleEditForm={handleShowEditForm}
 					/>
-				</div>
+				</Col>
 			))}
 		</Row>
 	);

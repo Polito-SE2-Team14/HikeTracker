@@ -31,11 +31,13 @@ export function HikeModal(props) {
 		}
 	}
 
+	// TODO(antonio): fix field in the database
 	let getMarkers = async () => {
-		let start = await PointAPI.getPoint(hike.startPointID);
-		let end = await PointAPI.getPoint(hike.endPointID);
+		//let start = await PointAPI.getPoint(hike.startPointID);
+		//let end = await PointAPI.getPoint(hike.endPointID);
 
-		setMarkers([start, end]);
+
+		setMarkers([,]);
 	};
 
 	useEffect(() => {

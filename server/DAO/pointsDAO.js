@@ -28,6 +28,7 @@ exports.getPoint = (pointID) => {
         db.get(sql, params, (err, row) => {
             if (err)
                 reject(err);
+
             resolve(row);
         })
     });

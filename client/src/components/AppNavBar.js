@@ -1,6 +1,6 @@
 import "../styles/AppNavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCircleUser, faRightToBracket, faCarSide, faHouse, faPersonHiking, faCompass } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCircleUser, faRightToBracket, faCarSide, faHouse, faPersonHiking, faCompass, faClipboardList } from "@fortawesome/free-solid-svg-icons";
 
 import {
 	Button,
@@ -98,6 +98,9 @@ function SideBar(props) {
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
+				<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
+						<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
+					</ListGroup.Item>
 					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
 						<SideBarElement icon={<FontAwesomeIcon icon={faCompass} />} name="Home Page" />
 					</ListGroup.Item>
