@@ -9,7 +9,7 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 
 const HikeDAO = require('../DAO/hikeDAO');
-const userDAO = require("../DAO/userDAO")
+const userDAO = require("../DAO/UserDAO")
 const pointsDAO = require("../DAO/pointsDAO")
 const hutController = require("../Controller/HutController")
 const parkingLotController = require("../Controller/ParkingLotController")
