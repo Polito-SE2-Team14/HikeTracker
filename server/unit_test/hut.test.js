@@ -6,7 +6,7 @@ describe('Hut Tests', () => {
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
-                    address: "addressTest", bedspace: 5, hutOwnerID: 1
+                    address: "addressTest", bedspace: 5, creatorID: 1
                 }
             )
                 .then(value => hut = value)
@@ -22,7 +22,7 @@ describe('Hut Tests', () => {
             expect(hut.longitude).toBe(12931);
             expect(hut.address).toBe("addressTest");
             expect(hut.bedspace).toBe(5);
-            expect(hut.hutOwnerID).toBe(1);
+            expect(hut.creatorID).toBe(1);
         });
 
         test("Invalid name", async () => {
@@ -118,9 +118,13 @@ describe('Hut Tests', () => {
             let hut = await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
-                    address: "addressTest", bedspace: 1, hutOwnerID: 1
+                    address: "addressTest", bedspace: 1, creatorID: 1
                 }
             )
+
+            let huts = await hutController.getHuts()
+
+            expect(huts[0].name).toBe("nameTest")
 
             hut.name = "nameTestUpdated"
             hut.latitude = 456
@@ -132,7 +136,6 @@ describe('Hut Tests', () => {
             hut.hutOwnerID = 2
 
             await hutController.updateHut(hut)
-            let huts = await hutController.getHuts()
 
             huts = huts.filter((h) => {
                 return h.pointID === hut.pointID

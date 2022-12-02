@@ -89,8 +89,10 @@ exports.updatePoint = (point) => {
     return new Promise((resolve, reject) => {
         const sql = "UPDATE POINT SET name = ?, latitude = ?, longitude = ?, address = ?, municipality=?, province=? WHERE pointID = ?";
         db.run(sql, [name, latitude, longitude, address, municipality, province, pointID], function (err, row) {
-            if (err)
+            if (err) {
+                conseole.error(err)
                 reject(err);
+            }
             resolve();
         })
     })

@@ -29,7 +29,7 @@ exports.createHut = async (hut) => {
 	if (isNaN(bedspace))
 		throw Error("Type error with bedspace")
 	if (isNaN(creatorID))
-		throw Error("Type error with hutownerID")
+		throw Error("Type error with creatorID")
 
 	let pointID;
 	await pointsDAO.createPoint({
@@ -54,14 +54,14 @@ exports.createHut = async (hut) => {
 		longitude: hut.longitude,
 		address: hut.address,
 		bedspace: hut.bedspace,
-		hutOwnerID: hut.hutOwnerID
+		creatorID: hut.creatorID
 	}
 	return hutToBeReturned;
 }
 
 exports.updateHut = async (hut) => {
 
-	let { name, latitude, longitude, municipality, province, address, bedspace, hutOwnerID } = hut
+	let { name, latitude, longitude, municipality, province, address, bedspace, creatorID } = hut
 
 	if (typeof name != "string")
 		throw Error("Type error with name")
@@ -77,8 +77,8 @@ exports.updateHut = async (hut) => {
 		throw Error("Type error with address")
 	if (isNaN(bedspace))
 		throw Error("Type error with bedspace")
-	if (isNaN(hutOwnerID))
-		throw Error("Type error with hutownerID")
+	if (isNaN(creatorID))
+		throw Error("Type error with creatorID")
 
 	await pointsDAO.updatePoint(hut)
 		.catch(err => { throw err })

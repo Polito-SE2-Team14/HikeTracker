@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-const dbManager = require("../database/DBManagerSingleton").getTestInstance();
+const dbManager = require("../database/DBManagerSingleton").getInstance();
 const db = dbManager.getDB();
 const { Register } = require("../DAO/UserDAO");
 const userController = require("../Controller/UserController")

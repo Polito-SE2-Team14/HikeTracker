@@ -43,10 +43,10 @@ exports.createHut = (hut) => {
 
 exports.updateHut = (hut) => {
 	return new Promise((resolve, reject) => {
-		const sql = "UPDATE HUT SET bedspace = ?, hutOwnerID = ? WHERE hutID = ?";
+		const sql = "UPDATE HUT SET bedspace = ? WHERE hutID = ?";
 		db.run(
 			sql,
-			[hut.bedspace, hut.hutOwnerID, hut.pointID],
+			[hut.bedspace,  hut.pointID],
 			function (err, row) {
 				if (err) reject(err);
 				resolve();
