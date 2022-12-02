@@ -17,10 +17,9 @@ exports.getUser = async (userID) => {
     return user;
 }
 
-exports.register = async (newUser) => {
+exports.register = async (newUser, verified , approved ) => {
 
     let { name, surname, email, phoneNumber, type } = newUser
-
 
     if (typeof name != "string")
         throw Error("Type error with name")
@@ -31,16 +30,15 @@ exports.register = async (newUser) => {
     if (isNaN(phoneNumber))
         throw Error("Type error with phoneNumber")
     if (typeof type != "string" || !["localGuide", "hiker", "hutWorker"].includes(type))
-        throw Error("Type error with difficulty")
-
-
+        throw Error("Type error with type")
 
     let token = crypto.randomBytes(20).toString('hex');
-    const user = await userDAO.Register(newUser, token, 0)
+    const user = await userDAO.Register(newUser, token, verified, approved)
         .catch(err => { throw err });
 
-    //EMAIL VERIFICATION
-    await this.sendVerificationEmail(user.token, user.email);
+        //EMAIL VERIFICATION
+    if (verified !== 1)
+        await this.sendVerificationEmail(user.token, user.email);
 
     return user;
 

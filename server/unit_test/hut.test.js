@@ -1,12 +1,29 @@
 const hutController = require("../Controller/HutController");
+const dbManager = require("../database/DBManagerSingleton").getInstance()
+const userController = require("../Controller/UserController")
+const crypto = require("crypto");
+
+beforeEach(async () => await dbManager.clearDb());
+afterEach(async () => await dbManager.clearDb());
+
+
 describe('Hut Tests', () => {
     describe("creation of new hut", () => {
         test("Valid insertion a new hut", async () => {
-            let hut
+            let hut, user
+            await userController.register({
+                name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+                type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+            }, 1, 1)
+                .then(u => {
+                    user = u;
+                })
+                .catch(err => { console.error(err); throw err; });
+
             await hutController.createHut(
                 {
                     pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
-                    address: "addressTest", bedspace: 5, creatorID: 1
+                    address: "addressTest", bedspace: 5, creatorID: user.userID
                 }
             )
                 .then(value => hut = value)
@@ -115,44 +132,51 @@ describe('Hut Tests', () => {
     describe("Update of new hut", () => {
         test("Valid update of a hut", async () => {
 
-            let hut = await hutController.createHut(
-                {
-                    pointID: 0, name: "nameTest", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
-                    address: "addressTest", bedspace: 1, creatorID: 1
-                }
-            )
 
-            let huts = await hutController.getHuts()
+            await userController.register({
+                name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+                type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+            }, 1, 1)
+                .then(u => {
+                    user = u;
+                })
+                .catch(err => { console.error(err); throw err; });
 
-            expect(huts[0].name).toBe("nameTest")
+            let oldHut = {
+                name: "nameTest", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",
+                address: "addressTest", bedspace: 1, creatorID: 1
+            }
 
-            hut.name = "nameTestUpdated"
-            hut.latitude = 456
-            hut.longitude = 456
-            hut.municipality = "Caivano"
-            hut.province = "Naples"
-            hut.address = "addressTestUpdated"
-            hut.bedspace = 2
-            hut.hutOwnerID = 2
+            oldHut = await hutController.createHut(oldHut)
 
-            await hutController.updateHut(hut)
 
-            huts = huts.filter((h) => {
-                return h.pointID === hut.pointID
+            oldHut.name = "nameTestUpdated"
+            oldHut.latitude = 456
+            oldHut.longitude = 456
+            oldHut.municipality = "Caivano"
+            oldHut.province = "Naples"
+            oldHut.address = "addressTestUpdated"
+            oldHut.bedspace = 2
+            oldHut.hutOwnerID = 2
+
+            await hutController.updateHut(oldHut)
+
+            let allHuts = await hutController.getHuts()
+
+            allHuts = allHuts.filter((h) => {
+                return h.pointID === oldHut.pointID
             })
-            if (huts.length !== 1)
+            if (allHuts.length !== 1)
                 throw Error()
-            let updatedHut = huts[0]
+            let updatedHut = allHuts[0]
 
-            expect(updatedHut.pointID).toBe(hut.pointID);
-            expect(updatedHut.name).toBe(hut.name);
-            expect(updatedHut.latitude).toBe(hut.latitude);
-            expect(updatedHut.longitude).toBe(hut.longitude);
-            expect(updatedHut.address).toBe(hut.address);
-            expect(updatedHut.bedspace).toBe(hut.bedspace);
-            expect(updatedHut.hutOwnerID).toBe(hut.hutOwnerID);
-            expect(updatedHut.municipality).toBe(hut.municipality)
-            expect(updatedHut.province).toBe(hut.province)
+            expect(updatedHut.name).toBe(oldHut.name);
+            expect(updatedHut.latitude).toBe(oldHut.latitude);
+            expect(updatedHut.longitude).toBe(oldHut.longitude);
+            expect(updatedHut.address).toBe(oldHut.address);
+            expect(updatedHut.bedspace).toBe(oldHut.bedspace);
+            expect(updatedHut.municipality).toBe(oldHut.municipality)
+            expect(updatedHut.province).toBe(oldHut.province)
 
 
         });

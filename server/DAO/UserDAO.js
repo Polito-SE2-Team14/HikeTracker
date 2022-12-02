@@ -120,7 +120,7 @@ function StoreUser(user, salt, password, token, verified=0, approved=0) {
 
 			let newUser = {
 				userID: this.lastID, name: name, surname: surname, email: email,
-				phoneNumber: phoneNumber, type: type, token: token, verified: user.verified
+				phoneNumber: phoneNumber, type: type, token: token, verified: verified, approved: approved
 			}
 			resolve(newUser);
 
