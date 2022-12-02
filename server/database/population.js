@@ -90,7 +90,7 @@ function tablesCreations() {
 		` CREATE TABLE POINT(pointID INTEGER PRIMARY KEY,name TEXT,description TEXT, altitude REAL, latitude REAL,longitude REAL,address TEXT,municipality TEXT,province TEXT,country TEXT, pointType TEXT NOT NULL,creatorID INTEGER);`,
 		` CREATE TABLE HUT (hutID INTEGER PRIMARY KEY,bedspace INTEGER, phoneNumber TEXT, website TEXT, email TEXT);`,
 		` CREATE TABLE PARKINGLOT(parkingLotId INTEGER PRIMARY KEY,	carspace INTEGER);`,
-		` CREATE TABLE HIKEREFERENCEPOINT(hikeID INTEGER NOT NULL,referencePointId INTEGER NOT NULL,PRIMARY KEY(hikeID, referencePointId));`,
+		` CREATE TABLE HIKEREFERENCEPOINT(hikeID INTEGER NOT NULL,referencePointID INTEGER NOT NULL,PRIMARY KEY(hikeID, referencePointId));`,
 		` CREATE TABLE HIKE(hikeID INTEGER PRIMARY KEY,title TEXT,length INTEGER,expectedTime INTEGER,ascent INTEGER,difficulty TEXT,startPointID INTEGER,endPointID INTEGER,description TEXT,municipality TEXT,province TEXT,country TEXT,creatorID INTEGER	);`,
 		` CREATE TABLE HIKEGROUP(groupID INTEGER NOT NULL,hikeID INTEGER NOT NULL,leaderID INTEGER NOT NULL,PRIMARY KEY(groupID, hikeID));`,
 		` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,

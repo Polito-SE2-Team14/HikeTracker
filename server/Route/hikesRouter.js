@@ -69,6 +69,23 @@ router.get(
 	}
 )
 
+router.get("/referencePoints/:hikeID",
+	async (req, res) => {
+
+		const hikeID = req.params.hikeID
+
+		await hikeController
+			.getReferencePointsForHike(hikeID)
+			.then((msg) => {
+				return res.status(201).json(msg);
+			})
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
+
+	})
+
 // POST request to /api/hikes to add a new hike
 router.post("",
 	body(["title", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
@@ -92,6 +109,24 @@ router.post("",
 
 	}
 );
+
+router.post("/referencePoints",
+	async (req, res) => {
+
+		const hikeID = req.body.hikeID;
+		const referencePointID = req.body.referencePointID;
+
+		await hikeController
+			.addReferencePoint(hikeID, referencePointID)
+			.then((msg) => {
+				return res.status(201).json(msg);
+			})
+			.catch((err) => {
+				console.error(err);
+				return res.status(500).end
+			});
+
+	})
 
 
 // PUT request to /api/hikes to update an existing hike
@@ -179,4 +214,4 @@ router.delete("/:hikeID",
 
 	});
 
-	module.exports = router;
+module.exports = router;

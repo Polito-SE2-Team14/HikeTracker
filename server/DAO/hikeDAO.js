@@ -14,7 +14,7 @@ const path = require("path");
  */
 exports.getAllHikes = function () {
 	return new Promise((resolve, reject) => {
-		const sql =`SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID`;
+		const sql = `SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID`;
 		db.all(sql, [], (err, rows) => {
 			if (err) {
 				reject(err);
@@ -23,25 +23,16 @@ exports.getAllHikes = function () {
 				const hikes = rows.map(
 					(h) => {
 						return {
-							hikeID: h.hikeID,
-							title: h.title,
-							length: h.length,
-							expectedTime: h.expectedTime,
-							ascent: h.ascent,
-							difficulty: h.difficulty,
-							description: h.description,
-							startPointID: h.startPointID,
-							endPointID: h.endPointID,
-							municipality: h.municipality,
-							province: h.province,
-							country: h.country,
-							track: getTrack(h.hikeID),
-							creatorID: h.creatorID,
-							creatorName: h.name,
-							creatorSurname: h.surname
+							hikeID: h.hikeID, title: h.title,
+							length: h.length, expectedTime: h.expectedTime,
+							ascent: h.ascent, difficulty: h.difficulty,
+							description: h.description, startPointID: h.startPointID,
+							endPointID: h.endPointID, municipality: h.municipality,
+							province: h.province, country: h.country,
+							track: getTrack(h.hikeID), creatorID: h.creatorID,
+							creatorName: h.name, creatorSurname: h.surname
 						};
-					}
-				);
+					});
 				resolve(hikes);
 			}
 			catch (e) {
@@ -61,7 +52,7 @@ exports.check_hike = function (wantedID) {
 	return new Promise((resolve, reject) => {
 		db.get(`SELECT * FROM HIKE WHERE hikeID=?`, [wantedID], (err, row) => {
 			if (err) {
-				// TODO(antonio): better error handling
+				console.error(err)
 				reject(err);
 			}
 
@@ -92,6 +83,19 @@ exports.getHike = function (wantedID) {
 			}
 		});
 	});
+}
+
+exports.getReferencePointsForHike = function (hikeID) {
+	console.log(hikeID)
+	return new Promise((resolve, reject) => {
+		db.all("SELECT referencePointID FROM HIKEREFERENCEPOINT WHERE hikeID = ? ",
+			[hikeID],
+			(err, rows) => {
+				if (err) { console.error(err); reject(err) }
+
+				resolve({ referencePointIDs: rows.map(r => r.referencePointID) })
+			})
+	})
 }
 
 /**
@@ -140,6 +144,25 @@ exports.addHike = function (newHike) {
 			}
 		);
 	});
+}
+
+
+exports.addReferencePoint = function (hikeID, referencePointID) {
+
+	//let referencePointID = 0 //TODO to be defined
+
+	return new Promise((resolve, reject) => {
+
+		db.run("INSERT INTO HIKEREFERENCEPOINT (hikeID, referencePointID) VALUES (?,?)",
+			[hikeID, referencePointID],
+			function (err) {
+				if (err) {
+					console.error(err)
+					reject(err)
+				}
+				resolve()
+			})
+	})
 }
 
 /**

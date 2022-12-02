@@ -2,18 +2,21 @@ const hikeDAO = require("../DAO/hikeDAO");
 
 
 exports.getAllHikes = async () => {
-	const hikes = await hikeDAO.getAllHikes().catch(() => {
-		throw Error();
-	});
+	const hikes = await hikeDAO.getAllHikes()
+		.catch(err => { throw err });
 	return hikes;
 }
 
 exports.getHike = async (hikeID) => {
-	const hike = await hikeDAO.getHike(hikeID).catch((err) => {
-		throw Error();
-	});
-
+	const hike = await hikeDAO.getHike(hikeID)
+		.catch(err => { throw err });
 	return hike;
+}
+
+exports.getReferencePointsForHike = async (hikeID) => {
+	const points = await hikeDAO.getReferencePointsForHike(hikeID)
+		.catch(err => { throw err });
+	return points;
 }
 
 exports.addHike = async (hike) => {
@@ -44,6 +47,17 @@ exports.addHike = async (hike) => {
 	});
 
 	return addedHike;
+}
+
+exports.addReferencePoint = async (hikeID, referencePointID) => {
+	await hikeDAO
+		.addReferencePoint(hikeID, referencePointID)
+		.then((msg) => {
+			return msg;
+		})
+		.catch((err) => {
+			throw err;
+		});
 }
 
 exports.updateHike = async (hike) => {
