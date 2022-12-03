@@ -22,6 +22,7 @@ const getAllParkingLots = async () => {
 					province: pL.province,
 					latitude: Number(pL.latitude),
 					longitude: Number(pL.longitude),
+					pointType: pL.pointType,
 					address: pL.address,
 					country: pL.country,
 					creatorName: pL.creatorName,

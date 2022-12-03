@@ -13,6 +13,7 @@ import {
 	Marker,
 	Circle,
 	useMapEvents,
+	Popup,
 } from "react-leaflet";
 import { getLatLon } from "../HikeData";
 import { HikeMarker, HikePath, TrackMarker } from "./MapElements";
@@ -24,6 +25,8 @@ import {
 	faUpDownLeftRight,
 } from "@fortawesome/free-solid-svg-icons";
 
+import Slider from "@mui/material/Slider";
+
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
 	let track = props.track;
@@ -33,19 +36,24 @@ export function HikeMap(props) {
 			return "track not available"; // TODO(antonio): put loading animation
 		} else {
 			return (
-				<MapContainer center={track[Math.round(track.length / 2)]} zoom={13} scrollWheelZoom={false}>
+				<MapContainer
+					center={track[Math.round(track.length / 2)]}
+					zoom={13}
+					scrollWheelZoom={false}
+				>
 					<TileLayer
 						attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
 								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
-					{props.markers ?
-						props.markers.map((m, i) => <TrackMarker key={i} position={m} />) :
+					{props.markers ? (
+						props.markers.map((m, i) => <TrackMarker key={i} position={m} />)
+					) : (
 						<div>
 							<TrackMarker position={track[0]} start />
 							<TrackMarker position={track[track.length - 1]} />
 						</div>
-					}
+					)}
 					<HikePath positions={track} />
 				</MapContainer>
 			);
@@ -120,7 +128,7 @@ export function AreaSelectMap(props) {
 					/>
 				) : (
 					<>
-						<Marker position={position} />
+						<Marker position={position}/>
 						<Circle center={position} radius={radius} />
 					</>
 				)}
@@ -143,28 +151,16 @@ export function AreaSelectMap(props) {
                }
             `}
 			</style>
-			<Container>
 				<Row>
 					<Col>
 						{map ? (
 							<>
-								<Row xs={2} className="d-flex align-items-end mb-2">
-									<Col>
-										<Row>
-											<Col className="d-flex justify-content-center">
-												<GpsTrackButton map={map} setPosition={setPosition} />
-											</Col>
-											<Col className="d-flex justify-content-center">
-												<SelectPositionButton
-													map={map}
-													selectPosition={selectPosition}
-													setSelectPosition={setSelectPosition}
-												/>
-											</Col>
-										</Row>
-									</Col>
-									<Col>
+								<Row className="mb-1">
+									<Col xs={7}>
 										<CircleAreaForm radius={radius} setRadius={setRadius} />
+									</Col>
+									<Col className="d-flex align-items-center justify-content-end">
+										{`${(radius/1000).toFixed(1)} Km`}
 									</Col>
 								</Row>
 							</>
@@ -174,7 +170,18 @@ export function AreaSelectMap(props) {
 					</Col>
 				</Row>
 				<Row className="mb-2">{displayMap}</Row>
-			</Container>
+				<Row>
+					<Col className="d-flex justify-content-center">
+						<GpsTrackButton map={map} setPosition={setPosition} />
+					</Col>
+					<Col className="d-flex justify-content-center">
+						<SelectPositionButton
+							map={map}
+							selectPosition={selectPosition}
+							setSelectPosition={setSelectPosition}
+						/>
+					</Col>
+				</Row>
 		</>
 	);
 }
@@ -226,52 +233,14 @@ function GpsTrackButton(props) {
 
 function CircleAreaForm(props) {
 	return (
-		<Row className="d-flex align-items-center" xs={1}>
-			<Col>
-				<Form.Group>
-					<Form.Range
-						value={valueToSlider(props.radius)}
-						onChange={(e) => props.setRadius(sliderToValue(e.target.value))}
-					/>
-				</Form.Group>
-			</Col>
-			<Col>
-				<Form.Group>
-					{/*TODO(antonio): validation on numbers*/}
-					<InputGroup>
-						<InputGroup.Text>Km</InputGroup.Text>
-						<Form.Control
-							type="number"
-							value={props.radius === "" ? "" : props.radius / 1000}
-							onChange={(e) => {
-								e.target.value === ""
-									? props.setRadius("")
-									: props.setRadius(e.target.value * 1000);
-							}}
-						/>
-					</InputGroup>
-				</Form.Group>
-			</Col>
-		</Row>
+		<Slider
+			min={500}
+			max={10000}
+			step={500}
+			value={props.radius}
+			onChange={(ev) => props.setRadius(ev.target.value)}
+		/>
 	);
-}
-
-// NOTE(antonio): range of slider in the form goes from 0 to 100, while value numbers go from 500 to 10000
-// conversion formula is just basic math-- m = (10000-500)/(100-0), value= 5000 + m*input
-function sliderToValue(input) {
-	input -= input % 10; //NOTE(antonio): rounding to nearest 10s, for precise value use text input
-
-	const m = 95.0;
-
-	return 500 + m * input;
-}
-
-function valueToSlider(value) {
-	// TODO(antonio): clamp value
-
-	const m = 95.0;
-
-	return (value - 500) / m;
 }
 
 function SelectPositionButton(props) {

@@ -9,6 +9,7 @@ import { HikeEditForm } from "../components/HikeList/HikeEditForm";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { SideHikeFilter } from "../components/HikeList/SideHikeFilter";
 
 export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
@@ -78,7 +79,7 @@ export function HikesPage(props) {
 			) : (
 				<Container>
 					<h1 className="mt-3">Hikes</h1>
-					<Row className="mt-3">
+					<Row className="mt-3 d-xl-none">
 						<Col>
 							<Button
 								onClick={() => {
@@ -103,11 +104,12 @@ export function HikesPage(props) {
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<FilterForm
+							{/* <FilterForm
 								onHide={handleClose}
 								filters={filters}
 								setFilters={setFilters}
-							></FilterForm>
+							/> */}
+							<SideHikeFilter/>
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>

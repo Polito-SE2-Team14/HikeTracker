@@ -1,4 +1,4 @@
-import { Button, Card, Row, Col, Container } from "react-bootstrap";
+import { Button, Card, Row, Col, Container, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import HikeAPI from "../../api/HikeAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,26 +13,53 @@ import {
 import { HikeModal } from "./HikeModal";
 import { EmptySearch } from "../EmptySeach";
 
+import { SideHikeFilter } from "./SideHikeFilter";
+
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
 		props.setSelectedHike(hike);
 		props.showHikeForm();
 	};
 
-	let shownHikes = props.hikes.filter((h)=>h.show).map((hike, i) => (
-		<Col key={i}>
-			<HikeListItem
-				user={props.user}
-				hike={hike}
-				setHikes={props.setHikes}
-				handleEditForm={handleShowEditForm}
-			/>
-		</Col>
-	))
+	let shownHikes = props.hikes
+		.filter((h) => h.show)
+		.map((hike, i) => (
+			<Col key={i}>
+				<HikeListItem
+					user={props.user}
+					hike={hike}
+					setHikes={props.setHikes}
+					handleEditForm={handleShowEditForm}
+				/>
+			</Col>
+		));
 
 	return (
-		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-			{shownHikes.length === 0 ? <EmptySearch/> : shownHikes}
+		<Row>
+			<Col lg={3} className="d-none d-xl-block">
+				<Card className="p-2">
+					<h3>Filters</h3>
+					<Container>
+						<h5>Name</h5>
+						<Form.Control
+							type="search"
+							placeholder="Search"
+							/* value={filters.name}
+									onChange={(ev) =>
+										setFilters({ ...filters, name: ev.target.value.trim() })
+									} */
+						/>
+						<hr />
+						<SideHikeFilter />
+					</Container>
+				</Card>
+			</Col>
+
+			<Col>
+				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
+					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
+				</Row>
+			</Col>
 		</Row>
 	);
 }
@@ -79,7 +106,9 @@ function HikeListItem(props) {
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => {}}
+				onStart={() => {
+					/*TODO(antonio): start function*/
+				}}
 			/>
 
 			<Col className="mt-3">
@@ -87,8 +116,10 @@ function HikeListItem(props) {
 					<Card.Body>
 						<Card.Title>
 							<Row>
-								<Col xs={8} sm={9}>{props.hike.title}</Col>
-								<Col className="text-end" >
+								<Col xs={8} sm={9}>
+									{props.hike.title}
+								</Col>
+								<Col className="text-end">
 									<Button
 										size="sm"
 										variant="secondary"
@@ -120,13 +151,9 @@ function HikeListItem(props) {
 									{" '"}
 								</Col>
 							</Row>
-							<Row>
-								<Col>
-								{`by ${props.hike.creatorSurname} ${props.hike.creatorName} `}
-								</Col>
-							</Row>
 						</Container>
 					</Card.Body>
+					{/* <Card.Footer className="text-muted">{`suggested/show date of last play?`}</Card.Footer> */}
 				</Card>
 			</Col>
 		</>

@@ -2,8 +2,12 @@ import { Container, Row } from "react-bootstrap";
 import { EmptySearch } from "../components/EmptySeach";
 import { Loading } from "../components/Loading";
 import { AreaSelectMap, PointSelectMap } from "../components/Map/Maps";
+import Slider from '@mui/material/Slider';
+import { useState } from "react";
 
 export function HomePage() {
+	const [distanceValue, setDistanceValue] = useState([0,100]);
+
 	return (
 		<Container>
 			<Loading/>

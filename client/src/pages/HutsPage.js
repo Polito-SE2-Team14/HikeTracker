@@ -163,7 +163,7 @@ export function HutsPage(props) {
 									</Button>
 									</Col>
 								:
-								<></>}
+								false}
 					</Row>
 					<HutFilterModal
 						show={showFilterModal}
