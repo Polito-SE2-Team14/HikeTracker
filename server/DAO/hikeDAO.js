@@ -29,7 +29,7 @@ exports.getAllHikes = function () {
 							description: h.description, startPointID: h.startPointID,
 							endPointID: h.endPointID, municipality: h.municipality,
 							province: h.province, country: h.country,
-							track: getTrack(h.hikeID), creatorID: h.creatorID,
+							track: this.getHikeTrack(h.hikeID), creatorID: h.creatorID,
 							creatorName: h.name, creatorSurname: h.surname
 						};
 					});
@@ -73,7 +73,7 @@ exports.getHike = function (wantedID) {
 				reject(err);
 			} else {
 				try {
-					row.track = getTrack(row.hikeID);
+					row.track = this.getHikeTrack(row.hikeID);
 
 					resolve(row);
 				}
