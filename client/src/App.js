@@ -33,6 +33,7 @@ function App() {
 					setUser(currentUser);
 					setLoggedIn(true);
 					setUserType(currentUser.type);
+					setIsVerified(currentUser.verified === 1 ? true : false);
 					console.log("user", user)
 				}
 			} catch (error) {

@@ -35,23 +35,6 @@ router.get(
 	}
 );
 
-//GET request to /api/hikes/:hikeID/points to obtain points of the selected hike
-router.get(
-	"/:hikeID/points/",
-	body("hikeID").not().isEmpty().isInt({ min: 0 }),
-	async (req, res) => {
-		const hikeID = req.params.hikeID;
-
-		await pointController
-			.getHikePoints(hikeID)
-			.then((points) => res.json(points))
-			.catch((err) => {
-				console.error(err);
-				return res.status(500).end
-			});
-	}
-);
-
 // GET request to /api/hikes/:hikeID/track to obtain coordinates of track points of selected track
 router.get(
 	"/:hikeID/track",
@@ -64,13 +47,18 @@ router.get(
 			.then((track) => res.json(track))
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 	}
 )
 
-router.get("/referencePoints/:hikeID",
+// GET request to /api/hikes/:hikeID/referencePoints to obtain referencePoints of a certain hike
+router.get("/:hikeID/referencePoints",
+	body("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
+
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) return res.status(505).json(errors.array());
 
 		const hikeID = req.params.hikeID
 
@@ -81,7 +69,7 @@ router.get("/referencePoints/:hikeID",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 
 	})
@@ -104,14 +92,20 @@ router.post("",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 
 	}
 );
 
+//POST request to /api/hikes/referencePoints to save a referencePoint in the database
 router.post("/referencePoints",
+	body(["hikeID", "referencePointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
+
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) return res.status(505).json(errors.array());
+
 
 		const hikeID = req.body.hikeID;
 		const referencePointID = req.body.referencePointID;
@@ -123,7 +117,7 @@ router.post("/referencePoints",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 
 	})
@@ -156,11 +150,12 @@ router.put("",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 	}
 );
 
+// PUT request to store link a start point to an hike
 router.put("/start",
 	body(["hikeID", "startPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
@@ -171,11 +166,12 @@ router.put("/start",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 
 	})
 
+// PUT request to store link an end point to an hike
 router.put("/end",
 	body(["hikeID", "endPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
@@ -184,14 +180,14 @@ router.put("/end",
 			.then(() => res.status(201).end())
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 	}
 
 
 )
 
-
+// DELETE request to delete an hike
 router.delete("/:hikeID",
 	body("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
@@ -209,7 +205,7 @@ router.delete("/:hikeID",
 			})
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end()
 			});
 
 	});

@@ -29,7 +29,7 @@ exports.getAllHikes = function () {
 							description: h.description, startPointID: h.startPointID,
 							endPointID: h.endPointID, municipality: h.municipality,
 							province: h.province, country: h.country,
-							track: getTrack(h.hikeID), creatorID: h.creatorID,
+							track: this.getHikeTrack(h.hikeID), creatorID: h.creatorID,
 							creatorName: h.name, creatorSurname: h.surname
 						};
 					});
@@ -73,7 +73,7 @@ exports.getHike = function (wantedID) {
 				reject(err);
 			} else {
 				try {
-					row.track = getTrack(row.hikeID);
+					row.track = this.getHikeTrack(row.hikeID);
 
 					resolve(row);
 				}
@@ -212,15 +212,16 @@ exports.deleteHike = function (hikeID) {
 }
 
 exports.getHikeTrack = function (hikeID) {
-	let track;
+	let reqPath = __dirname + `../database/tracks/_${hikeID}_.trk`;
+	let resolvedPath = path.resolve(reqPath);
+
+	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';
 
 	try {
-		track = readFileSync(path.join(__dirname, `../database/tracks/_${hikeID}_.trk`), 'utf8');
+		return readFileSync(resolvedPath, { encoding: 'utf8', flag: 'r' });
 	} catch (err) {
 		console.error(err);
 	}
-
-	return track;
 }
 
 exports.setStart = function (hikeID, startPointID) {
@@ -257,10 +258,6 @@ function newTrack(hikeId, track) {
 	writeFile(SOURCE, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
 		if (err) throw err;
 	});
-}
-
-function getTrack(hikeId) {
-	return require(path.join(__dirname, `../database/tracks/_${hikeId}_.trk`));
 }
 
 function deleteTrack(hikeId) {

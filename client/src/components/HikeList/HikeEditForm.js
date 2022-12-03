@@ -15,6 +15,9 @@ import { HikeMap } from "../Map/Maps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
+//New Select
+import Select from 'react-select'
+
 // TODO(antonio): edit points, how??
 // TODO(antonio): proper documentation
 export function HikeEditForm(props) {
@@ -347,14 +350,14 @@ function EditPointsForm(props) {
 	let handleSubmit = async (event) => {
 		event.preventDefault();
 
-		try{
+		try {
 			await HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
 			await HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
 
 			props.onSubmit(props.hike.hikeID);
 			props.onHide();
 		}
-		catch(e){
+		catch (e) {
 			console.log(e);
 		}
 	};
@@ -362,6 +365,20 @@ function EditPointsForm(props) {
 	useEffect(() => {
 		getPoints();
 	}, []);
+
+	const startPointOptions = startPoints.map((p, i) => {
+		return {
+			'value': i,
+			'label': p.name
+		};
+	});
+
+	const endPointOptions = endPoints.map((p, i) => {
+		return {
+			'value': i,
+			'label': p.name
+		};
+	});
 
 	return (
 		<Form>
@@ -374,7 +391,7 @@ function EditPointsForm(props) {
 			<Row>
 				<Form.Group controlId="formStartPoint" className="mb-3">
 					<Form.Label>Start Point</Form.Label>
-					<Form.Select
+					{/* <Form.Select
 						onChange={(ev) => setStart(startPoints[ev.target.value])}
 					>
 						<option value={0}>Start Point</option>
@@ -383,13 +400,15 @@ function EditPointsForm(props) {
 								{p.name}
 							</option>
 						))}
-					</Form.Select>
+					</Form.Select> */}
+
+					<Select options={startPointOptions} onChange={(ev) => setStart(startPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			<Row>
 				<Form.Group controlId="formEndPoint" className="mb-3">
 					<Form.Label>End Point</Form.Label>
-					<Form.Select
+					{/* <Form.Select
 						onChange={(ev) => setEnd(endPoints[ev.target.value])}
 					>
 						<option value={0}>End Point</option>
@@ -398,7 +417,9 @@ function EditPointsForm(props) {
 								{p.name}
 							</option>
 						))}
-					</Form.Select>
+					</Form.Select> */}
+
+					<Select options={endPointOptions} onChange={(ev) => setStart(endPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			{/* reference points */}
