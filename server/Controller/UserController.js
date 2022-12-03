@@ -17,7 +17,7 @@ exports.getUser = async (userID) => {
     return user;
 }
 
-exports.register = async (newUser, verified , approved ) => {
+exports.register = async (newUser, verified, approved) => {
 
     let { name, surname, email, phoneNumber, type } = newUser
 
@@ -36,7 +36,7 @@ exports.register = async (newUser, verified , approved ) => {
     const user = await userDAO.Register(newUser, token, verified, approved)
         .catch(err => { throw err });
 
-        //EMAIL VERIFICATION
+    //EMAIL VERIFICATION
     if (verified !== 1)
         await this.sendVerificationEmail(user.token, user.email);
 
@@ -51,19 +51,18 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
+        service: "Gmail",
         auth: {
             user: 'hikefiveteam14@gmail.com',
-            pass: 'tywjwgzzhvkrcdcc'
+            pass: 'yfgwcotimxraggjq'
         }
     });
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: '"HIKEfive" <hikefiveteam14@gmail.com>', // sender address
+        from: 'hikefiveteam14@gmail.com', // sender address
         to: userEmail, // list of receivers
-        subject: "HIKEfive | Verify Email", // Subject line
+        subject: "HIKEfive Verification Email", // Subject line
         html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
     });
 
