@@ -213,10 +213,12 @@ exports.deleteHike = function (hikeID) {
 
 exports.getHikeTrack = function (hikeID) {
 	let reqPath = __dirname + `../database/tracks/_${hikeID}_.trk`;
-	//let resolvedPath = 
+	let resolvedPath = path.resolve(reqPath);
+
+	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';
 
 	try {
-		return readFileSync(reqPath, 'utf8');
+		return readFileSync(reqPath, { encoding: 'utf8', flag: 'r' });
 	} catch (err) {
 		console.error(err);
 	}
