@@ -28,7 +28,7 @@ router.get('/:pointID',
 	body("pointID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		await pointController.getPoint(req.params.pointID)
-			.then(points => res.json(points))
+			.then(point => res.json(point))
 			.catch((err) => {
 				console.error(err);
 				return res.status(500).end();

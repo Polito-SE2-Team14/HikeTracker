@@ -31,18 +31,20 @@ export function HikeModal(props) {
 		}
 	}
 
-	// TODO(antonio): fix field in the database
+	// TODO(antonio): fix field in the database, refactor marker system
 	let getMarkers = async () => {
-		//let start = await PointAPI.getPoint(hike.startPointID);
-		//let end = await PointAPI.getPoint(hike.endPointID);
+		let start = await PointAPI.getPoint(hike.startPointID);
+		let end = await PointAPI.getPoint(hike.endPointID);
 
 
-		setMarkers([,]);
+		setMarkers(null);
 	};
 
 	useEffect(() => {
-		updatePath();
-		getMarkers();
+		if(show){
+			updatePath();
+			getMarkers();
+		}
 		// eslint-disable-next-line
 	}, [show])
 

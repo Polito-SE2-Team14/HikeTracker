@@ -26,7 +26,6 @@ import {
 
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
-	//let [hike, points] = getTestData(); // TEST
 	let track = props.track;
 
 	let displayMap = useMemo(() => {
@@ -41,7 +40,7 @@ export function HikeMap(props) {
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
 					{props.markers ?
-						props.markers.map((m, i) => <TrackMarker key= {i} position={m} />) :
+						props.markers.map((m, i) => <TrackMarker key={i} position={m} />) :
 						<div>
 							<TrackMarker position={track[0]} start />
 							<TrackMarker position={track[track.length - 1]} />
