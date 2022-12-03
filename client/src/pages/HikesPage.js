@@ -77,6 +77,7 @@ export function HikesPage(props) {
 				<Loading />
 			) : (
 				<Container>
+					<h1 className="mt-3">Hikes</h1>
 					<Row className="mt-3">
 						<Col>
 							<Button

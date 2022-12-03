@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { HikeModal } from "./HikeModal";
+import { EmptySearch } from "../EmptySeach";
 
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
@@ -18,18 +19,20 @@ function HikeListTable(props) {
 		props.showHikeForm();
 	};
 
+	let shownHikes = props.hikes.filter((h)=>h.show).map((hike, i) => (
+		<Col key={i}>
+			<HikeListItem
+				user={props.user}
+				hike={hike}
+				setHikes={props.setHikes}
+				handleEditForm={handleShowEditForm}
+			/>
+		</Col>
+	))
+
 	return (
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-			{props.hikes.filter((h)=>h.show).map((hike, i) => (
-				<Col key={i}>
-					<HikeListItem
-						user={props.user}
-						hike={hike}
-						setHikes={props.setHikes}
-						handleEditForm={handleShowEditForm}
-					/>
-				</Col>
-			))}
+			{shownHikes.length === 0 ? <EmptySearch/> : shownHikes}
 		</Row>
 	);
 }
