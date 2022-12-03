@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const PLotController = require("../Controller/ParkingLotController");
-const pLotController = new PLotController();
+const pLotController = require("../Controller/ParkingLotController");
 const { body, validationResult } = require("express-validator");
 
 router.get("", async (req, res) => {
@@ -21,9 +20,6 @@ router.post("",
 	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
 	body("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
-
-		console.log(req.body)
-
 
 		if (!validationResult(req).isEmpty()) {
 			console.error(validationResult(req).array())

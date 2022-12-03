@@ -24,8 +24,8 @@ export function PLotModal(props) {
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{" Municipality (Province):"}</strong>
-						{` ${props.lot.municipality} (${props.lot.province})`}
+						<strong>{" Municipality (Province, Country):"}</strong>
+						{` ${props.lot.municipality} (${props.lot.province}, ${props.lot.country})`}
 					</Col>
 				</Row>
 				<Row xs={1} md={2} className="d-flex align-items-top">
@@ -38,6 +38,9 @@ export function PLotModal(props) {
 						<FontAwesomeIcon icon={faBed} />
 						<strong>{" Carspace:"}</strong>
 						{` ${props.lot.carspace}`}
+					</Col>
+					<Col>
+					{`by ${props.lot.creatorSurname} ${props.lot.creatorName} `}
 					</Col>
 				</Row>
 			</Modal.Body>

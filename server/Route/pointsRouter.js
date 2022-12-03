@@ -1,29 +1,25 @@
 const express = require('express');
 const router = express.Router()
 const { body, validationResult } = require('express-validator');
-const PointController = require("../Controller/PointController")
-const pointController = new PointController();
-/* const HutController = require("../Controller/HutController")
-const hutController = new HutController()*/
-
-const hutController = require("../Controller/HutControllerNew")
+const pointController = require("../Controller/PointController")
+const hutController = require("../Controller/HutController")
 
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()
 		.then(points => res.json(points))
 		.catch((err) => {
 			console.error(err);
-			return res.status(500).end
+			return res.status(500).end();
 		});
 });
 
 
 router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
-		.then(huts => {  return res.status(200).json(huts) })
+		.then(huts => { { console.log(huts.map(h => h.pointID)); return res.status(200).json(huts)} })
 		.catch((err) => {
 			console.error(err);
-			return res.status(500).end
+			return res.status(500).end();
 		});
 
 });
@@ -32,10 +28,10 @@ router.get('/:pointID',
 	body("pointID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		await pointController.getPoint(req.params.pointID)
-			.then(points => res.json(points))
+			.then(point => res.json(point))
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -55,7 +51,7 @@ router.post('/huts',
 			.then(hut => res.status(204).json(hut))
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -74,7 +70,7 @@ router.put('/huts',
 			.then(hut => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	});
 
@@ -86,7 +82,7 @@ router.delete('/huts/:hutID',
 			.then(() => res.status(204).send())
 			.catch((err) => {
 				console.error(err);
-				return res.status(500).end
+				return res.status(500).end();
 			});
 	})
 

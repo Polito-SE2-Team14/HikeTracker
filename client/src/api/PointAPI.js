@@ -7,7 +7,7 @@ const getAllPoints = async () => {
 		let response = await REST.GET(api);
 		let pointsJson = await response.json();
 
-		return pointsJson.map(p => {
+		return pointsJson.map((p) => {
 			return {
 				pointID: p.pointID,
 				name: p.name,
@@ -16,18 +16,23 @@ const getAllPoints = async () => {
 				municipality: p.municipality,
 				lon: p.longitude,
 				address: p.address,
-				pointType: p.pointType
+				pointType: p.pointType,
 			};
 		});
 	} catch (err) {
-		console.error("Error in PointAPI.js", err)
+		console.error("Error in PointAPI.js", err);
 		throw err;
 	}
 };
 
 const getPoint = async (pointID) => {
 	try {
+		if (!pointID) {
+			return undefined;
+		}
+
 		let response = await REST.GET(`${api}/${pointID}`);
+		console.log(response);
 		let pointJson = await response.json();
 
 		return {
@@ -38,10 +43,10 @@ const getPoint = async (pointID) => {
 			municipality: pointJson.municipality,
 			lon: pointJson.longitude,
 			address: pointJson.address,
-			pointType: pointJson.pointType
+			pointType: pointJson.pointType,
 		};
 	} catch (err) {
-		console.error("Error in PointAPI.js", err)
+		console.error("Error in PointAPI.js", err);
 		throw err;
 	}
 };
@@ -57,36 +62,31 @@ const getAllHuts = async () => {
 
 		return hutsJson;
 	} catch (err) {
-		console.error("Error in PointAPI.js", err)
+		console.error("Error in PointAPI.js", err);
 		throw err;
 	}
 };
 
 const createHut = async (hut) => {
 	try {
-		console.log(hut)
-		let response = await REST.UPDATE("POST", `${api}/huts`, hut)
-		if (!response.status)
-			throw Error()
+		console.log(hut);
+		let response = await REST.UPDATE("POST", `${api}/huts`, hut);
+		if (!response.status) throw Error();
+	} catch (err) {
+		console.error("Error in PointAPI.js", err);
+		throw err;
 	}
-	catch (err) {
-		console.error("Error in PointAPI.js", err)
-		throw err
-	}
-}
+};
 
 const deleteHut = async (hutID) => {
 	try {
-		let response = await REST.DELETE(api + "/huts/" + hutID)
-		if (!response.status)
-			throw Error()
+		let response = await REST.DELETE(api + "/huts/" + hutID);
+		if (!response.status) throw Error();
+	} catch (err) {
+		console.error("Error in PointAPI.js", err);
+		throw err;
 	}
-	catch (err) {
-		console.error("Error in PointAPI.js", err)
-		throw err
-	}
-}
-
+};
 
 const PointAPI = { getAllPoints, getPoint, getAllHuts, createHut, deleteHut };
 export default PointAPI;

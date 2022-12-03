@@ -10,22 +10,32 @@ const db = dbManager.getDB();
 
 exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
-		db.all("SELECT * FROM POINT P, PARKINGLOT PA WHERE P.pointID = PA.parkingLotId AND pointType = 'parkinglot'", (err, rows) => {
-			if (err)
+		const sql = `SELECT pointID, P.name, carspace, municipality, province, country,
+		latitude, longitude, address, creatorID, U.name as creatorName, surname 
+		FROM POINT P, PARKINGLOT PA, USER U
+		WHERE P.pointID = PA.parkingLotId
+		AND pointType = 'parkinglot'
+		AND U.userID = P.creatorID`
+		db.all(sql, (err, rows) => {
+			if (err) {
+				console.error(err)
 				reject(err);
+			}
 			const pLots = rows.map(r => {
-				console.log(r)
 				return {
 					pLotId: r.pointID,
 					name: r.name,
 					carspace: r.carspace,
 					municipality: r.municipality,
 					province: r.province,
+					country: r.country,
 					latitude: r.latitude,
 					longitude: r.longitude,
-					pointID: r.pointID,
 					address: r.address,
-					pointType: r.pointType
+					pointType: r.pointType,
+					creatorID: r.creatorID,
+					creatorName: r.creatorName,
+					creatorSurname: r.surname
 				}
 			});
 			resolve(pLots);
@@ -81,7 +91,7 @@ exports.addParkingLot = (pointID, carspace) => {
 exports.deleteParkingLot = (id) => {
 	return new Promise((resolve, reject) => {
 		db.run(`DELETE FROM PARKINGLOT WHERE parkingLotId=${id}`, (err) => {
-			if (err) 
+			if (err)
 				reject(err);
 			resolve();
 		})

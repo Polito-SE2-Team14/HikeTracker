@@ -10,9 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
 
 import PointAPI from "../../api/PointAPI";
+import { EmptySearch } from "../EmptySeach";
 
 export function HutListTable(props) {
-	return (
+	return props.huts.length === 0 ? (
+		<EmptySearch />
+	) : (
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 			{props.huts.map((hut, i) => (
 				<HutListItem
@@ -57,11 +60,13 @@ function HutListItem(props) {
 					<Card.Body>
 						<Card.Title>
 							<Row>
-								<Col sm={9}>{props.hut.name}</Col>
+								<Col xs={8} sm={9}>
+									{props.hut.name}
+								</Col>
 								<Col className="text-end">
 									<Button
 										size="sm"
-										variant="outline-secondary"
+										variant="secondary"
 										onClick={handleShowHutModal}
 									>
 										<FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
@@ -71,11 +76,16 @@ function HutListItem(props) {
 						</Card.Title>
 						<Row>
 							<Col>
-								
-								<FontAwesomeIcon icon={faCity} /> {` ${props.hut.municipality} (${props.hut.province})`}
+								<FontAwesomeIcon icon={faCity} />{" "}
+								{` ${props.hut.municipality} (${props.hut.province})`}
 							</Col>
 							<Col xs={4}>
 								<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
+							</Col>
+						</Row>
+						<Row>
+							<Col>
+								{`by ${props.hut.creatorSurname} ${props.hut.creatorName} `}
 							</Col>
 						</Row>
 					</Card.Body>

@@ -15,6 +15,7 @@ import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 
 //USER API
 import userAPI from "./api/UserAPI";
+import { AdminPage } from "./pages/AdminPage";
 
 function App() {
 	const [user, setUser] = useState({});
@@ -72,6 +73,10 @@ function App() {
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} />
 			<Routes>
 				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? <HomePage /> : <Navigate replace to='/not-verified' />} />
+				<Route
+					path="/admin"
+					element={<AdminPage />}
+				/>
 				<Route
 					path="/login"
 					element={loggedIn ? <Navigate replace to='/' /> : <LoginPage handleLogin={handleLogin} message={message} setMessage={setMessage} />}

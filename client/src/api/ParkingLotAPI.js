@@ -22,9 +22,11 @@ const getAllParkingLots = async () => {
 					province: pL.province,
 					latitude: Number(pL.latitude),
 					longitude: Number(pL.longitude),
-					pointID: pL.pointID,
 					address: pL.address,
-					pointType: pL.pointType
+					country: pL.country,
+					creatorName: pL.creatorName,
+					creatorID: pL.creatorID,
+					creatorSurname: pL.creatorSurname
 				}
 			}
 		);
@@ -35,7 +37,7 @@ const getAllParkingLots = async () => {
 }
 
 const addParkingLot = async (ParkingLotToAdd) => {
-	let body =  ParkingLotToAdd ;
+	let body = ParkingLotToAdd;
 
 	try {
 		await REST.UPDATE("POST", api, body, true);
@@ -47,7 +49,7 @@ const addParkingLot = async (ParkingLotToAdd) => {
 	}
 }
 
-const deleteParkingLot = async(idToDelete) =>{
+const deleteParkingLot = async (idToDelete) => {
 	try {
 		await REST.DELETE(`${api}/${idToDelete}`);
 		return true;

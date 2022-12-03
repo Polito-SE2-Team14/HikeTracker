@@ -14,7 +14,7 @@ const path = require("path");
  */
 exports.getAllHikes = function () {
 	return new Promise((resolve, reject) => {
-		const sql = "SELECT * FROM HIKE";
+		const sql = `SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID`;
 		db.all(sql, [], (err, rows) => {
 			if (err) {
 				reject(err);
@@ -23,25 +23,20 @@ exports.getAllHikes = function () {
 				const hikes = rows.map(
 					(h) => {
 						return {
-							hikeID: h.hikeID,
-							title: h.title,
-							length: h.length,
-							expectedTime: h.expectedTime,
-							ascent: h.ascent,
-							difficulty: h.difficulty,
-							description: h.description,
-							startPointID: h.startPointID,
-							endPointID: h.endPointID,
-							municipality: h.municipality,
-							province: h.province,
-							track: getTrack(h.hikeID)
+							hikeID: h.hikeID, title: h.title,
+							length: h.length, expectedTime: h.expectedTime,
+							ascent: h.ascent, difficulty: h.difficulty,
+							description: h.description, startPointID: h.startPointID,
+							endPointID: h.endPointID, municipality: h.municipality,
+							province: h.province, country: h.country,
+							track: getTrack(h.hikeID), creatorID: h.creatorID,
+							creatorName: h.name, creatorSurname: h.surname
 						};
-					}
-				);
+					});
 				resolve(hikes);
 			}
 			catch (e) {
-				console.log(e)
+				console.error(e)
 				reject(e);
 			}
 		});
@@ -55,9 +50,9 @@ exports.getAllHikes = function () {
  */
 exports.check_hike = function (wantedID) {
 	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
+		db.get(`SELECT * FROM HIKE WHERE hikeID=?`, [wantedID], (err, row) => {
 			if (err) {
-				// TODO(antonio): better error handling
+				console.error(err)
 				reject(err);
 			}
 
@@ -90,21 +85,34 @@ exports.getHike = function (wantedID) {
 	});
 }
 
+exports.getReferencePointsForHike = function (hikeID) {
+	console.log(hikeID)
+	return new Promise((resolve, reject) => {
+		db.all("SELECT referencePointID FROM HIKEREFERENCEPOINT WHERE hikeID = ? ",
+			[hikeID],
+			(err, rows) => {
+				if (err) { console.error(err); reject(err) }
+
+				resolve({ referencePointIDs: rows.map(r => r.referencePointID) })
+			})
+	})
+}
+
 /**
  * Inserts a new hike in the database
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike = function (newHike) {
 
-	let { title, length, expectedTime, ascent, difficulty, description,
-		startPointID, endPointID, municipality, province, track } = newHike
+	let { title, length, expectedTime, ascent, difficulty, description, country,
+		startPointID, endPointID, municipality, province, track, creatorID } = newHike
 
 	return new Promise((resolve, reject) => {
 		db.run(
-			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,municipality,province) VALUES(?,?,?,?,?,?,?,?,?,?)",
+			"INSERT INTO HIKE (title,length,expectedTime,ascent,difficulty,description,startPointID,endPointID,country,municipality,province, creatorID) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 			[
 				title, length, expectedTime, ascent, difficulty, description,
-				startPointID, endPointID, municipality, province
+				startPointID, endPointID, country, municipality, province, creatorID
 			],
 			function (err) {
 				if (err)
@@ -125,6 +133,7 @@ exports.addHike = function (newHike) {
 							endPointID: endPointID,
 							municipality: municipality,
 							province: province,
+							country: country,
 							track: track
 						}
 					);
@@ -135,6 +144,25 @@ exports.addHike = function (newHike) {
 			}
 		);
 	});
+}
+
+
+exports.addReferencePoint = function (hikeID, referencePointID) {
+
+	//let referencePointID = 0 //TODO to be defined
+
+	return new Promise((resolve, reject) => {
+
+		db.run("INSERT INTO HIKEREFERENCEPOINT (hikeID, referencePointID) VALUES (?,?)",
+			[hikeID, referencePointID],
+			function (err) {
+				if (err) {
+					console.error(err)
+					reject(err)
+				}
+				resolve()
+			})
+	})
 }
 
 /**
@@ -190,7 +218,7 @@ exports.getHikeTrack = function (hikeID) {
 	try {
 		return readFileSync(reqPath, 'utf8');
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
 }
 

@@ -26,7 +26,9 @@ const getAllHikes = async () => {
 					municipality: h.municipality,
 					province: h.province,
 					startPointID: h.startPointID,
-					endPointID: h.endPointID
+					endPointID: h.endPointID,
+					creatorName: h.creatorName,
+					creatorSurname: h.creatorSurname
 				};
 			}
 		);

@@ -11,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { HikeModal } from "./HikeModal";
+import { EmptySearch } from "../EmptySeach";
 
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
@@ -18,18 +19,20 @@ function HikeListTable(props) {
 		props.showHikeForm();
 	};
 
+	let shownHikes = props.hikes.filter((h)=>h.show).map((hike, i) => (
+		<Col key={i}>
+			<HikeListItem
+				user={props.user}
+				hike={hike}
+				setHikes={props.setHikes}
+				handleEditForm={handleShowEditForm}
+			/>
+		</Col>
+	))
+
 	return (
 		<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-			{props.hikes.filter((h)=>h.show).map((hike, i) => (
-				<div key={i}>
-					<HikeListItem
-						user={props.user}
-						hike={hike}
-						setHikes={props.setHikes}
-						handleEditForm={handleShowEditForm}
-					/>
-				</div>
-			))}
+			{shownHikes.length === 0 ? <EmptySearch/> : shownHikes}
 		</Row>
 	);
 }
@@ -83,12 +86,12 @@ function HikeListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row className="d-flex justify-content-between">
-								<Col>{props.hike.title}</Col>
-								<Col className="d-flex justify-content-end">
+							<Row>
+								<Col xs={8} sm={9}>{props.hike.title}</Col>
+								<Col className="text-end" >
 									<Button
 										size="sm"
-										variant="outline-secondary"
+										variant="secondary"
 										onClick={handleShowHikeModal}
 									>
 										<FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
@@ -115,6 +118,11 @@ function HikeListItem(props) {
 								<Col>
 									<FontAwesomeIcon icon={faClock} /> {props.hike.expectedTime}
 									{" '"}
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+								{`by ${props.hike.creatorSurname} ${props.hike.creatorName} `}
 								</Col>
 							</Row>
 						</Container>

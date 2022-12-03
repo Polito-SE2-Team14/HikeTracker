@@ -3,8 +3,7 @@ const router = express.Router()
 const { body, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const UserController = require("../Controller/UserController")
-const userController = new UserController()
+const userController = require("../Controller/UserController")
 
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
@@ -12,7 +11,7 @@ passport.use(new LocalStrategy(async function verify(username, password, cb) {
 
     if (String(password).length <= 6) {
         return cb("Invalid password (less than 6 chars)")
-    } 
+    }
 
     const user = await userController.login(username, password)
         .catch(() => { return res.status(422).send("Unprocessable entity") });
@@ -39,7 +38,7 @@ router.post('',
         if (!validationResult(req).isEmpty())
             return res.status(422).end()
 
-        await userController.register(req.body)
+        await userController.register(req.body, 0, 0)
             .then(() => res.status(201).end())
             .catch(err => {
                 console.error(err)

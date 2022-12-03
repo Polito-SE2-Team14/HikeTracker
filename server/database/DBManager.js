@@ -1,4 +1,4 @@
-const path = require("path"); 
+const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
 
@@ -7,7 +7,7 @@ class DBManager {
     #db;
     constructor(dbName) {
         // open the database
-        this.#db = new sqlite.Database(path.join(__dirname, './dbFiles/' + dbName + ".sqlite"), (err) => {
+        this.#db = new sqlite.Database(path.join(__dirname, './' + dbName + ".sqlite"), (err) => {
             if (err) {
                 console.error("error db manager", err)
                 throw err;
@@ -20,7 +20,8 @@ class DBManager {
         return this.#db
     }
 
-     async clearDb() {
+    async clearDb() {
+        //console.log("clearDB")
         let db = this.#db;
         return new Promise(function (resolve, reject) {
             db.run("DELETE FROM USER WHERE 1=1;")
@@ -56,35 +57,19 @@ class DBManager {
             console.log("done")
             resolve();
         })
-    } 
-
-    async populateUser(users) {
-        let db = this.#db;
-        let sql = 'INSERT INTO USER(USERID, NAME, SURNAME, EMAIL, PHONENUMBER, TYPE, SALT, HASHEDPASSWORD) VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-
-        return Promise.all(users.map(user =>
-            new Promise((resolve, reject) => {
-                let salt = crypto.randomBytes(16);
-
-                crypto.scrypt(user.password, salt, 32, (err, hp) => {
-                    if (err) reject(err);
-                    else {
-                        user.salt = salt.toString('base64');
-                        user.password = hp.toString('base64');
-
-                        resolve(user);
-                    }
-                });
-            })
-        )).then(res => Promise.all(res.map(user =>
-            new Promise((resolve, reject) =>
-                db.run(sql, [user.id, user.name, user.surname, user.email, user.phoneNumber, user.type, user.salt, user.password], err => {
-                    if (err) reject(err);
-                    else resolve();
-                })
-            )
-        ))).catch(err => { throw err });
     }
+
+    async createDropTables(sql) {
+        let db = this.#db;
+        return new Promise((resolve, reject) => {
+            db.run(sql, err => {
+                if (err) { console.error(sql, err); reject(err); }
+                else resolve();
+            })
+        })
+    }
+
+
 }
 
 module.exports = DBManager

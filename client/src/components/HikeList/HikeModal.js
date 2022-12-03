@@ -31,16 +31,20 @@ export function HikeModal(props) {
 		}
 	}
 
+	// TODO(antonio): fix field in the database, refactor marker system
 	let getMarkers = async () => {
 		let start = await PointAPI.getPoint(hike.startPointID);
 		let end = await PointAPI.getPoint(hike.endPointID);
 
-		setMarkers([start, end]);
+
+		setMarkers(null);
 	};
 
 	useEffect(() => {
-		updatePath();
-		getMarkers();
+		if(show){
+			updatePath();
+			getMarkers();
+		}
 		// eslint-disable-next-line
 	}, [show])
 
@@ -73,8 +77,12 @@ export function HikeModal(props) {
 						<strong>{" Expected time:"}</strong>
 						{` ${hike.expectedTime} minutes`}
 					</Col>
+
 				</Row>
 				<Row className="mt-3">
+					<Col>
+						{`by ${hike.creatorSurname} ${hike.creatorName} `}
+					</Col>
 					<Col>
 						<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 					</Col>

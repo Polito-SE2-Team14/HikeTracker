@@ -1,10 +1,10 @@
-/* const HikeController = require("../Controller/HikeController")
-const hikeController = new HikeController()*/
+const hikeController = require("../Controller/HikeController")
 
-const hikeController = require("../Controller/HikeControllerNew")
+
+
 
 describe('Hike Tests', () => {
-    describe("creation of new Hike", () => {
+    describe("creation of new Hike",  () => {
         test("Invalid title", async () => {
             let newErr
             let hike = {
@@ -14,6 +14,7 @@ describe('Hike Tests', () => {
             }
             await hikeController.addHike(hike)
                 .catch(err => newErr = err)
+            
             expect(newErr).not.toBe(null)
             expect(newErr).not.toBe(undefined)
         })

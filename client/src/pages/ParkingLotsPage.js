@@ -47,6 +47,7 @@ export function ParkingLotsPage(props) {
 			<Loading/>
 		:
 			<Container>
+				<h1 className="mt-3">Parking Lots</h1>
 				<Row className="mt-3">
 					{
 						props.user.type === "localGuide"?
