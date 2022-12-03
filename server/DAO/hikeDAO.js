@@ -218,7 +218,7 @@ exports.getHikeTrack = function (hikeID) {
 	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';
 
 	try {
-		return readFileSync(reqPath, { encoding: 'utf8', flag: 'r' });
+		return readFileSync(resolvedPath, { encoding: 'utf8', flag: 'r' });
 	} catch (err) {
 		console.error(err);
 	}
