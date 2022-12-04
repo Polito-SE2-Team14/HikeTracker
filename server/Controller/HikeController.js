@@ -1,18 +1,22 @@
 const hikeDAO = require("../DAO/hikeDAO");
 const poinstDAO = require("../DAO/pointsDAO")
 
+
+//TODO test this function
 exports.getAllHikes = async () => {
 	const hikes = await hikeDAO.getAllHikes()
 		.catch(err => { throw err });
 	return hikes;
 }
 
+//TODO test this function
 exports.getHike = async (hikeID) => {
 	const hike = await hikeDAO.getHike(hikeID)
 		.catch(err => { throw err });
 	return hike;
 }
 
+//TODO test this function
 exports.getReferencePointsForHike = async (hikeID) => {
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)
 		.catch(err => { throw err });
@@ -49,6 +53,7 @@ exports.addHike = async (hike) => {
 	return addedHike;
 }
 
+//TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
 
 	let referencePointID;
@@ -68,6 +73,7 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 		});
 }
 
+//TODO test this function
 exports.updateHike = async (hike) => {
 	await hikeDAO
 		.updateHike(hike)
@@ -81,6 +87,7 @@ exports.updateHike = async (hike) => {
 	return hike;
 }
 
+//TODO test this function
 exports.deleteHike = async (hikeID) => {
 	try {
 		let msg = await hikeDAO.deleteHike(hikeID);
@@ -90,6 +97,7 @@ exports.deleteHike = async (hikeID) => {
 	}
 }
 
+//TODO test this function
 exports.getHikeTrack = async (hikeID) => {
 	try {
 		let track = await hikeDAO.getHikeTrack(hikeID);
@@ -99,11 +107,13 @@ exports.getHikeTrack = async (hikeID) => {
 	}
 }
 
+//TODO test this function
 exports.setStart = async (hikeID, startPointID) => {
 	await hikeDAO.setStart(hikeID, startPointID)
 		.catch(err => { throw err })
 }
 
+//TODO test this function
 exports.setEnd = async (hikeID, endPointID) => {
 	await hikeDAO.setEnd(hikeID, endPointID)
 		.catch(err => { throw err })
