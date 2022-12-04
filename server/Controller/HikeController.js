@@ -1,5 +1,5 @@
 const hikeDAO = require("../DAO/hikeDAO");
-
+const poinstDAO = require("../DAO/pointsDAO")
 
 exports.getAllHikes = async () => {
 	const hikes = await hikeDAO.getAllHikes()
@@ -49,7 +49,15 @@ exports.addHike = async (hike) => {
 	return addedHike;
 }
 
-exports.addReferencePoint = async (hikeID, referencePointID) => {
+exports.addReferencePoint = async (hikeID, referencePoint) => {
+
+	let referencePointID;
+	await poinstDAO.createPoint(referencePoint)
+		.then((id) => referencePointID = id)
+		.catch((err) => {
+			throw err;
+		});
+	
 	await hikeDAO
 		.addReferencePoint(hikeID, referencePointID)
 		.then((msg) => {

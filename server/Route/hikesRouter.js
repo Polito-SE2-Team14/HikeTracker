@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const hikeController = require("../Controller/HikeController");
 const pointController = require("../Controller/PointController");
-const { body, validationResult } = require("express-validator");
+const { check, body, validationResult } = require("express-validator");
 const { check_hike } = require("../DAO/hikeDAO");
 
 // GET request to /api/hikes to obtain a list of all hikes
@@ -100,7 +100,6 @@ router.post("",
 
 //POST request to /api/hikes/referencePoints to save a referencePoint in the database
 router.post("/referencePoints",
-	body(["hikeID", "referencePointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		const errors = validationResult(req);
@@ -108,10 +107,11 @@ router.post("/referencePoints",
 
 
 		const hikeID = req.body.hikeID;
-		const referencePointID = req.body.referencePointID;
+		let referencePoint = req.body.referencePoint;
+		referencePoint.type = "generic"
 
 		await hikeController
-			.addReferencePoint(hikeID, referencePointID)
+			.addReferencePoint(hikeID, referencePoint)
 			.then((msg) => {
 				return res.status(201).json(msg);
 			})

@@ -30,9 +30,7 @@ class DBManager {
             db.run("DELETE FROM PARKINGLOT WHERE 1=1;")
             db.run("DELETE FROM HIKEREFERENCEPOINT WHERE 1=1;")
             db.run("DELETE FROM HIKE WHERE 1=1;")
-            db.run("DELETE FROM HIKEGROUP WHERE 1=1;")
-            db.run("DELETE FROM HIKEGROUPMEMBER WHERE 1=1;")
-            db.run("DELETE FROM HUTWORKER WHERE 1=1;")
+            db.run("DELETE FROM HIKELINKHUT WHERE 1=1;")
             resolve();
 
         })
