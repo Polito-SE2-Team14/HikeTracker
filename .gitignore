@@ -3,7 +3,7 @@ client/node_modules/
 server/node_modules/
 server/coverage/lcov-report
 server/coverage/clover.xml
-server/coverage/clovereage-final.json
+server/coverage/coverage-final.json
 server/database/dbFiles
 server/package-lock.json
 package-lock.json
