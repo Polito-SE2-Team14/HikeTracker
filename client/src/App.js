@@ -13,6 +13,9 @@ import { HikesPage } from "./pages/HikesPage";
 import { HutsPage } from "./pages/HutsPage";
 import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 
+// Role Management
+import { RoleManagement } from "./class/RoleManagement";
+
 //USER API
 import userAPI from "./api/UserAPI";
 import { AdminPage } from "./pages/AdminPage";
@@ -41,7 +44,7 @@ function App() {
 			}
 		};
 		checkAuth();
-	}, []);
+	}, [user]);
 
 	const handleLogin = async (credentials) => {
 		try {
@@ -71,7 +74,7 @@ function App() {
 
 	return (
 		<Router>
-			<AppNavBar loggedIn={loggedIn} logout={handleLogout} />
+			<AppNavBar loggedIn={loggedIn} logout={handleLogout} userType={userType} />
 			<Routes>
 				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? <HomePage /> : <Navigate replace to='/not-verified' />} />
 				<Route
