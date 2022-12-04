@@ -42,9 +42,9 @@ router.get(
 
 		await hikeController
 			.getHikeTrack(hikeID)
-			.then((track) => res.json(track))
+			.then((track) => {return res.json(track)})
 			.catch((err) => {
-				return errorResponse(err, 500, res)
+				return errorResponseJson(err, 500, res)
 			});
 	}
 )

@@ -6,7 +6,7 @@ const { errorResponse, errorResponseJson } = require("./utils")
 
 router.get('', async (req, res) => {
     await hutController.getHuts()
-        .then(huts => { /* console.log("huts", huts) */; return res.status(200).json(huts) })
+        .then(huts => { return res.status(200).json(huts) })
         .catch((err) => {
             return errorResponse(err, 500, res)
         });

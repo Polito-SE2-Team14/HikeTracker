@@ -212,7 +212,9 @@ exports.deleteHike = function (hikeID) {
 }
 
 exports.getHikeTrack = function (hikeID) {
-	let reqPath = __dirname + `../database/tracks/_${hikeID}_.trk`;
+
+	console.log(hikeID)
+	let reqPath = __dirname + `/../database/tracks/_${hikeID}_.trk`;
 	let resolvedPath = path.resolve(reqPath);
 
 	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';

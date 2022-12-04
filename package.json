@@ -1,0 +1,22 @@
+{
+  "name": "hiketracker",
+  "version": "1.0.0",
+  "description": "`Your best friend for hiking`",
+  "main": "index.js",
+  "scripts": {
+    "app": "concurrently --kill-others \"nodemon ./server/server.js\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Polito-SE2-Team14/HikeTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Polito-SE2-Team14/HikeTracker/issues"
+  },
+  "homepage": "https://github.com/Polito-SE2-Team14/HikeTracker#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

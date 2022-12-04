@@ -8,3 +8,4 @@ server/coverage/lcov.info
 server/database/dbFiles
 server/package-lock.json
 package-lock.json
+node_modules

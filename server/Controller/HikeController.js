@@ -97,10 +97,13 @@ exports.deleteHike = async (hikeID) => {
 
 //TODO test this function
 exports.getHikeTrack = async (hikeID) => {
-	let track 
-	await hikeDAO.getHikeTrack(hikeID)
-		.then(t => track = t)
-		.catch(err => { console.error(err); throw err })
+	try {
+		const track = hikeDAO.getHikeTrack(hikeID)
+		return track
+	}
+	catch (err) {
+		throw err
+	}
 }
 
 //TODO test this function
@@ -112,5 +115,5 @@ exports.setStart = async (hikeID, startPointID) => {
 //TODO test this function
 exports.setEnd = async (hikeID, endPointID) => {
 	await hikeDAO.setEnd(hikeID, endPointID)
-	.catch(err => { console.error(err); throw err })
+		.catch(err => { console.error(err); throw err })
 }
