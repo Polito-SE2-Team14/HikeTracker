@@ -55,7 +55,7 @@ function HikeListTable(props) {
 				</Card>
 			</Col>
 
-			<Col>
+			<Col style={{marginBottom: 10}}>
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -115,7 +115,7 @@ function HikeListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row>
+							<Row style={{minHeight: 100}}>
 								<Col xs={8} sm={9}>
 									{props.hike.title}
 								</Col>
@@ -142,7 +142,7 @@ function HikeListItem(props) {
 									{" m"}
 								</Col>
 							</Row>
-							<Row>
+							<Row style={{minHeight: 70}}>
 								<Col>
 									<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
 								</Col>
