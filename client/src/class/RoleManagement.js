@@ -25,12 +25,19 @@ const isHiker = async (userType) => {
     return userType === 'hutWorker';
 };
 
+/**
+ * Check If User is hutWorker
+ * @param {string} userType - Type of user
+ * @returns {boolean}
+ */
+ const isManager = async (userType) => {
+    return userType === 'manager';
+};
 
 
 
 
 
 
-
-const RoleManagement = { isHiker, isHutWorker, isLocalGuide };
+const RoleManagement = { isHiker, isHutWorker, isLocalGuide, isManager };
 export default RoleManagement;

@@ -3,6 +3,7 @@ const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 
 
+//TODO test this function
 exports.login = async (email, password) => {
     const user = await userDAO.getUser(email, password)
         .catch(() => { throw Error(); });
@@ -11,11 +12,13 @@ exports.login = async (email, password) => {
     return user;
 }
 
+//TODO test this function
 exports.getUser = async (userID) => {
     const user = await userDAO.getUserById(userID)
         .catch(() => { throw Error(); });
     return user;
 }
+
 
 exports.register = async (newUser, verified, approved) => {
 
@@ -44,6 +47,7 @@ exports.register = async (newUser, verified, approved) => {
 
 }
 
+//TODO test this function
 exports.sendVerificationEmail = async (token, userEmail) => {
     //EMAIL VERIFICATION
 
@@ -52,6 +56,7 @@ exports.sendVerificationEmail = async (token, userEmail) => {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
         service: "Gmail",
+        secure: true,
         auth: {
             user: 'hikefiveteam14@gmail.com',
             pass: 'yfgwcotimxraggjq'
@@ -72,6 +77,7 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 
 }
 
+//TODO test this function
 exports.verify = async (token) => {
     try {
         let user = await userDAO.getUserByToken(token);
@@ -83,7 +89,7 @@ exports.verify = async (token) => {
     }
 }
 
-
+//TODO test this function
 exports.resendVerificationEmail = async (token) => {
     try {
         let user = await userDAO.getUserByToken(token);

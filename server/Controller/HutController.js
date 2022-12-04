@@ -1,7 +1,7 @@
 const pointsDAO = require("../DAO/pointsDAO");
 const hutDAO = require("../DAO/hutDAO")
 
-
+//TODO test this function
 exports.getHuts = async () => {
 	const huts = await hutDAO.getHuts().catch(() => {
 		throw Error();
@@ -9,6 +9,7 @@ exports.getHuts = async () => {
 
 	return huts;
 }
+
 
 exports.createHut = async (hut) => {
 
@@ -87,6 +88,7 @@ exports.updateHut = async (hut) => {
 		.catch(err => { throw err })
 }
 
+//TODO test this function
 exports.deleteHut = async (pointID) => {
 	await hutDAO.deleteHut(pointID)
 		.catch(err => { throw err })

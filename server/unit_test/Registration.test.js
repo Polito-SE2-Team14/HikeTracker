@@ -26,13 +26,12 @@ describe('User Tests', () => {
 		test('Valid registration of new user', async () => {
 			let newUser = newUsers[0];
 			let user;
-			const token = crypto.randomBytes(20).toString('hex')
 
-			await userDAO.Register(newUser, token, 1, 1)
-				.then(u => {
-					user = u;
-				})
-				.catch(err => { console.error(err); throw err; });
+			await userController.register(newUser, 1, 1)
+			.then(u => {
+				user = u;
+			})
+			.catch(err => { console.error(err); throw err; });
 
 			expect(user).not.toBeUndefined();
 			expect(user.name).toBe(newUser.name);
@@ -40,7 +39,6 @@ describe('User Tests', () => {
 			expect(user.email).toBe(newUser.email);
 			expect(user.phoneNumber).toBe(newUser.phoneNumber);
 			expect(user.type).toBe(newUser.type);
-			expect(user.token).toBe(token)
 			expect(user.verified).toBe(1)
 			expect(user.approved).toBe(1)
 
