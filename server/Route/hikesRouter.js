@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const hikeController = require("../Controller/HikeController");
 const pointController = require("../Controller/PointController");
-const { check, body, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const { check_hike } = require("../DAO/hikeDAO");
 
 // GET request to /api/hikes to obtain a list of all hikes
@@ -21,7 +21,7 @@ router.get("", async (req, res) => {
 // GET request to /api/hikes/:hikeID to obtain the selected hike
 router.get(
 	"/:hikeID",
-	body("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		await hikeController
 			.getHike(req.params.hikeID)
@@ -38,7 +38,7 @@ router.get(
 // GET request to /api/hikes/:hikeID/track to obtain coordinates of track points of selected track
 router.get(
 	"/:hikeID/track",
-	body("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 		const hikeID = req.params.hikeID;
 
@@ -54,7 +54,7 @@ router.get(
 
 // GET request to /api/hikes/:hikeID/referencePoints to obtain referencePoints of a certain hike
 router.get("/:hikeID/referencePoints",
-	body("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		const errors = validationResult(req);
@@ -76,8 +76,8 @@ router.get("/:hikeID/referencePoints",
 
 // POST request to /api/hikes to add a new hike
 router.post("",
-	body(["title", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
-	body(["description"]).optional().trim().escape(),
+	check(["title", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
+	check(["description"]).optional().trim().escape(),
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) return res.status(505).json(errors.array());
@@ -100,6 +100,11 @@ router.post("",
 
 //POST request to /api/hikes/referencePoints to save a referencePoint in the database
 router.post("/referencePoints",
+	check(["hikeID", "referencePoint.creatorID"]).not().isEmpty().isInt({ min: 0 }),
+	check(["referencePoint.name", "referencePoint.description", "referencePoint.municipality",
+		"referencePoint.country", "referencePoint.province"]).not().isEmpty().trim().escape(),
+	check(["referencePoint.longitude", "referencePoint.latitude",
+		"referencePoint.altitude"]).isFloat().not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		const errors = validationResult(req);
@@ -125,8 +130,8 @@ router.post("/referencePoints",
 
 // PUT request to /api/hikes to update an existing hike
 router.put("",
-	body(["hikeID", "length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
-	body(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
+	check(["hikeID", "length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
+	check(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -157,7 +162,7 @@ router.put("",
 
 // PUT request to store link a start point to an hike
 router.put("/start",
-	body(["hikeID", "startPointID"]).not().isEmpty().isInt({ min: 0 }),
+	check(["hikeID", "startPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		await hikeController.setStart(req.body.hikeID, req.body.startPointID)
@@ -173,7 +178,7 @@ router.put("/start",
 
 // PUT request to store link an end point to an hike
 router.put("/end",
-	body(["hikeID", "endPointID"]).not().isEmpty().isInt({ min: 0 }),
+	check(["hikeID", "endPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		await hikeController.setEnd(req.body.hikeID, req.body.endPointID)
@@ -189,7 +194,7 @@ router.put("/end",
 
 // DELETE request to delete an hike
 router.delete("/:hikeID",
-	body("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
 		let present = await check_hike(req.params.hikeID)

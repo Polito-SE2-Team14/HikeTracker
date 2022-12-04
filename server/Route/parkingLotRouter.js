@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pLotController = require("../Controller/ParkingLotController");
-const { body, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 
 router.get("", async (req, res) => {
 	await pLotController
@@ -16,9 +16,9 @@ router.get("", async (req, res) => {
 });
 
 router.post("",
-	body(["name", "province","municipality"]).not().isEmpty().trim().escape(),
-	body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
-	body("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
+check(["name", "province","municipality"]).not().isEmpty().trim().escape(),
+check(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
+check("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
@@ -36,7 +36,7 @@ router.post("",
 	});
 
 router.delete("/:pLotId",
-	body("pLotId").isInt({ min: 0 }).not().isEmpty(),
+check("pLotId").isInt({ min: 0 }).not().isEmpty(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
-const { body, validationResult, param } = require('express-validator');
+const { check, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const userController = require("../Controller/UserController")
@@ -30,10 +30,10 @@ passport.deserializeUser(function (user, cb) {
 })
 
 router.post('',
-    body(["name", "surname", "password"]).not().isEmpty().trim().escape(),
-    body('email').isEmail().normalizeEmail(),
-    body("phoneNumber").not().isEmpty().isInt(),
-    body("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
+    check(["name", "surname", "password"]).not().isEmpty().trim().escape(),
+    check('email').isEmail().normalizeEmail(),
+    check("phoneNumber").not().isEmpty().isInt(),
+    check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
     async (req, res) => {
         if (!validationResult(req).isEmpty())
             return res.status(422).end()

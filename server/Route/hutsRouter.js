@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const hutController = require("../Controller/HutController");
-const { body, validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 
 
 router.get('', async (req, res) => {
@@ -16,9 +16,9 @@ router.get('', async (req, res) => {
 
 
 router.post('',
-    body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
-    body(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
-    body(["bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
+    check(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+    check(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
+    check(["bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
     async (req, res) => {
 
 
@@ -36,9 +36,9 @@ router.post('',
     });
 
 router.put('',
-    body(["pointID", "bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
-    body(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
-    body(["latitude", "longitude"]).isFloat().not().isEmpty().trim().escape(),
+    check(["pointID", "bedspace", "hutOwnerID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
+    check(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
+    check(["latitude", "longitude"]).isFloat().not().isEmpty().trim().escape(),
     async (req, res) => {
 
         if (!validationResult(req).isEmpty()) {
@@ -56,7 +56,7 @@ router.put('',
 
 
 router.delete('/:hutID',
-    body("hutID").not().isEmpty().isInt({ min: 0 }),
+    check("hutID").not().isEmpty().isInt({ min: 0 }),
     async (req, res) => {
         await hutController.deleteHut(req.params.hutID)
             .then(() => res.status(204).send())
@@ -66,4 +66,4 @@ router.delete('/:hutID',
             });
     })
 
-    module.exports = router;
+module.exports = router;
