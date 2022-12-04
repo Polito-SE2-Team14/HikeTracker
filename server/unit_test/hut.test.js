@@ -136,11 +136,7 @@ describe('Hut Tests', () => {
             await userController.register({
                 name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
                 type: "localGuide", password: crypto.randomBytes(16).toString("hex")
-            }, 1, 1)
-                .then(u => {
-                    user = u;
-                })
-                .catch(err => { console.error(err); throw err; });
+            }, 1, 1).catch(err => { console.error(err); throw err; });
 
             let oldHut = {
                 name: "nameTest", latitude: 123, longitude: 123, municipality: "Moncalieri", province: "Turin",

@@ -62,7 +62,7 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 		.catch((err) => {
 			throw err;
 		});
-	
+
 	await hikeDAO
 		.addReferencePoint(hikeID, referencePointID)
 		.then((msg) => {
@@ -89,32 +89,28 @@ exports.updateHike = async (hike) => {
 
 //TODO test this function
 exports.deleteHike = async (hikeID) => {
-	try {
-		let msg = await hikeDAO.deleteHike(hikeID);
-		return msg;
-	} catch (err) {
-		return err;
-	}
+	let msg
+	await hikeDAO.deleteHike(hikeID)
+		.then(m => msg = m)
+		.catch(err => { console.error(err); throw err })
 }
 
 //TODO test this function
 exports.getHikeTrack = async (hikeID) => {
-	try {
-		let track = await hikeDAO.getHikeTrack(hikeID);
-		return track;
-	} catch (err) {
-		return err;
-	}
+	let track 
+	await hikeDAO.getHikeTrack(hikeID)
+		.then(t => track = t)
+		.catch(err => { console.error(err); throw err })
 }
 
 //TODO test this function
 exports.setStart = async (hikeID, startPointID) => {
 	await hikeDAO.setStart(hikeID, startPointID)
-		.catch(err => { throw err })
+		.catch(err => { console.error(err); throw err })
 }
 
 //TODO test this function
 exports.setEnd = async (hikeID, endPointID) => {
 	await hikeDAO.setEnd(hikeID, endPointID)
-		.catch(err => { throw err })
+	.catch(err => { console.error(err); throw err })
 }

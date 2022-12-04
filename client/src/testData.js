@@ -1,7 +1,7 @@
 let gpxParser = require("gpxparser");
 
 export function getTestData() {
-   var gpx = new gpxParser();
+   const gpx = new gpxParser();
 	gpx.parse(data);
 
    // hike.hikeID, hike.title, hike.length, hike.Ascent, hike.Difficulty

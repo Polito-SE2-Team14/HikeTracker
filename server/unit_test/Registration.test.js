@@ -48,7 +48,7 @@ describe('User Tests', () => {
 
 		test('Registering existing user', async () => {
 			let newUser = newUsers[0];
-			let error;
+			let error, user;
 			const token = crypto.randomBytes(20).toString('hex')
 			await userDAO.Register(newUser, token, 1, 1)
 				.then(u => user = u)
