@@ -3,7 +3,7 @@ class Singleton {
 
     static #instance = null;
 
-    static #test = false;
+    static #test = true;
 
     static getInstance() {
         if (this.#instance == null) {
