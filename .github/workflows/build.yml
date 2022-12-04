@@ -16,7 +16,7 @@ jobs:
       - name: install Dependencies
           run: npm --prefix ./server install
       - name: test
-          run: npm --prefix run test
+          run: npm --prefix ./server run test
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
