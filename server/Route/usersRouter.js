@@ -4,7 +4,7 @@ const { check, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const userController = require("../Controller/UserController")
-
+const { errorResponse, errorResponseJson } = require("./utils")
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
 
@@ -14,7 +14,7 @@ passport.use(new LocalStrategy(async function verify(username, password, cb) {
     }
 
     const user = await userController.login(username, password)
-        .catch(() => { return res.status(422).send("Unprocessable entity") });
+        .catch(() => { return errorResponse("unprocessable entity", 422, res) });
 
     if (!user)
         return cb(null, false);
@@ -35,18 +35,16 @@ router.post('',
     check("phoneNumber").not().isEmpty().isInt(),
     check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
     async (req, res) => {
+
         if (!validationResult(req).isEmpty())
-            return res.status(422).end()
 
-        await userController.register(req.body, 0, 0)
-            .then(() => res.status(201).end())
-            .catch(err => {
-                console.error(err)
-
-                if (err === "user exists")
-                    return res.status(401).send("User already exists")
-                else res.status(505).send("error")
-            })
+            await userController.register(req.body, 0, 0)
+                .then(() => res.status(201).end())
+                .catch(err => {
+                    if (err === "user exists")
+                        return errorResponse("user already exists", 422, res)
+                    else errorResponse(err, 505, res)
+                })
 
 
 

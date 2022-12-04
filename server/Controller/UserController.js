@@ -1,5 +1,5 @@
 const userDAO = require("../DAO/UserDAO")
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 
 

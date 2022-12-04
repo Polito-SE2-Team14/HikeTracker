@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 
 const Singleton = require("../database/DBManagerSingleton")
 const DBManager = require("../database/DBManager");

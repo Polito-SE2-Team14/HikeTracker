@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const pLotController = require("../Controller/ParkingLotController");
 const { check, validationResult } = require("express-validator");
+const { errorResponse, errorResponseJson } = require("./utils")
 
 router.get("", async (req, res) => {
 	await pLotController
@@ -10,56 +11,51 @@ router.get("", async (req, res) => {
 			return res.status(200).json(parkingLots);
 		})
 		.catch((err) => {
-			console.error(err)
-			return res.status(500).end()
+			return errorResponse(err, 500, res)
 		});
 });
 
 router.post("",
-check(["name", "province","municipality"]).not().isEmpty().trim().escape(),
-check(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
-check("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	check(["name", "province", "municipality"]).not().isEmpty().trim().escape(),
+	check(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
+	check("carspace").isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
-			console.error(validationResult(req).array())
-			return res.status(422).json({ err: validationResult(req).array })
+			return errorResponseJson(validationResult(req).array(), 422, res)
+
 		}
 
 		await pLotController
 			.addParkingLot(req.body)
 			.then(() => res.status(200).end())
 			.catch((err) => {
-				console.error(err)
-				return res.status(500).end()
+				return errorResponse(err, 500, res)
 			});
 	});
 
 router.delete("/:pLotId",
-check("pLotId").isInt({ min: 0 }).not().isEmpty(),
+	check("pLotId").isInt({ min: 0 }).not().isEmpty(),
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
-			console.error(validationResult(req).array())
-			return res.status(422).json({ err: validationResult(req).array })
+			return errorResponseJson(validationResult(req).array(), 422, res)
 		}
 
 		let found = await pLotController.parkingLotExists(req.params.pLotId)
 			.catch(err => {
-				console.error(err)
-				return res.status(404).json({ error: err })
+				return errorResponse(err, 500, res)
 			});
 
 		if (!found) {
-			return res.status(404).json({ error: `No parking lot has id ${req.params.pLotId}` });
+			return errorResponseJson(`No parking lot has id ${req.params.pLotId}`, 404, res)
 		}
 
 		await pLotController
 			.deleteParkingLot(req.params.pLotId)
 			.then(() => { res.status(200).end() })
 			.catch(err => {
-				console.error(err)
-				return res.status(503).json({ err: `Could not remove parking lot ${req.params.pLotId}: ${err}` })
+				return errorResponseJson(`Could not remove parking lot ${req.params.pLotId}: ${err}`, 503, res)
 			});
 	});
 

@@ -3,13 +3,13 @@ const router = express.Router()
 const { check, validationResult } = require('express-validator');
 const pointController = require("../Controller/PointController")
 const hutController = require("../Controller/HutController")
+const { errorResponse, errorResponseJson } = require("./utils")
 
 router.get('', async (req, res) => {
 	await pointController.getAllPoints()
 		.then(points => res.json(points))
 		.catch((err) => {
-			console.error(err);
-			return res.status(500).end();
+			return errorResponse(err, 500, res)
 		});
 });
 
@@ -18,10 +18,8 @@ router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
 		.then(huts => { { console.log(huts.map(h => h.pointID)); return res.status(200).json(huts) } })
 		.catch((err) => {
-			console.error(err);
-			return res.status(500).end();
+			return errorResponse(err, 500, res)
 		});
-
 });
 
 router.get('/:pointID',
@@ -30,8 +28,7 @@ router.get('/:pointID',
 		await pointController.getPoint(req.params.pointID)
 			.then(point => res.json(point))
 			.catch((err) => {
-				console.error(err);
-				return res.status(500).end();
+				return errorResponse(err, 500, res)
 			});
 	});
 
@@ -43,15 +40,13 @@ router.post('/huts',
 
 
 		if (!validationResult(req).isEmpty()) {
-			console.error(validationResult(req).array())
-			return res.status(422).json({ err: validationResult(req).array })
+			return errorResponseJson(validationResult(req).array(), 422, res)
 		}
 
 		await hutController.createHut(req.body)
 			.then(hut => res.status(204).json(hut))
 			.catch((err) => {
-				console.error(err);
-				return res.status(500).end();
+				return errorResponse(err, 500, res)
 			});
 	});
 
@@ -62,15 +57,13 @@ router.put('/huts',
 	async (req, res) => {
 
 		if (!validationResult(req).isEmpty()) {
-			console.error(validationResult(req).array())
-			return res.status(422).json({ err: validationResult(req).array })
+			return errorResponseJson(validationResult(req).array(), 422, res)
 		}
 
 		await hutController.updateHut(req.body)
 			.then(hut => res.status(204).send())
 			.catch((err) => {
-				console.error(err);
-				return res.status(500).end();
+				return errorResponse(err, 500, res)
 			});
 	});
 
@@ -81,8 +74,7 @@ router.delete('/huts/:hutID',
 		await hutController.deleteHut(req.params.hutID)
 			.then(() => res.status(204).send())
 			.catch((err) => {
-				console.error(err);
-				return res.status(500).end();
+				return errorResponse(err, 500, res)
 			});
 	})
 
