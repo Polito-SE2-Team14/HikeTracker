@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: install Dependencies
-          run: npm --prefix ./server install
+          run: npm install --prefix ./server 
       - name: test
           run: npm --prefix ./server run test
       - name: SonarCloud Scan
