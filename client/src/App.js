@@ -14,7 +14,7 @@ import { HutsPage } from "./pages/HutsPage";
 import { ParkingLotsPage } from "./pages/ParkingLotsPage";
 
 // Role Management
-import { RoleManagement } from "./class/RoleManagement";
+import RoleManagement from "./class/RoleManagement";
 
 //USER API
 import userAPI from "./api/UserAPI";
@@ -94,9 +94,9 @@ function App() {
 					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
 				/>
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
-				<Route path="/hikes" element={<HikesPage user={user} />} />
+				<Route path="/hikes" element={<HikesPage user={user} userType={userType} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
-				<Route path="/parking-lots" element={<ParkingLotsPage user={user}/>} />
+				<Route path="/parking-lots" element={<ParkingLotsPage user={user} />} />
 				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
 			</Routes>
 		</Router>

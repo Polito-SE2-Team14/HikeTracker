@@ -11,25 +11,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faFilter } from "@fortawesome/free-solid-svg-icons";
 import { SideHikeFilter } from "../components/HikeList/SideHikeFilter";
 
+// Role Management
+import RoleManagement from "../class/RoleManagement";
+
 export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
 
 	const [hikes, setHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({
-		geographic_area:'',
-		check_geo_area:false,
-		difficulty:'',
-		check_diff:false,
-		length:0,
-		length_operator:'>',
-		check_len:false,
-		ascent:0,
-		ascent_operator:'>',
-		check_asc:false,
-		expected_time:0,
-		expected_time_operator:'',
-		check_exp_time:false
+		geographic_area: '',
+		check_geo_area: false,
+		difficulty: '',
+		check_diff: false,
+		length: 0,
+		length_operator: '>',
+		check_len: false,
+		ascent: 0,
+		ascent_operator: '>',
+		check_asc: false,
+		expected_time: 0,
+		expected_time_operator: '',
+		check_exp_time: false
 	});
 
 	const [selectedHike, setSelectedHike] = useState(null);
@@ -38,8 +41,8 @@ export function HikesPage(props) {
 	const getAllHikes = async () => {
 		try {
 			let hikes = await HikeAPI.getAllHikes();
-			hikes=hikes.map(function(hike){
-				hike.show=true;
+			hikes = hikes.map(function (hike) {
+				hike.show = true;
 				return hike;
 			});
 			setHikes(hikes);
@@ -89,7 +92,7 @@ export function HikesPage(props) {
 								<FontAwesomeIcon icon={faFilter} /> Apply filters
 							</Button>
 						</Col>
-						{props.user.type === "localGuide" ? (
+						{ RoleManagement.isLocalGuide(props.userType) ? (
 							<Col className="text-end">
 								<Button variant="success" onClick={handleShowHikeForm}>
 									<FontAwesomeIcon icon={faPlus} /> New Hike
@@ -109,7 +112,7 @@ export function HikesPage(props) {
 								filters={filters}
 								setFilters={setFilters}
 							/> */}
-							<SideHikeFilter/>
+							<SideHikeFilter />
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>
