@@ -14,6 +14,7 @@ exports.getHuts = async () => {
 exports.createHut = async (hut) => {
 
 	let { name, latitude, longitude, altitude, description,
+		website, email, phoneNumber,
 		municipality, province, address, bedspace, creatorID, country } = hut
 
 	if (typeof name != "string")
@@ -45,7 +46,10 @@ exports.createHut = async (hut) => {
 
 
 	await hutDAO
-		.createHut({ pointID: pointID, bedspace: Number(bedspace) })
+		.createHut({
+			pointID: pointID, bedspace: Number(bedspace),
+			website: website, phoneNumber: phoneNumber, email: email
+		})
 		.catch((err) => {
 			console.error(err);
 			throw err;

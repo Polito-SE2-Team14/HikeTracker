@@ -66,7 +66,7 @@ export function HutsPage(props) {
 			bedspace: Number(givenHut.bedspace),
 			creatorID: props.user.userID,
 			website: givenHut.website,
-			phoneNumber: givenHut.website,
+			phoneNumber: givenHut.phoneNumber,
 			email:givenHut.email
 		};
 
@@ -87,7 +87,7 @@ export function HutsPage(props) {
 			invalids.push(" bedspace");
 		//console.log(invalids.length);
 
-		if (invalids.length === 0) {
+		//if (invalids.length === 0) {
 			PointAPI.createHut(hut)
 				.then(() => {
 					setHuts([...huts, hut]);
@@ -96,12 +96,10 @@ export function HutsPage(props) {
 				})
 				.catch((err) => {
 					console.error(err);
-					setModalFooterVisible(true);
+					setModalFooterVisible(err);
 					setTimeout(() => setModalFooterVisible(false), 3000);
 				});
-		} else {
-			setModalFooterVisible("Errors with" + invalids.join(","));
-		}
+		//} else {			setModalFooterVisible("Errors with" + invalids.join(","));}}
 	};
 
 	const getAllHuts = async () => {

@@ -79,7 +79,7 @@ function HutCreationForm(props) {
 				<Form.Group className="mb-3">
 					<Form.Label>Altitude</Form.Label>
 					<Form.Control
-						type="number"
+						type="float"
 						required={true}
 						onChange={(ev) => setAltitude(ev.target.value)}
 					/>
@@ -165,7 +165,7 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Email</Form.Label>
 						<Form.Control
-							type="text"
+							type="email"
 							required={true}
 							onChange={(ev) => setEmail(ev.target.value)}
 						/>
@@ -177,7 +177,7 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Phone Number</Form.Label>
 						<Form.Control
-							type="text"
+							type="number"
 							required={true}
 							onChange={(ev) => setPhoneNumber(ev.target.value)}
 						/>

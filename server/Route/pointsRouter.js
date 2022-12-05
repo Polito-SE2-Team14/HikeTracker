@@ -16,7 +16,7 @@ router.get('', async (req, res) => {
 
 router.get('/huts', async (req, res) => {
 	await hutController.getHuts()
-		.then(huts => {  return res.status(200).json(huts)  })
+		.then(huts => { return res.status(200).json(huts) })
 		.catch((err) => {
 			return errorResponse(err, 500, res)
 		});
@@ -33,9 +33,10 @@ router.get('/:pointID',
 	});
 
 router.post('/huts',
-	check(["name", "address", "province", "municipality"]).not().isEmpty().trim().escape(),
-	check(["longitude", "latitude"]).isFloat().not().isEmpty().trim().escape(),
-	check(["bedspace","creatorID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	check(["name", "description", "address", "country","province", "municipality", "website"]).not().isEmpty().trim().escape(),
+	check(["longitude", "latitude", "altitude"]).isFloat().not().isEmpty().trim().escape(),
+	check(["bedspace", "creatorID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
+	check(["phoneNumber"]).isInt().not().isEmpty().trim().escape(),
 	async (req, res) => {
 
 		console.log(req.body)
