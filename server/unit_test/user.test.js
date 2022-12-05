@@ -148,5 +148,15 @@ describe('User Tests', () => {
 			expect(error).not.toBe(undefined)
 		})
 	})
+	describe("Login", () => {
+		
+	})
+	describe("get user", () => {
+		
+	})
+	describe("verify", () => {
+		
+	})
+
 
 })
