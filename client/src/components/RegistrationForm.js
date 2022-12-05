@@ -22,14 +22,6 @@ export function RegistrationForm(props) {
 			return !String(text).match(/[^a-zA-Z]/i);
 		};
 
-		let validateEmail = (email) => {
-			return String(email)
-				.toLowerCase()
-				.match(
-					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-				);
-		};
-
 		let validatePhone = (phone) => {
 			return !String(phone).match(/[^0-9]/i);
 		};
@@ -43,7 +35,7 @@ export function RegistrationForm(props) {
 			invalids.push(" surname");
 			setSurname('');
 		}
-		if (email === '' || !validateEmail(email)) {
+		if (email === '' ) {
 			invalids.push(" username");
 			setEmail('');
 		}
