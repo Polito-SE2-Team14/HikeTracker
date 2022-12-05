@@ -265,6 +265,13 @@ describe('Hut Tests', () => {
 
 
     })
+    describe("Get all huts", () => {
+        
+    })
+    describe("Delete an hut", () => {
+        
+    })
+
 
 });
 

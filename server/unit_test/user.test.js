@@ -48,10 +48,9 @@ describe('User Tests', () => {
 
 		test('Registering existing user', async () => {
 			let newUser = newUsers[0];
-			let error, user;
+			let error;
 			const token = crypto.randomBytes(20).toString('hex')
 			await userDAO.Register(newUser, token, 1, 1)
-				.then(u => user = u)
 				.catch(err => { console.error(err); throw err; });
 
 			await userController.register(newUser, 1, 1)
@@ -148,5 +147,15 @@ describe('User Tests', () => {
 			expect(error).not.toBe(undefined)
 		})
 	})
+	describe("Login", () => {
+		
+	})
+	describe("get user", () => {
+		
+	})
+	describe("verify", () => {
+		
+	})
+
 
 })

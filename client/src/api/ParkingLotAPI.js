@@ -27,7 +27,9 @@ const getAllParkingLots = async () => {
 					country: pL.country,
 					creatorName: pL.creatorName,
 					creatorID: pL.creatorID,
-					creatorSurname: pL.creatorSurname
+					creatorSurname: pL.creatorSurname,
+					altitude: pL.altitude,
+					description: pL.description
 				}
 			}
 		);
@@ -40,14 +42,15 @@ const getAllParkingLots = async () => {
 const addParkingLot = async (ParkingLotToAdd) => {
 	let body = ParkingLotToAdd;
 
-	try {
-		await REST.UPDATE("POST", api, body, true);
+	console.log(body)
 
-		return true;
-	} catch (err) {
-		console.error("Error in ParkingLotAPI.js", err)
-		throw err;
-	}
+	await REST.UPDATE("POST", api, body, true)
+		.catch((err) => {
+			console.error("Error in ParkingLotAPI.js", err)
+			throw err;
+		})
+
+	return true
 }
 
 const deleteParkingLot = async (idToDelete) => {

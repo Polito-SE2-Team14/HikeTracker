@@ -86,7 +86,6 @@ exports.getHike = function (wantedID) {
 }
 
 exports.getReferencePointsForHike = function (hikeID) {
-	console.log(hikeID)
 	return new Promise((resolve, reject) => {
 		db.all("SELECT referencePointID FROM HIKEREFERENCEPOINT WHERE hikeID = ? ",
 			[hikeID],
@@ -212,18 +211,15 @@ exports.deleteHike = function (hikeID) {
 }
 
 exports.getHikeTrack = function (hikeID) {
+	const file = checkPath(`../database/tracks/_${hikeID}_.trk`);
+	if (file)
+		try {
+			return readFileSync(file, { encoding: 'utf8', flag: 'r' });
+		} catch (err) {
+			console.error(err);
+		}
 
-	console.log(hikeID)
-	let reqPath = __dirname + `/../database/tracks/_${hikeID}_.trk`;
-	let resolvedPath = path.resolve(reqPath);
-
-	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';
-
-	try {
-		return readFileSync(resolvedPath, { encoding: 'utf8', flag: 'r' });
-	} catch (err) {
-		console.error(err);
-	}
+	return null;
 }
 
 exports.setStart = function (hikeID, startPointID) {
@@ -256,15 +252,36 @@ exports.setEnd = function (hikeID, endPointID) {
 
 
 function newTrack(hikeId, track) {
-	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	writeFile(SOURCE, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
-		if (err) throw err;
-	});
+	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+
+	if (file)
+		writeFile(file, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
+			if (err) throw err;
+		});
+	else throw Error('wrong path');
 }
 
 function deleteTrack(hikeId) {
-	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	unlink(SOURCE, err => {
+	let file;
+	try {
+		file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+	} catch (error) {
+		console.error(error)
+		throw error
+	}
+
+	unlink(file, err => {
 		if (err) throw err;
 	});
+
+}
+
+function checkPath(relativePath) {
+	let resolvedPath = path.resolve(__dirname + '/' + relativePath);
+	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
+
+	if (!resolvedPath.startsWith(tracksDir)) {
+		throw Error('wrong path');
+	}
+	else return resolvedPath;
 }

@@ -60,6 +60,20 @@ export function HikesPage(props) {
 		setSelectedHike(null);
 	};
 
+	const newHike = async (hike) => {
+		let insertedHike;
+		hike.creatorID = props.user.userID
+		await HikeAPI.newHike(hike)
+			.then(h => insertedHike = h)
+			.catch((e) => {
+				// TODO(antonio): error handling
+				console.error(e);
+			});
+
+		return insertedHike
+
+	}
+
 	useEffect(() => {
 		getAllHikes();
 	}, [hikes.length]);
@@ -102,13 +116,11 @@ export function HikesPage(props) {
 								<FontAwesomeIcon icon={faFilter} />
 							</Button>
 						</Col>
-						{RoleManagement.isLocalGuide(props.userType) ? (
+						{RoleManagement.isLocalGuide(props.userType) ? 
 							<Col xs={4} className="text-end">
 								<InsertHikeButton />
-							</Col>
-						) : (
-							false
-						)}
+							</Col> : false
+						}
 					</Row>
 					<Modal show={showFilterForm} onHide={handleClose}>
 						<Modal.Header closeButton>
@@ -129,6 +141,7 @@ export function HikesPage(props) {
 						hike={selectedHike}
 						onHide={handleCloseHikeForm}
 						setHikes={setHikes}
+						newHike={newHike}
 					/>
 					<HikeListTable
 						hikes={filteredHikes}
@@ -141,7 +154,8 @@ export function HikesPage(props) {
 						user={props.user}
 					/>
 				</Container>
-			)}
+			)
+			}
 		</>
 	);
 }

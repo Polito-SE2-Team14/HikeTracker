@@ -1,7 +1,6 @@
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
-import TextField from "@mui/material/TextField";
 import { AreaSelectMap } from "../Map/Maps";
 
 import { timeText } from "../HikeData";
