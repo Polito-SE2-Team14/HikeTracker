@@ -212,22 +212,17 @@ exports.deleteHike = function (hikeID) {
 }
 
 exports.getHikeTrack = function (hikeID) {
-	let resolvedPath = path.resolve(__dirname + `/../database/tracks/_${hikeID}_.trk`);
-	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
+	const file = checkPath(`../database/tracks/_${hikeID}_.trk`);
+	console.log(file)
 
-	if (!resolvedPath.startsWith(tracksDir)) {
-		console.log('wrong path');
-		
-		return null;
-	}
+	if (file)
+		try {
+			return readFileSync(file, { encoding: 'utf8', flag: 'r' });
+		} catch (err) {
+			console.error(err);
+		}
 
-	try {
-		return readFileSync(resolvedPath, { encoding: 'utf8', flag: 'r' });
-	} catch (err) {
-		console.error(err);
-
-		return null;
-	}
+	return null;
 }
 
 exports.setStart = function (hikeID, startPointID) {
@@ -260,15 +255,33 @@ exports.setEnd = function (hikeID, endPointID) {
 
 
 function newTrack(hikeId, track) {
-	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	writeFile(SOURCE, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
-		if (err) throw err;
-	});
+	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+
+	if (file)
+		writeFile(file, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
+			if (err) throw err;
+		});
+	else throw 'wrong path';
 }
 
 function deleteTrack(hikeId) {
-	const SOURCE = path.join(__dirname, `../database/tracks/_${hikeId}_.trk`);
-	unlink(SOURCE, err => {
-		if (err) throw err;
-	});
+	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+
+	if (file)
+		unlink(file, err => {
+			if (err) throw err;
+		});
+	else throw 'wrong path';
+}
+
+function checkPath(relativePath) {
+	let resolvedPath = path.resolve(__dirname + '/' + relativePath);
+	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
+
+	if (!resolvedPath.startsWith(tracksDir)) {
+		console.log('wrong path');
+
+		return false;
+	}
+	else return resolvedPath;
 }
