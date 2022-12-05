@@ -13,8 +13,7 @@ const getAllHikes = async () => {
 		let hikesJson = await response.json();
 
 		return hikesJson.map(
-			(h) =>
-				 {
+			(h) => {
 				return {
 					hikeID: h.hikeID,
 					title: h.title,
@@ -120,18 +119,11 @@ const newHike = async (hike) => {
  * @param {String} description Description of the hike
  * @returns {boolean} Success of the operation
  */
-const editHike = async (
-	hikeID,
-	title,
-	length,
-	eta,
-	ascent,
-	difficulty,
-	description,
-	municipality,
-	province
-) => {
+const editHike = async (hike) => {
 	// TODO(antonio): client-side validation
+
+	let { hikeID, title, length, eta, ascent,
+		difficulty, description, municipality, province } = hike
 
 	let body = {
 		hikeID: parseInt(hikeID),
@@ -242,8 +234,7 @@ const getHikePoints = async (hikeID) => {
 		let pointsJson = await response.json();
 
 		return pointsJson.map(
-			(p) =>
-				{
+			(p) => {
 				return {
 					pointID: p.pointID,
 					name: p.name,

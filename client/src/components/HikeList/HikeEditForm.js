@@ -120,35 +120,17 @@ function HikeForm(props) {
 			// NOTE: editing form
 
 			HikeAPI.editHike(
-				props.hike.hikeID,
-				title,
-				Math.round(length),
-				expectedTime,
-				ascent,
-				difficulty,
-				description,
-				municipality,
-				province
+				{
+					hikeID: props.hike.hikeID, title: title, length: Math.round(length),
+					expectedTime: expectedTime, ascent: ascent, difficulty: difficulty,
+					description: description, municipality: municipality, province: province
+				}
 			).catch((e) => {
 				// TODO(antonio): error handling
 				console.error(e);
 			});
 		} else {
-			// NOTE: adding form
-			/* hike = await HikeAPI.newHike(
-				title,
-				fileContent,
-				difficulty,
-				description,
-				municipality,
-				province
-			).catch((e) => {
-				// TODO(antonio): error handling
-				console.error(e);
-			}); */
-
-
-
+		
 			await props.newHike(
 				{
 					title: title, track: fileContent, difficulty: difficulty,

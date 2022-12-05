@@ -258,17 +258,20 @@ function newTrack(hikeId, track) {
 		writeFile(file, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
 			if (err) throw err;
 		});
-	else throw 'wrong path';
+	else throw Error('wrong path');
 }
 
 function deleteTrack(hikeId) {
-	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+	try {
+		const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+	} catch (error) {
+		throw error
+	}
 
-	if (file)
-		unlink(file, err => {
-			if (err) throw err;
-		});
-	else throw 'wrong path';
+	unlink(file, err => {
+		if (err) throw err;
+	});
+
 }
 
 function checkPath(relativePath) {
@@ -276,9 +279,7 @@ function checkPath(relativePath) {
 	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
 
 	if (!resolvedPath.startsWith(tracksDir)) {
-		console.error('wrong path');
-
-		return false;
+		throw Error('wrong path');
 	}
 	else return resolvedPath;
 }

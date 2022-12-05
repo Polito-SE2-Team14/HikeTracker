@@ -31,8 +31,8 @@ exports.createHut = async (hut) => {
 		throw Error("Type error with address")
 	if (isNaN(bedspace))
 		throw Error("Type error with bedspace")
-	/* if (isNaN(creatorID))
-		throw Error("Type error with creatorID") */
+	if (isNaN(creatorID))
+		throw Error("Type error with creatorID")
 
 	let pointID;
 	await pointsDAO.createPoint({
