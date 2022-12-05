@@ -18,14 +18,15 @@ export function ParkingLotsPage(props) {
 
 	// 	PROPS.USER?
 	const getAllParkingLots = async () => {
-		try {
-			let allLots = await ParkingLotAPI.getAllParkingLots();
 
-			setLots(allLots);
-			setLoading(false);
-		} catch (err) {
-			throw (err);
-		}
+		let allLots
+		await ParkingLotAPI.getAllParkingLots()
+			.catch(err => { console.error(err); throw err })
+			.then(lots => {
+				allLots = lots;
+				setLots(allLots);
+				setLoading(false);
+			})
 	};
 
 	const handleShowLotForm = () => {

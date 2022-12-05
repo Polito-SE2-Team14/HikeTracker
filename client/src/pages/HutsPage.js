@@ -67,23 +67,7 @@ export function HutsPage(props) {
 			email: givenHut.email
 		};
 
-		/* let invalids = [];
 
-		if (hut.name == null || hut.name === "" || !String(hut.name).match(/[a-zA-Z]+/i))
-			invalids.push(" name");
-
-		if (hut.latitude == null || hut.latitude === "" || Number.isNaN(hut.latitude))
-			invalids.push(" latitude");
-
-		if (hut.longitude == null || hut.latitude === "" || Number.isNaN(hut.longitude))
-			invalids.push(" longitude");
-
-		if (hut.address == null || hut.address === "") invalids.push(" address");
-
-		if (hut.bedspace == null || hut.bedspace === "" || Number.isNaN(hut.bedspace))
-			invalids.push(" bedspace");
-
-		if (invalids.length === 0) { */
 		PointAPI.createHut(hut)
 			.then(() => {
 				setHuts([...huts, hut]);
@@ -95,19 +79,21 @@ export function HutsPage(props) {
 				setModalFooterVisible(err);
 				setTimeout(() => setModalFooterVisible(false), 3000);
 			});
-		//} else {			setModalFooterVisible("Errors with" + invalids.join(","));}}
 	};
 
 	const getAllHuts = async () => {
-		try {
-			let huts = await PointAPI.getAllHuts();
-			setHuts(huts);
-			setFilteredHuts(applyFilters(huts, filters));
 
-			setLoading(false);
-		} catch (err) {
-			console.error(err);
-		}
+		let huts
+		await PointAPI.getAllHuts()
+			.catch(err => { console.error(err) })
+			.then(h => {
+				huts = h
+				setHuts(huts);
+				setFilteredHuts(applyFilters(huts, filters));
+
+				setLoading(false);
+			})
+
 	};
 
 	useEffect(() => {

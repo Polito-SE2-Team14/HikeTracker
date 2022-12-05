@@ -39,17 +39,18 @@ export function HikesPage(props) {
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
-		try {
-			let hikes = await HikeAPI.getAllHikes();
-			hikes = hikes.map(function (hike) {
-				hike.show = true;
-				return hike;
-			});
-			setHikes(hikes);
-			setLoading(false);
-		} catch (error) {
-			console.error(error);
-		}
+		let hikes;
+		await HikeAPI.getAllHikes()
+			.catch(err => { console.error(err) })
+			.then(h => {
+				hikes = h
+				hikes = hikes.map(function (hike) {
+					hike.show = true;
+					return hike;
+				});
+				setHikes(hikes);
+				setLoading(false);
+			})
 	};
 
 	const handleClose = () => {
