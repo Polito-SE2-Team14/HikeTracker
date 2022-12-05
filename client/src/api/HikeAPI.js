@@ -174,8 +174,9 @@ const addStartPoint = async (hikeID, pointID) => {
 		startPointID: pointID,
 	};
 
+
 	try {
-		await REST.UPDATE("PUT", `${api}/start`, body, true);
+		await REST.UPDATE("POST", `${api}/start`, body, true);
 
 		return true;
 	} catch (e) {
@@ -190,8 +191,10 @@ const addEndPoint = async (hikeID, pointID) => {
 		endPointID: pointID,
 	};
 
+
+
 	try {
-		await REST.UPDATE("PUT", `${api}/end`, body, true);
+		await REST.UPDATE("POST", `${api}/end`, body, true);
 
 		return true;
 	} catch (e) {

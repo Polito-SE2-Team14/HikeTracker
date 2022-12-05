@@ -49,47 +49,42 @@ export function HutsPage(props) {
 	};
 
 	const handleCreate = (
-		name,
-		latitude,
-		longitude,
-		address,
-		province,
-		municipality,
-		bedspace,
-		hutOwnerID
+		givenHut
 	) => {
 		//console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
 
 		let hut = {
-			name: name,
-			latitude: Number(latitude),
-			longitude: Number(longitude),
-			address: address,
-			province: province,
-			municipality: municipality,
-			bedspace: Number(bedspace),
-			hutOwnerID: Number(hutOwnerID),
+			name: givenHut.name,
+			description: givenHut.description,
+			latitude: Number(givenHut.latitude),
+			longitude: Number(givenHut.longitude),
+			altitude: Number(givenHut.altitude),
+			address: givenHut.address,
+			country: givenHut.country,
+			province: givenHut.province,
+			municipality: givenHut.municipality,
+			bedspace: Number(givenHut.bedspace),
+			creatorID: props.user.userID,
+			website: givenHut.website,
+			phoneNumber: givenHut.website,
+			email:givenHut.email
 		};
 
 		let invalids = [];
 
-		if (name == null || name === "" || !String(name).match(/[a-zA-Z]+/i))
+		if (hut.name == null || hut.name === "" || !String(hut.name).match(/[a-zA-Z]+/i))
 			invalids.push(" name");
 
-		if (latitude == null || latitude === "" || Number.isNaN(latitude))
+		if (hut.latitude == null || hut.latitude === "" || Number.isNaN(hut.latitude))
 			invalids.push(" latitude");
 
-		if (longitude == null || latitude === "" || Number.isNaN(longitude))
+		if (hut.longitude == null || hut.latitude === "" || Number.isNaN(hut.longitude))
 			invalids.push(" longitude");
 
-		if (address == null || address === "") invalids.push(" address");
+		if (hut.address == null || hut.address === "") invalids.push(" address");
 
-		if (bedspace == null || bedspace === "" || Number.isNaN(bedspace))
+		if (hut.bedspace == null || hut.bedspace === "" || Number.isNaN(hut.bedspace))
 			invalids.push(" bedspace");
-
-		if (hutOwnerID == null || hutOwnerID === "" || Number.isNaN(hutOwnerID))
-			invalids.push(" hutOwnerID");
-
 		//console.log(invalids.length);
 
 		if (invalids.length === 0) {
@@ -156,7 +151,7 @@ export function HutsPage(props) {
 						</Col>
 
 						{
-							props.user.type === "localGuide" ?
+							props.user && props.user.type === "localGuide" ?
 								<Col xs={5} className="text-end">
 									<Button variant="success" onClick={() => handleSubmit()}>
 										<FontAwesomeIcon icon={faPlus} /> Register Hut

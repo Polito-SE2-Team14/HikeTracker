@@ -95,7 +95,9 @@ export function LocationMap(props) {
 					url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 				/>
 				<HikeMarker point={props.point} />
-				{/*TODO(antonio) add hikes that include this track*/}
+				{
+					//TODO(antonio) add hikes that include this track
+				}
 			</MapContainer>
 		</>
 	);

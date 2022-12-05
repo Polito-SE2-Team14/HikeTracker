@@ -419,7 +419,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPointOptions} onChange={(ev) => setStart(endPoints[ev.value])} />
+					<Select options={endPointOptions} onChange={(ev) => setEnd(endPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			{/* reference points */}

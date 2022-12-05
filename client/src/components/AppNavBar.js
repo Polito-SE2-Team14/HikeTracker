@@ -11,6 +11,7 @@ import {
 	Row,
 	ListGroup,
 	NavDropdown,
+	Image,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -59,6 +60,9 @@ export function AppNavBar(props) {
 							</Button>
 						</Col>
 						<Col className="d-flex align-items-center justify-content-center">
+							{
+								//TODO add icon
+							} 
 							<Button variant="navbar" size="xl" onClick={handleHomeClick}>
 								HIKEfive!
 							</Button>

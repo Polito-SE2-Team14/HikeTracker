@@ -62,6 +62,12 @@ exports.addHike = async (hike) => {
 //TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
 
+	let hike
+	this.getHike(hikeID)
+		.then(h => hike = h)
+	if (hike == null)
+		throw Error("There is no hike with that ID")
+
 	let referencePointID;
 	await poinstDAO.createPoint(referencePoint)
 		.then((id) => referencePointID = id)
@@ -71,12 +77,11 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 
 	await hikeDAO
 		.addReferencePoint(hikeID, referencePointID)
-		.then((msg) => {
-			return msg;
-		})
 		.catch((err) => {
 			throw err;
 		});
+	
+	return referencePointID
 }
 
 //TODO test this function
@@ -95,6 +100,14 @@ exports.updateHike = async (hike) => {
 
 //TODO test this function
 exports.deleteHike = async (hikeID) => {
+
+	let hike
+	await this.getHike(hikeDAO)
+		.then(h => hike = h)
+	
+	if (hike == null)
+		throw Error("There is no hike with that ID")
+
 	let msg
 	await hikeDAO.deleteHike(hikeID)
 		.then(m => msg = m)

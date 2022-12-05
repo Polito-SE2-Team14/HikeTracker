@@ -4,7 +4,7 @@ const { check, validationResult, param } = require('express-validator');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const userController = require("../Controller/UserController")
-const { errorResponse, errorResponseJson } = require("./utils")
+const { errorResponse } = require("./utils")
 
 passport.use(new LocalStrategy(async function verify(username, password, cb) {
 

@@ -17,6 +17,19 @@ export function HutModal(props) {
 				<Modal.Title>{props.hut.name}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+			{props.hut.description &&
+					<Row className=" mt-2">
+						<Col>
+							<strong>{"Description: "}</strong>{props.hut.description}
+							</Col>
+					</Row>
+				}
+				<Row className=" mt-2">
+						<Col>
+							<strong>{"Altitude: "}</strong>{props.hut.altitude}
+							</Col>
+					</Row>
+				<br/>
 				<LocationMap point={props.hut} />
 				<Row className=" mt-2">
 					<Col>
