@@ -14,6 +14,15 @@ export function isInArea(point, area){
 
 }
 
+export function timeText(timeValue) {
+	if (timeValue < 60) return `${timeValue}m`;
+
+	let hours = Math.floor(timeValue / 60);
+	let minutes = timeValue % 60;
+
+	return `${hours}h${minutes == 0 ? "" : ` ${minutes}m`}`;
+}
+
 function distanceBetweenCoords(p1, p2){
     // NOTE(antonio): Harvesine formula
     let R = 6371; // Radius of the earth in km
