@@ -3,7 +3,7 @@ const router = express.Router();
 const hikeController = require("../Controller/HikeController");
 const { check, validationResult } = require("express-validator");
 const { check_hike } = require("../DAO/hikeDAO");
-const { errorResponse, errorResponseJson } = require("./utils")
+const { errorResponse } = require("./utils")
 
 // GET request to /api/hikes to obtain a list of all hikes
 router.get("", async (req, res) => {
@@ -44,7 +44,7 @@ router.get(
 			.getHikeTrack(hikeID)
 			.then((track) => {return res.json(track)})
 			.catch((err) => {
-				return errorResponseJson(err, 500, res)
+				return errorResponse(err, 500, res)
 			});
 	}
 )
@@ -56,7 +56,7 @@ router.get("/:hikeID/referencePoints",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		const hikeID = req.params.hikeID
 
@@ -79,7 +79,7 @@ router.post("",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		let newHike = req.body;
 		newHike.hikeID = null;
@@ -107,7 +107,7 @@ router.post("/referencePoints",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		const hikeID = req.body.hikeID;
 		let referencePoint = req.body.referencePoint;
@@ -133,12 +133,12 @@ router.put("",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 
 		let present = check_hike(req.body.hikeID);
 		if (!present)
-			return errorResponseJson({ error: `No hike with the given ID found` }, 404, res)
+			return errorResponse({ error: `No hike with the given ID found` }, 404, res)
 
 		let hike = req.body
 
@@ -161,7 +161,7 @@ router.post("/start",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		await hikeController.setStart(req.body.hikeID, req.body.startPointID)
 			.then(() => {
@@ -181,7 +181,7 @@ router.post("/end",
 
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		await hikeController.setEnd(req.body.hikeID, req.body.endPointID)
 			.then(() => res.status(201).end())
@@ -202,7 +202,7 @@ router.delete("/:hikeID",
 		let present = await check_hike(req.params.hikeID)
 			.catch(err => { return res.status(404).json({ error: err }) })
 		if (!present) 
-			return errorResponseJson({ error: `No hike with the given ID found` }, 404, res)
+			return errorResponse({ error: `No hike with the given ID found` }, 404, res)
 
 		await hikeController
 			.deleteHike(req.params.hikeID)
