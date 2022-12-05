@@ -262,9 +262,11 @@ function newTrack(hikeId, track) {
 }
 
 function deleteTrack(hikeId) {
+	let file;
 	try {
-		const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
+		file = checkPath(`../database/tracks/_${hikeId}_.trk`)
 	} catch (error) {
+		console.error(error)
 		throw error
 	}
 

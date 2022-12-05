@@ -6,7 +6,6 @@ import {
 	InputGroup,
 	Row,
 	Col,
-	FormGroup,
 } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";

@@ -2,8 +2,7 @@ import { Container, Modal, Button, Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import HikeAPI from "../api/HikeAPI";
 import HikeListTable from "../components/HikeList/HikeListTable";
-import { FilterForm } from "../components/HikeList/filteringForm";
-import { filterHike, filterAllHikes } from "../components/HikeList/filtering_functions";
+import {  filterAllHikes } from "../components/HikeList/filtering_functions";
 import { Loading } from "../components/Loading";
 import { HikeEditForm } from "../components/HikeList/HikeEditForm";
 

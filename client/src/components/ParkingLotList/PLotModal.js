@@ -3,13 +3,10 @@ import React from "react";
 import { LocationMap } from "../Map/Maps";
 import {
 	faXmark,
-	faPenToSquare,
 	faTrashCan,
 	faBed,
 	faMap,
 	faCity,
-	faHouse,
-	faCar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

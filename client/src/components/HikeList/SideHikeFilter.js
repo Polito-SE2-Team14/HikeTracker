@@ -1,7 +1,6 @@
 import { Row, Container, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import Slider from "@mui/material/Slider";
-import TextField from "@mui/material/TextField";
 import { AreaSelectMap } from "../Map/Maps";
 
 const MIN_DISTANCE_VALUE = 2;

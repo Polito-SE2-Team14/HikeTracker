@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
 import { PointSelectMap } from "../Map/Maps";
-import ParkingLotAPI from "../../api/ParkingLotAPI";
 
 export function NewPLotForm(props) {
 	let [lotName, setLotName] = useState("");
