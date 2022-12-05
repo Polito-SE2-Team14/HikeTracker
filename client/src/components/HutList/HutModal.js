@@ -2,7 +2,6 @@ import { Modal, Col, Row, Button } from "react-bootstrap";
 import { LocationMap } from "../Map/Maps";
 import {
 	faXmark,
-	faPenToSquare,
 	faTrashCan,
 	faBed,
 	faMap,
@@ -17,25 +16,41 @@ export function HutModal(props) {
 				<Modal.Title>{props.hut.name}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-			{props.hut.description &&
 					<Row className=" mt-2">
 						<Col>
-							<strong>{"Description: "}</strong>{props.hut.description}
-							</Col>
+							<strong>{" Description: "}
+							</strong>{props.hut.description ? props.hut.description : "None"}
+						</Col>
 					</Row>
-				}
 				<Row className=" mt-2">
-						<Col>
-							<strong>{"Altitude: "}</strong>{props.hut.altitude}
-							</Col>
-					</Row>
-				<br/>
+					<Col>
+						<strong>{" Altitude: "}</strong>{props.hut.altitude ? props.hut.altitude : "None"}
+					</Col>
+				</Row>
+				<br />
 				<LocationMap point={props.hut} />
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{"Municipality (Province, Country):"}</strong>
+						<strong>{" Municipality (Province, Country):"}</strong>
+						<br/>
 						{` ${props.hut.municipality} (${props.hut.province}, ${props.hut.country})`}
+					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top">
+					<Col>
+						<strong>{" Website:"}</strong>
+						{` ${props.hut.website ? props.hut.website : "None"}`}
+					</Col>
+					<Col>
+						<strong>{" Email:"}</strong>
+						{` ${props.hut.email ? props.hut.email : "None"}`}
+					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top">
+					<Col>
+						<strong>{" Phone Number:"}</strong>
+						{` ${props.hut.phoneNumber ? props.hut.phoneNumber : "None"}`}
 					</Col>
 				</Row>
 				<Row xs={1} md={2} className="d-flex align-items-top">
@@ -44,6 +59,9 @@ export function HutModal(props) {
 						<strong>{" Address:"}</strong>
 						{` ${props.hut.address}`}
 					</Col>
+				</Row>
+				<Row xs={1} md={2} className="d-flex align-items-top">
+
 					<Col>
 						<FontAwesomeIcon icon={faBed} />
 						<strong>{" Available beds:"}</strong>

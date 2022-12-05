@@ -11,7 +11,6 @@ import {
 	Row,
 	ListGroup,
 	NavDropdown,
-	Image,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

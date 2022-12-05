@@ -48,10 +48,7 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = (
-		givenHut
-	) => {
-		//console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
+	const handleCreate = (givenHut) => {
 
 		let hut = {
 			name: givenHut.name,
@@ -66,54 +63,37 @@ export function HutsPage(props) {
 			bedspace: Number(givenHut.bedspace),
 			creatorID: props.user.userID,
 			website: givenHut.website,
-			phoneNumber: givenHut.website,
-			email:givenHut.email
+			phoneNumber: givenHut.phoneNumber,
+			email: givenHut.email
 		};
 
-		let invalids = [];
 
-		if (hut.name == null || hut.name === "" || !String(hut.name).match(/[a-zA-Z]+/i))
-			invalids.push(" name");
-
-		if (hut.latitude == null || hut.latitude === "" || Number.isNaN(hut.latitude))
-			invalids.push(" latitude");
-
-		if (hut.longitude == null || hut.latitude === "" || Number.isNaN(hut.longitude))
-			invalids.push(" longitude");
-
-		if (hut.address == null || hut.address === "") invalids.push(" address");
-
-		if (hut.bedspace == null || hut.bedspace === "" || Number.isNaN(hut.bedspace))
-			invalids.push(" bedspace");
-		//console.log(invalids.length);
-
-		if (invalids.length === 0) {
-			PointAPI.createHut(hut)
-				.then(() => {
-					setHuts([...huts, hut]);
-					setModalFooterVisible(false);
-					setModalVisible(false);
-				})
-				.catch((err) => {
-					console.error(err);
-					setModalFooterVisible(true);
-					setTimeout(() => setModalFooterVisible(false), 3000);
-				});
-		} else {
-			setModalFooterVisible("Errors with" + invalids.join(","));
-		}
+		PointAPI.createHut(hut)
+			.then(() => {
+				setHuts([...huts, hut]);
+				setModalFooterVisible(false);
+				setModalVisible(false);
+			})
+			.catch((err) => {
+				console.error(err);
+				setModalFooterVisible(err);
+				setTimeout(() => setModalFooterVisible(false), 3000);
+			});
 	};
 
 	const getAllHuts = async () => {
-		try {
-			let huts = await PointAPI.getAllHuts();
-			setHuts(huts);
-			setFilteredHuts(applyFilters(huts, filters));
 
-			setLoading(false);
-		} catch (err) {
-			console.log(err);
-		}
+		let huts
+		await PointAPI.getAllHuts()
+			.catch(err => { console.error(err) })
+			.then(h => {
+				huts = h
+				setHuts(huts);
+				setFilteredHuts(applyFilters(huts, filters));
+
+				setLoading(false);
+			})
+
 	};
 
 	useEffect(() => {
@@ -156,7 +136,7 @@ export function HutsPage(props) {
 									<Button variant="success" onClick={() => handleSubmit()}>
 										<FontAwesomeIcon icon={faPlus} /> Register Hut
 									</Button>
-									</Col>
+								</Col>
 								:
 								false}
 					</Row>

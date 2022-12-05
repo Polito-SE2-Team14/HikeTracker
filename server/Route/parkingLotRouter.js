@@ -26,6 +26,8 @@ router.post("",
 
 		}
 
+		console.log(req.body)
+
 		await pLotController
 			.addParkingLot(req.body)
 			.then(() => res.status(200).end())

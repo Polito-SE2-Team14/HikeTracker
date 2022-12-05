@@ -3,7 +3,6 @@ import { Card, Col, Row, Button, Form, Container } from "react-bootstrap";
 import {
 	faBed,
 	faCity,
-	faMap,
 	faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -105,7 +105,9 @@ router.post("",
 		await hikeController
 			.addHike(newHike)
 			.then((msg) => {
-				return res.status(201).json(msg);
+				{
+					return res.status(201).json(msg);
+				}
 			})
 			.catch((err) => {
 				return errorResponse(err, 500, res)

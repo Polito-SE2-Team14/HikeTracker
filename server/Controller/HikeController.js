@@ -80,7 +80,7 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 		.catch((err) => {
 			throw err;
 		});
-	
+
 	return referencePointID
 }
 
@@ -104,13 +104,11 @@ exports.deleteHike = async (hikeID) => {
 	let hike
 	await this.getHike(hikeDAO)
 		.then(h => hike = h)
-	
+
 	if (hike == null)
 		throw Error("There is no hike with that ID")
 
-	let msg
 	await hikeDAO.deleteHike(hikeID)
-		.then(m => msg = m)
 		.catch(err => { console.error(err); throw err })
 }
 

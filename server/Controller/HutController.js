@@ -14,6 +14,7 @@ exports.getHuts = async () => {
 exports.createHut = async (hut) => {
 
 	let { name, latitude, longitude, altitude, description,
+		website, email, phoneNumber,
 		municipality, province, address, bedspace, creatorID, country } = hut
 
 	if (typeof name != "string")
@@ -30,8 +31,8 @@ exports.createHut = async (hut) => {
 		throw Error("Type error with address")
 	if (isNaN(bedspace))
 		throw Error("Type error with bedspace")
-	/* if (isNaN(creatorID))
-		throw Error("Type error with creatorID") */
+	if (isNaN(creatorID))
+		throw Error("Type error with creatorID")
 
 	let pointID;
 	await pointsDAO.createPoint({
@@ -45,7 +46,10 @@ exports.createHut = async (hut) => {
 
 
 	await hutDAO
-		.createHut({ pointID: pointID, bedspace: Number(bedspace) })
+		.createHut({
+			pointID: pointID, bedspace: Number(bedspace),
+			website: website, phoneNumber: phoneNumber, email: email
+		})
 		.catch((err) => {
 			console.error(err);
 			throw err;
