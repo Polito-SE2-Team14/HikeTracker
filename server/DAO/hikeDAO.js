@@ -7,6 +7,7 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 const path = require("path");
+const { resolve } = require("path");
 
 /**
  * Queries the db to get all hikes
@@ -93,14 +94,49 @@ exports.getCloseHutsForHike=function(hikeID){
 			const track = this.getHikeTrack(hikeID);
 			let huts=rows.filter((hut)=>{
 				for(let i=0;i<track.length;i++){
-					let dist=distanceBetweenCoords([hut.latitude,hut.longitude],track[i]);
-					if(dist<=5000){
+					if(distanceBetweenCoords([hut.latitude,hut.longitude],track[i])<=5000){
 						return true;
 					}
 				}
 				return false;
 			});
 			resolve(huts);
+		})
+	});
+}
+
+exports.linkHutToHike=function(hutID,hikeID){
+	return new Promise((resolve,reject)=>{
+		db.all("SELECT * FROM POINT WHERE pointID=? AND pointType='hut'",[hutID],function(err,rows){
+			if(err){
+				console.error(err);
+				reject(err);
+			}else if(rows.length==0){
+				console.error("No hut has the given ID");
+				reject(new Error("No hut has the given ID"));
+			}else{
+				db.all("SELECT * FROM HIKE WHERE hikeID=?",[hikeID],function(err,rows){
+					if(err){
+						console.error(err);
+						reject(err);
+					}else if(rows.length==0){
+						console.error("No hike has the given ID");
+						reject(new Error("No hike has the given ID"));
+					}else{
+						db.run("INSERT INTO HIKELINKHUT (hikeID, hutID) VALUES(?,?);",[hikeID,hutID],(err)=>{
+							if(err){
+								console.error(err);
+								reject(err);
+							}
+							resolve({
+								hutID: hutID,
+								hikeID: hikeID
+							});
+						})
+					}
+				})
+			}
+
 		})
 	})
 }

@@ -18,8 +18,14 @@ exports.getHike = async (hikeID) => {
 
 exports.getCloseHutsForHike=async(hikeID)=>{
 	const huts = await hikeDAO.getCloseHutsForHike(hikeID)
-		.catch(errr=>{throw err});
+		.catch(err=>{throw err});
 	return huts;
+}
+
+exports.linkHutToHike=async(hutID,hikeID)=>{
+	const addedLink = await hikeDAO.linkHutToHike(hutID,hikeID)
+		.catch(err=>{throw err});
+	return addedLink;
 }
 
 //TODO test this function

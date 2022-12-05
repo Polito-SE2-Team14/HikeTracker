@@ -49,6 +49,7 @@ router.get(
 	}
 )
 
+// returns all huts close the given hike
 router.get("/:hikeID/huts",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async(req,res)=>{
@@ -56,14 +57,31 @@ router.get("/:hikeID/huts",
 		if (!errors.isEmpty())
 			return errorResponseJson(errors.array(), 422, res)
 
-			await hikeController
-			.getCloseHutsForHike(req.params.hikeID)
-			.then((msg) => {
-				return res.status(201).json(msg);
-			})
-			.catch((err) => {
-				return errorResponse(err, 500, res)
-			});
+		await hikeController.getCloseHutsForHike(req.params.hikeID)
+		.then((msg) => {
+			return res.status(201).json(msg);
+		})
+		.catch((err) => {
+			return errorResponse(err, 500, res)
+		});
+	}
+);
+
+router.post("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if(!errors.isEmpty())
+			return errorResponseJson(errors.array(), 422, res)
+		
+		await hikeController.linkHutToHike(req.params.hutID,req.params.hikeID)
+		.then((msg)=>{
+			return res.status(201).json(msg);
+		})
+		.catch((err)=>{
+			return errorResponse(err,500,res)
+		});
 	}
 );
 
