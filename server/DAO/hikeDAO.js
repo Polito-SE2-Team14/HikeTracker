@@ -212,17 +212,21 @@ exports.deleteHike = function (hikeID) {
 }
 
 exports.getHikeTrack = function (hikeID) {
+	let resolvedPath = path.resolve(__dirname + `/../database/tracks/_${hikeID}_.trk`);
+	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
 
-	console.log(hikeID)
-	let reqPath = __dirname + `/../database/tracks/_${hikeID}_.trk`;
-	let resolvedPath = path.resolve(reqPath);
-
-	if(!resolvedPath.startsWith(__dirname + '/database/tracks')) return 'wrong path';
+	if (!resolvedPath.startsWith(tracksDir)) {
+		console.log('wrong path');
+		
+		return null;
+	}
 
 	try {
 		return readFileSync(resolvedPath, { encoding: 'utf8', flag: 'r' });
 	} catch (err) {
 		console.error(err);
+
+		return null;
 	}
 }
 
