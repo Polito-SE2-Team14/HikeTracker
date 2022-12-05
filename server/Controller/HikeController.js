@@ -16,6 +16,12 @@ exports.getHike = async (hikeID) => {
 	return hike;
 }
 
+exports.getCloseHutsForHike=async(hikeID)=>{
+	const huts = await hikeDAO.getCloseHutsForHike(hikeID)
+		.catch(errr=>{throw err});
+	return huts;
+}
+
 //TODO test this function
 exports.getReferencePointsForHike = async (hikeID) => {
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)

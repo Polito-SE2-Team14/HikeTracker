@@ -61,6 +61,19 @@ exports.check_hike = function (wantedID) {
 	});
 }
 
+exports.getCloseHutsForHike=function(hikeID){
+	return new Promise((resolve,reject)=>{
+		db.get("SELECT * FROM POINT WHERE pointType=hut",(err,rows)=>{
+			if (err) {
+				console.error(err)
+				reject(err);
+			}
+			const track = getHikeTrack(hikeID);
+			console.log(track);
+		})
+	})
+}
+
 /**
  * Get the hike associated to the ID passed
  * @param {number} wantedID - Id of the searched hike
