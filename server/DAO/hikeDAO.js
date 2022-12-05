@@ -86,7 +86,6 @@ exports.getHike = function (wantedID) {
 }
 
 exports.getReferencePointsForHike = function (hikeID) {
-	console.log(hikeID)
 	return new Promise((resolve, reject) => {
 		db.all("SELECT referencePointID FROM HIKEREFERENCEPOINT WHERE hikeID = ? ",
 			[hikeID],
@@ -213,8 +212,6 @@ exports.deleteHike = function (hikeID) {
 
 exports.getHikeTrack = function (hikeID) {
 	const file = checkPath(`../database/tracks/_${hikeID}_.trk`);
-	console.log(file)
-
 	if (file)
 		try {
 			return readFileSync(file, { encoding: 'utf8', flag: 'r' });
@@ -279,7 +276,7 @@ function checkPath(relativePath) {
 	let tracksDir = path.resolve(__dirname + '/../database/tracks/_');
 
 	if (!resolvedPath.startsWith(tracksDir)) {
-		console.log('wrong path');
+		console.error('wrong path');
 
 		return false;
 	}

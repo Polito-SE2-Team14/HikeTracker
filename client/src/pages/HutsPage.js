@@ -48,10 +48,7 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = (
-		givenHut
-	) => {
-		//console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
+	const handleCreate = (givenHut) => {
 
 		let hut = {
 			name: givenHut.name,
@@ -67,10 +64,10 @@ export function HutsPage(props) {
 			creatorID: props.user.userID,
 			website: givenHut.website,
 			phoneNumber: givenHut.phoneNumber,
-			email:givenHut.email
+			email: givenHut.email
 		};
 
-		let invalids = [];
+		/* let invalids = [];
 
 		if (hut.name == null || hut.name === "" || !String(hut.name).match(/[a-zA-Z]+/i))
 			invalids.push(" name");
@@ -85,20 +82,19 @@ export function HutsPage(props) {
 
 		if (hut.bedspace == null || hut.bedspace === "" || Number.isNaN(hut.bedspace))
 			invalids.push(" bedspace");
-		//console.log(invalids.length);
 
-		//if (invalids.length === 0) {
-			PointAPI.createHut(hut)
-				.then(() => {
-					setHuts([...huts, hut]);
-					setModalFooterVisible(false);
-					setModalVisible(false);
-				})
-				.catch((err) => {
-					console.error(err);
-					setModalFooterVisible(err);
-					setTimeout(() => setModalFooterVisible(false), 3000);
-				});
+		if (invalids.length === 0) { */
+		PointAPI.createHut(hut)
+			.then(() => {
+				setHuts([...huts, hut]);
+				setModalFooterVisible(false);
+				setModalVisible(false);
+			})
+			.catch((err) => {
+				console.error(err);
+				setModalFooterVisible(err);
+				setTimeout(() => setModalFooterVisible(false), 3000);
+			});
 		//} else {			setModalFooterVisible("Errors with" + invalids.join(","));}}
 	};
 
@@ -110,7 +106,7 @@ export function HutsPage(props) {
 
 			setLoading(false);
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
 	};
 
@@ -154,7 +150,7 @@ export function HutsPage(props) {
 									<Button variant="success" onClick={() => handleSubmit()}>
 										<FontAwesomeIcon icon={faPlus} /> Register Hut
 									</Button>
-									</Col>
+								</Col>
 								:
 								false}
 					</Row>

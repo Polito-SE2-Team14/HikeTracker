@@ -18,60 +18,74 @@ export function ParkingLotsPage(props) {
 
 	// 	PROPS.USER?
 	const getAllParkingLots = async () => {
-		try{
+		try {
 			let allLots = await ParkingLotAPI.getAllParkingLots();
-			
+
 			setLots(allLots);
 			setLoading(false);
-		}catch(err){
-			throw(err);
+		} catch (err) {
+			throw (err);
 		}
 	};
 
-	const handleShowLotForm=()=>{
+	const handleShowLotForm = () => {
 		setShowLotForm(true);
 	}
 
-	const handleHideLotForm=()=>{
+	const handleHideLotForm = () => {
 		setShowLotForm(false);
 	}
 
-	useEffect(()=>{
+	const addPlot = async (newLot) => {
+
+		newLot.creatorID = props.user.userID
+
+		await ParkingLotAPI.addParkingLot(newLot)
+			.then(() => {
+				setLots((lots) => [...lots, newLot]);
+			})
+			.catch((err) => {
+				throw (err);
+			});
+	}
+
+	useEffect(() => {
 		getAllParkingLots();
 	}, [lots.length]);
 
 
 	return (
-	<>
-		{loading ? 
-			<Loading/>
-		:
-			<Container>
-				<h1 className="mt-3">Parking Lots</h1>
-				<Row className="mt-3">
-					{
-						props.user.type === "localGuide"?
-						<Col className="text-end">
-							<Button variant="success" onClick={handleShowLotForm}>
-								<FontAwesomeIcon icon={faPlus} /> Add new parking lot
-							</Button>
-						</Col>
-						:
-						<></>
-					}
-				</Row>
-				
-				<NewPLotForm
-					show={showLotForm}
-					onHide={handleHideLotForm}
-					setLots={setLots}
-				/>
+		<>
+			{loading ?
+				<Loading />
+				:
+				<Container>
+					<h1 className="mt-3">Parking Lots</h1>
+					<Row className="mt-3">
+						{
+							props.user.type === "localGuide" ?
+								<Col className="text-end">
+									<Button variant="success" onClick={handleShowLotForm}>
+										<FontAwesomeIcon icon={faPlus} /> Add new parking lot
+									</Button>
+								</Col>
+								:
+								<></>
+						}
+					</Row>
 
-				<PLotListTable
-					lots={lots}
-					setLots={setLots}
-				/>
-			</Container>
-		}
-	</>);
+					<NewPLotForm
+						addPlot={addPlot}
+						show={showLotForm}
+						onHide={handleHideLotForm}
+						setLots={setLots}
+					/>
+
+					<PLotListTable
+						lots={lots}
+						setLots={setLots}
+					/>
+				</Container>
+			}
+		</>);
 }

@@ -29,13 +29,15 @@ exports.parkingLotExists = async (pLotId) => {
 //TODO test this function
 exports.addParkingLot = async (newPLot) => {
 
-	let { name, latitude, longitude, municipality, province, address, carspace, creatorID, country } = newPLot
+	let { name, altitude, latitude, longitude, municipality, province, address,
+		description, carspace, creatorID, country } = newPLot
 
 
 	let pointID;
 	await pointsDAO.createPoint({
-		name: name, latitude: Number(latitude), longitude: Number(longitude), country: country,
-		address: address, municipality: municipality, province: province, type: "parkinglot", creatorID: Number(creatorID)
+		name: name, country: country, municipality: municipality, province: province, 
+		latitude: Number(latitude), longitude: Number(longitude), altitude: Number(altitude),
+		address: address, type: "parkinglot", creatorID: Number(creatorID), description: description
 	})
 		.then(newID => pointID = newID)
 		.catch(err => { console.error("controller:", err); throw err });

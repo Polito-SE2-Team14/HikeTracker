@@ -31,16 +31,16 @@ function App() {
 		const checkAuth = async () => {
 			try {
 				let currentUser = await userAPI.getUserInfo(); // we have the user info here
-				console.log(currentUser);
+				//console.log(currentUser);
 				if (currentUser) {
 					setUser(currentUser);
 					setLoggedIn(true);
 					setUserType(currentUser.type);
 					setIsVerified(currentUser.verified === 1 ? true : false);
-					console.log("user", user)
+					//console.log("user", user)
 				}
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 		checkAuth();
@@ -58,7 +58,7 @@ function App() {
 		}
 		catch (err) {
 			setMessage("Email/Password Incorrect")
-			console.log(err);
+			console.error(err);
 			return false
 		}
 	};

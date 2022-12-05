@@ -38,7 +38,7 @@ export function HikeEditForm(props) {
 		props.setHikes(old =>
 			hike
 				? //edited hike
-				old.map(h => (h.hikeID == newHike.hikeID ? newHike : h))
+				old.map(h => (h.hikeID === newHike.hikeID ? newHike : h))
 				: //new hike
 				[...old, newHike]
 		);
@@ -55,7 +55,7 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
+					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
 					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
 				)}
@@ -83,9 +83,9 @@ function HikeForm(props) {
 	let [fileContent, setFileContent] = useState("");
 	let [useFile, setUseFile] = useState(false);
 	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
-	let [municipality, setMunicipality] = useState(
-		props.hike ? props.hike.municipality : ""
-	);
+	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "");
+	let [country, setCountry] = useState(props.country ? props.hike.country : "");
+
 
 	let fileChangeHandler = (event) => {
 		setSelectedFile(event.target.files[0]);
@@ -95,7 +95,7 @@ function HikeForm(props) {
 			setFileContent(reader.result);
 		};
 		reader.onerror = () => {
-			console.log("file error", reader.error);
+			console.error("file error", reader.error);
 		};
 	};
 
@@ -118,6 +118,7 @@ function HikeForm(props) {
 
 		if (hike.hikeID) {
 			// NOTE: editing form
+
 			HikeAPI.editHike(
 				props.hike.hikeID,
 				title,
@@ -130,11 +131,11 @@ function HikeForm(props) {
 				province
 			).catch((e) => {
 				// TODO(antonio): error handling
-				console.log(e);
+				console.error(e);
 			});
 		} else {
 			// NOTE: adding form
-			hike = await HikeAPI.newHike(
+			/* hike = await HikeAPI.newHike(
 				title,
 				fileContent,
 				difficulty,
@@ -143,15 +144,30 @@ function HikeForm(props) {
 				province
 			).catch((e) => {
 				// TODO(antonio): error handling
-				console.log(e);
-			});
+				console.error(e);
+			}); */
+
+
+
+			await props.newHike(
+				{
+					title: title, track: fileContent, difficulty: difficulty,
+					description: description, municipality: municipality, province: province,
+					country: country
+				})
+				.then(h => hike = h)
+				.catch((e) => {
+					// TODO(antonio): error handling
+					console.error(e);
+				})
+
 		}
 
 		props.onSubmit(hike.hikeID);
 	};
 
 	return (
-		<Form>
+		<Form onSubmit={handleSubmit}>
 			{props.hike &&
 				<Form.Group controlId="formCheck" className="mb-3">
 					<Form.Label>File Uploading For GPX</Form.Label>
@@ -173,6 +189,8 @@ function HikeForm(props) {
 					type="text"
 					placeholder={props.hike ? props.hike.title : "Enter hike title"}
 					value={title}
+					required={true}
+
 					onChange={(ev) => setTitle(ev.target.value)}
 				/>
 			</Form.Group>
@@ -181,6 +199,8 @@ function HikeForm(props) {
 				<Form.Label>Municipality</Form.Label>
 				<Form.Control
 					type="text"
+					required={true}
+
 					placeholder={
 						props.hike ? props.hike.municipality : "Enter hike municipality"
 					}
@@ -193,9 +213,23 @@ function HikeForm(props) {
 				<Form.Label>Province</Form.Label>
 				<Form.Control
 					type="text"
+					required={true}
+
 					placeholder={props.hike ? props.hike.province : "Enter hike province"}
 					value={province}
 					onChange={(ev) => setProvince(ev.target.value)}
+				/>
+			</Form.Group>
+
+			<Form.Group controlId="formCountry" className="mb-3">
+				<Form.Label>Country</Form.Label>
+				<Form.Control
+					type="text"
+					required={true}
+
+					placeholder={props.country ? props.hike.country : "Enter hike country"}
+					value={country}
+					onChange={(ev) => setCountry(ev.target.value)}
 				/>
 			</Form.Group>
 
@@ -208,6 +242,7 @@ function HikeForm(props) {
 								<Form.Control
 									type="number"
 									// disabled={useFile}
+
 									placeholder={
 										props.hike ? props.hike.length : "Enter hike length"
 									}
@@ -295,7 +330,7 @@ function HikeForm(props) {
 			<Row>
 				<Col>
 					<div className="text-end">
-						<Button variant="primary" type="submit" onClick={handleSubmit}>
+						<Button variant="primary" type="submit" >
 							Apply and edit points
 						</Button>{" "}
 						<Button variant="secondary" onClick={props.onHide}>
@@ -343,7 +378,7 @@ function EditPointsForm(props) {
 			setStart(newTrack[0]);
 			setEnd(newTrack[newTrack.length - 1]);
 		} catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	};
 
@@ -358,7 +393,7 @@ function EditPointsForm(props) {
 			props.onHide();
 		}
 		catch (e) {
-			console.log(e);
+			console.error(e);
 		}
 	};
 
