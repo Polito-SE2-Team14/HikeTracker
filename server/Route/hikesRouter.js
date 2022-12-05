@@ -154,8 +154,8 @@ router.put("",
 	}
 );
 
-// PUT request to store link a start point to an hike
-router.put("/start",
+// POST request to store link a start point to an hike
+router.post("/start",
 	check(["hikeID", "startPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
@@ -175,7 +175,7 @@ router.put("/start",
 	})
 
 // PUT request to store link an end point to an hike
-router.put("/end",
+router.post("/end",
 	check(["hikeID", "endPointID"]).not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
