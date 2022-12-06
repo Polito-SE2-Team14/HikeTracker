@@ -1,5 +1,5 @@
-import { Modal, Button, Row, Col } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import { Modal, Button, Row, Col, Tabs, Tab } from "react-bootstrap";
+import React, { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faMountain,
@@ -16,87 +16,32 @@ import { HikeMap } from "../Map/Maps";
 
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
+import RoleManagement from "../../class/RoleManagement";
 
 export function HikeModal(props) {
 	let hike = props.hike;
 	let show = props.show;
 
-	const [track, setTrack] = useState([]);
-	const [markers, setMarkers] = useState([]);
+	if (!hike) return false;
 
-	const updatePath = async () => {
-		if (show) {
-			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
-			setTrack(newTrack);
-		}
-	}
-
-	// TODO(antonio): fix field in the database, refactor marker system
-	let getMarkers = async () => {
-		let start = await PointAPI.getPoint(hike.startPointID);
-		let end = await PointAPI.getPoint(hike.endPointID);
-
-		setMarkers({ start: start, end: end });
-	};
-
-	useEffect(() => {
-		if (show) {
-			updatePath();
-			getMarkers();
-		}
-		// eslint-disable-next-line
-	}, [show])
-
-	return props.hike ? (
+	return (
 		<Modal show={props.show} onHide={props.onClose}>
 			<Modal.Header closeButton>
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HikeMap track={track}
-				//markers={markers}
-				/>
-				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
-					<Col>
-						<FontAwesomeIcon icon={faPersonWalking} />
-						<strong>{" Distance:"}</strong>
-						{` ${hike.length} meters`}
-					</Col>
-					<Col>
-						<FontAwesomeIcon icon={faMountain} />
-						<strong>{"  Ascent:"}</strong>
-						{` ${hike.ascent} meters`}
-					</Col>
-					<Col>
-						<FontAwesomeIcon icon={faFlag} />
-						<strong>{" Difficulty:"}</strong>
-						{` ${hike.difficulty}`}
-					</Col>
-					<Col>
-						<FontAwesomeIcon icon={faClock} />
-						<strong>{" Expected time:"}</strong>
-						{` ${hike.expectedTime} minutes`}
-					</Col>
-
-				</Row>
-				{markers.start && markers.end && <Row className="mt-3">
-					{markers.start && <Col>
-						<strong>Start Point:</strong>
-						{markers.start}
-					</Col>}
-					{markers.end && <Col>
-						<strong>End Point:</strong>
-						{markers.end}
-					</Col>}
-				</Row>}
-				<Row className="mt-3">
-					<Col>
-						<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
-					</Col>
-					<Col>
-						{`by ${hike.creatorSurname} ${hike.creatorName} `}
-					</Col>
-				</Row>
+				<Tabs defaultActiveKey={RoleManagement.isHiker(props.user.userType) ? "map" : "info"}>
+					<Tab eventKey="info" title="Info">
+						<InfoTab show={show} user={props.user} hike={hike} />
+					</Tab>
+					<Tab eventKey="map" title="Map">
+						{RoleManagement.isHiker(props.user.userType) ? (
+							<MapTab show={show} user={props.user} hike={hike} />
+						) : (
+							<Row className="d-flex justify-content-center"> Log in to see the map! </Row>
+						)}
+					</Tab>
+				</Tabs>
 			</Modal.Body>
 			<Modal.Footer>
 				<Col>
@@ -125,7 +70,96 @@ export function HikeModal(props) {
 				</Col>
 			</Modal.Footer>
 		</Modal>
-	) : (
-		false
+	);
+}
+
+function InfoTab(props) {
+	let hike = props.hike;
+
+	return (
+		<>
+			<Row xs={1} md={2} className="d-flex align-items-top mt-4">
+				<Col>
+					<FontAwesomeIcon icon={faPersonWalking} />
+					<strong>{" Distance:"}</strong>
+					{` ${hike.length} meters`}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faMountain} />
+					<strong>{"  Ascent:"}</strong>
+					{` ${hike.ascent} meters`}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faFlag} />
+					<strong>{" Difficulty:"}</strong>
+					{` ${hike.difficulty}`}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faClock} />
+					<strong>{" Time:"}</strong>
+					{` ${hike.expectedTime} minutes`}
+				</Col>
+			</Row>
+			{/* {markers.start && markers.end && ( //TODO(antonio): fix when map is visible
+				<Row className="mt-3">
+					{markers.start && (
+						<Col>
+							<strong>Start Point:</strong>
+							{markers.start}
+						</Col>
+					)}
+					{markers.end && (
+						<Col>
+							<strong>End Point:</strong>
+							{markers.end}
+						</Col>
+					)}
+				</Row>
+			)} */}
+			<Row className="mt-3">
+				<Col>
+					<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
+				</Col>
+				<Col>{`by ${hike.creatorSurname} ${hike.creatorName} `}</Col>
+			</Row>
+		</>
+	);
+}
+
+function MapTab(props) {
+	let show = props.show;
+
+	const [track, setTrack] = useState([]);
+	const [markers, setMarkers] = useState([]);
+
+	const updatePath = async () => {
+		let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
+		setTrack(newTrack);
+	};
+
+	// TODO(antonio): fix field in the database, refactor marker system
+	let getMarkers = async () => {
+		let start = await PointAPI.getPoint(props.hike.startPointID);
+		let end = await PointAPI.getPoint(props.hike.endPointID);
+
+		setMarkers({ start: start, end: end });
+	};
+
+	useEffect(() => {
+		if (show) {
+			updatePath();
+			getMarkers();
+		}
+		// eslint-disable-next-line
+	}, [show]);
+
+	return (
+		<Row>
+			<HikeMap
+				user={props.user}
+				track={track}
+				//markers={markers}
+			/>
+		</Row>
 	);
 }

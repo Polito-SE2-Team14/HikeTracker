@@ -17,12 +17,11 @@ const parkingLotController = require("../Controller/ParkingLotController")
 function hikesCreation() {
 	console.log("Adding hikes")
 
-	const gpx = new gpxParser();
-
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/hikes.json"));
 	const hikes = JSON.parse(jsonString).hikes;
 
 	return hikes.map(h => {
+		let gpx = new gpxParser();
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
 		gpx.parse(data);
 
@@ -68,6 +67,8 @@ function pointsCreation() {
 
 function tablesDropping() {
 	console.log("TableDropping")
+	let db = dbManager.getDB()
+
 	const commands = [
 		` DROP TABLE IF EXISTS HUT;`,
 		`DROP TABLE IF EXISTS PARKINGLOT;`,
@@ -77,11 +78,12 @@ function tablesDropping() {
 		`DROP TABLE IF EXISTS HIKE;`,
 		`DROP TABLE IF EXISTS USER;`
 	]
-	return commands.map(sql => dbManager.createDropTables(sql))
+	return commands.map(sql => createDropTables(db,sql))
 
 }
 
 function tablesCreations() {
+	let db = dbManager.getDB()
 	console.log("TableCreation")
 	const commands = [
 		` CREATE TABLE USER (userID INTEGER PRIMARY KEY,name TEXT,surname TEXT,email TEXT,phoneNumber TEXT,type TEXT,salt TEXT,	hashedPassword TEXT,verified INTEGER,approved INTEGER,token TEXT);`,
@@ -95,8 +97,17 @@ function tablesCreations() {
 		//` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
 		//` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
 	]
-	return commands.map(sql => dbManager.createDropTables(sql))
+	return commands.map(sql => createDropTables(db,sql))
 
+}
+
+function createDropTables(db,sql) {
+	return new Promise((resolve, reject) => {
+		db.run(sql, err => {
+			if (err) { console.error(sql, err); reject(err); }
+			else resolve();
+		})
+	})
 }
 
 console.log("Start")

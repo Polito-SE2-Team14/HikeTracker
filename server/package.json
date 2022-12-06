@@ -36,6 +36,7 @@
     "apiTest": "mocha test --exit --runInBand --timeout 10000 ",
     "test": "jest --runInBand --coverage ",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 20000 --exit",
-    "start": "node server.js"
+    "start": "node server.js",
+    "population": "node ./database/population.js " 
   }
 }

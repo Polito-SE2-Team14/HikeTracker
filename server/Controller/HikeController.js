@@ -16,21 +16,21 @@ exports.getHike = async (hikeID) => {
 	return hike;
 }
 
-exports.getCloseHutsForHike=async(hikeID)=>{
+exports.getCloseHutsForHike = async (hikeID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
 	const huts = await hikeDAO.getCloseHutsForHike(hikeID)
-		.catch(err=>{throw err});
+		.catch(err => { throw err });
 	return huts;
 }
 
-exports.linkHutToHike=async(hutID,hikeID)=>{
+exports.linkHutToHike = async (hutID, hikeID) => {
 	if (isNaN(hutID))
 		throw Error("Type error with hutID")
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
-	const addedLink = await hikeDAO.linkHutToHike(hutID,hikeID)
-		.catch(err=>{throw err});
+	const addedLink = await hikeDAO.linkHutToHike(hutID, hikeID)
+		.catch(err => { throw err });
 	return addedLink;
 }
 

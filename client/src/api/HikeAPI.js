@@ -220,7 +220,7 @@ const getHikeTrack = async (hikeID) => {
 		let trackJson = await response.json();
 		// trackJson = {[[x1,y1], [x2,y2], ...]}
 
-		return JSON.parse(trackJson);
+		return trackJson
 	}
 	catch (e) {
 		console.error("Error in HikeAPI.js", e)

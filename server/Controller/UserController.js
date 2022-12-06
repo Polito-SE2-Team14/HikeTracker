@@ -1,9 +1,9 @@
 const userDAO = require("../DAO/UserDAO")
 const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
+const nodemailerConfig = require("../Config/nodemailer.config");
 
 
-//TODO test this function
 exports.login = async (email, password) => {
     const user = await userDAO.getUser(email, password)
         .catch(() => { throw Error(); });
@@ -12,7 +12,6 @@ exports.login = async (email, password) => {
     return user;
 }
 
-//TODO test this function
 exports.getUser = async (userID) => {
     const user = await userDAO.getUserById(userID)
         .catch(() => { throw Error(); });
@@ -40,7 +39,7 @@ exports.register = async (newUser, verified, approved) => {
         .catch(err => { throw err });
 
     //EMAIL VERIFICATION
-    if (verified !== 1)
+    if (verified !== 1 && approved !== 1)
         await this.sendVerificationEmail(user.token, user.email);
 
     return user;
@@ -58,14 +57,14 @@ exports.sendVerificationEmail = async (token, userEmail) => {
         service: "Gmail",
         secure: true,
         auth: {
-            user: 'hikefiveteam14@gmail.com',
-            pass: 'yfgwcotimxraggjq'
+            user: nodemailerConfig.user,
+            pass: nodemailerConfig.pass
         }
     });
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: 'hikefiveteam14@gmail.com', // sender address
+        from: nodemailerConfig.user, // sender address
         to: userEmail, // list of receivers
         subject: "HIKEfive Verification Email", // Subject line
         html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
@@ -77,7 +76,6 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 
 }
 
-//TODO test this function
 exports.verify = async (token) => {
     try {
         let user = await userDAO.getUserByToken(token);

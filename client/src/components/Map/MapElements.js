@@ -3,6 +3,8 @@ import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
 import { getLatLon } from "../HikeData";
 
+import { useMapEvents } from "react-leaflet";
+
 import "../../styles/MapElements.css";
 
 import * as L from "leaflet";
@@ -145,7 +147,7 @@ function ParkingLotPopup(props) {
 function HikePopup(props) {
 	return (
 		<Popup>
-			Popup for Hike. <br /> Easily customizable.
+			Click to create reference point;
 		</Popup>
 	);
 }
