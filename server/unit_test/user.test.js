@@ -21,7 +21,7 @@ let newUsers = [
 	},
 	{
 		name: 'jack', surname: 'sparrow', email: 'jack.sparrow@ex.com', phoneNumber: '444',
-		type: types[2], password: 'jacksparrow'
+		type: types[2], password: crypto.randomBytes(16).toString("hex")
 	}
 ];
 
@@ -167,6 +167,7 @@ describe('User Tests', () => {
 
 		test('Correct Login', async () => {
 			let newUser = newUsers[3];
+			let password = newUsers[3].password;
 			let user;
 			let loginedUser;
 			await userController.register(newUser, 1, 1)
@@ -175,7 +176,7 @@ describe('User Tests', () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			await userController.login(user.email, 'jacksparrow').then(u => {
+			await userController.login(user.email, password).then(u => {
 				loginedUser = u;
 			});
 
@@ -232,7 +233,7 @@ describe('User Tests', () => {
 				.catch(err => { console.error(err); throw err; });
 
 			await userController.verify(addedUser.token);
-			
+
 			await userController.getUser(addedUser.userID).then(u => {
 				gottenUser = u;
 			});
