@@ -11,7 +11,7 @@ const db = dbManager.getDB();
 exports.getAllParkingLots = () => {
 	return new Promise((resolve, reject) => {
 		const sql = `SELECT pointID, P.name, carspace, municipality, province, country,
-		pointType, latitude, longitude, address, creatorID, U.name as creatorName, surname 
+		pointType, altitude, latitude, longitude, address, creatorID, U.name as creatorName, surname 
 		FROM POINT P, PARKINGLOT PA, USER U
 		WHERE P.pointID = PA.parkingLotId
 		AND pointType = 'parkinglot'
@@ -29,6 +29,7 @@ exports.getAllParkingLots = () => {
 					municipality: r.municipality,
 					province: r.province,
 					country: r.country,
+					altitude: r.altitude,
 					latitude: r.latitude,
 					longitude: r.longitude,
 					address: r.address,

@@ -49,6 +49,62 @@ router.get(
 	}
 )
 
+// returns all huts close the given hike
+router.get("/:hikeID/huts",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponseJson(errors.array(), 422, res)
+
+		await hikeController.getCloseHutsForHike(req.params.hikeID)
+		.then((msg) => {
+			return res.status(201).json(msg);
+		})
+		.catch((err) => {
+			return errorResponse(err, 500, res)
+		});
+	}
+);
+
+//link the hut whose id is hutID to the hike whose id is hikeID 
+router.post("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if(!errors.isEmpty())
+			return errorResponseJson(errors.array(), 422, res)
+		
+		await hikeController.linkHutToHike(req.params.hutID,req.params.hikeID)
+		.then((msg)=>{
+			return res.status(201).json(msg);
+		})
+		.catch((err)=>{
+			return errorResponse(err,500,res)
+		});
+	}
+);
+
+//delete the link between the hut whose id is hutID and the hike whose id is hikeID 
+router.delete("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if(!errors.isEmpty())
+			return errorResponseJson(errors.array(), 422, res)
+		
+		await hikeController.deleteHutToHikeLink(req.params.hutID,req.params.hikeID)
+		.then((msg)=>{
+			return res.status(201).json(msg);
+		})
+		.catch((err)=>{
+			return errorResponse(err,500,res)
+		});
+	}
+);
+
 // GET request to /api/hikes/:hikeID/referencePoints to obtain referencePoints of a certain hike
 router.get("/:hikeID/referencePoints",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),

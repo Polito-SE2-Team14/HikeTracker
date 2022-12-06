@@ -5,11 +5,11 @@ import { PointSelectMap } from "../Map/Maps";
 export function NewPLotForm(props) {
 	let [lotName, setLotName] = useState("");
 	let [carspace, setCarspace] = useState(0);
-	let [description, setDescription] = useState(undefined);
-	let [address, setAddress] = useState(undefined);
-	let [altitude, setAltitude] = useState(undefined);
-	let [latitude, setLatitude] = useState(undefined);
-	let [longitude, setLongitude] = useState(undefined);
+	let [description, setDescription] = useState("");
+	let [address, setAddress] = useState("");
+	let [altitude, setAltitude] = useState(0);
+	let [latitude, setLatitude] = useState(0);
+	let [longitude, setLongitude] = useState(0);
 	let [municipality, setMunicipality] = useState("");
 	let [province, setProvince] = useState("");
 	let [country, setCountry] = useState("");
@@ -125,7 +125,7 @@ export function NewPLotForm(props) {
 						<Form.Group controlId="Carspace" className="mb-3">
 							<Form.Label>Carspace</Form.Label>
 							<Form.Control
-								ype="number"
+								type="number"
 								value={carspace}
 								onChange={ev => { setCarspace(ev.target.value) }}
 								required={true} />

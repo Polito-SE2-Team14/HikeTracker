@@ -7,6 +7,7 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 const path = require("path");
+const { resolve } = require("path");
 
 /**
  * Queries the db to get all hikes
@@ -59,6 +60,97 @@ exports.check_hike = function (wantedID) {
 			resolve(row !== undefined);
 		});
 	});
+}
+
+
+function distanceBetweenCoords(p1, p2){
+	let R = 6371; // Radius of the earth in km
+	let dLat = deg2rad((p2[0] - p1[0]));
+	let dLon = deg2rad((p2[1] - p1[1]));
+
+	let a = 
+		Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(deg2rad(p1[0])) * Math.cos(deg2rad(p2[0])) * 
+		Math.sin(dLon/2) * Math.sin(dLon/2)
+		;
+	let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	let d = R * c * 1000; // Distance in meters
+	return d;
+}
+
+function deg2rad(deg){
+	return deg * (Math.PI/180);
+}
+
+exports.getCloseHutsForHike=function(hikeID){
+	return new Promise((resolve,reject)=>{
+		db.all(`SELECT p.pointID, p.name, p.description, p.altitude, p.latitude, p.longitude, p.address, p.municipality, p.province, p.country, p.creatorID, h.bedspace, h.phoneNumber, h.website, h.email
+			FROM POINT AS p, HUT AS h
+			WHERE p.pointType='hut' AND h.hutID=p.pointID;`,(err,rows)=>{
+			if (err) {
+				console.error(err)
+				reject(err);
+			}
+			const track = this.getHikeTrack(hikeID);
+			let huts=rows.filter((hut)=>{
+				for(let i=0;i<track.length;i++){
+					if(distanceBetweenCoords([hut.latitude,hut.longitude],track[i])<=5000){
+						return true;
+					}
+				}
+				return false;
+			});
+			resolve(huts);
+		})
+	});
+}
+
+exports.linkHutToHike=function(hutID,hikeID){
+	return new Promise((resolve,reject)=>{
+		db.all("SELECT * FROM POINT WHERE pointID=? AND pointType='hut'",[hutID],function(err,rows){
+			if(err){
+				console.error(err);
+				reject(err);
+			}else if(rows.length==0){
+				console.error("No hut has the given ID");
+				reject(new Error("No hut has the given ID"));
+			}else{
+				db.all("SELECT * FROM HIKE WHERE hikeID=?",[hikeID],function(err,rows){
+					if(err){
+						console.error(err);
+						reject(err);
+					}else if(rows.length==0){
+						console.error("No hike has the given ID");
+						reject(new Error("No hike has the given ID"));
+					}else{
+						db.run("INSERT INTO HIKELINKHUT (hikeID, hutID) VALUES(?,?);",[hikeID,hutID],(err)=>{
+							if(err){
+								console.error(err);
+								reject(err);
+							}
+							resolve({
+								hutID: hutID,
+								hikeID: hikeID
+							});
+						})
+					}
+				})
+			}
+
+		})
+	})
+}
+
+exports.deleteHutToHikeLink=function(hutID,hikeID){
+	return new Promise((resolve, reject) => {
+		db.run("DELETE FROM HIKELINKHUT WHERE hutID=? AND hikeID=?",[hutID,hikeID],(err)=>{
+			if(err){
+				console.error(err);
+				reject(err);
+			}
+			resolve({hutID:hutID,hikeID:hikeID});
+		})
+	})
 }
 
 /**
@@ -214,11 +306,11 @@ exports.getHikeTrack = function (hikeID) {
 	const file = checkPath(`../database/tracks/_${hikeID}_.trk`);
 	if (file)
 		try {
-			return readFileSync(file, { encoding: 'utf8', flag: 'r' });
+			// return readFileSync(file, { encoding: 'utf8', flag: 'r' });
+			return JSON.parse(readFileSync(file, { encoding: 'utf8', flag: 'r' }));
 		} catch (err) {
 			console.error(err);
 		}
-
 	return null;
 }
 
