@@ -2,8 +2,8 @@ const parkingLotController = require("../Controller/ParkingLotController");
 const dbManager = require("../database/DBManagerSingleton").getInstance()
 
 beforeEach(async () => await dbManager.clearDb());
-afterEach(async () => await dbManager.clearDb());
-//db is cleared before and after every test()
+afterAll(async () => await dbManager.clearDb());
+//db is cleared before every test()
 
 describe('Parking Lot Tests', () => {
 	describe("New parking lot addition", () => {

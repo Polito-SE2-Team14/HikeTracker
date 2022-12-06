@@ -1,7 +1,7 @@
 const userDAO = require("../DAO/UserDAO")
 const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
-const nodemailerConfig = require("../config/nodemailer.config");
+const nodemailerConfig = require("../Config/nodemailer.config");
 
 
 exports.login = async (email, password) => {

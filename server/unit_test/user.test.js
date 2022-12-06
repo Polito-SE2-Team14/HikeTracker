@@ -26,7 +26,7 @@ let newUsers = [
 ];
 
 beforeEach(async () => await dbManager.clearDb());
-afterEach(async () => await dbManager.clearDb());
+afterAll(async () => await dbManager.clearDb());
 
 
 describe('User Tests', () => {
