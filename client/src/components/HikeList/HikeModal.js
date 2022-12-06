@@ -1,5 +1,5 @@
 import { Modal, Button, Row, Col, Tabs, Tab } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faMountain,
@@ -30,13 +30,17 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<Tabs defaultActiveKey="info">
+				<Tabs defaultActiveKey={RoleManagement.isHiker(props.user.userType) ? "map" : "info"}>
 					<Tab eventKey="info" title="Info">
 						<InfoTab show={show} user={props.user} hike={hike} />
 					</Tab>
-					{RoleManagement.isHiker(props.user.userType) ? <Tab eventKey="map" title="Map">
-						<MapTab show={show} user={props.user} hike={hike} />
-					</Tab> : false}
+					<Tab eventKey="map" title="Map">
+						{RoleManagement.isHiker(props.user.userType) ? (
+							<MapTab show={show} user={props.user} hike={hike} />
+						) : (
+							<Row className="d-flex justify-content-center"> Log in to see the map! </Row>
+						)}
+					</Tab>
 				</Tabs>
 			</Modal.Body>
 			<Modal.Footer>
@@ -129,10 +133,8 @@ function MapTab(props) {
 	const [markers, setMarkers] = useState([]);
 
 	const updatePath = async () => {
-		if (show) {
-			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
-			setTrack(newTrack);
-		}
+		let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
+		setTrack(newTrack);
 	};
 
 	// TODO(antonio): fix field in the database, refactor marker system
@@ -152,10 +154,12 @@ function MapTab(props) {
 	}, [show]);
 
 	return (
-		<HikeMap
-			user={props.user}
-			track={track}
-			//markers={markers}
-		/>
+		<Row>
+			<HikeMap
+				user={props.user}
+				track={track}
+				//markers={markers}
+			/>
+		</Row>
 	);
 }
