@@ -57,14 +57,14 @@ exports.sendVerificationEmail = async (token, userEmail) => {
         service: "Gmail",
         secure: true,
         auth: {
-            user: nodemailerConfig.username,
-            pass: nodemailerConfig.password
+            user: nodemailerConfig.user,
+            pass: nodemailerConfig.pass
         }
     });
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: nodemailerConfig.username, // sender address
+        from: nodemailerConfig.user, // sender address
         to: userEmail, // list of receivers
         subject: "HIKEfive Verification Email", // Subject line
         html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
