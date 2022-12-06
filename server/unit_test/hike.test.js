@@ -266,8 +266,7 @@ describe('Hike Tests', () => {
 			expect(caughtError).toBe(undefined);
 			expect(deletedLink).not.toBe(null);
 			expect(deletedLink.hutID).toBe(1);
-			expect(deletedLink.hikeID).toBe(1); */
-			expect(1).toBe(1)
+			expect(deletedLink.hikeID).toBe(1);
 		})
 
 		test("Invalid hutID to valid hikeID", async () => {
