@@ -1,7 +1,9 @@
 const hikeController = require("../Controller/HikeController")
+const dbManager = require("../database/DBManagerSingleton").getInstance()
+// const populationFunctions = require("../database/populationFunctions")
 
-
-
+// beforeAll(()=>populationFunctions.restoreOriginalDB());
+// afterEach();
 
 describe('Hike Tests', () => {
 	describe("creation of new Hike", () => {
@@ -215,7 +217,7 @@ describe('Hike Tests', () => {
 		})
 		test("Invalid hikeID", async()=>{
 			let caughtError;
-			let huts=await hikeController.getCloseHutsForHike("1")
+			let huts=await hikeController.getCloseHutsForHike('hike1')
 				.catch(err=>{
 					console.log(err);
 					caughtError=err;});
@@ -236,7 +238,7 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike("1",1)
+			let newLink=await hikeController.linkHutToHike("hut1",1)
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
@@ -244,7 +246,7 @@ describe('Hike Tests', () => {
 
 		test("Valid hutID to invalid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,"1")
+			let newLink=await hikeController.linkHutToHike(1,"hike1")
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
@@ -254,8 +256,8 @@ describe('Hike Tests', () => {
 	describe("Remove hut-hike link",()=>{
 		test("Valid hutID to valid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
-				.catch(err=>caughtError=err);
+			// let newLink=await hikeController.linkHutToHike(1,1)
+			// 	.catch(err=>caughtError=err);
 			let deletedLink=await hikeController.deleteHutToHikeLink(1,1)
 				.catch(err=>caughtError=err);
 	
@@ -267,9 +269,7 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
-				.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink("1",1)
+			let deletedLink=await hikeController.deleteHutToHikeLink("hut1",1)
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
@@ -277,9 +277,7 @@ describe('Hike Tests', () => {
 
 		test("Valid hutID to invalid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
-				.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink(1,"1")
+			let deletedLink=await hikeController.deleteHutToHikeLink(1,"hike1")
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
