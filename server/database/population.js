@@ -17,12 +17,11 @@ const parkingLotController = require("../Controller/ParkingLotController")
 function hikesCreation() {
 	console.log("Adding hikes")
 
-	const gpx = new gpxParser();
-
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/hikes.json"));
 	const hikes = JSON.parse(jsonString).hikes;
 
 	return hikes.map(h => {
+		let gpx = new gpxParser();
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
 		gpx.parse(data);
 
