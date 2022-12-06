@@ -31,10 +31,10 @@ describe('User Tests', () => {
 			let newUser = newUsers[0];
 			let user;
 			await userController.register(newUser, 1, 1)
-			.then(u => {
-				user = u;
-			})
-			.catch(err => { console.error(err); throw err; });
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
 
 			expect(user).not.toBeUndefined();
 			expect(user.name).toBe(newUser.name);
@@ -48,10 +48,13 @@ describe('User Tests', () => {
 
 		test("Registration of a new hut worker", async () => {
 			//TODO edoardo's job
+			expect(1).toBe(1)
+
 		})
 
 		test("Registration of a new local guide", async () => {
-			
+			expect(1).toBe(1)
+
 		})
 
 
@@ -157,23 +160,28 @@ describe('User Tests', () => {
 		})
 	})
 	describe("Login", () => {
-		
+
 	})
 	describe("get user", () => {
-		
+
 	})
 	describe("verify", () => {
 		test("verification of a local guide", async () => {
+			expect(1).toBe(1)
 			//TODO edoardo's job
 		})
 
 		test("verification of a hut worker", async () => {
-			
+			expect(1).toBe(1)
+
 		})
 	})
 
-	describe("setting profile", async () => {
-		//TODO edoardo's job
+	describe("setting profile", () => {
+		test("test on set profile", async () => {
+			//TODO edoardo's job
+			expect(1).toBe(1)
+		})
 	})
 
 
