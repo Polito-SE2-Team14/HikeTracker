@@ -16,10 +16,6 @@ jobs:
       - name: install dependencies
         working-directory: ./server
         run: npm i
-      - name: creation of directory
-        working-directory: ./server/database
-        run: mkdir ./dbFiles
-      - name: basic population of test db
         working-directory: ./server/database
         run: node basicPopulation.js
       - name: run jest
