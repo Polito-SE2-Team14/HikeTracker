@@ -6,8 +6,6 @@ const userDAO = require("../DAO/UserDAO")
 
 const types = ['hiker', 'hutWorker', 'localGuide', 'manager'];
 
-let passwordForJackSparrow = crypto.randomBytes(16).toString("hex")
-
 let newUsers = [
 	{
 		name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111',
@@ -23,7 +21,7 @@ let newUsers = [
 	},
 	{
 		name: 'jack', surname: 'sparrow', email: 'jack.sparrow@ex.com', phoneNumber: '444',
-		type: types[2], password: passwordForJackSparrow
+		type: types[2], password: 'jacksparrow'
 	}
 ];
 
@@ -177,7 +175,7 @@ describe('User Tests', () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			await userController.login(user.email, passwordForJackSparrow).then(u => {
+			await userController.login(user.email, 'jacksparrow').then(u => {
 				loginedUser = u;
 			});
 
@@ -222,6 +220,28 @@ describe('User Tests', () => {
 
 	})
 	describe("verify", () => {
+
+		test("verification of a User by Token", async () => {
+			let newUser = newUsers[3];
+			let addedUser;
+			let gottenUser;
+			await userController.register(newUser, 0, 1)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			await userController.verify(addedUser.token);
+			
+			await userController.getUser(addedUser.userID).then(u => {
+				gottenUser = u;
+			});
+
+			expect(addedUser.verified).toBe(0);
+			expect(gottenUser.verified).toBe(1);
+
+		})
+
 		test("verification of a local guide", async () => {
 			expect(1).toBe(1)
 			//TODO edoardo's job
