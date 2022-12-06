@@ -33,7 +33,7 @@ exports.addParkingLot = async (newPLot) => {
 
 	if (typeof name != "string")
 		throw Error("Type error with name")
-	if (isNaN(altitude))
+	if (isNaN(altitude) & altitude!=null & altitude!=undefined)
 		throw Error("Type error with altitude")
 	if (isNaN(latitude))
 		throw Error("Type error with latitude")
@@ -45,7 +45,7 @@ exports.addParkingLot = async (newPLot) => {
 		throw Error("Type error with province")
 	if (typeof address != "string")
 		throw Error("Type error with address")
-	if (typeof description != "string")
+	if (typeof description != "string" & description!=null & description!=undefined)
 		throw Error("Type error with description")
 	if (isNaN(carspace))
 		throw Error("Type error with carspace")

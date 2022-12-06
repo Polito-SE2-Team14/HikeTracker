@@ -61,7 +61,7 @@ exports.createPoint = (point) => {
         let { name, description, latitude, longitude, altitude,
             municipality, province, country, address, type, creatorID } = point
 
-        console.log("point", point)
+        // console.log("point", point)
         
         const sql = `INSERT INTO POINT 
         (name, description, latitude, longitude, altitude, municipality, 

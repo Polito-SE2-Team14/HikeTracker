@@ -67,6 +67,7 @@ router.get("/:hikeID/huts",
 	}
 );
 
+//link the hut whose id is hutID to the hike whose id is hikeID 
 router.post("/:hikeID/huts/:hutID",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	check("hutID").not().isEmpty().isInt({ min: 0 }),
@@ -76,6 +77,25 @@ router.post("/:hikeID/huts/:hutID",
 			return errorResponseJson(errors.array(), 422, res)
 		
 		await hikeController.linkHutToHike(req.params.hutID,req.params.hikeID)
+		.then((msg)=>{
+			return res.status(201).json(msg);
+		})
+		.catch((err)=>{
+			return errorResponse(err,500,res)
+		});
+	}
+);
+
+//delete the link between the hut whose id is hutID and the hike whose id is hikeID 
+router.delete("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if(!errors.isEmpty())
+			return errorResponseJson(errors.array(), 422, res)
+		
+		await hikeController.deleteHutToHikeLink(req.params.hutID,req.params.hikeID)
 		.then((msg)=>{
 			return res.status(201).json(msg);
 		})

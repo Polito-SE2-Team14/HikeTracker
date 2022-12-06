@@ -234,4 +234,30 @@ describe('Parking Lot Tests', () => {
 			expect(caughtErr).not.toBe(null);
 		})
 	})
+	describe("Delete parking lot",()=>{
+		test("Delete parking lot",async()=>{
+			let caughtErr;
+			let newParkingLot={
+				name: 'testName',
+				altitude: 123,
+				latitude: 45.95681,
+				longitude: 8.44742,
+				municipality: 'testmunicipality',
+				province: 'testprovince',
+				address: 'testaddress',
+				description: 'testdescription',
+				carspace: 321,
+				creatorID: 1,
+				country: 'Italy'
+			};
+
+			let addedParkingLot=await parkingLotController.addParkingLot(newParkingLot)
+				.catch(err=> caughtErr=err);
+			
+			await parkingLotController.deleteParkingLot(addedParkingLot.pointID)
+				.catch(err=> caughtErr=err);
+
+			expect(caughtErr).toBe(undefined);
+		})
+	})
 })

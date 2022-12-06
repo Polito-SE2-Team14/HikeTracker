@@ -141,6 +141,18 @@ exports.linkHutToHike=function(hutID,hikeID){
 	})
 }
 
+exports.deleteHutToHikeLink=function(hutID,hikeID){
+	return new Promise((resolve, reject) => {
+		db.run("DELETE FROM HIKELINKHUT WHERE hutID=? AND hikeID=?",[hutID,hikeID],(err)=>{
+			if(err){
+				console.error(err);
+				reject(err);
+			}
+			resolve({hutID:hutID,hikeID:hikeID});
+		})
+	})
+}
+
 /**
  * Get the hike associated to the ID passed
  * @param {number} wantedID - Id of the searched hike
