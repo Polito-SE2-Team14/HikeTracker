@@ -3,7 +3,6 @@ const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 
 
-//TODO test this function
 exports.login = async (email, password) => {
     const user = await userDAO.getUser(email, password)
         .catch(() => { throw Error(); });
@@ -12,7 +11,6 @@ exports.login = async (email, password) => {
     return user;
 }
 
-//TODO test this function
 exports.getUser = async (userID) => {
     const user = await userDAO.getUserById(userID)
         .catch(() => { throw Error(); });
