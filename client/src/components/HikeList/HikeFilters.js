@@ -14,7 +14,7 @@ const MIN_TIME_VALUE = 30;
 const TIME_STEP = 30;
 const MAX_TIME_VALUE = 360;
 
-export function SideHikeFilter(props) {
+export function HikeFilters(props) {
 	const [area, setArea] = useState({}); // {center: [float, float], radius: float}
 	const [showAreaMap, setShowAreaMap] = useState(false);
 

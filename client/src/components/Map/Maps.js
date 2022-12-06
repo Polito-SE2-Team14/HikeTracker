@@ -31,7 +31,9 @@ export function HikeMap(props) {
 
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
-			return "track not available"; // TODO(antonio): put loading animation
+			return <Row className="d-flex justify-content-center mt-3">
+				Track not available
+			</Row>;
 		} else {
 			return (
 				<MapContainer

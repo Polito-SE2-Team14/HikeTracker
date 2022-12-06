@@ -13,7 +13,7 @@ import {
 import { HikeModal } from "./HikeModal";
 import { EmptySearch } from "../EmptySeach";
 
-import { SideHikeFilter } from "./SideHikeFilter";
+import { HikeFilters } from "./HikeFilters";
 import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
@@ -61,7 +61,7 @@ function HikeListTable(props) {
 								}
 							/>
 							<hr />
-							<SideHikeFilter
+							<HikeFilters
 								filters={props.filters}
 								setFilters={props.setFilters}
 							/>
@@ -114,7 +114,7 @@ function HikeListItem(props) {
 	// TODO(antonio): hike delete alert
 	return (
 		<>
-			<HikeModal
+			{<HikeModal
 				show={showHikeModal}
 				hike={props.hike}
 				user={props.user}
@@ -122,9 +122,8 @@ function HikeListItem(props) {
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
 				onStart={() => {
-					/*TODO(antonio): start function*/
-				}}
-			/>
+					//TODO(antonio): start function
+				}}/>}
 
 			<Col className="mt-3">
 				<Card>
