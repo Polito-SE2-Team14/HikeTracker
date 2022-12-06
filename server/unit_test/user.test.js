@@ -4,7 +4,7 @@ const dbManager = require("../database/DBManagerSingleton").getInstance();
 const userController = require("../Controller/UserController")
 const userDAO = require("../DAO/UserDAO")
 
-const types = ['hiker', 'hutWorker', 'localGuide'];
+const types = ['hiker', 'hutWorker', 'localGuide', 'manager'];
 
 let newUsers = [
 	{
@@ -14,6 +14,10 @@ let newUsers = [
 	{
 		name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
 		type: types[1], password: crypto.randomBytes(16).toString("hex")
+	},
+	{
+		name: 'antonio', surname: 'bianchi', email: 'antonio.bianchi@ex.com', phoneNumber: '333333333',
+		type: types[2], password: crypto.randomBytes(16).toString("hex")
 	}
 ];
 
@@ -23,15 +27,14 @@ afterEach(async () => await dbManager.clearDb());
 
 describe('User Tests', () => {
 	describe('Registration tests', () => {
-		test('Valid registration of new user', async () => {
+		test('Valid registration of new hiker user', async () => {
 			let newUser = newUsers[0];
 			let user;
-
 			await userController.register(newUser, 1, 1)
-			.then(u => {
-				user = u;
-			})
-			.catch(err => { console.error(err); throw err; });
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
 
 			expect(user).not.toBeUndefined();
 			expect(user.name).toBe(newUser.name);
@@ -41,17 +44,25 @@ describe('User Tests', () => {
 			expect(user.type).toBe(newUser.type);
 			expect(user.verified).toBe(1)
 			expect(user.approved).toBe(1)
-
-
 		});
+
+		test("Registration of a new hut worker", async () => {
+			//TODO edoardo's job
+			expect(1).toBe(1)
+
+		})
+
+		test("Registration of a new local guide", async () => {
+			expect(1).toBe(1)
+
+		})
 
 
 		test('Registering existing user', async () => {
 			let newUser = newUsers[0];
-			let error, user;
+			let error;
 			const token = crypto.randomBytes(20).toString('hex')
 			await userDAO.Register(newUser, token, 1, 1)
-				.then(u => user = u)
 				.catch(err => { console.error(err); throw err; });
 
 			await userController.register(newUser, 1, 1)
@@ -149,13 +160,28 @@ describe('User Tests', () => {
 		})
 	})
 	describe("Login", () => {
-		
+
 	})
 	describe("get user", () => {
-		
+
 	})
 	describe("verify", () => {
-		
+		test("verification of a local guide", async () => {
+			expect(1).toBe(1)
+			//TODO edoardo's job
+		})
+
+		test("verification of a hut worker", async () => {
+			expect(1).toBe(1)
+
+		})
+	})
+
+	describe("setting profile", () => {
+		test("test on set profile", async () => {
+			//TODO edoardo's job
+			expect(1).toBe(1)
+		})
 	})
 
 

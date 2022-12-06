@@ -5,7 +5,8 @@ server/coverage/lcov-report
 server/coverage/clover.xml
 server/coverage/coverage-final.json
 server/coverage/lcov.info
-server/database/dbFiles
+server/database/dbFiles/testDB.sqlite
+server/database/dbFiles/user.json
 server/package-lock.json
 package-lock.json
 node_modules

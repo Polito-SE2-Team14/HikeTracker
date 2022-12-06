@@ -136,7 +136,7 @@ function HutPopup(props) {
 function ParkingLotPopup(props) {
 	return (
 		<Popup>
-			A pretty CSS3 popup. <br /> Easily customizable.
+			Popup for Parking Lot. <br /> Easily customizable.
 		</Popup>
 	);
 }
@@ -145,7 +145,7 @@ function ParkingLotPopup(props) {
 function HikePopup(props) {
 	return (
 		<Popup>
-			A pretty CSS3 popup. <br /> Easily customizable.
+			Popup for Hike. <br /> Easily customizable.
 		</Popup>
 	);
 }

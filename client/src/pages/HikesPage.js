@@ -1,9 +1,12 @@
-import { Container, Modal, Button, Row, Col } from "react-bootstrap";
+import { Container, Modal, Button, Row, Col, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import HikeAPI from "../api/HikeAPI";
 import HikeListTable from "../components/HikeList/HikeListTable";
 import { FilterForm } from "../components/HikeList/filteringForm";
-import { filterHike, filterAllHikes } from "../components/HikeList/filtering_functions";
+import {
+	filterHike,
+	filterAllHikes,
+} from "../components/HikeList/filtering_functions";
 import { Loading } from "../components/Loading";
 import { HikeEditForm } from "../components/HikeList/HikeEditForm";
 
@@ -18,21 +21,15 @@ export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
 
 	const [hikes, setHikes] = useState([]);
+	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({
-		geographic_area: '',
-		check_geo_area: false,
-		difficulty: '',
-		check_diff: false,
-		length: 0,
-		length_operator: '>',
-		check_len: false,
-		ascent: 0,
-		ascent_operator: '>',
-		check_asc: false,
-		expected_time: 0,
-		expected_time_operator: '',
-		check_exp_time: false
+		title: "",
+		area: {},
+		difficulties: [],
+		length: [],
+		ascent: [],
+		expectedTime: [],
 	});
 
 	const [selectedHike, setSelectedHike] = useState(null);
@@ -41,11 +38,9 @@ export function HikesPage(props) {
 	const getAllHikes = async () => {
 		try {
 			let hikes = await HikeAPI.getAllHikes();
-			hikes = hikes.map(function (hike) {
-				hike.show = true;
-				return hike;
-			});
+
 			setHikes(hikes);
+			setFilteredHikes(hikes);
 			setLoading(false);
 		} catch (error) {
 			console.log(error);
@@ -65,15 +60,36 @@ export function HikesPage(props) {
 		setSelectedHike(null);
 	};
 
+	const newHike = async (hike) => {
+		let insertedHike;
+		hike.creatorID = props.user.userID
+		await HikeAPI.newHike(hike)
+			.then(h => insertedHike = h)
+			.catch((e) => {
+				// TODO(antonio): error handling
+				console.error(e);
+			});
+
+		return insertedHike
+
+	}
+
 	useEffect(() => {
 		getAllHikes();
 	}, [hikes.length]);
 
 	useEffect(() => {
-		setHikes(filterAllHikes(hikes, filters));
+		//setHikes(filterAllHikes(hikes, filters));
+		setFilteredHikes(filterAllHikes(hikes, filters));
 	}, [filters]);
 
-
+	function InsertHikeButton() {
+		return (
+			<Button variant="success" onClick={handleShowHikeForm}>
+				<FontAwesomeIcon icon={faPlus} /> Insert Hike
+			</Button>
+		);
+	}
 
 	return (
 		<>
@@ -81,38 +97,37 @@ export function HikesPage(props) {
 				<Loading />
 			) : (
 				<Container>
-					<h1 className="mt-3">Hikes</h1>
+					<h1 className="mt-3 text-center">Hikes</h1>
 					<Row className="mt-3 d-xl-none">
-						<Col>
+						<Col className="d-inline-flex">
+							<Form.Control
+								type="search"
+								placeholder="Search"
+								value={filters.title}
+								onChange={(ev) =>
+									setFilters({ ...filters, title: ev.target.value.trim() })
+								}
+							/>
 							<Button
 								onClick={() => {
 									setshowFilterForm(true);
 								}}
 							>
-								<FontAwesomeIcon icon={faFilter} /> Apply filters
+								<FontAwesomeIcon icon={faFilter} />
 							</Button>
 						</Col>
-						{ RoleManagement.isLocalGuide(props.userType) ? (
-							<Col className="text-end">
-								<Button variant="success" onClick={handleShowHikeForm}>
-									<FontAwesomeIcon icon={faPlus} /> New Hike
-								</Button>
-							</Col>
-						) : (
-							false
-						)}
+						{RoleManagement.isLocalGuide(props.userType) ? 
+							<Col xs={4} className="text-end">
+								<InsertHikeButton />
+							</Col> : false
+						}
 					</Row>
 					<Modal show={showFilterForm} onHide={handleClose}>
 						<Modal.Header closeButton>
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							{/* <FilterForm
-								onHide={handleClose}
-								filters={filters}
-								setFilters={setFilters}
-							/> */}
-							<SideHikeFilter />
+							<SideHikeFilter filters={filters} setFilters={setFilters} />
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>
@@ -126,16 +141,21 @@ export function HikesPage(props) {
 						hike={selectedHike}
 						onHide={handleCloseHikeForm}
 						setHikes={setHikes}
+						newHike={newHike}
 					/>
 					<HikeListTable
-						hikes={hikes}
+						hikes={filteredHikes}
 						setHikes={setHikes}
+						filters={filters}
+						setFilters={setFilters}
 						setSelectedHike={setSelectedHike}
+						insertButton={<InsertHikeButton />}
 						showHikeForm={handleShowHikeForm}
 						user={props.user}
 					/>
 				</Container>
-			)}
+			)
+			}
 		</>
 	);
 }

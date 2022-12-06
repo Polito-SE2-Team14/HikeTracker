@@ -14,6 +14,10 @@ import { HikeModal } from "./HikeModal";
 import { EmptySearch } from "../EmptySeach";
 
 import { SideHikeFilter } from "./SideHikeFilter";
+import "../../styles/HikeListTable.css";
+import RoleManagement from "../../class/RoleManagement";
+
+import { timeText } from "../HikeData";
 
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
@@ -21,41 +25,52 @@ function HikeListTable(props) {
 		props.showHikeForm();
 	};
 
-	let shownHikes = props.hikes
-		.filter((h) => h.show)
-		.map((hike, i) => (
-			<Col key={i}>
-				<HikeListItem
-					user={props.user}
-					hike={hike}
-					setHikes={props.setHikes}
-					handleEditForm={handleShowEditForm}
-				/>
-			</Col>
-		));
+	let shownHikes = props.hikes.map((hike, i) => (
+		<Col key={i}>
+			<HikeListItem
+				user={props.user}
+				hike={hike}
+				setHikes={props.setHikes}
+				handleEditForm={handleShowEditForm}
+			/>
+		</Col>
+	));
 
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
-				<Card className="p-2">
-					<h3>Filters</h3>
-					<Container>
-						<h5>Name</h5>
-						<Form.Control
-							type="search"
-							placeholder="Search"
-							/* value={filters.name}
-									onChange={(ev) =>
-										setFilters({ ...filters, name: ev.target.value.trim() })
-									} */
-						/>
-						<hr />
-						<SideHikeFilter />
-					</Container>
-				</Card>
+				{RoleManagement.isLocalGuide(props.user.userType) ? (
+					<Row className="mb-3">{props.insertButton}</Row>
+				) : (
+					false
+				)}
+				<Row>
+					<Card className="p-2">
+						<h3>Filters</h3>
+						<Container>
+							<h5>Name</h5>
+							<Form.Control
+								type="search"
+								placeholder="Search"
+								value={props.filters.title}
+								onChange={(ev) =>
+									props.setFilters({
+										...props.filters,
+										title: ev.target.value.trim(),
+									})
+								}
+							/>
+							<hr />
+							<SideHikeFilter
+								filters={props.filters}
+								setFilters={props.setFilters}
+							/>
+						</Container>
+					</Card>
+				</Row>
 			</Col>
 
-			<Col style={{marginBottom: 10}}>
+			<Col className="mb-5">
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -115,9 +130,9 @@ function HikeListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row style={{minHeight: 100}}>
+							<Row className="top-row">
 								<Col xs={8} sm={9}>
-									{props.hike.title}
+									{props.hike.title.slice(0, 25).concat("...")}
 								</Col>
 								<Col className="text-end">
 									<Button
@@ -142,13 +157,12 @@ function HikeListItem(props) {
 									{" m"}
 								</Col>
 							</Row>
-							<Row style={{minHeight: 70}}>
+							<Row className="bottom-row">
 								<Col>
 									<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
 								</Col>
 								<Col>
-									<FontAwesomeIcon icon={faClock} /> {props.hike.expectedTime}
-									{" '"}
+									<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
 								</Col>
 							</Row>
 						</Container>

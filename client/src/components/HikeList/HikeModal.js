@@ -36,12 +36,11 @@ export function HikeModal(props) {
 		let start = await PointAPI.getPoint(hike.startPointID);
 		let end = await PointAPI.getPoint(hike.endPointID);
 
-
-		setMarkers(null);
+		setMarkers({ start: start, end: end });
 	};
 
 	useEffect(() => {
-		if(show){
+		if (show) {
 			updatePath();
 			getMarkers();
 		}
@@ -54,8 +53,9 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HikeMap track={track} markers={markers} />
-				<p className="text-muted mt-0">submitted by x/you</p>
+				<HikeMap track={track}
+				//markers={markers}
+				/>
 				<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faPersonWalking} />
@@ -79,14 +79,23 @@ export function HikeModal(props) {
 					</Col>
 
 				</Row>
+				{markers.start && markers.end && <Row className="mt-3">
+					{markers.start && <Col>
+						<strong>Start Point:</strong>
+						{markers.start}
+					</Col>}
+					{markers.end && <Col>
+						<strong>End Point:</strong>
+						{markers.end}
+					</Col>}
+				</Row>}
 				<Row className="mt-3">
-					<Col>
-						{`by ${hike.creatorSurname} ${hike.creatorName} `}
-					</Col>
 					<Col>
 						<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 					</Col>
-					<Col>start and end point</Col>
+					<Col>
+						{`by ${hike.creatorSurname} ${hike.creatorName} `}
+					</Col>
 				</Row>
 			</Modal.Body>
 			<Modal.Footer>

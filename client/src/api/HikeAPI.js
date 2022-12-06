@@ -13,8 +13,7 @@ const getAllHikes = async () => {
 		let hikesJson = await response.json();
 
 		return hikesJson.map(
-			(h) =>
-				 {
+			(h) => {
 				return {
 					hikeID: h.hikeID,
 					title: h.title,
@@ -74,9 +73,9 @@ const getHike = async (hikeID) => {
  * @param {String} description Description of the new hike
  * @returns {boolean} Success of the operation
  */
-const newHike = async (title, track, difficulty, description, municipality, province) => {
+const newHike = async (hike) => {
 	let gpx = new gpxParser();
-	gpx.parse(track);
+	gpx.parse(hike.track);
 
 	let length = Math.round(gpx.tracks[0].distance.total);
 	let ascent = gpx.tracks[0].elevation.pos ? Math.round(gpx.tracks[0].elevation.pos.toFixed(0)) : 0;
@@ -84,16 +83,19 @@ const newHike = async (title, track, difficulty, description, municipality, prov
 	let points = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 
 	let body = {
-		title: title,
+		title: hike.title,
 		length: length,
 		expectedTime: eta,
 		ascent: ascent,
-		difficulty: difficulty,
-		description: description,
-		municipality: municipality,
-		province: province,
-		track: points
+		difficulty: hike.difficulty,
+		description: hike.description,
+		municipality: hike.municipality,
+		province: hike.province,
+		track: points,
+		country: hike.country,
+		creatorID: hike.creatorID
 	};
+
 
 	try {
 		let response = await REST.UPDATE("POST", api, body, true);
@@ -117,18 +119,11 @@ const newHike = async (title, track, difficulty, description, municipality, prov
  * @param {String} description Description of the hike
  * @returns {boolean} Success of the operation
  */
-const editHike = async (
-	hikeID,
-	title,
-	length,
-	eta,
-	ascent,
-	difficulty,
-	description,
-	municipality,
-	province
-) => {
+const editHike = async (hike) => {
 	// TODO(antonio): client-side validation
+
+	let { hikeID, title, length, eta, ascent,
+		difficulty, description, municipality, province } = hike
 
 	let body = {
 		hikeID: parseInt(hikeID),
@@ -163,7 +158,7 @@ const deleteHike = async (hikeID) => {
 
 		return true;
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 		throw err;
 	}
 };
@@ -174,8 +169,9 @@ const addStartPoint = async (hikeID, pointID) => {
 		startPointID: pointID,
 	};
 
+
 	try {
-		await REST.UPDATE("PUT", `${api}/start`, body, true);
+		await REST.UPDATE("POST", `${api}/start`, body, true);
 
 		return true;
 	} catch (e) {
@@ -190,8 +186,10 @@ const addEndPoint = async (hikeID, pointID) => {
 		endPointID: pointID,
 	};
 
+
+
 	try {
-		await REST.UPDATE("PUT", `${api}/end`, body, true);
+		await REST.UPDATE("POST", `${api}/end`, body, true);
 
 		return true;
 	} catch (e) {
@@ -236,8 +234,7 @@ const getHikePoints = async (hikeID) => {
 		let pointsJson = await response.json();
 
 		return pointsJson.map(
-			(p) =>
-				{
+			(p) => {
 				return {
 					pointID: p.pointID,
 					name: p.name,

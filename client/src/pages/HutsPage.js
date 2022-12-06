@@ -48,77 +48,52 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = (
-		name,
-		latitude,
-		longitude,
-		address,
-		province,
-		municipality,
-		bedspace,
-		hutOwnerID
-	) => {
-		//console.log(name, latitude, longitude, address, bedspace, hutOwnerID);
+	const handleCreate = (givenHut) => {
 
 		let hut = {
-			name: name,
-			latitude: Number(latitude),
-			longitude: Number(longitude),
-			address: address,
-			province: province,
-			municipality: municipality,
-			bedspace: Number(bedspace),
-			hutOwnerID: Number(hutOwnerID),
+			name: givenHut.name,
+			description: givenHut.description,
+			latitude: Number(givenHut.latitude),
+			longitude: Number(givenHut.longitude),
+			altitude: Number(givenHut.altitude),
+			address: givenHut.address,
+			country: givenHut.country,
+			province: givenHut.province,
+			municipality: givenHut.municipality,
+			bedspace: Number(givenHut.bedspace),
+			creatorID: props.user.userID,
+			website: givenHut.website,
+			phoneNumber: givenHut.phoneNumber,
+			email: givenHut.email
 		};
 
-		let invalids = [];
 
-		if (name == null || name === "" || !String(name).match(/[a-zA-Z]+/i))
-			invalids.push(" name");
-
-		if (latitude == null || latitude === "" || Number.isNaN(latitude))
-			invalids.push(" latitude");
-
-		if (longitude == null || latitude === "" || Number.isNaN(longitude))
-			invalids.push(" longitude");
-
-		if (address == null || address === "") invalids.push(" address");
-
-		if (bedspace == null || bedspace === "" || Number.isNaN(bedspace))
-			invalids.push(" bedspace");
-
-		if (hutOwnerID == null || hutOwnerID === "" || Number.isNaN(hutOwnerID))
-			invalids.push(" hutOwnerID");
-
-		//console.log(invalids.length);
-
-		if (invalids.length === 0) {
-			PointAPI.createHut(hut)
-				.then(() => {
-					setHuts([...huts, hut]);
-					setModalFooterVisible(false);
-					setModalVisible(false);
-				})
-				.catch((err) => {
-					console.error(err);
-					setModalFooterVisible(true);
-					setTimeout(() => setModalFooterVisible(false), 3000);
-				});
-		} else {
-			setModalFooterVisible("Errors with" + invalids.join(","));
-		}
+		PointAPI.createHut(hut)
+			.then(() => {
+				setHuts([...huts, hut]);
+				setModalFooterVisible(false);
+				setModalVisible(false);
+			})
+			.catch((err) => {
+				console.error(err);
+				setModalFooterVisible(err);
+				setTimeout(() => setModalFooterVisible(false), 3000);
+			});
 	};
 
 	const getAllHuts = async () => {
-		try {
-			let huts = await PointAPI.getAllHuts();
-			setHuts(huts);
-			setFilteredHuts(applyFilters(huts, filters));
 
-			setLoading(false);
-		} catch (err) {
-			console.log(err);
-		}
+		let huts
+		await PointAPI.getAllHuts()
+			.catch(err => { console.error(err) })
+			.then(h => {
+				huts = h
+				setHuts(huts);
+				setFilteredHuts(applyFilters(huts, filters));
+
+				setLoading(false);
+			})
+
 	};
 
 	useEffect(() => {
@@ -156,12 +131,12 @@ export function HutsPage(props) {
 						</Col>
 
 						{
-							props.user.type === "localGuide" ?
+							props.user && props.user.type === "localGuide" ?
 								<Col xs={5} className="text-end">
 									<Button variant="success" onClick={() => handleSubmit()}>
 										<FontAwesomeIcon icon={faPlus} /> Register Hut
 									</Button>
-									</Col>
+								</Col>
 								:
 								false}
 					</Row>

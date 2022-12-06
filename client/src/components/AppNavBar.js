@@ -11,7 +11,6 @@ import {
 	Row,
 	ListGroup,
 	NavDropdown,
-	Image,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -54,7 +53,7 @@ export function AppNavBar(props) {
 			<Navbar bg="transparent" className="mountain-bg font-weight-bold">
 				<Container fluid className="d-flex justify-content-center">
 					<Row className="navbar-items d-flex justify-content-between">
-						<Col className="d-flex align-items-center">
+						<Col xs={1} className="d-flex align-items-center justify-content-center">
 							<Button variant="navbar" onClick={handleMenuClick}>
 								<FontAwesomeIcon icon={faBars} />
 							</Button>
@@ -67,7 +66,7 @@ export function AppNavBar(props) {
 								HIKEfive!
 							</Button>
 						</Col>
-						<Col className="d-flex align-items-center justify-content-end">
+						<Col xs={1} className="d-flex align-items-center justify-content-center">
 							{ props.loggedIn ?
 
 								<NavDropdown title={navDropdownTitleForUser} id="collasible-nav-dropdown" drop='start'>

@@ -16,25 +16,12 @@ function LoginForm(props) {
 
 	const handleSubmit = async (event) => {
 
-		/**
-		 * tells if an email has a correct format
-		 * @param {string} email 
-		 * @returns a boolean value telling if the email is ok
-		 */
-		const validateEmail = (email) => {
-			return String(email)
-				.toLowerCase()
-				.match(
-					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-				);
-		};
-
 		event.preventDefault();
 		props.setMessage('');
 		const credentials = { username, password };
 
 		let invalids = [];
-		if (username === '' || !validateEmail(username)) {
+		if (username === '') {
 			invalids.push(" username");
 		}
 		if (password === '') {
@@ -50,26 +37,6 @@ function LoginForm(props) {
 		}
 	};
 
-	/* return (
-		<Container>
-			<Row>
-				<Col>
-					<Form>
-						{props.message ? <Alert variant='danger' onClose={() => props.setMessage('')} dismissible>{props.message}</Alert> : ''}
-						<Form.Group controlId='username'>
-							<Form.Label>E-mail</Form.Label>
-							<Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)} />
-						</Form.Group>
-						<Form.Group controlId='password'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control type='password' value={password} onChange={ev => setPassword(ev.target.value)} />
-						</Form.Group>
-						<Button style={{ marginTop: 20 }} type="submit" onClick={handleSubmit}>Login</Button>
-					</Form>
-				</Col>
-			</Row>
-		</Container>
-	) */
 
 	return (
 		<Container>

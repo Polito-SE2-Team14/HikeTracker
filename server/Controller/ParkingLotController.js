@@ -28,14 +28,37 @@ exports.parkingLotExists = async (pLotId) => {
 
 //TODO test this function
 exports.addParkingLot = async (newPLot) => {
+	let { name, altitude, latitude, longitude, municipality, province, address,
+		description, carspace, creatorID, country } = newPLot
 
-	let { name, latitude, longitude, municipality, province, address, carspace, creatorID, country } = newPLot
-
+	if (typeof name != "string")
+		throw Error("Type error with name")
+	if (isNaN(altitude) & altitude!=null & altitude!=undefined)
+		throw Error("Type error with altitude")
+	if (isNaN(latitude))
+		throw Error("Type error with latitude")
+	if (isNaN(longitude))
+		throw Error("Type error with longitude")
+	if (typeof municipality != "string")
+		throw Error("Type error with municipality")
+	if (typeof province != "string")
+		throw Error("Type error with province")
+	if (typeof address != "string")
+		throw Error("Type error with address")
+	if (typeof description != "string" & description!=null & description!=undefined)
+		throw Error("Type error with description")
+	if (isNaN(carspace))
+		throw Error("Type error with carspace")
+	if (isNaN(creatorID))
+		throw Error("Type error with creatorID")
+	if (typeof country != "string")
+		throw Error("Type error with country")
 
 	let pointID;
 	await pointsDAO.createPoint({
-		name: name, latitude: Number(latitude), longitude: Number(longitude), country: country,
-		address: address, municipality: municipality, province: province, type: "parkinglot", creatorID: Number(creatorID)
+		name: name, country: country, municipality: municipality, province: province, 
+		latitude: Number(latitude), longitude: Number(longitude), altitude: Number(altitude),
+		address: address, type: "parkinglot", creatorID: Number(creatorID), description: description
 	})
 		.then(newID => pointID = newID)
 		.catch(err => { console.error("controller:", err); throw err });

@@ -11,6 +11,7 @@ const getAllPoints = async () => {
 			return {
 				pointID: p.pointID,
 				name: p.name,
+				description: p.description,
 				lat: p.latitude,
 				province: p.province,
 				municipality: p.municipality,

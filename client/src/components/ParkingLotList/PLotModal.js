@@ -3,13 +3,10 @@ import React from "react";
 import { LocationMap } from "../Map/Maps";
 import {
 	faXmark,
-	faPenToSquare,
 	faTrashCan,
 	faBed,
 	faMap,
 	faCity,
-	faHouse,
-	faCar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -21,15 +18,28 @@ export function PLotModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<LocationMap point={props.lot} />
+					<Row className=" mt-2">
+					<Col>
+						<strong>{" Altitude:"}</strong>
+						<br />{` ${props.lot.altitude}`}
+					</Col>
+				</Row>
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
 						<strong>{" Municipality (Province, Country):"}</strong>
-						{` ${props.lot.municipality} (${props.lot.province}, ${props.lot.country})`}
+						<br />{` ${props.lot.municipality} (${props.lot.province}, ${props.lot.country})`}
 					</Col>
 				</Row>
+				{props.lot.description &&
+					<Row className=" mt-2">
+					<Col>
+						<strong>{" Description:"}</strong>
+						<br />{` ${props.lot.description}`}
+					</Col>
+				</Row>}
 				<Row xs={1} md={2} className="d-flex align-items-top">
-					{props.lot.address!=null && <Col>
+					{props.lot.address != null && <Col>
 						<FontAwesomeIcon icon={faMap} />
 						<strong>{" Address:"}</strong>
 						{` ${props.lot.address}`}
@@ -40,7 +50,7 @@ export function PLotModal(props) {
 						{` ${props.lot.carspace}`}
 					</Col>
 					<Col>
-					{`by ${props.lot.creatorSurname} ${props.lot.creatorName} `}
+						{`by ${props.lot.creatorSurname} ${props.lot.creatorName} `}
 					</Col>
 				</Row>
 			</Modal.Body>
