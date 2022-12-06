@@ -1,6 +1,8 @@
 const hikeController = require("../Controller/HikeController")
+const dbManager = require("../database/DBManagerSingleton").getInstance()
 
-
+beforeEach(async () => await dbManager.clearDb());
+afterEach(async () => await dbManager.clearDb());
 
 
 describe('Hike Tests', () => {
@@ -215,7 +217,7 @@ describe('Hike Tests', () => {
 		})
 		test("Invalid hikeID", async()=>{
 			let caughtError;
-			let huts=await hikeController.getCloseHutsForHike("1")
+			let huts=await hikeController.getCloseHutsForHike("invalid")
 				.catch(err=>{
 					console.log(err);
 					caughtError=err;});
@@ -236,7 +238,7 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike("1",1)
+			let newLink=await hikeController.linkHutToHike("invalid",1)
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
@@ -244,7 +246,7 @@ describe('Hike Tests', () => {
 
 		test("Valid hutID to invalid hikeID", async()=>{
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,"1")
+			let newLink=await hikeController.linkHutToHike(1,"invalid")
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
@@ -269,7 +271,7 @@ describe('Hike Tests', () => {
 			let caughtError;
 			let newLink=await hikeController.linkHutToHike(1,1)
 				.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink("1",1)
+			let deletedLink=await hikeController.deleteHutToHikeLink("invalid",1)
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).not.toBe(undefined);
