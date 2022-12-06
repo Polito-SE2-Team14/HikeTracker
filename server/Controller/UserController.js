@@ -1,6 +1,7 @@
 const userDAO = require("../DAO/UserDAO")
 const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
+const nodemailerConfig = require("../config/nodemailer.config");
 
 
 exports.login = async (email, password) => {
@@ -56,8 +57,8 @@ exports.sendVerificationEmail = async (token, userEmail) => {
         service: "Gmail",
         secure: true,
         auth: {
-            user: 'hikefiveteam14@gmail.com',
-            pass: 'yfgwcotimxraggjq'
+            user: nodemailerConfig.username,
+            pass: nodemailerConfig.password
         }
     });
 
