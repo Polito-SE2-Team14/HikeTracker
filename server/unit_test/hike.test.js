@@ -2,7 +2,7 @@ const hikeController = require("../Controller/HikeController")
 const dbManager = require("../database/DBManagerSingleton").getInstance()
 
 beforeEach(async () => await dbManager.clearDb());
-afterEach(async () => await dbManager.clearDb());
+afterAll(async () => await dbManager.clearDb());
 
 
 describe('Hike Tests', () => {
