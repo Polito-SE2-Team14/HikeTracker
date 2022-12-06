@@ -35,7 +35,7 @@ export function HikeModal(props) {
 						<InfoTab show={show} user={props.user} hike={hike} />
 					</Tab>
 					{RoleManagement.isHiker(props.user.userType) ? <Tab eventKey="map" title="Map">
-						<MapTab hike={hike} />
+						<MapTab show={show} user={props.user} hike={hike} />
 					</Tab> : false}
 				</Tabs>
 			</Modal.Body>
@@ -92,7 +92,7 @@ function InfoTab(props) {
 				</Col>
 				<Col>
 					<FontAwesomeIcon icon={faClock} />
-					<strong>{" Expected time:"}</strong>
+					<strong>{" Time:"}</strong>
 					{` ${hike.expectedTime} minutes`}
 				</Col>
 			</Row>
@@ -153,6 +153,7 @@ function MapTab(props) {
 
 	return (
 		<HikeMap
+			user={props.user}
 			track={track}
 			//markers={markers}
 		/>
