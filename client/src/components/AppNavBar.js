@@ -1,7 +1,7 @@
 import "../styles/AppNavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCircleUser, faRightToBracket, faCarSide, faHouse, faPersonHiking, faCompass, faClipboardList } from "@fortawesome/free-solid-svg-icons";
-
+import RoleManagement from "../class/RoleManagement";
 import {
 	Button,
 	Col,
@@ -61,13 +61,13 @@ export function AppNavBar(props) {
 						<Col className="d-flex align-items-center justify-content-center">
 							{
 								//TODO add icon
-							} 
+							}
 							<Button variant="navbar" size="xl" onClick={handleHomeClick}>
 								HIKEfive!
 							</Button>
 						</Col>
 						<Col xs={1} className="d-flex align-items-center justify-content-center">
-							{ props.loggedIn ?
+							{props.loggedIn ?
 
 								<NavDropdown title={navDropdownTitleForUser} id="collasible-nav-dropdown" drop='start'>
 									<NavDropdown.Item onClick={handleUserClick}>Profile</NavDropdown.Item>
@@ -101,9 +101,12 @@ function SideBar(props) {
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
-				<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
-						<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
-					</ListGroup.Item>
+					{RoleManagement.isManager() ?
+						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
+							<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
+						</ListGroup.Item>
+						: null
+					}
 					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
 						<SideBarElement icon={<FontAwesomeIcon icon={faCompass} />} name="Home Page" />
 					</ListGroup.Item>
