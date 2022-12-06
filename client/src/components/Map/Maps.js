@@ -22,8 +22,10 @@ import {
 	faLocationDot,
 	faUpDownLeftRight,
 } from "@fortawesome/free-solid-svg-icons";
-
+import RoleManagement from "../../class/RoleManagement";
 import Slider from "@mui/material/Slider";
+
+import { Loading } from "../Loading";
 
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
@@ -31,7 +33,7 @@ export function HikeMap(props) {
 
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
-			return "track not available"; // TODO(antonio): put loading animation
+			return <Loading/>
 		} else {
 			return (
 				<MapContainer
@@ -53,6 +55,7 @@ export function HikeMap(props) {
 						</div>
 					)}
 					<HikePath positions={track} />
+					{RoleManagement.isLocalGuide(props.user.userType) ? <HikePointSelector/> : false}
 				</MapContainer>
 			);
 		}
@@ -70,6 +73,20 @@ export function HikeMap(props) {
 			{displayMap}
 		</>
 	);
+}
+
+function HikePointSelector(){
+	useMapEvents({
+		/* click(e) {
+			let pos = [e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6)];
+			console.log(pos);
+		}, */
+		popupopen(e) {
+			console.log(e.popup.getLatLng().toString());
+		}
+	});
+
+	return false;
 }
 
 export function LocationMap(props) {
