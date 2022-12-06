@@ -13,7 +13,7 @@ const isHiker = async (userType) => {
  * @returns {boolean}
  */
 const isLocalGuide = async (userType) => {
-     console.log("userType === 'localGuide'", userType === 'localGuide')
+     //console.log("userType === 'localGuide'", userType === 'localGuide')
     return userType === 'localGuide';
 };
 
