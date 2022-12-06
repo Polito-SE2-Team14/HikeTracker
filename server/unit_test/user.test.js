@@ -6,6 +6,8 @@ const userDAO = require("../DAO/UserDAO")
 
 const types = ['hiker', 'hutWorker', 'localGuide', 'manager'];
 
+let passwordForJackSparrow = crypto.randomBytes(16).toString("hex")
+
 let newUsers = [
 	{
 		name: 'marco', surname: 'verdi', email: 'marco.verdi@ex.com', phoneNumber: '1111111111',
@@ -21,7 +23,7 @@ let newUsers = [
 	},
 	{
 		name: 'jack', surname: 'sparrow', email: 'jack.sparrow@ex.com', phoneNumber: '444',
-		type: types[2], password: 'jacksparrow'
+		type: types[2], password: passwordForJackSparrow
 	}
 ];
 
@@ -175,7 +177,7 @@ describe('User Tests', () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			await userController.login(user.email, 'jacksparrow').then(u => {
+			await userController.login(user.email, passwordForJackSparrow).then(u => {
 				loginedUser = u;
 			});
 
