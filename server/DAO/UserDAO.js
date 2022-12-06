@@ -87,7 +87,7 @@ exports.getUser = (email, password) => {
 		const sql = 'SELECT * FROM USER WHERE email = ?';
 		db.get(sql, [email], (err, row) => {
 			if (err) { reject(err); }
-			else if (row === undefined) { resolve(false); }
+			else if (row === undefined) { return resolve(false); }
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname, email: row.email,
 				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
