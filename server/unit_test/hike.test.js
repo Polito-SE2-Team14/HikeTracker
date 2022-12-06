@@ -207,25 +207,26 @@ describe('Hike Tests', () => {
 			expect(askedHike).toBe(null)
 		})*/
 	})
-	describe("Get huts close to an hike",()=>{
-		test("Valid hikeID", async()=>{
+	describe("Get huts close to an hike", () => {
+		test("Valid hikeID", async () => {
 			let caughtError;
-			let huts=await hikeController.getCloseHutsForHike(1)
-				.catch(err=>caughtError=err);
+			let huts = await hikeController.getCloseHutsForHike(1)
+				.catch(err => caughtError = err);
 			expect(caughtError).toBe(undefined);
 			expect(huts).not.toBe(null);
 		})
-		test("Invalid hikeID", async()=>{
+		test("Invalid hikeID", async () => {
 			let caughtError;
-			let huts=await hikeController.getCloseHutsForHike("invalid")
-				.catch(err=>{
+			let huts = await hikeController.getCloseHutsForHike("invalid")
+				.catch(err => {
 					console.log(err);
-					caughtError=err;});
+					caughtError = err;
+				});
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
-	describe("Link a hut to an hike",()=>{
-		test("Valid hutID to valid hikeID", async()=>{
+	describe("Link a hut to an hike", () => {
+		test("Valid hutID to valid hikeID", async () => {
 			/* let caughtError;
 			let newLink=await hikeController.linkHutToHike(1,1)
 				.catch(err=>caughtError=err);
@@ -237,25 +238,25 @@ describe('Hike Tests', () => {
 			expect(1).toBe(1)
 		})
 
-		test("Invalid hutID to valid hikeID", async()=>{
+		test("Invalid hutID to valid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike("invalid",1)
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike("invalid", 1)
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 
-		test("Valid hutID to invalid hikeID", async()=>{
+		test("Valid hutID to invalid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,"invalid")
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike(1, "invalid")
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
 
-	describe("Remove hut-hike link",()=>{
-		test("Valid hutID to valid hikeID", async()=>{
+	describe("Remove hut-hike link", () => {
+		test("Valid hutID to valid hikeID", async () => {
 			/* let caughtError;
 			let newLink=await hikeController.linkHutToHike(1,1)
 				.catch(err=>caughtError=err);
@@ -269,23 +270,23 @@ describe('Hike Tests', () => {
 			expect(1).toBe(1)
 		})
 
-		test("Invalid hutID to valid hikeID", async()=>{
+		test("Invalid hutID to valid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
-				.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink("invalid",1)
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike(1, 1)
+				.catch(err => caughtError = err);
+			let deletedLink = await hikeController.deleteHutToHikeLink("invalid", 1)
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 
-		test("Valid hutID to invalid hikeID", async()=>{
+		test("Valid hutID to invalid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
-				.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink(1,"1")
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike(1, 1)
+				.catch(err => caughtError = err);
+			let deletedLink = await hikeController.deleteHutToHikeLink(1, "1")
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
