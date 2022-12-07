@@ -1,10 +1,4 @@
-import {
-	Button,
-	Container,
-	Row,
-	Col,
-	Spinner,
-} from "react-bootstrap";
+import { Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import {
 	MapContainer,
 	TileLayer,
@@ -30,10 +24,16 @@ import { Loading } from "../Loading";
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
 	let track = props.track;
+	
+	const [selectedPosition, setSelectedPosition] = useState(undefined);
+
+	const handleAddInfo = () => {
+		props.onPointSelect(selectedPosition);
+	}
 
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
-			return <Loading/>
+			return <Loading />;
 		} else {
 			return (
 				<MapContainer
@@ -47,19 +47,31 @@ export function HikeMap(props) {
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
 					{props.markers ? (
-						props.markers.map((m, i) => <TrackMarker key={i} position={m} />)
+						false
+						/* props.markers.map((m, i) => <TrackMarker key={i} position={m} />) */ //TODO(antonio): refactor marker system
 					) : (
 						<div>
 							<TrackMarker position={track[0]} start />
 							<TrackMarker position={track[track.length - 1]} />
 						</div>
 					)}
-					<HikePath positions={track} />
-					{RoleManagement.isLocalGuide(props.user.userType) ? <HikePointSelector/> : false}
+					<HikePath
+					// TODO(antonio): add control if user is local guide
+						positions={track}
+						handleAddInfo={handleAddInfo}
+					/>
+					{RoleManagement.isLocalGuide(props.user.userType) ? (
+						<HikePointSelector
+							setSelectedPosition={setSelectedPosition}
+							onPointDeselect={props.onPointDeselect}
+						/>
+					) : (
+						false
+					)}
 				</MapContainer>
 			);
 		}
-	}, [track, props.markers]);
+	}, [track, props.markers, selectedPosition]);
 
 	return (
 		<>
@@ -75,15 +87,15 @@ export function HikeMap(props) {
 	);
 }
 
-function HikePointSelector(){
+function HikePointSelector(props) {
 	useMapEvents({
-		/* click(e) {
-			let pos = [e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6)];
-			console.log(pos);
-		}, */
 		popupopen(e) {
-			console.log(e.popup.getLatLng().toString());
-		}
+			let coords = e.popup.getLatLng();
+			props.setSelectedPosition([coords.lat.toFixed(6), coords.lng.toFixed(6)])
+		},
+		popupclose(e) {
+			props.onPointDeselect();
+		},
 	});
 
 	return false;
@@ -145,7 +157,7 @@ export function AreaSelectMap(props) {
 					/>
 				) : (
 					<>
-						<Marker position={position}/>
+						<Marker position={position} />
 						<Circle center={position} radius={radius} />
 					</>
 				)}
@@ -168,37 +180,37 @@ export function AreaSelectMap(props) {
                }
             `}
 			</style>
-				<Row>
-					<Col>
-						{map ? (
-							<>
-								<Row className="mb-1">
-									<Col xs={7}>
-										<CircleAreaForm radius={radius} setRadius={setRadius} />
-									</Col>
-									<Col className="d-flex align-items-center justify-content-end">
-										{`${(radius/1000).toFixed(1)} Km`}
-									</Col>
-								</Row>
-							</>
-						) : (
-							false
-						)}
-					</Col>
-				</Row>
-				<Row className="mb-2">{displayMap}</Row>
-				<Row>
-					<Col className="d-flex justify-content-center">
-						<GpsTrackButton map={map} setPosition={setPosition} />
-					</Col>
-					<Col className="d-flex justify-content-center">
-						<SelectPositionButton
-							map={map}
-							selectPosition={selectPosition}
-							setSelectPosition={setSelectPosition}
-						/>
-					</Col>
-				</Row>
+			<Row>
+				<Col>
+					{map ? (
+						<>
+							<Row className="mb-1">
+								<Col xs={7}>
+									<CircleAreaForm radius={radius} setRadius={setRadius} />
+								</Col>
+								<Col className="d-flex align-items-center justify-content-end">
+									{`${(radius / 1000).toFixed(1)} Km`}
+								</Col>
+							</Row>
+						</>
+					) : (
+						false
+					)}
+				</Col>
+			</Row>
+			<Row className="mb-2">{displayMap}</Row>
+			<Row>
+				<Col className="d-flex justify-content-center">
+					<GpsTrackButton map={map} setPosition={setPosition} />
+				</Col>
+				<Col className="d-flex justify-content-center">
+					<SelectPositionButton
+						map={map}
+						selectPosition={selectPosition}
+						setSelectPosition={setSelectPosition}
+					/>
+				</Col>
+			</Row>
 		</>
 	);
 }

@@ -83,12 +83,13 @@ exports.addHike = async (hike) => {
 
 //TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
+	console.log(referencePoint);
 
 	let hike
 	this.getHike(hikeID)
 		.then(h => hike = h)
 	if (hike == null)
-		throw Error("There is no hike with that ID")
+		throw Error("There is no hike with that ID: " + hikeID)
 
 	let referencePointID;
 	await poinstDAO.createPoint(referencePoint)
