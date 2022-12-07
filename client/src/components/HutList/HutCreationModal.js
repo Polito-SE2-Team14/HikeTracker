@@ -127,7 +127,7 @@ function HutCreationForm(props) {
 							disabled={country==""}
 							province={province}
 							setProvince={setProvince}
-							country="Italy"
+							country={country}
 						/>
 					</Col>
 				</Row>
@@ -137,8 +137,8 @@ function HutCreationForm(props) {
 						disabled={province==""}
 						municipality={municipality}
 						setMunicipality={setMunicipality}
-						country="Italy"
-						province="Turin"
+						country={country}
+						province={province}
 					/>
 				</Row>
 			</Form.Group>

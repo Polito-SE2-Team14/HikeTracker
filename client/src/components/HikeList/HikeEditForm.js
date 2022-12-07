@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-	Button,
-	Modal,
-	Form,
-	InputGroup,
-	Row,
-	Col,
-} from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Map/Maps";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
+
+import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
+
 
 //New Select
 import Select from 'react-select'
@@ -56,7 +52,7 @@ export function HikeEditForm(props) {
 				{!editPoints ? (
 					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
-					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
+					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
 			</Modal.Body>
 		</Modal>
@@ -65,7 +61,8 @@ export function HikeEditForm(props) {
 
 //TODO(antonio): proper documentation
 function HikeForm(props) {
-	let [title, setTitle] = useState(props.hike ? props.hike.title : "");
+	// rimettere a ""
+	let [title, setTitle] = useState(props.hike ? props.hike.title : "sadion");
 	let [length, setLength] = useState(props.hike ? props.hike.length : 0);
 	let [ascent, setAscent] = useState(props.hike ? props.hike.ascent : 0);
 	let [expectedTime, setExpectedTime] = useState(
@@ -74,16 +71,20 @@ function HikeForm(props) {
 	let [difficulty, setDifficulty] = useState(
 		props.hike ? props.hike.difficulty : "Tourist"
 	);
+	// rimettere a ""
 	let [description, setDescription] = useState(
-		props.hike ? props.hike.description : ""
+		props.hike ? props.hike.description : "fsgdhf"
 	);
 
 	let [selectedFile, setSelectedFile] = useState("");
 	let [fileContent, setFileContent] = useState("");
 	let [useFile, setUseFile] = useState(false);
-	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
-	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "");
-	let [country, setCountry] = useState(props.country ? props.hike.country : "");
+	// rimettere a ""
+	let [province, setProvince] = useState(props.hike ? props.hike.province : "Badakhshan");
+	// rimettere a ""
+	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "Fayzabad");
+	// rimettere a ""
+	let [country, setCountry] = useState(props.country ? props.hike.country : "Afghanistan");
 
 
 	let fileChangeHandler = (event) => {
@@ -176,9 +177,51 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
+			<Form.Group controlId="formCountry" className="mb-3">
+				<Form.Label>Country</Form.Label>
+					<CountryDropdown
+						country={country}
+						setCountry={setCountry}
+					/>
+				{/* <Form.Label>Country</Form.Label>
+				<Form.Control
+					type="text"
+					required={true}
+
+					placeholder={props.country ? props.hike.country : "Enter hike country"}
+					value={country}
+					onChange={(ev) => setCountry(ev.target.value)}
+				/> */}
+			</Form.Group>
+
+			<Form.Group controlId="formProvince" className="mb-3">
+				<Form.Label>Province</Form.Label>
+				<ProvinceDropdown
+					disabled={country==""}
+					province={province}
+					setProvince={setProvince}
+					country={country}
+				/>
+				{/* <Form.Control
+					type="text"
+					required={true}
+
+					placeholder={props.hike ? props.hike.province : "Enter hike province"}
+					value={province}
+					onChange={(ev) => setProvince(ev.target.value)}
+				/> */}
+			</Form.Group>
+
 			<Form.Group controlId="formMunicipality" className="mb-3">
 				<Form.Label>Municipality</Form.Label>
-				<Form.Control
+				<MunicipalityDropdown
+					disabled={province==""}
+					municipality={municipality}
+					setMunicipality={setMunicipality}
+					country={country}
+					province={province}
+				/>
+				{/* <Form.Control
 					type="text"
 					required={true}
 
@@ -187,31 +230,7 @@ function HikeForm(props) {
 					}
 					value={municipality}
 					onChange={(ev) => setMunicipality(ev.target.value)}
-				/>
-			</Form.Group>
-
-			<Form.Group controlId="formProvince" className="mb-3">
-				<Form.Label>Province</Form.Label>
-				<Form.Control
-					type="text"
-					required={true}
-
-					placeholder={props.hike ? props.hike.province : "Enter hike province"}
-					value={province}
-					onChange={(ev) => setProvince(ev.target.value)}
-				/>
-			</Form.Group>
-
-			<Form.Group controlId="formCountry" className="mb-3">
-				<Form.Label>Country</Form.Label>
-				<Form.Control
-					type="text"
-					required={true}
-
-					placeholder={props.country ? props.hike.country : "Enter hike country"}
-					value={country}
-					onChange={(ev) => setCountry(ev.target.value)}
-				/>
+				/> */}
 			</Form.Group>
 
 			{props.hike && !useFile && (
@@ -400,6 +419,7 @@ function EditPointsForm(props) {
 		<Form>
 			<Row>
 				<HikeMap
+					user={props.user}
 					track={track}
 					markers={[start, end]}
 				/>

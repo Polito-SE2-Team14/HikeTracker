@@ -39,7 +39,7 @@ function HikeListTable(props) {
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
-				{RoleManagement.isLocalGuide(props.user.userType) ? (
+				{RoleManagement.isLocalGuide(props.user.type) ? (
 					<Row className="mb-3">{props.insertButton}</Row>
 				) : (
 					false
