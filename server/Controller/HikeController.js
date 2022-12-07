@@ -147,12 +147,20 @@ exports.getHikeTrack = async (hikeID) => {
 
 //TODO test this function
 exports.setStart = async (hikeID, startPointID) => {
+	if (isNaN(hikeID))
+		throw Error("Type error with hikeID")
+	if (isNaN(startPointID))
+		throw Error("Type error with hikeID")
 	await hikeDAO.setStart(hikeID, startPointID)
 		.catch(err => { console.error(err); throw err })
 }
 
 //TODO test this function
 exports.setEnd = async (hikeID, endPointID) => {
+	if (isNaN(hikeID))
+		throw Error("Type error with hikeID")
+	if (isNaN(endPointID))
+		throw Error("Type error with hikeID")
 	await hikeDAO.setEnd(hikeID, endPointID)
 		.catch(err => { console.error(err); throw err })
 }

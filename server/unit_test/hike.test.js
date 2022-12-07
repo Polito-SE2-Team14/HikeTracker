@@ -130,10 +130,44 @@ describe('Hike Tests', () => {
 
 	})
 	describe("link start", () => {
-
+		test("Valid hike and start point", async ()=>{
+			let caughtError;
+			await hikeController.setStart(1,1)
+				.catch(err=>caughtError=err);
+			expect(caughtError).toBe(undefined);
+		})
+		test("Invalid hike, valid start point", async ()=>{
+			let caughtError;
+			await hikeController.setStart("hike1",1)
+				.catch(err=>caughtError=err);
+			expect(caughtError).not.toBe(undefined);
+		})
+		test("Valid hike, invalid start point", async ()=>{
+			let caughtError;
+			await hikeController.setStart(1,"point1")
+				.catch(err=>caughtError=err);
+			expect(caughtError).not.toBe(undefined);
+		})
 	})
 	describe("link end", () => {
-
+		test("Valid hike and start point", async ()=>{
+			let caughtError;
+			await hikeController.setEnd(1,2)
+				.catch(err=>caughtError=err);
+			expect(caughtError).toBe(undefined);
+		})
+		test("Invalid hike, valid start point", async ()=>{
+			let caughtError;
+			await hikeController.setEnd("hike1",2)
+				.catch(err=>caughtError=err);
+			expect(caughtError).not.toBe(undefined);
+		})
+		test("Valid hike, invalid start point", async ()=>{
+			let caughtError;
+			await hikeController.setEnd(1,"point2")
+				.catch(err=>caughtError=err);
+			expect(caughtError).not.toBe(undefined);
+		})
 	})
 	describe("reference points", () => {
 		/* test("successful creation of reference points", async () => {

@@ -6,8 +6,10 @@ import {
 	Form,
 	Modal,
 	ModalFooter,
+	InputGroup,
 } from "react-bootstrap";
 import { PointSelectMap } from "../Map/Maps";
+import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
 
 export function HutCreationModal(props) {
 	return (
@@ -27,19 +29,19 @@ export function HutCreationModal(props) {
 	);
 }
 function HutCreationForm(props) {
-	const [name, setName] = useState(undefined);
-	const [latitude, setLatitude] = useState(undefined);
-	const [longitude, setLongitude] = useState(undefined);
-	const [altitude, setAltitude] = useState(undefined);
-	const [description, setDescription] = useState(undefined);
-	const [email, setEmail] = useState(undefined);
-	const [website, setWebsite] = useState(undefined);
-	const [phoneNumber, setPhoneNumber] = useState(undefined);
-	const [address, setAddress] = useState(undefined);
-	const [country, setCountry] = useState(undefined);
-	const [province, setProvince] = useState(undefined);
-	const [municipality, setMunicipality] = useState(undefined);
-	const [bedspace, setBedspace] = useState(undefined);
+	const [name, setName] = useState("");
+	const [latitude, setLatitude] = useState(0);
+	const [longitude, setLongitude] = useState(0);
+	const [altitude, setAltitude] = useState(0);
+	const [description, setDescription] = useState("");
+	const [email, setEmail] = useState("");
+	const [website, setWebsite] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState(0);
+	const [address, setAddress] = useState("");
+	const [country, setCountry] = useState("");
+	const [province, setProvince] = useState("");
+	const [municipality, setMunicipality] = useState("");
+	const [bedspace, setBedspace] = useState(0);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -114,29 +116,30 @@ function HutCreationForm(props) {
 				<Row>
 					<Col>
 						<Form.Label>Country</Form.Label>
-						<Form.Control
-							type="text"
-							required={true}
-							onChange={(ev) => setCountry(ev.target.value)}
+						<CountryDropdown
+							country={country}
+							setCountry={setCountry}
 						/>
 					</Col>
 					<Col>
 						<Form.Label>Province</Form.Label>
-						<Form.Control
-							type="text"
-							required={true}
-							onChange={(ev) => setProvince(ev.target.value)}
+						<ProvinceDropdown
+							disabled={country==""}
+							province={province}
+							setProvince={setProvince}
+							country="Italy"
 						/>
 					</Col>
 				</Row>
 				<Row>
-					<Col>
-						<Form.Label>Municipality</Form.Label>
-						<Form.Control
-							type="text"
-							required={true}
-							onChange={(ev) => setMunicipality(ev.target.value)}
-						/></Col>
+					<Form.Label>Municipality</Form.Label>
+					<MunicipalityDropdown
+						disabled={province==""}
+						municipality={municipality}
+						setMunicipality={setMunicipality}
+						country="Italy"
+						province="Turin"
+					/>
 				</Row>
 			</Form.Group>
 
