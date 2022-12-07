@@ -1,4 +1,13 @@
-import { Modal, Button, Row, Col, Tabs, Tab } from "react-bootstrap";
+import {
+	Modal,
+	Button,
+	Row,
+	Col,
+	Tabs,
+	Tab,
+	Container,
+	Form,
+} from "react-bootstrap";
 import React, { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,6 +31,8 @@ export function HikeModal(props) {
 	let hike = props.hike;
 	let show = props.show;
 
+	const [markers, setMarkers] = useState([]);
+
 	if (!hike) return false;
 
 	return (
@@ -30,15 +41,33 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<Tabs defaultActiveKey={RoleManagement.isHiker(props.user.type) ? "map" : "info"}>
+				<Tabs
+					defaultActiveKey={
+						RoleManagement.isHiker(props.user.userType) ? "map" : "info"
+					}
+				>
 					<Tab eventKey="info" title="Info">
-						<InfoTab show={show} user={props.user} hike={hike} />
+						<InfoTab
+							show={show}
+							user={props.user}
+							hike={hike}
+							markers={markers}
+						/>
 					</Tab>
 					<Tab eventKey="map" title="Map">
-						{RoleManagement.isHiker(props.user.type) ? (
-							<MapTab show={show} user={props.user} hike={hike} />
+						{RoleManagement.isHiker(props.user.userType) ? (
+							<MapTab
+								show={show}
+								user={props.user}
+								hike={hike}
+								markers={markers}
+								setMarkers={setMarkers}
+							/>
 						) : (
-							<Row className="d-flex justify-content-center"> Log in to see the map! </Row>
+							<Row className="d-flex justify-content-center">
+								{" "}
+								Log in to see the map!{" "}
+							</Row>
 						)}
 					</Tab>
 				</Tabs>
@@ -77,7 +106,7 @@ function InfoTab(props) {
 	let hike = props.hike;
 
 	return (
-		<>
+		<Container>
 			<Row xs={1} md={2} className="d-flex align-items-top mt-4">
 				<Col>
 					<FontAwesomeIcon icon={faPersonWalking} />
@@ -100,29 +129,29 @@ function InfoTab(props) {
 					{` ${hike.expectedTime} minutes`}
 				</Col>
 			</Row>
-			{/* {markers.start && markers.end && ( //TODO(antonio): fix when map is visible
+			{props.markers.start && props.markers.end && (
 				<Row className="mt-3">
-					{markers.start && (
+					{props.markers.start && (
 						<Col>
 							<strong>Start Point:</strong>
-							{markers.start}
+							{props.markers.start}
 						</Col>
 					)}
-					{markers.end && (
+					{props.markers.end && (
 						<Col>
 							<strong>End Point:</strong>
-							{markers.end}
+							{props.markers.end}
 						</Col>
 					)}
 				</Row>
-			)} */}
+			)}
 			<Row className="mt-3">
 				<Col>
 					<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 				</Col>
 				<Col>{`by ${hike.creatorSurname} ${hike.creatorName} `}</Col>
 			</Row>
-		</>
+		</Container>
 	);
 }
 
@@ -130,19 +159,20 @@ function MapTab(props) {
 	let show = props.show;
 
 	const [track, setTrack] = useState([]);
-	const [markers, setMarkers] = useState([]);
+
+	const [showForm, setShowForm] = useState(false);
+	const [coords, setCoords] = useState([]);
 
 	const updatePath = async () => {
 		let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 		setTrack(newTrack);
 	};
 
-	// TODO(antonio): fix field in the database, refactor marker system
 	let getMarkers = async () => {
 		let start = await PointAPI.getPoint(props.hike.startPointID);
 		let end = await PointAPI.getPoint(props.hike.endPointID);
 
-		setMarkers({ start: start, end: end });
+		props.setMarkers({ start: start, end: end });
 	};
 
 	useEffect(() => {
@@ -150,16 +180,121 @@ function MapTab(props) {
 			updatePath();
 			getMarkers();
 		}
-		// eslint-disable-next-line
 	}, [show]);
 
+	const onPointSelect = (coords) => {
+		setCoords(coords);
+		setShowForm(true);
+	};
+
+	const onPointDeselect = () => {
+		setShowForm(false);
+	};
+
 	return (
-		<Row>
-			<HikeMap
-				user={props.user}
-				track={track}
-				//markers={markers}
-			/>
-		</Row>
+		<Container>
+			<Row>
+				<HikeMap
+					user={props.user}
+					track={track}
+					markers={props.markers}
+					onPointSelect={onPointSelect}
+					onPointDeselect={onPointDeselect}
+				/>
+			</Row>
+			{showForm ? (
+				<ReferencePointForm
+					coords={coords}
+					onPointDeselect={onPointDeselect}
+					user={props.user}
+					hike={props.hike}
+				/>
+			) : (
+				false
+			)}
+			<Row className="mt-3">
+				<Col>
+					<h5>Reference points</h5>
+					<span className="text-muted">
+						Insert a reference point by clicking on the track
+					</span>
+				</Col>
+				<Col>
+					<h5>Huts</h5>
+				</Col>
+			</Row>
+		</Container>
+	);
+}
+
+function ReferencePointForm(props) {
+	const [name, setName] = useState("");
+	const [description, setDescription] = useState("");
+
+	const handleSubmit = (ev) => {
+		ev.preventDefault();
+
+		// send data to server, remember useEffect to update list and map
+
+		// country, province, municipality from hike
+		// hikeID from hike
+		// altitude 0
+		// creatorID from hike
+
+		let referencePoint = {
+			name: name,
+			description: description,
+			latitude: props.coords[0],
+			longitude: props.coords[1],
+			altitude: 0,
+			country: props.hike.country,
+			province: props.hike.province,
+			municipality: props.hike.municipality,
+			creatorID: props.hike.creatorID
+		}
+
+		HikeAPI.addReferencePoint(referencePoint, props.hike.hikeID);
+		props.onPointDeselect();
+	};
+
+	return (
+		<>
+			<Row className="mt-3">
+				<h5>New Reference point</h5>
+				<h6>Selected coordinates: {props.coords.toString()}</h6>
+				<Form>
+					<Form.Group>
+						<Form.Label>Name</Form.Label>
+						<Form.Control
+							placeholder="Enter a name"
+							value={name}
+							onChange={(ev) => setName(ev.target.value)}
+						/>
+					</Form.Group>
+					<Form.Group>
+						<Form.Label>Description</Form.Label>
+						<Form.Control
+							as="textarea"
+							placeholder="Enter a description"
+							value={description}
+							onChange={(ev) => setDescription(ev.target.value)}
+						/>
+					</Form.Group>
+					<span className="d-flex justify-content-end mt-3">
+						<Button
+							className="me-2"
+							onClick={props.onPointDeselect}
+							variant="secondary"
+						>
+							Close form
+						</Button>
+						<Button type="submit" onClick={handleSubmit} variant="success">
+							Insert point
+						</Button>
+					</span>
+				</Form>
+			</Row>
+			<hr />
+		</>
 	);
 }

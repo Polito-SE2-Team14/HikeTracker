@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Button, Form } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
 import { getLatLon } from "../HikeData";
@@ -8,8 +8,9 @@ import { useMapEvents } from "react-leaflet";
 import "../../styles/MapElements.css";
 
 import * as L from "leaflet";
-import { faBed, faMap } from "@fortawesome/free-solid-svg-icons";
+import { faBed, faClipboard, faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMemo, useState } from "react";
 
 const redIcon = new L.Icon({
 	iconUrl:
@@ -102,9 +103,10 @@ export function TrackMarker(props) {
 // TODO(antonio): proper documentation
 export function HikePath(props) {
 	// TODO(antonio):props.expectedtime, length, ascent display on popup, difficulty is color (green, red, blue)
+	
 	return (
 		<AntPath positions={props.positions} options={{ color: "blue" }}>
-			<HikePopup />
+			<HikePopup handleAddInfo={props.handleAddInfo}/>
 		</AntPath>
 	);
 }
@@ -147,7 +149,7 @@ function ParkingLotPopup(props) {
 function HikePopup(props) {
 	return (
 		<Popup>
-			Click to create reference point;
+			<Button onClick={props.handleAddInfo}><FontAwesomeIcon icon={faClipboard}/> Insert Info</Button>
 		</Popup>
 	);
 }
