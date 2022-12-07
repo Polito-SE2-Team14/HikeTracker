@@ -61,8 +61,7 @@ export function HikeEditForm(props) {
 
 //TODO(antonio): proper documentation
 function HikeForm(props) {
-	// rimettere a ""
-	let [title, setTitle] = useState(props.hike ? props.hike.title : "sadion");
+	let [title, setTitle] = useState(props.hike ? props.hike.title : "");
 	let [length, setLength] = useState(props.hike ? props.hike.length : 0);
 	let [ascent, setAscent] = useState(props.hike ? props.hike.ascent : 0);
 	let [expectedTime, setExpectedTime] = useState(
@@ -71,20 +70,16 @@ function HikeForm(props) {
 	let [difficulty, setDifficulty] = useState(
 		props.hike ? props.hike.difficulty : "Tourist"
 	);
-	// rimettere a ""
 	let [description, setDescription] = useState(
-		props.hike ? props.hike.description : "fsgdhf"
+		props.hike ? props.hike.description : ""
 	);
 
 	let [selectedFile, setSelectedFile] = useState("");
 	let [fileContent, setFileContent] = useState("");
 	let [useFile, setUseFile] = useState(false);
-	// rimettere a ""
-	let [province, setProvince] = useState(props.hike ? props.hike.province : "Badakhshan");
-	// rimettere a ""
-	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "Fayzabad");
-	// rimettere a ""
-	let [country, setCountry] = useState(props.country ? props.hike.country : "Afghanistan");
+	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
+	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "");
+	let [country, setCountry] = useState(props.country ? props.hike.country : "");
 
 
 	let fileChangeHandler = (event) => {
