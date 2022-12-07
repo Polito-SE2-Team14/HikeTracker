@@ -32,16 +32,17 @@ export function HikesPage(props) {
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
-		try {
-			let hikes = await HikeAPI.getAllHikes();
-
-			setHikes(hikes);
-			setFilteredHikes(hikes);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		let hikes
+		await HikeAPI.getAllHikes()
+			.then(h => {
+				hikes = h
+				setHikes(hikes);
+				setFilteredHikes(hikes);
+				setLoading(false);
+			})
+			.catch((error) => { console.log(error); })
+		
+};
 
 	const handleClose = () => {
 		setshowFilterForm(false);

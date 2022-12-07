@@ -11,8 +11,15 @@ exports.getAllHikes = async () => {
 
 //TODO test this function
 exports.getHike = async (hikeID) => {
-	const hike = await hikeDAO.getHike(hikeID)
+
+	console.log("getHike", hikeID)
+
+	let hike;
+	await hikeDAO.getHike(hikeID)
+		.then(h => hike = h)
 		.catch(err => { throw err });
+	
+	
 	return hike;
 }
 
@@ -34,13 +41,13 @@ exports.linkHutToHike = async (hutID, hikeID) => {
 	return addedLink;
 }
 
-exports.deleteHutToHikeLink=async(hutID,hikeID)=>{
+exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 	if (isNaN(hutID))
 		throw Error("Type error with hutID")
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
-	const removedLink = await hikeDAO.deleteHutToHikeLink(hutID,hikeID)
-		.catch(err=>{throw err});
+	const removedLink = await hikeDAO.deleteHutToHikeLink(hutID, hikeID)
+		.catch(err => { throw err });
 	return removedLink;
 }
 
@@ -84,13 +91,13 @@ exports.addHike = async (hike) => {
 //TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
 	console.log(referencePoint);
-
+	console.log(hikeID)
 	let hike
-	this.getHike(hikeID)
+	await this.getHike(hikeID)
 		.then(h => hike = h)
 	if (hike == null)
 		throw Error("There is no hike with that ID: " + hikeID)
-
+	
 	let referencePointID;
 	await poinstDAO.createPoint(referencePoint)
 		.then((id) => referencePointID = id)
@@ -125,7 +132,7 @@ exports.updateHike = async (hike) => {
 exports.deleteHike = async (hikeID) => {
 
 	let hike
-	await this.getHike(hikeDAO)
+	await this.getHike(hikeID)
 		.then(h => hike = h)
 
 	if (hike == null)
