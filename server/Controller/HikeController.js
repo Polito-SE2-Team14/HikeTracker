@@ -54,7 +54,6 @@ exports.getReferencePointsForHike = async (hikeID) => {
 exports.addHike = async (hike) => {
 
 	let { title, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
-	//console.log(hike)
 
 	if (typeof title != "string")
 		throw Error("Type error with name")
@@ -123,15 +122,18 @@ exports.updateHike = async (hike) => {
 //TODO test this function
 exports.deleteHike = async (hikeID) => {
 
-	let hike
-	await this.getHike(hikeDAO)
+	let hike;
+	await this.getHike(hikeID)
 		.then(h => hike = h)
 
 	if (hike == null)
 		throw Error("There is no hike with that ID")
 
 	await hikeDAO.deleteHike(hikeID)
-		.catch(err => { console.error(err); throw err })
+		.catch((err) => { 
+			console.error(err);
+			throw err;
+		})
 }
 
 //TODO test this function

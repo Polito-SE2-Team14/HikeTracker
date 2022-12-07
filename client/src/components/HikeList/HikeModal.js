@@ -30,12 +30,12 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<Tabs defaultActiveKey={RoleManagement.isHiker(props.user.userType) ? "map" : "info"}>
+				<Tabs defaultActiveKey={RoleManagement.isHiker(props.user.type) ? "map" : "info"}>
 					<Tab eventKey="info" title="Info">
 						<InfoTab show={show} user={props.user} hike={hike} />
 					</Tab>
 					<Tab eventKey="map" title="Map">
-						{RoleManagement.isHiker(props.user.userType) ? (
+						{RoleManagement.isHiker(props.user.type) ? (
 							<MapTab show={show} user={props.user} hike={hike} />
 						) : (
 							<Row className="d-flex justify-content-center"> Log in to see the map! </Row>

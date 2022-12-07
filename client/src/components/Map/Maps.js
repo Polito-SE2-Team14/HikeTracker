@@ -55,7 +55,7 @@ export function HikeMap(props) {
 						</div>
 					)}
 					<HikePath positions={track} />
-					{RoleManagement.isLocalGuide(props.user.userType) ? <HikePointSelector/> : false}
+					{RoleManagement.isLocalGuide(props.user.type) ? <HikePointSelector/> : false}
 				</MapContainer>
 			);
 		}
