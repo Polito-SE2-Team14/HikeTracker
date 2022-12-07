@@ -60,7 +60,7 @@ export function HikeMap(props) {
 						positions={track}
 						handleAddInfo={handleAddInfo}
 					/>
-					{RoleManagement.isLocalGuide(props.user.userType) ? (
+					{props.user && RoleManagement.isLocalGuide(props.user.userType) ? (
 						<HikePointSelector
 							setSelectedPosition={setSelectedPosition}
 							onPointDeselect={props.onPointDeselect}
