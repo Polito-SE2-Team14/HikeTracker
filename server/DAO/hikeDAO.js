@@ -166,10 +166,11 @@ exports.getHike = function (wantedID) {
 				reject(err);
 			} else {
 				try {
-					row.track = this.getHikeTrack(wantedID);
+					row.track = this.getHikeTrack(row.hikeID);
 					resolve(row);
 				}
 				catch (e) {
+					console.error(e);
 					reject(e);
 				}
 			}
@@ -289,15 +290,16 @@ exports.deleteHike = function (hikeID) {
 	return new Promise((resolve, reject) => {
 		db.run(sql, params, (err) => {
 			if (err)
+				console.error(err);
 				reject(err);
 			try {
 				deleteTrack(hikeID);
-				resolve(`Hike with ID ${hikeID} deleted correctly`);
+				resolve({msg:`Hike with ID ${hikeID} deleted correctly`});
 			}
 			catch (e) {
+				console.error(e);
 				reject(e);
 			}
-
 		});
 	});
 }
@@ -362,10 +364,12 @@ function deleteTrack(hikeId) {
 		throw error
 	}
 
-	unlink(file, err => {
-		if (err) throw err;
+	unlink(file, (err) => {
+		if (err) {
+			console.error(err);
+			throw err;
+		}
 	});
-
 }
 
 function checkPath(relativePath) {

@@ -5,16 +5,20 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 exports.getAllPoints = () => new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM POINT P, USER U WHERE U.userID = P.creatorID";
+    const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                FROM POINT P, USER U
+                WHERE U.userID = P.creatorID`;
 
     db.all(sql, [], (err, rows) => {
         if (err)
             reject(err);
+                
         const points = rows.map(row => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
                 country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
-                creatorName: row.name, creatorSurname: row.surname
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
             }
         });
         resolve(points);

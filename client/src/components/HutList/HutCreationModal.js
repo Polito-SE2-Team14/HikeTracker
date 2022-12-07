@@ -124,21 +124,21 @@ function HutCreationForm(props) {
 					<Col>
 						<Form.Label>Province</Form.Label>
 						<ProvinceDropdown
-							disabled={country==""}
+							disabled={country===""}
 							province={province}
 							setProvince={setProvince}
-							country="Italy"
+							country={country}
 						/>
 					</Col>
 				</Row>
 				<Row>
 					<Form.Label>Municipality</Form.Label>
 					<MunicipalityDropdown
-						disabled={province==""}
+						disabled={province===""}
 						municipality={municipality}
 						setMunicipality={setMunicipality}
-						country="Italy"
-						province="Turin"
+						country={country}
+						province={province}
 					/>
 				</Row>
 			</Form.Group>

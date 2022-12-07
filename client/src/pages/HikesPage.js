@@ -140,6 +140,7 @@ export function HikesPage(props) {
 						onHide={handleCloseHikeForm}
 						setHikes={setHikes}
 						newHike={newHike}
+						user={props.user}
 					/>
 					<HikeListTable
 						hikes={filteredHikes}

@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-	Button,
-	Modal,
-	Form,
-	InputGroup,
-	Row,
-	Col,
-} from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Map/Maps";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
+
+import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
+
 
 //New Select
 import Select from 'react-select'
@@ -56,7 +52,7 @@ export function HikeEditForm(props) {
 				{!editPoints ? (
 					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
-					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} />
+					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
 			</Modal.Body>
 		</Modal>
@@ -176,9 +172,51 @@ function HikeForm(props) {
 				/>
 			</Form.Group>
 
+			<Form.Group controlId="formCountry" className="mb-3">
+				<Form.Label>Country</Form.Label>
+					<CountryDropdown
+						country={country}
+						setCountry={setCountry}
+					/>
+				{/* <Form.Label>Country</Form.Label>
+				<Form.Control
+					type="text"
+					required={true}
+
+					placeholder={props.country ? props.hike.country : "Enter hike country"}
+					value={country}
+					onChange={(ev) => setCountry(ev.target.value)}
+				/> */}
+			</Form.Group>
+
+			<Form.Group controlId="formProvince" className="mb-3">
+				<Form.Label>Province</Form.Label>
+				<ProvinceDropdown
+					disabled={country===""}
+					province={province}
+					setProvince={setProvince}
+					country={country}
+				/>
+				{/* <Form.Control
+					type="text"
+					required={true}
+
+					placeholder={props.hike ? props.hike.province : "Enter hike province"}
+					value={province}
+					onChange={(ev) => setProvince(ev.target.value)}
+				/> */}
+			</Form.Group>
+
 			<Form.Group controlId="formMunicipality" className="mb-3">
 				<Form.Label>Municipality</Form.Label>
-				<Form.Control
+				<MunicipalityDropdown
+					disabled={province===""}
+					municipality={municipality}
+					setMunicipality={setMunicipality}
+					country={country}
+					province={province}
+				/>
+				{/* <Form.Control
 					type="text"
 					required={true}
 
@@ -187,31 +225,7 @@ function HikeForm(props) {
 					}
 					value={municipality}
 					onChange={(ev) => setMunicipality(ev.target.value)}
-				/>
-			</Form.Group>
-
-			<Form.Group controlId="formProvince" className="mb-3">
-				<Form.Label>Province</Form.Label>
-				<Form.Control
-					type="text"
-					required={true}
-
-					placeholder={props.hike ? props.hike.province : "Enter hike province"}
-					value={province}
-					onChange={(ev) => setProvince(ev.target.value)}
-				/>
-			</Form.Group>
-
-			<Form.Group controlId="formCountry" className="mb-3">
-				<Form.Label>Country</Form.Label>
-				<Form.Control
-					type="text"
-					required={true}
-
-					placeholder={props.country ? props.hike.country : "Enter hike country"}
-					value={country}
-					onChange={(ev) => setCountry(ev.target.value)}
-				/>
+				/> */}
 			</Form.Group>
 
 			{props.hike && !useFile && (
@@ -335,7 +349,8 @@ function EditPointsForm(props) {
 		try {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
-			points = points ? points.filter(p => p.pointType != 'generic') : [];
+
+			points = points ? points.filter(p => p.pointType !== 'generic') : [];
 
 			setTrack(newTrack);
 
@@ -400,6 +415,7 @@ function EditPointsForm(props) {
 		<Form>
 			<Row>
 				<HikeMap
+					user={props.user}
 					track={track}
 					markers={[start, end]}
 				/>
