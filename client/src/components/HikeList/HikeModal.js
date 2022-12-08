@@ -7,6 +7,7 @@ import {
 	Tab,
 	Container,
 	Form,
+	ListGroup,
 } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -31,7 +32,11 @@ export function HikeModal(props) {
 	let hike = props.hike;
 	let show = props.show;
 
-	const [markers, setMarkers] = useState({});
+	const [markers, setMarkers] = useState({
+		start: null,
+		end: null,
+		referencePoints: [],
+	});
 
 	return (
 		<Modal show={props.show} onHide={props.onClose}>
@@ -105,10 +110,14 @@ function InfoTab(props) {
 
 	return (
 		<Container>
-			<img src='https://www.rei.com/dam/parrish_091412_0679_main_lg.jpg' className='img-fluid mt-4' alt='...' />
-			<Row><Col>
-			{`${hike.municipality} (${hike.province}, ${hike.country})`}
-			</Col></Row>
+			<img
+				src="https://www.rei.com/dam/parrish_091412_0679_main_lg.jpg"
+				className="img-fluid mt-4"
+				alt="..."
+			/>
+			<Row>
+				<Col>{`${hike.municipality} (${hike.province}, ${hike.country})`}</Col>
+			</Row>
 			<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 				<Col>
 					<FontAwesomeIcon icon={faPersonWalking} />
@@ -176,7 +185,11 @@ function MapTab(props) {
 
 		let referencePoints = await HikeAPI.getHikePoints(props.hike.hikeID);
 
-		props.setMarkers({ start: start, end: end, referencePoints: referencePoints });
+		props.setMarkers({
+			start: start,
+			end: end,
+			referencePoints: referencePoints,
+		});
 	};
 
 	useEffect(() => {
@@ -193,6 +206,7 @@ function MapTab(props) {
 	};
 
 	const onPointDeselect = () => {
+		getMarkers();
 		setShowForm(false);
 	};
 
@@ -206,11 +220,15 @@ function MapTab(props) {
 					onPointSelect={onPointSelect}
 					onPointDeselect={onPointDeselect}
 				/>
+				<span className="text-muted">
+					Insert a reference point by clicking on the track
+				</span>
 			</Row>
 			{showForm ? (
 				<ReferencePointForm
 					coords={coords}
 					onPointDeselect={onPointDeselect}
+					getMarkers={getMarkers}
 					user={props.user}
 					hike={props.hike}
 				/>
@@ -219,16 +237,33 @@ function MapTab(props) {
 			)}
 			<Row className="mt-3">
 				<Col>
-					<h5>Reference points</h5>
-					<span className="text-muted">
-						Insert a reference point by clicking on the track
-					</span>
+					<ListGroup variant="flush">
+						<h5>Reference points</h5>
+						{props.markers.referencePoints.map((p, i) => {
+							return <ReferencePointInfo key={i} point={p} />;
+						})}
+					</ListGroup>
 				</Col>
 				<Col>
 					<h5>Huts</h5>
 				</Col>
 			</Row>
 		</Container>
+	);
+}
+
+function ReferencePointInfo(props) {
+	return (
+		<ListGroup.Item>
+			<Row className="d-flex align-items-center">
+				<Col>{props.point.name}</Col>
+			{/* <Col xs={2}>
+					<Button size="sm" variant="danger">
+						<FontAwesomeIcon icon={faTrashCan} />
+					</Button>
+				</Col> */}
+			</Row>
+		</ListGroup.Item>
 	);
 }
 
@@ -248,8 +283,8 @@ function ReferencePointForm(props) {
 			country: props.hike.country,
 			province: props.hike.province,
 			municipality: props.hike.municipality,
-			creatorID: props.hike.creatorID
-		}
+			creatorID: props.hike.creatorID,
+		};
 
 		HikeAPI.addReferencePoint(referencePoint, props.hike.hikeID);
 		props.onPointDeselect();
