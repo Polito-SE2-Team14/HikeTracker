@@ -3,6 +3,7 @@ import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Map/Maps";
+import { isInArea } from "../HikeData";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
