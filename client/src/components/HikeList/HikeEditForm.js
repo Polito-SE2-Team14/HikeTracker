@@ -320,7 +320,7 @@ function HikeForm(props) {
 
 			<Form.Group controlId="formFile" className="mb-3">
 				<Form.Label>GPX File</Form.Label>
-				<Form.Control type="file" name="file" onChange={fileChangeHandler} />
+				<Form.Control type="file" accept=".gpx" name="file" onChange={fileChangeHandler} />
 			</Form.Group>
 
 			<Row>
