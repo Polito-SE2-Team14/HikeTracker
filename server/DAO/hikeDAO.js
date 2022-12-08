@@ -12,7 +12,7 @@ const { resolve } = require("path");
 /**
  * Queries the db to get all hikes
  * @returns {Promise} A promise containing a vector with all the hikes or a message error
- */
+*/
 exports.getAllHikes = function () {
 	return new Promise((resolve, reject) => {
 		const sql = `SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID`;
@@ -45,10 +45,45 @@ exports.getAllHikes = function () {
 }
 
 /**
+ * Get the hike associated to the ID passed
+ * @param {number} wantedID - Id of the searched hike
+ * @returns {boolean} Boolean value telling if the hike exists
+ */
+exports.getHike = function (wantedID) {
+	return new Promise((resolve, reject) => {
+		db.get(`SELECT * FROM HIKE H, USER U WHERE U.userID = H.creatorID AND hikeID=?`, [wantedID], (err, row) => {
+
+			if (err) {
+				reject(err);
+			} else {
+				try {
+					row.track = this.getHikeTrack(row.hikeID);
+					resolve({
+						rowikeID: row.hikeID, title: row.title,
+						length: row.length, expectedTime: row.expectedTime,
+						ascent: row.ascent, difficulty: row.difficulty,
+						description: row.description, startPointID: row.startPointID,
+						endPointID: row.endPointID, municipality: row.municipality,
+						province: row.province, country: row.country,
+						track: row.track, creatorID: row.creatorID,
+						creatorName: row.name, creatorSurname: row.surname
+					}
+					);
+				}
+				catch (e) {
+					console.error(e);
+					reject(e);
+				}
+			}
+		});
+	});
+}
+
+/**
  * Checks if a hike is present in the database
  * @param {number} wantedID - Id of the searched hike
- * @returns {Promise} Boolean value telling if the hike exists
- */
+* @returns {Promise} Boolean value telling if the hike exists
+*/
 exports.check_hike = function (wantedID) {
 	return new Promise((resolve, reject) => {
 		db.get(`SELECT * FROM HIKE WHERE hikeID=?`, [wantedID], (err, row) => {
@@ -153,35 +188,11 @@ exports.deleteHutToHikeLink = function (hutID, hikeID) {
 	})
 }
 
-/**
- * Get the hike associated to the ID passed
- * @param {number} wantedID - Id of the searched hike
- * @returns {boolean} Boolean value telling if the hike exists
- */
-exports.getHike = function (wantedID) {
-	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM HIKE WHERE hikeID=?", [wantedID], (err, row) => {
-
-			if (err) {
-				reject(err);
-			} else {
-				try {
-					row.track = this.getHikeTrack(row.hikeID);
-					resolve(row);
-				}
-				catch (e) {
-					console.error(e);
-					reject(e);
-				}
-			}
-		});
-	});
-}
 
 exports.getReferencePointsForHike = function (hikeID) {
 	return new Promise((resolve, reject) => {
 		db.all(`SELECT referencePointID, address,
-				P.name, latitude, longitude, province, municipality, country, description,
+				P.name, latitude, longitude, province, municipality, country, description, altitude,
                 address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
 				FROM HIKEREFERENCEPOINT HRP, POINT P, USER U
 				WHERE hikeID = ? AND U.userID = P.creatorID AND referencePointID = P.pointID`,
@@ -194,13 +205,13 @@ exports.getReferencePointsForHike = function (hikeID) {
 					return {
 						pointID: row.referencePointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
 						country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
-						creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+						creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description, altitude: row.altitude
 					}
 				}
 				)
 
 
-				resolve( points)
+				resolve(points)
 			})
 	})
 }
@@ -256,8 +267,6 @@ exports.addHike = function (newHike) {
 
 exports.addReferencePoint = function (hikeID, referencePointID) {
 
-	//let referencePointID = 0 //TODO to be defined
-
 	return new Promise((resolve, reject) => {
 
 		db.run("INSERT INTO HIKEREFERENCEPOINT (hikeID, referencePointID) VALUES (?,?)",
@@ -267,7 +276,7 @@ exports.addReferencePoint = function (hikeID, referencePointID) {
 					console.error(err)
 					reject(err)
 				}
-				resolve()
+				resolve(true)
 			})
 	})
 }

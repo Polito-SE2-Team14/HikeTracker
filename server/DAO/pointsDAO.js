@@ -37,7 +37,10 @@ exports.getPoint = (pointID) => {
             if (err)
                 reject(err);
 
-            resolve({
+            if (row === undefined)
+                reject(Error("Not found"))
+
+            else resolve({
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
                 country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
                 creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
@@ -73,7 +76,6 @@ exports.createPoint = (point) => {
         let { name, description, latitude, longitude, altitude,
             municipality, province, country, address, type, creatorID } = point
 
-        // console.log("point", point)
 
         const sql = `INSERT INTO POINT 
         (name, description, latitude, longitude, altitude, municipality, 
@@ -82,7 +84,7 @@ exports.createPoint = (point) => {
         db.run(sql,
             [name, description, latitude, longitude, altitude, municipality,
                 province, country, address, type, creatorID],
-            function (err, row) {
+            function (err) {
                 if (err)
                     reject(err);
                 resolve(this.lastID);
