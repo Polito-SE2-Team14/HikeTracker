@@ -59,7 +59,7 @@ exports.getHike = function (wantedID) {
 				try {
 					row.track = this.getHikeTrack(row.hikeID);
 					resolve({
-						rowikeID: row.hikeID, title: row.title,
+						hikeID: row.hikeID, title: row.title,
 						length: row.length, expectedTime: row.expectedTime,
 						ascent: row.ascent, difficulty: row.difficulty,
 						description: row.description, startPointID: row.startPointID,
