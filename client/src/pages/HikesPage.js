@@ -2,17 +2,13 @@ import { Container, Modal, Button, Row, Col, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import HikeAPI from "../api/HikeAPI";
 import HikeListTable from "../components/HikeList/HikeListTable";
-import { FilterForm } from "../components/HikeList/filteringForm";
-import {
-	filterHike,
-	filterAllHikes,
-} from "../components/HikeList/filtering_functions";
+import { filterAllHikes } from "../components/HikeList/filtering_functions";
 import { Loading } from "../components/Loading";
 import { HikeEditForm } from "../components/HikeList/HikeEditForm";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faFilter } from "@fortawesome/free-solid-svg-icons";
-import { SideHikeFilter } from "../components/HikeList/SideHikeFilter";
+import { HikeFilters } from "../components/HikeList/HikeFilters";
 
 // Role Management
 import RoleManagement from "../class/RoleManagement";
@@ -36,16 +32,17 @@ export function HikesPage(props) {
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
-		try {
-			let hikes = await HikeAPI.getAllHikes();
-
-			setHikes(hikes);
-			setFilteredHikes(hikes);
-			setLoading(false);
-		} catch (error) {
-			console.log(error);
-		}
-	};
+		let hikes
+		await HikeAPI.getAllHikes()
+			.then(h => {
+				hikes = h
+				setHikes(hikes);
+				setFilteredHikes(hikes);
+				setLoading(false);
+			})
+			.catch((error) => { console.log(error); })
+		
+};
 
 	const handleClose = () => {
 		setshowFilterForm(false);
@@ -62,26 +59,23 @@ export function HikesPage(props) {
 
 	const newHike = async (hike) => {
 		let insertedHike;
-		hike.creatorID = props.user.userID
+		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
-			.then(h => insertedHike = h)
+			.then((h) => (insertedHike = h))
 			.catch((e) => {
-				// TODO(antonio): error handling
 				console.error(e);
 			});
 
-		return insertedHike
-
-	}
+		return insertedHike;
+	};
 
 	useEffect(() => {
 		getAllHikes();
 	}, [hikes.length]);
 
 	useEffect(() => {
-		//setHikes(filterAllHikes(hikes, filters));
 		setFilteredHikes(filterAllHikes(hikes, filters));
-	}, [filters]);
+	}, [filters, hikes]);
 
 	function InsertHikeButton() {
 		return (
@@ -116,18 +110,20 @@ export function HikesPage(props) {
 								<FontAwesomeIcon icon={faFilter} />
 							</Button>
 						</Col>
-						{RoleManagement.isLocalGuide(props.userType) ? 
+						{RoleManagement.isLocalGuide(props.userType) ? (
 							<Col xs={4} className="text-end">
 								<InsertHikeButton />
-							</Col> : false
-						}
+							</Col>
+						) : (
+							false
+						)}
 					</Row>
 					<Modal show={showFilterForm} onHide={handleClose}>
 						<Modal.Header closeButton>
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<SideHikeFilter filters={filters} setFilters={setFilters} />
+							<HikeFilters filters={filters} setFilters={setFilters} />
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>
@@ -142,20 +138,21 @@ export function HikesPage(props) {
 						onHide={handleCloseHikeForm}
 						setHikes={setHikes}
 						newHike={newHike}
+						user={props.user}
 					/>
 					<HikeListTable
 						hikes={filteredHikes}
 						setHikes={setHikes}
 						filters={filters}
 						setFilters={setFilters}
+						selectedHike={selectedHike}
 						setSelectedHike={setSelectedHike}
 						insertButton={<InsertHikeButton />}
 						showHikeForm={handleShowHikeForm}
 						user={props.user}
 					/>
 				</Container>
-			)
-			}
+			)}
 		</>
 	);
 }

@@ -1,17 +1,10 @@
-import {
-	Button,
-	Container,
-	Row,
-	Col,
-	Spinner,
-} from "react-bootstrap";
+import { Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import {
 	MapContainer,
 	TileLayer,
 	Marker,
 	Circle,
 	useMapEvents,
-	Popup,
 } from "react-leaflet";
 import { getLatLon } from "../HikeData";
 import { HikeMarker, HikePath, TrackMarker } from "./MapElements";
@@ -22,16 +15,24 @@ import {
 	faLocationDot,
 	faUpDownLeftRight,
 } from "@fortawesome/free-solid-svg-icons";
-
+import RoleManagement from "../../class/RoleManagement";
 import Slider from "@mui/material/Slider";
+
+import { Loading } from "../Loading";
 
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
 	let track = props.track;
 
+	const [selectedPosition, setSelectedPosition] = useState(undefined);
+
+	const handleAddInfo = () => {
+		props.onPointSelect(selectedPosition);
+	};
+
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
-			return "track not available"; // TODO(antonio): put loading animation
+			return <Loading />;
 		} else {
 			return (
 				<MapContainer
@@ -44,19 +45,39 @@ export function HikeMap(props) {
 								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
-					{props.markers ? (
-						props.markers.map((m, i) => <TrackMarker key={i} position={m} />)
+					{props.markers.start ? (
+						<HikeMarker point={props.markers.start} />
 					) : (
-						<div>
-							<TrackMarker position={track[0]} start />
-							<TrackMarker position={track[track.length - 1]} />
-						</div>
+						<TrackMarker position={track[0]} start />
 					)}
-					<HikePath positions={track} />
+					{props.markers.end ? (
+						<HikeMarker point={props.markers.end} />
+					) : (
+						<TrackMarker position={track[track.length - 1]} />
+					)}
+					{props.markers.referencePoints.length > 0
+						? props.markers.referencePoints.map((p, i) => (
+								<HikeMarker key={i} point={p} />
+						  ))
+						: false}
+					<HikePath
+						positions={track}
+						canAddPoints={RoleManagement.isLocalGuide(props.user.userType)}
+						handleAddInfo={handleAddInfo}
+					/>
+					{props.user && RoleManagement.isLocalGuide(props.user.userType) ? (
+						<HikePointSelector
+							setSelectedPosition={setSelectedPosition}
+							onPointDeselect={props.onPointDeselect}
+						/>
+					) : (
+						false
+					)}
 				</MapContainer>
 			);
 		}
-	}, [track, props.markers]);
+		// eslint-disable-next-line
+	}, [track, props.markers, selectedPosition]);
 
 	return (
 		<>
@@ -70,6 +91,20 @@ export function HikeMap(props) {
 			{displayMap}
 		</>
 	);
+}
+
+function HikePointSelector(props) {
+	useMapEvents({
+		popupopen(e) {
+			let coords = e.popup.getLatLng();
+			props.setSelectedPosition([coords.lat.toFixed(6), coords.lng.toFixed(6)]);
+		},
+		popupclose(e) {
+			props.onPointDeselect();
+		},
+	});
+
+	return false;
 }
 
 export function LocationMap(props) {
@@ -128,7 +163,7 @@ export function AreaSelectMap(props) {
 					/>
 				) : (
 					<>
-						<Marker position={position}/>
+						<Marker position={position} />
 						<Circle center={position} radius={radius} />
 					</>
 				)}
@@ -151,37 +186,37 @@ export function AreaSelectMap(props) {
                }
             `}
 			</style>
-				<Row>
-					<Col>
-						{map ? (
-							<>
-								<Row className="mb-1">
-									<Col xs={7}>
-										<CircleAreaForm radius={radius} setRadius={setRadius} />
-									</Col>
-									<Col className="d-flex align-items-center justify-content-end">
-										{`${(radius/1000).toFixed(1)} Km`}
-									</Col>
-								</Row>
-							</>
-						) : (
-							false
-						)}
-					</Col>
-				</Row>
-				<Row className="mb-2">{displayMap}</Row>
-				<Row>
-					<Col className="d-flex justify-content-center">
-						<GpsTrackButton map={map} setPosition={setPosition} />
-					</Col>
-					<Col className="d-flex justify-content-center">
-						<SelectPositionButton
-							map={map}
-							selectPosition={selectPosition}
-							setSelectPosition={setSelectPosition}
-						/>
-					</Col>
-				</Row>
+			<Row>
+				<Col>
+					{map ? (
+						<>
+							<Row className="mb-1">
+								<Col xs={7}>
+									<CircleAreaForm radius={radius} setRadius={setRadius} />
+								</Col>
+								<Col className="d-flex align-items-center justify-content-end">
+									{`${(radius / 1000).toFixed(1)} Km`}
+								</Col>
+							</Row>
+						</>
+					) : (
+						false
+					)}
+				</Col>
+			</Row>
+			<Row className="mb-2">{displayMap}</Row>
+			<Row>
+				<Col className="d-flex justify-content-center">
+					<GpsTrackButton map={map} setPosition={setPosition} />
+				</Col>
+				<Col className="d-flex justify-content-center">
+					<SelectPositionButton
+						map={map}
+						selectPosition={selectPosition}
+						setSelectPosition={setSelectPosition}
+					/>
+				</Col>
+			</Row>
 		</>
 	);
 }

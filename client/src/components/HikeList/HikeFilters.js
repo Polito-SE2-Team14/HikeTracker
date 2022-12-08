@@ -5,6 +5,12 @@ import { AreaSelectMap } from "../Map/Maps";
 
 import { timeText } from "../HikeData";
 
+import {
+	CountryDropdown,
+	ProvinceDropdown,
+	MunicipalityDropdown,
+} from "../Dropdowns";
+
 const MIN_DISTANCE_VALUE = 2;
 const MAX_DISTANCE_VALUE = 25;
 const MIN_ASCENT_VALUE = 100;
@@ -14,9 +20,13 @@ const MIN_TIME_VALUE = 30;
 const TIME_STEP = 30;
 const MAX_TIME_VALUE = 360;
 
-export function SideHikeFilter(props) {
+export function HikeFilters(props) {
 	const [area, setArea] = useState({}); // {center: [float, float], radius: float}
 	const [showAreaMap, setShowAreaMap] = useState(false);
+
+	const [country, setCountry] = useState("");
+	const [province, setProvince] = useState("");
+	const [municipality, setMunicipality] = useState("");
 
 	const [beginnerDiff, setBeginnerDiff] = useState(false);
 	const [hikerDiff, setHikerDiff] = useState(false);
@@ -47,6 +57,9 @@ export function SideHikeFilter(props) {
 		props.setFilters({
 			...props.filters,
 			area: showAreaMap ? area : null,
+			country: country,
+			province: province,
+			municipality: municipality,
 			difficulties: difficultyArray,
 			length: distanceInterval,
 			ascent: ascentInterval,
@@ -55,6 +68,9 @@ export function SideHikeFilter(props) {
 	}, [
 		area,
 		showAreaMap,
+		country,
+		province,
+		country,
 		beginnerDiff,
 		hikerDiff,
 		proDiff,
@@ -63,9 +79,12 @@ export function SideHikeFilter(props) {
 		timeInterval,
 	]);
 
-	function clearFilters(){
-		props.setFilters({...props.filters, title: ""});
+	function clearFilters() {
+		props.setFilters({ ...props.filters, title: "" });
 		setArea({});
+		setCountry("");
+		setProvince("");
+		setMunicipality("");
 		setShowAreaMap(false);
 		setBeginnerDiff(false);
 		setHikerDiff(false);
@@ -87,46 +106,79 @@ export function SideHikeFilter(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>Close</Button>
+								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+									Close
+								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>Show map</Button>
+								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+									Show map
+								</Button>
 							)}
 						</Col>
 					</Row>
-					{showAreaMap ? <AreaSelectMap onSetArea={(area) => {setArea(area)}} /> : false}
+					{showAreaMap ? (
+						<AreaSelectMap
+							onSetArea={(area) => {
+								setArea(area);
+							}}
+						/>
+					) : (
+						false
+					)}
 				</Form.Group>
 				<hr />
-				<Form.Label>
-					<h5>Difficulty</h5>
-					<Form.Check
-						inline
-						label="Beginner"
-						type="checkbox"
-						checked={beginnerDiff}
-						onChange={(ev) => {
-							setBeginnerDiff(ev.target.checked);
-						}}
+				<Form.Group>
+					<Form.Label>Country</Form.Label>
+					<CountryDropdown country={country} setCountry={setCountry} />
+					<Form.Label className="mt-3">Province</Form.Label>
+					<ProvinceDropdown
+						disabled={country === ""}
+						province={province}
+						setProvince={setProvince}
+						country={country}
 					/>
-					<Form.Check
-						inline
-						label="Hiker"
-						type="checkbox"
-						checked={hikerDiff}
-						onChange={(ev) => {
-							setHikerDiff(ev.target.checked);
-						}}
+					<Form.Label className="mt-3">Municipality</Form.Label>
+					<MunicipalityDropdown
+						disabled={province === ""}
+						municipality={municipality}
+						setMunicipality={setMunicipality}
+						country={country}
+						province={province}
 					/>
-					<Form.Check
-						inline
-						label="Pro Hiker"
-						type="checkbox"
-						checked={proDiff}
-						onChange={(ev) => {
-							setProDiff(ev.target.checked);
-						}}
-					/>
-				</Form.Label>
-
+				</Form.Group>
+				<hr />
+				<Form.Group>
+					<Form.Label>
+						<h5>Difficulty</h5>
+						<Form.Check
+							inline
+							label="Beginner"
+							type="checkbox"
+							checked={beginnerDiff}
+							onChange={(ev) => {
+								setBeginnerDiff(ev.target.checked);
+							}}
+						/>
+						<Form.Check
+							inline
+							label="Hiker"
+							type="checkbox"
+							checked={hikerDiff}
+							onChange={(ev) => {
+								setHikerDiff(ev.target.checked);
+							}}
+						/>
+						<Form.Check
+							inline
+							label="Pro Hiker"
+							type="checkbox"
+							checked={proDiff}
+							onChange={(ev) => {
+								setProDiff(ev.target.checked);
+							}}
+						/>
+					</Form.Label>
+				</Form.Group>
 				<hr />
 				<Form.Group>
 					<Form.Label>
@@ -178,7 +230,9 @@ export function SideHikeFilter(props) {
 				</Form.Group>
 			</Form>
 			<Row>
-			<Button className="mt-3" onClick={clearFilters}>Clear filters</Button>
+				<Button className="mt-3" onClick={clearFilters}>
+					Clear filters
+				</Button>
 			</Row>
 		</Container>
 	);

@@ -18,11 +18,15 @@ let newUsers = [
 	{
 		name: 'antonio', surname: 'bianchi', email: 'antonio.bianchi@ex.com', phoneNumber: '333333333',
 		type: types[2], password: crypto.randomBytes(16).toString("hex")
+	},
+	{
+		name: 'jack', surname: 'sparrow', email: 'jack.sparrow@ex.com', phoneNumber: '444',
+		type: types[2], password: crypto.randomBytes(16).toString("hex")
 	}
 ];
 
 beforeEach(async () => await dbManager.clearDb());
-afterEach(async () => await dbManager.clearDb());
+afterAll(async () => await dbManager.clearDb());
 
 
 describe('User Tests', () => {
@@ -161,11 +165,84 @@ describe('User Tests', () => {
 	})
 	describe("Login", () => {
 
+		test('Correct Login', async () => {
+			let newUser = newUsers[3];
+			let password = newUsers[3].password;
+			let user;
+			let loginedUser;
+			await userController.register(newUser, 1, 1)
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			await userController.login(user.email, password).then(u => {
+				loginedUser = u;
+			});
+
+			expect(user.email).toBe(loginedUser.email);
+		});
+
+		test('Wrong Password', async () => {
+			let user = newUsers[3];
+			let loginedUser;
+			let error;
+
+			await userController.login(user.email, 'jacksparrowWrong').then(u => {
+				loginedUser = u;
+			}).catch(err => error = err);
+
+			expect(loginedUser).toBe(false)
+		});
+
+
 	})
 	describe("get user", () => {
 
+		test('Correct User ID', async () => {
+			let newUser = newUsers[3];
+			let addedUser;
+			await userController.register(newUser, 1, 1)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+
+			let gottenUser;
+
+			await userController.getUser(addedUser.userID).then(u => {
+				gottenUser = u;
+			});
+			expect(addedUser.userID).toBe(gottenUser.userID);
+			expect(gottenUser.userID).not.toBe(null);
+			expect(gottenUser.userID).not.toBe(undefined);
+		});
+
 	})
 	describe("verify", () => {
+
+		test("verification of a User by Token", async () => {
+			let newUser = newUsers[3];
+			let addedUser;
+			let gottenUser;
+			await userController.register(newUser, 0, 1)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			await userController.verify(addedUser.token);
+
+			await userController.getUser(addedUser.userID).then(u => {
+				gottenUser = u;
+			});
+
+			expect(addedUser.verified).toBe(0);
+			expect(gottenUser.verified).toBe(1);
+
+		})
+
 		test("verification of a local guide", async () => {
 			expect(1).toBe(1)
 			//TODO edoardo's job

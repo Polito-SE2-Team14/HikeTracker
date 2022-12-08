@@ -1,7 +1,4 @@
-// TODO(antonio): to fix slowness rewrite!!!!!!!!!!!!
-
 function filterHike(hike, filters){
-	let invalids = [];
 	let to_return = true;
 
 	if(!hike.title.toLowerCase().includes(filters.title.toLowerCase())){
@@ -9,9 +6,21 @@ function filterHike(hike, filters){
 	}
 
 	// TODO(antonio): check area from starting point coords
-/* 	if(filters.area){
+	if(filters.area){
 		to_return = false;
-	} */
+	}
+
+	if(!hike.country.startsWith(filters.country)){
+		to_return = false;
+	}
+
+	if(!hike.province.startsWith(filters.province)){
+		to_return = false;
+	}
+
+	if(!hike.municipality.startsWith(filters.municipality)){
+		to_return = false;
+	}
 
 	if(filters.difficulties.length !== 0 && !filters.difficulties.includes(hike.difficulty)){
 		to_return = false;
@@ -36,14 +45,8 @@ function filterHike(hike, filters){
 	return to_return;
 }
 
-function filterAllHikes(hikes_list,filters){
-	/* return hikes_list.map(function(hike){
-		hike.show=filterHike(hike,filters);
-		return hike;
-	}); */
+export function filterAllHikes(hikes_list,filters){
 	return hikes_list.filter((hike) => 
 		filterHike(hike, filters)
 	)
 }
-
-export {filterHike, filterAllHikes}

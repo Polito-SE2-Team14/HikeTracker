@@ -20,8 +20,8 @@
       "title": "Parco Giacomo Leopardi - Parco San Vito - Parco della Rimembranza",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Torino",
-      "province": "Torino",
+      "municipality": "Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -52,8 +52,8 @@
       "title": "Ponte Diga - Basilica di Superga",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Torino",
-      "province": "Torino",
+      "municipality": "Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -69,7 +69,7 @@
       "difficulty": "Professional Hiker",
       "country": "Italy",
       "municipality": "Claviere",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -108,8 +108,8 @@
       "title": "Torino Centro Città",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Torino",
-      "province": "Torino",
+      "municipality": "Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -117,7 +117,7 @@
       "difficulty": "Hiker",
       "country": "Italy",
       "municipality": "Avigliana",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -157,7 +157,7 @@
       "difficulty": "Professional Hiker",
       "country": "Italy",
       "municipality": "Ceresole Reale",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -165,7 +165,7 @@
       "difficulty": "Hiker",
       "country": "Italy",
       "municipality": "Caprie",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -189,15 +189,15 @@
       "difficulty": "Hiker",
       "country": "Italy",
       "municipality": "Ivrea",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
       "title": "Parco del Valentino - Parco Michelotti - Parco del Meisino",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Torino",
-      "province": "Torino",
+      "municipality": "Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -236,8 +236,8 @@
       "title": "Sant'Ambrogio - Monte Pirchiriano - Sacra San Michele",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Sant'Ambrogio di Torino",
-      "province": "Torino",
+      "municipality": "Sant'Ambrogio di Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -245,7 +245,7 @@
       "difficulty": "Professional Hiker",
       "country": "Italy",
       "municipality": "Mompantero",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -261,7 +261,7 @@
       "difficulty": "Hiker",
       "country": "Italy",
       "municipality": "Caselette",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -277,7 +277,7 @@
       "difficulty": "Professional Hiker",
       "country": "Italy",
       "municipality": "Bussoleno",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -317,7 +317,7 @@
       "difficulty": "Hiker",
       "country": "Italy",
       "municipality": "Rivoli",
-      "province": "Torino",
+      "province": "Turin",
       "creatorID": 3
     },
     {
@@ -340,8 +340,8 @@
       "title": "San Pietro - Chiusa di San Michele - Monte Pirchiriano",
       "difficulty": "Hiker",
       "country": "Italy",
-      "municipality": "Sant'Ambrogio di Torino",
-      "province": "Torino",
+      "municipality": "Sant'Ambrogio di Turin",
+      "province": "Turin",
       "creatorID": 3
     },
     {

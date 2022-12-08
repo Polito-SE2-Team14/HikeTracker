@@ -5,16 +5,20 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 exports.getAllPoints = () => new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM POINT P, USER U WHERE U.userID = P.creatorID";
+    const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                FROM POINT P, USER U
+                WHERE U.userID = P.creatorID`;
 
     db.all(sql, [], (err, rows) => {
         if (err)
             reject(err);
+
         const points = rows.map(row => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
                 country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
-                creatorName: row.name, creatorSurname: row.surname
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
             }
         });
         resolve(points);
@@ -23,13 +27,24 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
 
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM POINT WHERE pointID = ?";
+        const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                FROM POINT P, USER U
+                WHERE U.userID = P.creatorID 
+                AND pointID = ?`;
         const params = [pointID];
         db.get(sql, params, (err, row) => {
             if (err)
                 reject(err);
 
-            resolve(row);
+            if (row === undefined)
+                reject(Error("Not found"))
+
+            else resolve({
+                pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
+                country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+            });
         })
     });
 }
@@ -44,7 +59,7 @@ exports.getHikePoints = (hikeID) => {
                 reject(err)
             const points = rows.map((p) => {
                 return {
-                    pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude,
+                    pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude, description: p.description,
                     municipality: p.municipality, province: p.province, address: p.address, pointType: p.pointType,
                 }
             }
@@ -61,8 +76,7 @@ exports.createPoint = (point) => {
         let { name, description, latitude, longitude, altitude,
             municipality, province, country, address, type, creatorID } = point
 
-        // console.log("point", point)
-        
+
         const sql = `INSERT INTO POINT 
         (name, description, latitude, longitude, altitude, municipality, 
             province, country, address, pointType, creatorID)
@@ -70,7 +84,7 @@ exports.createPoint = (point) => {
         db.run(sql,
             [name, description, latitude, longitude, altitude, municipality,
                 province, country, address, type, creatorID],
-            function (err, row) {
+            function (err) {
                 if (err)
                     reject(err);
                 resolve(this.lastID);

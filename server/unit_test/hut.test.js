@@ -4,7 +4,7 @@ const userController = require("../Controller/UserController")
 const crypto = require("crypto");
 
 beforeEach(async () => await dbManager.clearDb());
-afterEach(async () => await dbManager.clearDb());
+afterAll(async () => await dbManager.clearDb());
 
 
 describe('Hut Tests', () => {

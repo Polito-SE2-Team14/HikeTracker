@@ -13,7 +13,7 @@ import {
 import { HikeModal } from "./HikeModal";
 import { EmptySearch } from "../EmptySeach";
 
-import { SideHikeFilter } from "./SideHikeFilter";
+import { HikeFilters } from "./HikeFilters";
 import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
@@ -39,7 +39,7 @@ function HikeListTable(props) {
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
-				{RoleManagement.isLocalGuide(props.user.userType) ? (
+				{RoleManagement.isLocalGuide(props.user.type) ? (
 					<Row className="mb-3">{props.insertButton}</Row>
 				) : (
 					false
@@ -61,7 +61,7 @@ function HikeListTable(props) {
 								}
 							/>
 							<hr />
-							<SideHikeFilter
+							<HikeFilters
 								filters={props.filters}
 								setFilters={props.setFilters}
 							/>
@@ -90,16 +90,6 @@ function HikeListItem(props) {
 		setShowHikeModal(true);
 	};
 
-	/* 	const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-
-	const handleShowDeleteAlert = () => {
-		setShowDeleteAlert(true);
-	};
-
-	const handleCloseDeleteAlert = () => {
-		setShowDeleteAlert(false);
-	}; */
-
 	const handleDeleteHike = (hike) => {
 		setShowHikeModal(false);
 		HikeAPI.deleteHike(hike.hikeID)
@@ -111,20 +101,16 @@ function HikeListItem(props) {
 			.catch((err) => console.log(err));
 	};
 
-	// TODO(antonio): hike delete alert
 	return (
 		<>
-			<HikeModal
+			{<HikeModal
 				show={showHikeModal}
 				hike={props.hike}
 				user={props.user}
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => {
-					/*TODO(antonio): start function*/
-				}}
-			/>
+				onStart={() => {}}/>}
 
 			<Col className="mt-3">
 				<Card>

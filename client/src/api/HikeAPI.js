@@ -22,10 +22,12 @@ const getAllHikes = async () => {
 					ascent: h.ascent,
 					difficulty: h.difficulty,
 					description: h.description,
-					municipality: h.municipality,
+					country: h.country,
 					province: h.province,
+					municipality: h.municipality,
 					startPointID: h.startPointID,
 					endPointID: h.endPointID,
+					creatorID: h.creatorID,
 					creatorName: h.creatorName,
 					creatorSurname: h.creatorSurname
 				};
@@ -198,6 +200,32 @@ const addEndPoint = async (hikeID, pointID) => {
 	}
 };
 
+const addReferencePoint = async (point, hikeID) => {
+	const body =  {
+		hikeID: hikeID,
+		referencePoint: {
+			name: point.name,
+			description: point.description,
+			latitude: point.latitude,
+			longitude: point.longitude,
+			altitude: 0,
+			country: point.country,
+			province: point.province,
+			municipality: point.municipality,
+			creatorID: point.creatorID
+		}
+	}
+
+	try {
+		await REST.UPDATE('POST', `${api}/referencePoints`, body, true);
+
+		return true;
+	} catch(e) {
+		console.error("Error in HikeAPI.js", e);
+		throw e;
+	}
+}
+
 const addHut = async (hikeID, pointID) => {
 	let body = {
 		hikeID: hikeID,
@@ -230,7 +258,7 @@ const getHikeTrack = async (hikeID) => {
 
 const getHikePoints = async (hikeID) => {
 	try {
-		let response = await REST.GET(`${api}/${hikeID}/points`);
+		let response = await REST.GET(`${api}/${hikeID}/referencePoints`);
 		let pointsJson = await response.json();
 
 		return pointsJson.map(
@@ -241,7 +269,8 @@ const getHikePoints = async (hikeID) => {
 					latitude: p.latitude,
 					longitude: p.longitude,
 					address: p.address,
-					pointType: p.pointType
+					pointType: p.pointType,
+					description: p.description,
 				}
 			}
 		);
@@ -258,6 +287,7 @@ const HikeAPI = {
 	editHike,
 	deleteHike,
 	getHikeTrack,
+	addReferencePoint,
 	addStartPoint,
 	addEndPoint,
 	addHut,
