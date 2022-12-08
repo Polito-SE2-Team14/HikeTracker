@@ -91,6 +91,8 @@ export function AppNavBar(props) {
 	);
 }
 
+console.log('test' , RoleManagement.isManager());
+
 function SideBar(props) {
 	return (
 		<Offcanvas show={props.show} onHide={props.onHide}>
@@ -101,7 +103,7 @@ function SideBar(props) {
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
-					{RoleManagement.isManager() ?
+					{RoleManagement.isManager(props.userType) ?
 						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
 							<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
 						</ListGroup.Item>

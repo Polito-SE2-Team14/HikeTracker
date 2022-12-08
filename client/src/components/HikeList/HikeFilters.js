@@ -11,6 +11,8 @@ import {
 	MunicipalityDropdown,
 } from "../Dropdowns";
 
+import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
+
 const MIN_DISTANCE_VALUE = 2;
 const MAX_DISTANCE_VALUE = 25;
 const MIN_ASCENT_VALUE = 100;
@@ -129,16 +131,30 @@ export function HikeFilters(props) {
 				<hr />
 				<Form.Group>
 					<Form.Label>Country</Form.Label>
-					<CountryDropdown country={country} setCountry={setCountry} />
+					{/* <CountryDropdown country={country} setCountry={setCountry} /> */}
+					<CountrySelect country={country} setCountry={setCountry} />
 					<Form.Label className="mt-3">Province</Form.Label>
-					<ProvinceDropdown
+					{/* <ProvinceDropdown
+						disabled={country === ""}
+						province={province}
+						setProvince={setProvince}
+						country={country}
+					/> */}
+					<ProvinceSelect
 						disabled={country === ""}
 						province={province}
 						setProvince={setProvince}
 						country={country}
 					/>
 					<Form.Label className="mt-3">Municipality</Form.Label>
-					<MunicipalityDropdown
+					{/* <MunicipalityDropdown
+						disabled={province === ""}
+						municipality={municipality}
+						setMunicipality={setMunicipality}
+						country={country}
+						province={province}
+					/> */}
+					<MunicipalitySelect
 						disabled={province === ""}
 						municipality={municipality}
 						setMunicipality={setMunicipality}

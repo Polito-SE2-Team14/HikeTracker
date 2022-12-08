@@ -3,7 +3,7 @@
  * @param {string} userType - Type of user
  * @returns {boolean}
  */
-const isHiker = async (userType) => {
+const isHiker = (userType) => {
     return userType === 'hiker';
 };
 
@@ -12,7 +12,7 @@ const isHiker = async (userType) => {
  * @param {string} userType - Type of user
  * @returns {boolean}
  */
-const isLocalGuide = async (userType) => {
+const isLocalGuide = (userType) => {
      //console.log("userType === 'localGuide'", userType === 'localGuide')
     return userType === 'localGuide';
 };
@@ -22,7 +22,7 @@ const isLocalGuide = async (userType) => {
  * @param {string} userType - Type of user
  * @returns {boolean}
  */
- const isHutWorker = async (userType) => {
+ const isHutWorker = (userType) => {
     return userType === 'hutWorker';
 };
 
@@ -31,7 +31,7 @@ const isLocalGuide = async (userType) => {
  * @param {string} userType - Type of user
  * @returns {boolean}
  */
- const isManager = async (userType) => {
+ const isManager = (userType) => {
     return userType === 'manager';
 };
 
