@@ -1,7 +1,4 @@
-import { Form, InputGroup } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
-
-import React, { useState } from 'react';
+import React from 'react';
 
 //"name": "Settimo Torinese",
 //"country_name": "Italy",
@@ -22,31 +19,12 @@ export function MunicipalitySelect(props) {
 			'label': m.name
 		};
 	});
+
+	let selectedMun = municipalitiyOptions.filter(c => c.label == props.municipality);
+
 	return (
 		<>
-			<Select isDisabled={props.disabled} options={municipalitiyOptions} onChange={(ev) => props.setMunicipality(ev.value)} />
-			{/* <InputGroup>
-				<Dropdown>
-					<Dropdown.Toggle
-						style={{ backgroundColor: "white", color: "grey" }}
-						disabled={props.disabled}
-					/>
-					<Dropdown.Menu as={CustomMenu} style={{ maxHeight: "300px", overflowY: "scroll" }}>
-						{municipalities.map((m, i) => (
-							<Dropdown.Item key={i} href="#" onClick={ev => props.setMunicipality(m.name)}>
-								{m.name}
-							</Dropdown.Item>
-						))}
-					</Dropdown.Menu>
-				</Dropdown>
-				<Form.Control
-					disabled={props.disabled}
-					type="text"
-					value={props.municipality ? props.municipality : "Select a municipality"}
-					readOnly={true}
-					required={true}
-				/>
-			</InputGroup> */}
+			<Select value={selectedMun.length > 0 ? selectedMun[0] : ""} isDisabled={props.disabled} options={municipalitiyOptions} onChange={(ev) => props.setMunicipality(ev.value)} />
 		</>)
 }
 export function ProvinceSelect(props) {
@@ -58,31 +36,12 @@ export function ProvinceSelect(props) {
 			'label': p.name
 		};
 	});
+
+	let selectedProvince = provinceOptions.filter(c => c.label == props.province);
+
 	return (
 		<>
-			<Select isDisabled={props.disabled} options={provinceOptions} onChange={(ev) => props.setProvince(ev.value)} />
-			{/* <InputGroup>
-				<Dropdown>
-					<Dropdown.Toggle
-						style={{ backgroundColor: "white", color: "grey" }}
-						disabled={props.disabled}
-					/>
-					<Dropdown.Menu as={CustomMenu} style={{ maxHeight: "300px", overflowY: "scroll" }}>
-						{provinces.map((p, i) => (
-							<Dropdown.Item key={i} href="#" onClick={ev => props.setProvince(p.name)}>
-								{p.name}
-							</Dropdown.Item>
-						))}
-					</Dropdown.Menu>
-				</Dropdown>
-				<Form.Control
-					disabled={props.disabled}
-					type="text"
-					value={props.province ? props.province : "Select a province"}
-					readOnly={true}
-					required={true}
-				/>
-			</InputGroup> */}
+			<Select value={selectedProvince.length > 0 ? selectedProvince[0] : ""} isDisabled={props.disabled} options={provinceOptions} onChange={(ev) => props.setProvince(ev.value)} />
 		</>)
 }
 
@@ -95,26 +54,10 @@ export function CountrySelect(props) {
 			'label': c
 		};
 	});
-	return (
-		<Select options={countryOptions} onChange={(ev) => props.setCountry(ev.value)} />
-		// <InputGroup>
-		// 	<Dropdown>
-		// 		<Dropdown.Toggle style={{ backgroundColor: "white", color: "grey" }} />
 
-		// 		<Dropdown.Menu as={CustomMenu} style={{ maxHeight: "300px", overflowY: "scroll" }}>
-		// 			{allCountries.map((c, i) => (
-		// 				<Dropdown.Item key={i} href="#" onClick={ev => props.setCountry(c)}>
-		// 					{c}
-		// 				</Dropdown.Item>
-		// 			))}
-		// 		</Dropdown.Menu>
-		// 	</Dropdown>
-		// 	<Form.Control
-		// 		type="text"
-		// 		value={props.country ? props.country : "Select a country"}
-		// 		readOnly={true}
-		// 		required={true}
-		// 	/>
-		// </InputGroup>
+	let selectedCountry = countryOptions.filter(c => c.label == props.country);
+
+	return (
+		<Select value={selectedCountry.length > 0 ? selectedCountry[0] : ""} options={countryOptions} onChange={(ev) => props.setCountry(ev.value)} />
 	)
 }
