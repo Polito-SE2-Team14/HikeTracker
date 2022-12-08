@@ -180,12 +180,27 @@ exports.getHike = function (wantedID) {
 
 exports.getReferencePointsForHike = function (hikeID) {
 	return new Promise((resolve, reject) => {
-		db.all("SELECT referencePointID FROM HIKEREFERENCEPOINT WHERE hikeID = ? ",
+		db.all(`SELECT referencePointID, address,
+				P.name, latitude, longitude, province, municipality, country,
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+				FROM HIKEREFERENCEPOINT HRP, POINT P, USER U
+				WHERE hikeID = ? AND U.userID = P.creatorID AND referencePointID = P.pointID`,
 			[hikeID],
 			(err, rows) => {
 				if (err) { console.error(err); reject(err) }
 
-				resolve( rows.map(r => r.referencePointID) )
+
+				const points = rows.map(row => {
+					return {
+						pointID: row.referencePointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
+						country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
+						creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+					}
+				}
+				)
+
+
+				resolve( points)
 			})
 	})
 }
@@ -291,10 +306,10 @@ exports.deleteHike = function (hikeID) {
 		db.run(sql, params, (err) => {
 			if (err)
 				console.error(err);
-				reject(err);
+			reject(err);
 			try {
 				deleteTrack(hikeID);
-				resolve({msg:`Hike with ID ${hikeID} deleted correctly`});
+				resolve({ msg: `Hike with ID ${hikeID} deleted correctly` });
 			}
 			catch (e) {
 				console.error(e);

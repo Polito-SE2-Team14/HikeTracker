@@ -110,6 +110,7 @@ router.get("/:hikeID/referencePoints",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),
 	async (req, res) => {
 
+
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
 			return errorResponse(errors.array(), 422, res)

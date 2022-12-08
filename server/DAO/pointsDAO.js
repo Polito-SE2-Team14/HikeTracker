@@ -13,7 +13,7 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
         if (err)
             reject(err);
-                
+
         const points = rows.map(row => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
@@ -27,13 +27,21 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
 
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM POINT WHERE pointID = ?";
+        const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                FROM POINT P, USER U
+                WHERE U.userID = P.creatorID 
+                AND pointID = ?`;
         const params = [pointID];
         db.get(sql, params, (err, row) => {
             if (err)
                 reject(err);
 
-            resolve(row);
+            resolve({
+                pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
+                country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+            });
         })
     });
 }
@@ -66,7 +74,7 @@ exports.createPoint = (point) => {
             municipality, province, country, address, type, creatorID } = point
 
         // console.log("point", point)
-        
+
         const sql = `INSERT INTO POINT 
         (name, description, latitude, longitude, altitude, municipality, 
             province, country, address, pointType, creatorID)

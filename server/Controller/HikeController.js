@@ -52,8 +52,10 @@ exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 
 //TODO test this function
 exports.getReferencePointsForHike = async (hikeID) => {
+		
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)
 		.catch(err => { throw err });
+
 		
 	return points;
 }
