@@ -10,9 +10,8 @@ exports.getAllPoints = async () => {
 
 
 exports.getPoint = async (pointID) => {
-	const point = await pointsDAO.getPoint(pointID).catch(() => {
-		throw Error();
-	});
+	const point = await pointsDAO.getPoint(pointID)
+		.catch((err) => { throw err });
 
 	return point;
 }

@@ -36,9 +36,13 @@ describe('Hike Tests', () => {
 			await hikeController.addHike(hike)
 				.catch(err => newErr = err)
 
-			let createdHike 
+			let createdHike
 			await hikeController.getAllHikes()
 				.then(h => createdHike = h[0])
+
+			let createdHike2
+			await hikeController.getHike(createdHike.hikeID)
+				.then(h => createdHike2 = h)
 
 			expect(hike.title).toBe(createdHike.title)
 			expect(hike.length).toBe(createdHike.length)
@@ -52,6 +56,18 @@ describe('Hike Tests', () => {
 			expect(hike.creatorID).toBe(createdHike.creatorID)
 			expect(user.name).toBe(createdHike.creatorName)
 			expect(user.surname).toBe(createdHike.creatorSurname)
+
+			expect(hike.title).toBe(createdHike2.title)
+			expect(hike.length).toBe(createdHike2.length)
+			expect(hike.expectedTime).toBe(createdHike2.expectedTime)
+			expect(hike.ascent).toBe(createdHike2.ascent)
+			expect(hike.difficulty).toBe(createdHike2.difficulty)
+			expect(hike.description).toBe(createdHike2.description)
+			expect(hike.country).toBe(createdHike2.country)
+			expect(hike.municipality).toBe(createdHike2.municipality)
+			expect(hike.province).toBe(createdHike2.province)
+			expect(hike.creatorID).toBe(createdHike2.creatorID)
+			
 
 
 		})
@@ -231,14 +247,17 @@ describe('Hike Tests', () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			let newErr
+
 			let hike = {
 				title: "title", length: 10, expectedTime: 10, ascent: 10,
 				difficulty: "Hiker", description: "Description", country: "Italy",
 				municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: user.userID
 			}
+
+			let addedHike
 			await hikeController.addHike(hike)
-				.catch(err => newErr = err)
+				.then(h => addedHike = h)
+				.catch(err => { console.error(err); throw err; });
 
 
 			let referencePoint = {
@@ -250,29 +269,30 @@ describe('Hike Tests', () => {
 				municipality: "municipality",
 				province: "province",
 				country: "country",
-				creatorID: 123,
-				type: "generic"
+				creatorID: user.userID,
+				type: "generic",
 			}
 			let referencePointID;
 
-			await hikeController.addReferencePoint(1, referencePoint)
+			await hikeController.addReferencePoint(addedHike.hikeID, referencePoint)
 				.then(id => referencePointID = id)
+				.catch(err => { console.error(err); throw err })
 
 
-			await hikeController.getReferencePointsForHike(1)
+			await hikeController.getReferencePointsForHike(addedHike.hikeID)
 				.then(rp => insertedRefencePoint = rp[0])
-			
-			const point = await pointController.getPoint(1)
-			expect(insertedRefencePoint).toBe(1)
-			expect(referencePoint.name).toBe(point.name)
-			expect(referencePoint.description).toBe(point.description)
-			expect(referencePoint.latitude).toBe(point.latitude)
-			expect(referencePoint.longitude).toBe(point.longitude)
-			expect(referencePoint.altitude).toBe(point.altitude)
-			expect(referencePoint.municipality).toBe(point.municipality)
-			expect(referencePoint.province).toBe(point.province)
-			expect(referencePoint.country).toBe(point.country)
-			expect(referencePoint.creatorID).toBe(point.creatorID) 
+				.catch(err => { console.error(err); throw err })
+
+			expect(referencePointID).toBe(1)
+			expect(referencePoint.name).toBe(insertedRefencePoint.name)
+			expect(referencePoint.description).toBe(insertedRefencePoint.description)
+			expect(referencePoint.latitude).toBe(insertedRefencePoint.latitude)
+			expect(referencePoint.longitude).toBe(insertedRefencePoint.longitude)
+			expect(referencePoint.altitude).toBe(insertedRefencePoint.altitude)
+			expect(referencePoint.municipality).toBe(insertedRefencePoint.municipality)
+			expect(referencePoint.province).toBe(insertedRefencePoint.province)
+			expect(referencePoint.country).toBe(insertedRefencePoint.country)
+			expect(referencePoint.creatorID).toBe(insertedRefencePoint.creatorID)
 
 		})
 	})

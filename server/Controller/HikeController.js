@@ -2,14 +2,12 @@ const hikeDAO = require("../DAO/hikeDAO");
 const poinstDAO = require("../DAO/pointsDAO")
 
 
-//TODO test this function
 exports.getAllHikes = async () => {
 	const hikes = await hikeDAO.getAllHikes()
 		.catch(err => { throw err });
 	return hikes;
 }
 
-//TODO test this function
 exports.getHike = async (hikeID) => {
 
 
@@ -17,8 +15,8 @@ exports.getHike = async (hikeID) => {
 	await hikeDAO.getHike(hikeID)
 		.then(h => hike = h)
 		.catch(err => { throw err });
-	
-	
+
+
 	return hike;
 }
 
@@ -50,13 +48,12 @@ exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 	return removedLink;
 }
 
-//TODO test this function
 exports.getReferencePointsForHike = async (hikeID) => {
-		
+
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)
 		.catch(err => { throw err });
 
-		
+
 	return points;
 }
 
@@ -89,16 +86,16 @@ exports.addHike = async (hike) => {
 	return addedHike;
 }
 
-//TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
-	
 
 	let hike
 	await this.getHike(hikeID)
 		.then(h => hike = h)
 	if (hike == null)
 		throw Error("There is no hike with that ID: " + hikeID)
-	
+
+
+
 	let referencePointID;
 	await poinstDAO.createPoint(referencePoint)
 		.then((id) => referencePointID = id)
@@ -106,11 +103,14 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 			throw err;
 		});
 
+
 	await hikeDAO
 		.addReferencePoint(hikeID, referencePointID)
 		.catch((err) => {
 			throw err;
 		});
+	
+	
 
 	return referencePointID
 }
@@ -140,7 +140,7 @@ exports.deleteHike = async (hikeID) => {
 		throw Error("There is no hike with that ID")
 
 	await hikeDAO.deleteHike(hikeID)
-		.catch((err) => { 
+		.catch((err) => {
 			console.error(err);
 			throw err;
 		})
@@ -157,7 +157,6 @@ exports.getHikeTrack = async (hikeID) => {
 	}
 }
 
-//TODO test this function
 exports.setStart = async (hikeID, startPointID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
@@ -167,7 +166,6 @@ exports.setStart = async (hikeID, startPointID) => {
 		.catch(err => { console.error(err); throw err })
 }
 
-//TODO test this function
 exports.setEnd = async (hikeID, endPointID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
