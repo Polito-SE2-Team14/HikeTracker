@@ -355,20 +355,18 @@ function EditPointsForm(props) {
 			setTrack(newTrack);
 
 			setStartPoints(
-				points /*.filter(p =>
+				points.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[0],
-					radius: 500
+					radius: 5000
 				}))
-			*/
 			);
 			setEndPoints(
-				points /*.filter(p =>
+				points.filter(p =>
 				isInArea(p, {
 					center: props.hike.track[props.hike.track.length - 1],
-					radius: 500
+					radius: 5000
 				}))
-			*/
 			);
 
 			setStart(newTrack[0]);
