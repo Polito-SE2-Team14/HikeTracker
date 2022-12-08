@@ -8,7 +8,7 @@ import {
 	Container,
 	Form,
 } from "react-bootstrap";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faMountain,
@@ -176,7 +176,6 @@ function MapTab(props) {
 
 		let referencePoints = await HikeAPI.getHikePoints(props.hike.hikeID);
 
-		console.log(referencePoints);
 		props.setMarkers({ start: start, end: end, referencePoints: referencePoints });
 	};
 
@@ -185,6 +184,7 @@ function MapTab(props) {
 			updatePath();
 			getMarkers();
 		}
+		// eslint-disable-next-line
 	}, [show]);
 
 	const onPointSelect = (coords) => {

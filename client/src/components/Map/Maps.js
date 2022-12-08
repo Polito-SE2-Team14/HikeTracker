@@ -5,7 +5,6 @@ import {
 	Marker,
 	Circle,
 	useMapEvents,
-	Popup,
 } from "react-leaflet";
 import { getLatLon } from "../HikeData";
 import { HikeMarker, HikePath, TrackMarker } from "./MapElements";
@@ -77,6 +76,7 @@ export function HikeMap(props) {
 				</MapContainer>
 			);
 		}
+		// eslint-disable-next-line
 	}, [track, props.markers, selectedPosition]);
 
 	return (

@@ -63,7 +63,6 @@ export function HikesPage(props) {
 		await HikeAPI.newHike(hike)
 			.then((h) => (insertedHike = h))
 			.catch((e) => {
-				// TODO(antonio): error handling
 				console.error(e);
 			});
 
@@ -75,9 +74,8 @@ export function HikesPage(props) {
 	}, [hikes.length]);
 
 	useEffect(() => {
-		//setHikes(filterAllHikes(hikes, filters));
 		setFilteredHikes(filterAllHikes(hikes, filters));
-	}, [filters]);
+	}, [filters, hikes]);
 
 	function InsertHikeButton() {
 		return (

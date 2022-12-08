@@ -1,16 +1,13 @@
-import { Container, Row, Button, Form } from "react-bootstrap";
+import { Container, Row, Button } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import AntPath from "./AntPath";
 import { getLatLon } from "../HikeData";
 
-import { useMapEvents } from "react-leaflet";
-
-import "../../styles/MapElements.css";
-
 import * as L from "leaflet";
 import { faBed, faClipboard, faMap } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMemo, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+import "../../styles/MapElements.css";
 
 const redIcon = new L.Icon({
 	iconUrl:
@@ -114,8 +111,6 @@ export function HikePath(props) {
 }
 
 function PointPopup(props) {
-	let position = getLatLon(props.point);
-
 	return (
 		<Popup>
 			<Container fluid>
