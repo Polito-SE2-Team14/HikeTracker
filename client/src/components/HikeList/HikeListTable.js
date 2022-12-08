@@ -90,16 +90,6 @@ function HikeListItem(props) {
 		setShowHikeModal(true);
 	};
 
-	/* 	const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-
-	const handleShowDeleteAlert = () => {
-		setShowDeleteAlert(true);
-	};
-
-	const handleCloseDeleteAlert = () => {
-		setShowDeleteAlert(false);
-	}; */
-
 	const handleDeleteHike = (hike) => {
 		setShowHikeModal(false);
 		HikeAPI.deleteHike(hike.hikeID)
@@ -111,7 +101,6 @@ function HikeListItem(props) {
 			.catch((err) => console.log(err));
 	};
 
-	// TODO(antonio): hike delete alert
 	return (
 		<>
 			{<HikeModal
@@ -121,9 +110,7 @@ function HikeListItem(props) {
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => {
-					//TODO(antonio): start function
-				}}/>}
+				onStart={() => {}}/>}
 
 			<Col className="mt-3">
 				<Card>

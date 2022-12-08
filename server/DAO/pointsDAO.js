@@ -56,7 +56,7 @@ exports.getHikePoints = (hikeID) => {
                 reject(err)
             const points = rows.map((p) => {
                 return {
-                    pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude,
+                    pointID: p.pointID, name: p.name, latitude: p.latitude, longitude: p.longitude, description: p.description,
                     municipality: p.municipality, province: p.province, address: p.address, pointType: p.pointType,
                 }
             }

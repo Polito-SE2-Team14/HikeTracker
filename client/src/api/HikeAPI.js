@@ -258,7 +258,7 @@ const getHikeTrack = async (hikeID) => {
 
 const getHikePoints = async (hikeID) => {
 	try {
-		let response = await REST.GET(`${api}/${hikeID}/points`);
+		let response = await REST.GET(`${api}/${hikeID}/referencePoints`);
 		let pointsJson = await response.json();
 
 		return pointsJson.map(
@@ -269,7 +269,8 @@ const getHikePoints = async (hikeID) => {
 					latitude: p.latitude,
 					longitude: p.longitude,
 					address: p.address,
-					pointType: p.pointType
+					pointType: p.pointType,
+					description: p.description,
 				}
 			}
 		);

@@ -181,7 +181,7 @@ exports.getHike = function (wantedID) {
 exports.getReferencePointsForHike = function (hikeID) {
 	return new Promise((resolve, reject) => {
 		db.all(`SELECT referencePointID, address,
-				P.name, latitude, longitude, province, municipality, country,
+				P.name, latitude, longitude, province, municipality, country, description,
                 address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
 				FROM HIKEREFERENCEPOINT HRP, POINT P, USER U
 				WHERE hikeID = ? AND U.userID = P.creatorID AND referencePointID = P.pointID`,

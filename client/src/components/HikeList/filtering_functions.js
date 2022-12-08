@@ -10,6 +10,18 @@ function filterHike(hike, filters){
 		to_return = false;
 	}
 
+	if(!hike.country.startsWith(filters.country)){
+		to_return = false;
+	}
+
+	if(!hike.province.startsWith(filters.province)){
+		to_return = false;
+	}
+
+	if(!hike.municipality.startsWith(filters.municipality)){
+		to_return = false;
+	}
+
 	if(filters.difficulties.length !== 0 && !filters.difficulties.includes(hike.difficulty)){
 		to_return = false;
 	}

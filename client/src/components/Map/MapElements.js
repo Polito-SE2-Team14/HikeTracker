@@ -34,6 +34,24 @@ const greenIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
+var goldIcon = new L.Icon({
+	iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png",
+	shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41],
+});
+
+var orangeIcon = new L.Icon({
+	iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
+	shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41],
+});
+
 const blueIcon = new L.Icon({
 	iconUrl:
 		"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
@@ -45,24 +63,6 @@ const blueIcon = new L.Icon({
 	shadowSize: [41, 41],
 });
 
-/* var startflagIcon = new L.Icon({
-	iconUrl: "https://poeknows.com/wp-content/uploads/2015/07/red-flag.png",
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41],
-});
-
-var endFlagIcon = new L.Icon({
-	iconUrl:
-		"https://cdn1.iconfinder.com/data/icons/car-racing-cartoon/512/g1407-512.png",
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41],
-}); */
-
-// TODO(antonio): proper documentation
 export function HikeMarker(props) {
 	let position = getLatLon(props.point);
 	let popup, icon;
@@ -80,7 +80,8 @@ export function HikeMarker(props) {
 			icon = blueIcon;
 			break;
 		default:
-			// TODO(antonio): error handling
+			popup = false;
+			icon = redIcon;
 			break;
 	}
 
@@ -95,36 +96,36 @@ export function TrackMarker(props) {
 	return (
 		<Marker
 			position={props.position}
-			icon={props.start ? redIcon : greenIcon}
+			icon={props.start ? goldIcon : orangeIcon}
 		/>
 	);
 }
 
-// TODO(antonio): proper documentation
 export function HikePath(props) {
-	// TODO(antonio):props.expectedtime, length, ascent display on popup, difficulty is color (green, red, blue)
-	
 	return (
 		<AntPath positions={props.positions} options={{ color: "blue" }}>
-			<HikePopup handleAddInfo={props.handleAddInfo}/>
+			{props.canAddPoints ? (
+				<HikePopup handleAddInfo={props.handleAddInfo} />
+			) : (
+				false
+			)}
 		</AntPath>
 	);
 }
 
-// TODO(antonio): proper documentation
 function PointPopup(props) {
 	let position = getLatLon(props.point);
 
 	return (
 		<Popup>
 			<Container fluid>
-				<Row>{`(${position[0]}, ${position[1]})`}</Row>
+				<h6>{props.point.name}</h6>
+				<Row>{props.point.description}</Row>
 			</Container>
 		</Popup>
 	);
 }
 
-// TODO(antonio): proper documentation
 function HutPopup(props) {
 	return (
 		<Popup>
@@ -149,7 +150,9 @@ function ParkingLotPopup(props) {
 function HikePopup(props) {
 	return (
 		<Popup>
-			<Button onClick={props.handleAddInfo}><FontAwesomeIcon icon={faClipboard}/> Insert Info</Button>
+			<Button onClick={props.handleAddInfo}>
+				<FontAwesomeIcon icon={faClipboard} /> Insert Info
+			</Button>
 		</Popup>
 	);
 }

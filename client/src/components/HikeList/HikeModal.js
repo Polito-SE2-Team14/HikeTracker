@@ -31,9 +31,7 @@ export function HikeModal(props) {
 	let hike = props.hike;
 	let show = props.show;
 
-	const [markers, setMarkers] = useState([]);
-
-	if (!hike) return false;
+	const [markers, setMarkers] = useState({});
 
 	return (
 		<Modal show={props.show} onHide={props.onClose}>
@@ -107,7 +105,11 @@ function InfoTab(props) {
 
 	return (
 		<Container>
-			<Row xs={1} md={2} className="d-flex align-items-top mt-4">
+			<img src='https://www.rei.com/dam/parrish_091412_0679_main_lg.jpg' className='img-fluid mt-4' alt='...' />
+			<Row><Col>
+			{`${hike.municipality} (${hike.province}, ${hike.country})`}
+			</Col></Row>
+			<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 				<Col>
 					<FontAwesomeIcon icon={faPersonWalking} />
 					<strong>{" Distance:"}</strong>
@@ -172,7 +174,10 @@ function MapTab(props) {
 		let start = await PointAPI.getPoint(props.hike.startPointID);
 		let end = await PointAPI.getPoint(props.hike.endPointID);
 
-		props.setMarkers({ start: start, end: end });
+		let referencePoints = await HikeAPI.getHikePoints(props.hike.hikeID);
+
+		console.log(referencePoints);
+		props.setMarkers({ start: start, end: end, referencePoints: referencePoints });
 	};
 
 	useEffect(() => {
@@ -233,13 +238,6 @@ function ReferencePointForm(props) {
 
 	const handleSubmit = (ev) => {
 		ev.preventDefault();
-
-		// send data to server, remember useEffect to update list and map
-
-		// country, province, municipality from hike
-		// hikeID from hike
-		// altitude 0
-		// creatorID from hike
 
 		let referencePoint = {
 			name: name,

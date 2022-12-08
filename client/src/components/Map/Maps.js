@@ -24,12 +24,12 @@ import { Loading } from "../Loading";
 // TODO(antonio): documentation once the function is implemented
 export function HikeMap(props) {
 	let track = props.track;
-	
+
 	const [selectedPosition, setSelectedPosition] = useState(undefined);
 
 	const handleAddInfo = () => {
 		props.onPointSelect(selectedPosition);
-	}
+	};
 
 	let displayMap = useMemo(() => {
 		if (track.length === 0) {
@@ -46,18 +46,24 @@ export function HikeMap(props) {
 								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
 					/>
-					{props.markers ? (
-						false
-						/* props.markers.map((m, i) => <TrackMarker key={i} position={m} />) */ //TODO(antonio): refactor marker system
+					{props.markers.start ? (
+						<HikeMarker point={props.markers.start} />
 					) : (
-						<div>
-							<TrackMarker position={track[0]} start />
-							<TrackMarker position={track[track.length - 1]} />
-						</div>
+						<TrackMarker position={track[0]} start />
 					)}
+					{props.markers.end ? (
+						<HikeMarker point={props.markers.end} />
+					) : (
+						<TrackMarker position={track[track.length - 1]} />
+					)}
+					{props.markers.referencePoints.length > 0
+						? props.markers.referencePoints.map((p, i) => (
+								<HikeMarker key={i} point={p} />
+						  ))
+						: false}
 					<HikePath
-					// TODO(antonio): add control if user is local guide
 						positions={track}
+						canAddPoints={RoleManagement.isLocalGuide(props.user.userType)}
 						handleAddInfo={handleAddInfo}
 					/>
 					{props.user && RoleManagement.isLocalGuide(props.user.userType) ? (
@@ -91,7 +97,7 @@ function HikePointSelector(props) {
 	useMapEvents({
 		popupopen(e) {
 			let coords = e.popup.getLatLng();
-			props.setSelectedPosition([coords.lat.toFixed(6), coords.lng.toFixed(6)])
+			props.setSelectedPosition([coords.lat.toFixed(6), coords.lng.toFixed(6)]);
 		},
 		popupclose(e) {
 			props.onPointDeselect();
