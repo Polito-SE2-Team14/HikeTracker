@@ -1,4 +1,4 @@
-const { writeFile, unlink, readFileSync } = require("fs");
+const { writeFile, unlink, readFileSync, existsSync } = require("fs");
 
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
@@ -386,9 +386,11 @@ function deleteTrack(hikeId) {
 	try {
 		let file = checkPath(`../database/tracks/_${hikeId}_.trk`);
 
-		unlink(file, err => {
-			if (err) throw err;
-		});
+		if (existsSync(file))
+			unlink(file, err => {
+				if (err) throw err;
+			});
+		else throw 'wrong path';
 	}
 	catch (error) {
 		throw error
