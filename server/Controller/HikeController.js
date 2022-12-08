@@ -12,7 +12,6 @@ exports.getAllHikes = async () => {
 //TODO test this function
 exports.getHike = async (hikeID) => {
 
-	console.log("getHike", hikeID)
 
 	let hike;
 	await hikeDAO.getHike(hikeID)
@@ -55,6 +54,7 @@ exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 exports.getReferencePointsForHike = async (hikeID) => {
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)
 		.catch(err => { throw err });
+		
 	return points;
 }
 
@@ -89,8 +89,8 @@ exports.addHike = async (hike) => {
 
 //TODO test this function
 exports.addReferencePoint = async (hikeID, referencePoint) => {
-	console.log(referencePoint);
-	console.log(hikeID)
+	
+
 	let hike
 	await this.getHike(hikeID)
 		.then(h => hike = h)

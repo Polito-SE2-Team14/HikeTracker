@@ -1,12 +1,62 @@
 const hikeController = require("../Controller/HikeController")
+const userController = require("../Controller/UserController")
+const hutController = require("../Controller/HutController")
+const pointController = require("../Controller/PointController")
+
+const crypto = require("crypto");
+const { user } = require("../Config/nodemailer.config");
 const dbManager = require("../database/DBManagerSingleton").getInstance()
+
 // const populationFunctions = require("../database/populationFunctions")
 
-// beforeAll(()=>populationFunctions.restoreOriginalDB());
-// afterEach();
+beforeEach(async () => await dbManager.clearDb());
+afterAll(async () => await dbManager.clearDb());
 
 describe('Hike Tests', () => {
 	describe("creation of new Hike", () => {
+
+		test("Valid creation", async () => {
+
+			let user
+			await userController.register({
+				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+				type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+			}, 1, 1)
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			let newErr
+			let hike = {
+				title: "title", length: 10, expectedTime: 10, ascent: 10,
+				difficulty: "Hiker", description: "Description", country: "Italy",
+				municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: user.userID
+			}
+			await hikeController.addHike(hike)
+				.catch(err => newErr = err)
+
+			let createdHike 
+			await hikeController.getAllHikes()
+				.then(h => createdHike = h[0])
+
+			expect(hike.title).toBe(createdHike.title)
+			expect(hike.length).toBe(createdHike.length)
+			expect(hike.expectedTime).toBe(createdHike.expectedTime)
+			expect(hike.ascent).toBe(createdHike.ascent)
+			expect(hike.difficulty).toBe(createdHike.difficulty)
+			expect(hike.description).toBe(createdHike.description)
+			expect(hike.country).toBe(createdHike.country)
+			expect(hike.municipality).toBe(createdHike.municipality)
+			expect(hike.province).toBe(createdHike.province)
+			expect(hike.creatorID).toBe(createdHike.creatorID)
+			expect(user.name).toBe(createdHike.creatorName)
+			expect(user.surname).toBe(createdHike.creatorSurname)
+
+
+		})
+
+
 		test("Invalid title", async () => {
 			let newErr
 			let hike = {
@@ -130,59 +180,66 @@ describe('Hike Tests', () => {
 
 	})
 	describe("link start", () => {
-		test("Valid hike and start point", async ()=>{
+		test("Valid hike and start point", async () => {
 			let caughtError;
-			await hikeController.setStart(1,1)
-				.catch(err=>caughtError=err);
+			await hikeController.setStart(1, 1)
+				.catch(err => caughtError = err);
 			expect(caughtError).toBe(undefined);
 		})
-		test("Invalid hike, valid start point", async ()=>{
+		test("Invalid hike, valid start point", async () => {
 			let caughtError;
-			await hikeController.setStart("hike1",1)
-				.catch(err=>caughtError=err);
+			await hikeController.setStart("hike1", 1)
+				.catch(err => caughtError = err);
 			expect(caughtError).not.toBe(undefined);
 		})
-		test("Valid hike, invalid start point", async ()=>{
+		test("Valid hike, invalid start point", async () => {
 			let caughtError;
-			await hikeController.setStart(1,"point1")
-				.catch(err=>caughtError=err);
+			await hikeController.setStart(1, "point1")
+				.catch(err => caughtError = err);
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
 	describe("link end", () => {
-		test("Valid hike and start point", async ()=>{
+		test("Valid hike and start point", async () => {
 			let caughtError;
-			await hikeController.setEnd(1,2)
-				.catch(err=>caughtError=err);
+			await hikeController.setEnd(1, 2)
+				.catch(err => caughtError = err);
 			expect(caughtError).toBe(undefined);
 		})
-		test("Invalid hike, valid start point", async ()=>{
+		test("Invalid hike, valid start point", async () => {
 			let caughtError;
-			await hikeController.setEnd("hike1",2)
-				.catch(err=>caughtError=err);
+			await hikeController.setEnd("hike1", 2)
+				.catch(err => caughtError = err);
 			expect(caughtError).not.toBe(undefined);
 		})
-		test("Valid hike, invalid start point", async ()=>{
+		test("Valid hike, invalid start point", async () => {
 			let caughtError;
-			await hikeController.setEnd(1,"point2")
-				.catch(err=>caughtError=err);
+			await hikeController.setEnd(1, "point2")
+				.catch(err => caughtError = err);
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
 	describe("reference points", () => {
-		/* test("successful creation of reference points", async () => {
+		test("successful creation of reference points", async () => {
+			let user
+			await userController.register({
+				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+				type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+			}, 1, 1)
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			let newErr
 			let hike = {
-				title: "Title", length: 10, expectedTime: 10, ascent: 10,
-				difficulty: "Hiker", description: "Description",
-				municipality: "Torino", province: "Torino"
+				title: "title", length: 10, expectedTime: 10, ascent: 10,
+				difficulty: "Hiker", description: "Description", country: "Italy",
+				municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: user.userID
 			}
-
-			let insertedHike, insertedRefencePoint
 			await hikeController.addHike(hike)
-				.then(h => insertedHike = h)
-				.catch(err => { throw err })
+				.catch(err => newErr = err)
 
-			console.log(insertedHike)
 
 			let referencePoint = {
 				name: "Nome del reference point",
@@ -193,54 +250,54 @@ describe('Hike Tests', () => {
 				municipality: "municipality",
 				province: "province",
 				country: "country",
-				creatorID: 123
+				creatorID: 123,
+				type: "generic"
 			}
 			let referencePointID;
 
-			await hikeController.addReferencePoint(insertedHike.hikeID, referencePoint)
+			await hikeController.addReferencePoint(1, referencePoint)
 				.then(id => referencePointID = id)
 
 
-			await hikeController.getReferencePointsForHike(insertedHike.hikeID)
+			await hikeController.getReferencePointsForHike(1)
 				.then(rp => insertedRefencePoint = rp[0])
+			
+			const point = await pointController.getPoint(1)
+			expect(insertedRefencePoint).toBe(1)
+			expect(referencePoint.name).toBe(point.name)
+			expect(referencePoint.description).toBe(point.description)
+			expect(referencePoint.latitude).toBe(point.latitude)
+			expect(referencePoint.longitude).toBe(point.longitude)
+			expect(referencePoint.altitude).toBe(point.altitude)
+			expect(referencePoint.municipality).toBe(point.municipality)
+			expect(referencePoint.province).toBe(point.province)
+			expect(referencePoint.country).toBe(point.country)
+			expect(referencePoint.creatorID).toBe(point.creatorID) 
 
-			expect(referencePoint.name).toBe(insertedRefencePoint.name)
-			expect(referencePoint.description).toBe(insertedRefencePoint.description)
-			expect(referencePoint.latitude).toBe(insertedRefencePoint.latitude)
-			expect(referencePoint.longitude).toBe(insertedRefencePoint.longitude)
-			expect(referencePoint.altitude).toBe(insertedRefencePoint.altitude)
-			expect(referencePoint.municipality).toBe(insertedRefencePoint.municipality)
-			expect(referencePoint.province).toBe(insertedRefencePoint.province)
-			expect(referencePoint.country).toBe(insertedRefencePoint.country)
-			expect(referencePoint.creatorID).toBe(insertedRefencePoint.creatorID)
-
-		}) */
+		})
 	})
-	describe("delete an hike", () => {
-		/* test("successful remove of an hike", async () => {
+	/* describe("delete an hike", () => {
+		 test("successful remove of an hike", async () => {
 			let hike = {
-				title: "Title", length: 10, expectedTime: 10, ascent: 10,
-				difficulty: "Hiker", description: "Description",
-				municipality: "Torino", province: "Torino"
+				title: "title", length: 10, expectedTime: 10, ascent: 10,
+				difficulty: "Hiker", description: "Description", country: "Italy",
+				municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: user.userID
 			}
-
-			let insertedHike
 			await hikeController.addHike(hike)
-				.then(h => insertedHike = h)
-				.catch(err => { throw err })
+				.catch(err => newErr = err)
 
 			let askedHike
-			await hikeController.getHike(insertedHike.hikeID)
+			await hikeController.getHike(1)
 				.then(h => askedHike = h)
 
-			await hikeController.deleteHike(insertedHike.hikeID)
+			await hikeController.deleteHike(1)
 
-			await hikeController.getHike(insertedHike.hikeID)
+			await hikeController.getHike(1)
 				.then(h => askedHike = h)
 
 			expect(askedHike).toBe(null)
-		})*/
-	})
+		})
+	}) */
 	describe("Get huts close to an hike", () => {
 		test("Valid hikeID", async () => {
 			let caughtError;
@@ -251,9 +308,9 @@ describe('Hike Tests', () => {
 		})
 		test("Invalid hikeID", async () => {
 			let caughtError;
-			let huts=await hikeController.getCloseHutsForHike('hike1')
-				.catch(err=>{
-					console.log(err);
+			let huts = await hikeController.getCloseHutsForHike('hike1')
+				.catch(err => {
+					//console.log(err);
 					caughtError = err;
 				});
 			expect(caughtError).not.toBe(undefined);
@@ -261,8 +318,30 @@ describe('Hike Tests', () => {
 	})
 	describe("Link a hut to an hike", () => {
 		test("Valid hutID to valid hikeID", async () => {
-			/* let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,1)
+
+			/* await userController.register({
+				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
+				type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+			}, 1, 1)
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			let hut
+			await hutController.createHut(
+				{
+					pointID: 0, name: "nameTest", latitude: 392131, longitude: 12931, municipality: "Moncalieri", province: "Turin",
+					address: "addressTest", bedspace: 5, creatorID: user.userID
+				}
+			)
+				.then(h => hut = h)
+			
+			
+			console.log(hut)
+			
+			let caughtError;
+			let newLink=await hikeController.linkHutToHike(hut.pointID,1)
 				.catch(err=>caughtError=err);
 	
 			expect(caughtError).toBe(undefined);
@@ -274,29 +353,29 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike("hut1",1)
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike("hut1", 1)
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 
 		test("Valid hutID to invalid hikeID", async () => {
 			let caughtError;
-			let newLink=await hikeController.linkHutToHike(1,"hike1")
-				.catch(err=>caughtError=err);
-	
+			let newLink = await hikeController.linkHutToHike(1, "hike1")
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 	})
 
-	describe("Remove hut-hike link",()=>{
-		test("Valid hutID to valid hikeID", async()=>{
+	describe("Remove hut-hike link", () => {
+		test("Valid hutID to valid hikeID", async () => {
 			let caughtError;
 			// let newLink=await hikeController.linkHutToHike(1,1)
 			// 	.catch(err=>caughtError=err);
-			let deletedLink=await hikeController.deleteHutToHikeLink(1,1)
-				.catch(err=>caughtError=err);
-	
+			let deletedLink = await hikeController.deleteHutToHikeLink(1, 1)
+				.catch(err => caughtError = err);
+
 			expect(caughtError).toBe(undefined);
 			expect(deletedLink).not.toBe(null);
 			expect(deletedLink.hutID).toBe(1);
@@ -305,17 +384,17 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async () => {
 			let caughtError;
-			let deletedLink=await hikeController.deleteHutToHikeLink("hut1",1)
-				.catch(err=>caughtError=err);
-	
+			let deletedLink = await hikeController.deleteHutToHikeLink("hut1", 1)
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 
 		test("Valid hutID to invalid hikeID", async () => {
 			let caughtError;
-			let deletedLink=await hikeController.deleteHutToHikeLink(1,"hike1")
-				.catch(err=>caughtError=err);
-	
+			let deletedLink = await hikeController.deleteHutToHikeLink(1, "hike1")
+				.catch(err => caughtError = err);
+
 			expect(caughtError).not.toBe(undefined);
 		})
 	})

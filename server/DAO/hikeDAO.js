@@ -185,7 +185,7 @@ exports.getReferencePointsForHike = function (hikeID) {
 			(err, rows) => {
 				if (err) { console.error(err); reject(err) }
 
-				resolve({ referencePointIDs: rows.map(r => r.referencePointID) })
+				resolve( rows.map(r => r.referencePointID) )
 			})
 	})
 }
@@ -312,6 +312,7 @@ exports.getHikeTrack = function (hikeID) {
 			return JSON.parse(readFileSync(file, { encoding: 'utf8', flag: 'r' }));
 		} catch (err) {
 			console.error(err);
+			throw Error(err)
 		}
 	return null;
 }
