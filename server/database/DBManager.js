@@ -1,3 +1,4 @@
+const { unlink } = require('fs');
 const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
@@ -20,26 +21,39 @@ class DBManager {
         return this.#db
     }
 
+    async deleteAllHikes() {
+        let db = this.#db;
+        return new Promise(function (resolve, reject) {
+            let trackNum = 0;
+
+            db.get('SELECT COUNT(DISTINCT hikeID) as n FROM Hike', [], (err, row) => {
+                trackNum = row.n;
+            })
+
+            db.run(`DELETE FROM HIKE WHERE 1=1;`);
+
+            for (let i = 1; i <= trackNum; i++)
+                unlink(path.resolve(__dirname + `/tracks/_${i}_.trk`), err => {
+                    console.log(path.resolve(__dirname + `/tracks/_${i}_.trk`))
+                });
+
+            resolve();
+        });
+    }
+
     async clearDb() {
         //console.log("clearDB")
         let db = this.#db;
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             db.run("DELETE FROM USER WHERE 1=1;")
             db.run("DELETE FROM POINT WHERE 1=1;")
             db.run("DELETE FROM HUT WHERE 1=1;")
             db.run("DELETE FROM PARKINGLOT WHERE 1=1;")
             db.run("DELETE FROM HIKEREFERENCEPOINT WHERE 1=1;")
-            db.run("DELETE FROM HIKE WHERE 1=1;")
             db.run("DELETE FROM HIKELINKHUT WHERE 1=1;")
-            resolve();
 
-        })
-    }
+            this.deleteAllHikes();
 
-    async deleteAllHikes() {
-        let db = this.#db;
-        return new Promise(function (resolve, reject) {
-            db.run(`DELETE FROM HIKE WHERE 1=1;`);
             resolve();
         })
     }

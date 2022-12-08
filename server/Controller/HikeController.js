@@ -1,15 +1,12 @@
 const hikeDAO = require("../DAO/hikeDAO");
 const poinstDAO = require("../DAO/pointsDAO")
 
-
-//TODO test this function
 exports.getAllHikes = async () => {
 	const hikes = await hikeDAO.getAllHikes()
 		.catch(err => { throw err });
 	return hikes;
 }
 
-//TODO test this function
 exports.getHike = async (hikeID) => {
 	const hike = await hikeDAO.getHike(hikeID)
 		.catch(err => { throw err });
@@ -40,7 +37,7 @@ exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 		throw Error("hutId not a number")
 	if (Number.isNaN(hikeID))
 		throw Error("hikeID not a number")
-	
+
 	const removedLink = await hikeDAO.deleteHutToHikeLink(hutID, hikeID)
 		.catch(err => { throw err });
 	return removedLink;
@@ -53,9 +50,10 @@ exports.getReferencePointsForHike = async (hikeID) => {
 	return points;
 }
 
+//TODO add creatorID and track control
 exports.addHike = async (hike) => {
 
-	let { title, length, ascent, expectedTime, description, municipality, province, difficulty } = hike
+	let { title, length, ascent, expectedTime, description, country, municipality, province, difficulty, creatorID } = hike
 	//console.log(hike)
 
 	if (typeof title != "string")
@@ -68,13 +66,17 @@ exports.addHike = async (hike) => {
 		throw Error("Type error with expectedTime")
 	if (typeof description != "string")
 		throw Error("Type error with description")
+	if (typeof country != "string")
+		throw Error("Type error with country");
 	if (typeof municipality != "string")
 		throw Error("Type error with municipality")
 	if (typeof province != "string")
 		throw Error("Type error with province")
 	if (typeof difficulty != "string" || !["Tourist", "Hiker", "Professional Hiker"].includes(difficulty))
 		throw Error("Type error with difficulty")
-
+	if (isNaN(creatorID))
+		throw Error("Type error with creatorID");
+	//check on track
 
 	const addedHike = await hikeDAO.addHike(hike).catch((err) => {
 		throw err;
@@ -122,15 +124,17 @@ exports.updateHike = async (hike) => {
 	return hike;
 }
 
-//TODO test this function
 exports.deleteHike = async (hikeID) => {
 
-	let hike
-	await this.getHike(hikeDAO)
-		.then(h => hike = h)
+	if (isNaN(hikeID))
+		throw Error("Type error with hikeID");
+		
+	// let hike
+	// await this.getHike(hikeDAO)
+	// 	.then(h => hike = h)
 
-	if (hike == null)
-		throw Error("There is no hike with that ID")
+	// if (hike == null)
+	// 	throw Error("There is no hike with that ID")
 
 	await hikeDAO.deleteHike(hikeID)
 		.catch(err => { console.error(err); throw err })

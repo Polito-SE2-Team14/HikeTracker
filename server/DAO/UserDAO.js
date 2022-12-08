@@ -105,7 +105,7 @@ exports.getUser = (email, password) => {
 	});
 };
 
-function StoreUser(user, salt, password, token, verified=0, approved=0) {
+function StoreUser(user, salt, password, token, verified = 0, approved = 0) {
 
 	let { name, surname, email, phoneNumber, type } = user
 
