@@ -66,7 +66,7 @@ exports.updateUser = (userID,info)=>{
 		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
 			if(err){
 				reject(err);
-			}else if(row==null | row==undefined){
+			}else if(row==null || row==undefined){
 				reject({error: "User not found"});
 			}else{
 				let sqlUpdate="UPDATE USER SET";
