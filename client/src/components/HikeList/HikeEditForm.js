@@ -40,8 +40,6 @@ export function HikeEditForm(props) {
 		);
 
 		setHike(newHike);
-
-		setEditPoints(true);
 	};
 
 	return (
@@ -51,7 +49,7 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
+					<HikeForm hike={hike} goToPoints={() => setEditPoints(true)} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
 					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
@@ -142,6 +140,7 @@ function HikeForm(props) {
 		}
 
 		props.onSubmit(hike.hikeID);
+		props.goToPoints();
 	};
 
 	return (
@@ -329,6 +328,9 @@ function HikeForm(props) {
 						<Button variant="primary" type="submit" >
 							Apply and edit points
 						</Button>{" "}
+						<Button variant="secondary" onClick={props.goToPoints} >
+							Edit points
+						</Button>{" "}
 						<Button variant="secondary" onClick={props.onHide}>
 							Cancel
 						</Button>
@@ -420,7 +422,7 @@ function EditPointsForm(props) {
 		}
 	};
 
-	let handleSubmit = async (event) => {
+	let handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
@@ -485,8 +487,8 @@ function EditPointsForm(props) {
 			</Row>
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
-
-				<Select options={closeHuts.options} onChange={(ev) => setEnd(endPoints[ev.value])} />
+				<Select options={closeHuts.options} onChange={(ev) => setLinkedHuts(old => [...old, closeHuts[ev.value]])} />
+				{}
 			</Form.Group>
 			<Row>
 				<div className="text-end">
