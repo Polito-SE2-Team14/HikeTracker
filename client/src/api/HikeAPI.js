@@ -55,7 +55,11 @@ const getHike = async (hikeID) => {
 			municipality: hikeJson.municipality,
 			province: hikeJson.province,
 			startPointID: hikeJson.startPointID,
-			endPointID: hikeJson.endPointID
+			endPointID: hikeJson.endPointID,
+			country: hikeJson.country,
+			creatorID: hikeJson.creatorID,
+			creatorName: hikeJson.creatorName,
+			creatorSurname: hikeJson.creatorSurname
 		};
 	}
 	catch (e) {
@@ -226,16 +230,34 @@ const addReferencePoint = async (point, hikeID) => {
 	}
 }
 
-const addHut = async (hikeID, pointID) => {
-	let body = {
-		hikeID: hikeID,
-		hutID: pointID,
-	};
-
+const addHut = async (hikeID, hutID) => {
 	try {
-		await REST.UPDATE("PUT", api, body, true);
+		await REST.UPDATE("PUT", `${api}/${hikeID}/huts/${hutID}`, null, true);
 
 		return true;
+	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
+		throw e;
+	}
+};
+
+const addHuts = async (hikeID, hutIDs) => {
+	try {
+		hutIDs.forEach(hutID => addHut(hikeID, hutID));
+
+		return true;
+	} catch (e) {
+		console.error("Error in HikeAPI.js", e)
+		throw e;
+	}
+};
+
+const getCloseHuts = async hikeID => {
+	try {
+		let response = await REST.GET(`${api}/${hikeID}/huts`);
+		let hutsJson = await response.json();
+
+		return hutsJson;
 	} catch (e) {
 		console.error("Error in HikeAPI.js", e)
 		throw e;
@@ -291,6 +313,8 @@ const HikeAPI = {
 	addStartPoint,
 	addEndPoint,
 	addHut,
-	getHikePoints,
+	addHuts,
+	getCloseHuts,
+	getHikePoints
 };
 export default HikeAPI;
