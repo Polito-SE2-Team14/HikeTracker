@@ -40,8 +40,6 @@ export function HikeEditForm(props) {
 		);
 
 		setHike(newHike);
-
-		setEditPoints(true);
 	};
 
 	return (
@@ -51,7 +49,7 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
+					<HikeForm hike={hike} goToPoints={() => setEditPoints(true)} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
 					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
@@ -80,7 +78,7 @@ function HikeForm(props) {
 	let [useFile, setUseFile] = useState(false);
 	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
 	let [municipality, setMunicipality] = useState(props.hike ? props.hike.municipality : "");
-	let [country, setCountry] = useState(props.country ? props.hike.country : "");
+	let [country, setCountry] = useState(props.hike ? props.hike.country : "");
 
 
 	let fileChangeHandler = (event) => {
@@ -126,7 +124,7 @@ function HikeForm(props) {
 				console.error(e);
 			});
 		} else {
-		
+
 			await props.newHike(
 				{
 					title: title, track: fileContent, difficulty: difficulty,
@@ -142,6 +140,7 @@ function HikeForm(props) {
 		}
 
 		props.onSubmit(hike.hikeID);
+		props.goToPoints();
 	};
 
 	return (
@@ -175,10 +174,10 @@ function HikeForm(props) {
 
 			<Form.Group controlId="formCountry" className="mb-3">
 				<Form.Label>Country</Form.Label>
-					<CountryDropdown
-						country={country}
-						setCountry={setCountry}
-					/>
+				<CountryDropdown
+					country={country}
+					setCountry={setCountry}
+				/>
 				{/* <Form.Label>Country</Form.Label>
 				<Form.Control
 					type="text"
@@ -193,7 +192,7 @@ function HikeForm(props) {
 			<Form.Group controlId="formProvince" className="mb-3">
 				<Form.Label>Province</Form.Label>
 				<ProvinceDropdown
-					disabled={country===""}
+					disabled={country === ""}
 					province={province}
 					setProvince={setProvince}
 					country={country}
@@ -211,7 +210,7 @@ function HikeForm(props) {
 			<Form.Group controlId="formMunicipality" className="mb-3">
 				<Form.Label>Municipality</Form.Label>
 				<MunicipalityDropdown
-					disabled={province===""}
+					disabled={province === ""}
 					municipality={municipality}
 					setMunicipality={setMunicipality}
 					country={country}
@@ -329,6 +328,9 @@ function HikeForm(props) {
 						<Button variant="primary" type="submit" >
 							Apply and edit points
 						</Button>{" "}
+						<Button variant="secondary" onClick={props.goToPoints} >
+							Edit points
+						</Button>{" "}
 						<Button variant="secondary" onClick={props.onHide}>
 							Cancel
 						</Button>
@@ -340,49 +342,93 @@ function HikeForm(props) {
 }
 
 function EditPointsForm(props) {
-	let [startPoints, setStartPoints] = useState([]);
-	let [start, setStart] = useState([]);
-	let [endPoints, setEndPoints] = useState([]);
-	let [end, setEnd] = useState([]);
-	let [track, setTrack] = useState([]);
+	const [startPoints, setStartPoints] = useState([]);
+	const [start, setStart] = useState(null);
+	const [endPoints, setEndPoints] = useState([]);
+	const [end, setEnd] = useState(null);
+	const [track, setTrack] = useState([]);
+	const [closeHuts, setCloseHuts] = useState([]);
+	const [linkedHuts, setLinkedHuts] = useState([]);
 
 	let getPoints = async () => {
 		try {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
+			let huts = await HikeAPI.getCloseHuts(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
 
 			points = points ? points.filter(p => p.pointType !== 'generic') : [];
 
 			setTrack(newTrack);
 
+			setCloseHuts(huts.map((p, i) => {
+				return {
+					...p,
+					options: {
+						'value': i,
+						'label': p.name
+					}
+				}
+			}));
+
 			setStartPoints(
 				points.filter(p =>
-				isInArea(p, {
-					center: props.hike.track[0],
-					radius: 5000
-				}))
+					isInArea(p, {
+						center: newTrack[0],
+						radius: 5000
+					})).map((p, i) => {
+						return {
+							...p,
+							options: {
+								'value': i,
+								'label': p.name
+							}
+						}
+					})
 			);
 			setEndPoints(
 				points.filter(p =>
-				isInArea(p, {
-					center: props.hike.track[props.hike.track.length - 1],
-					radius: 5000
-				}))
+					isInArea(p, {
+						center: newTrack[newTrack.length - 1],
+						radius: 5000
+					})).map((p, i) => {
+						return {
+							...p,
+							options: {
+								'value': i,
+								'label': p.name
+							}
+						}
+					})
 			);
 
-			setStart(newTrack[0]);
-			setEnd(newTrack[newTrack.length - 1]);
+			setStart(() => {
+				let startPoint = points.filter(p => p.pointID == props.hike.startPointID).pop();
+
+				if (startPoint)
+					return startPoint;
+				else
+					return newTrack[0];
+			});
+			setEnd(() => {
+				let endPoint = points.filter(p => p.pointID == props.hike.endPointID).pop();
+
+				if (endPoint)
+					return endPoint;
+				else
+					return newTrack[newTrack.length - 1];
+			});
 		} catch (e) {
 			console.error(e);
 		}
 	};
 
-	let handleSubmit = async (event) => {
+	let handleSubmit = async event => {
 		event.preventDefault();
 
 		try {
 			await HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
 			await HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
+			await HikeAPI.addHuts(props.hike.hikeID, linkedHuts.map(h => h.pointID));
 
 			props.onSubmit(props.hike.hikeID);
 			props.onHide();
@@ -395,20 +441,6 @@ function EditPointsForm(props) {
 	useEffect(() => {
 		getPoints();
 	}, []);
-
-	const startPointOptions = startPoints.map((p, i) => {
-		return {
-			'value': i,
-			'label': p.name
-		};
-	});
-
-	const endPointOptions = endPoints.map((p, i) => {
-		return {
-			'value': i,
-			'label': p.name
-		};
-	});
 
 	return (
 		<Form>
@@ -433,7 +465,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPointOptions} onChange={(ev) => setStart(startPoints[ev.value])} />
+					<Select options={startPoints.options} onChange={(ev) => setStart(startPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -450,10 +482,14 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPointOptions} onChange={(ev) => setEnd(endPoints[ev.value])} />
+					<Select options={endPoints.options} onChange={(ev) => setEnd(endPoints[ev.value])} />
 				</Form.Group>
 			</Row>
-			{/* reference points */}
+			<Form.Group controlId="formHuts" className="mb-3">
+				<Form.Label>Huts</Form.Label>
+				<Select options={closeHuts.options} onChange={(ev) => setLinkedHuts(old => [...old, closeHuts[ev.value]])} />
+				{}
+			</Form.Group>
 			<Row>
 				<div className="text-end">
 					<Button variant="primary" type="submit" onClick={handleSubmit}>

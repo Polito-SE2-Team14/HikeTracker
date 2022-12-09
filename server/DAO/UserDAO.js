@@ -45,13 +45,56 @@ exports.getUserById = (id) => {
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname,
 				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified,
-				approved: row.approved
+				approved: row.approved,
+				email: row.email, completedHikes: row.completedHikes,
+				favouriteDifficulty: row.favouriteDifficulty, minTime: row.minTime,
+				maxTime: row.maxTime, totalTime: row.totalTime, averageTime: row.averageTime,
+				minDistance: row.minDistance, maxDistance: row.maxDistance,
+				totalDistance: row.totalDistance, averageLength: row.averageLength,
+				favouriteCountry: row.favouriteCountry, favouriteProvince: row.favouriteProvince,
+				minAscent: row.minAscent, maxAscent: row.maxAscent, averageAscent: row.averageAscent,
 			}
 			resolve(user);
 
 		});
 	});
 };
+
+//updates the user adding only the provided info (not all fields are mandatory)
+exports.updateUser = (userID,info)=>{
+	return new Promise((resolve,reject)=>{
+		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
+			if(err){
+				reject(err);
+			}else if(row==null | row==undefined){
+				reject({error: "User not found"});
+			}else{
+				let sqlUpdate="UPDATE USER SET";
+				let sqlWHERE=` WHERE userID=${userID};`;
+				
+				Object.entries(info).forEach(([key,value]) => {
+					if(typeof value == 'string' || value instanceof String){
+						sqlUpdate+=` ${key} = "${value}",`;
+					}else{
+						sqlUpdate+=` ${key} = ${value},`;
+					}
+				});
+
+				//remove the last ","
+				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-1);
+				sqlUpdate+=sqlWHERE;
+
+				db.run(sqlUpdate,(err)=>{
+					if(err){
+						reject(err);
+					}else{
+						resolve({...row,...info});
+					}
+				})
+			}
+		})
+	})
+}
 
 exports.getUserByToken = (token) => {
 	return new Promise((resolve, reject) => {
@@ -211,6 +254,17 @@ exports.Register = async (user, token, verified, approved) => {
 	await StoreUser(user, pass.salt, pass.hashedPassword, token, verified, approved)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
+	
+	// we must add only the necessary information
+	delete user.name;
+	delete user.surname;
+	delete user.email;
+	delete user.phoneNumber;
+	delete user.type;
+	delete user.password;
+	await this.updateUser(finalUser.userID,{...user})
+		.then(u=> finalUser=u)
+		.catch(err => {throw err});
 
 	return finalUser
 }
