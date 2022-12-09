@@ -255,16 +255,16 @@ exports.Register = async (user, token, verified, approved) => {
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 	
-	// we must add only the necessary information
-	delete user.name;
-	delete user.surname;
-	delete user.email;
-	delete user.phoneNumber;
-	delete user.type;
-	delete user.password;
-	await this.updateUser(finalUser.userID,{...user})
-		.then(u=> finalUser=u)
-		.catch(err => {throw err});
+	// // we must add only the necessary information
+	// delete user.name;
+	// delete user.surname;
+	// delete user.email;
+	// delete user.phoneNumber;
+	// delete user.type;
+	// delete user.password;
+	// await this.updateUser(finalUser.userID,{...user})
+	// 	.then(u=> finalUser=u)
+	// 	.catch(err => {throw err});
 
 	return finalUser
 }
