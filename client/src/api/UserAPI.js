@@ -9,7 +9,7 @@ const Register = async (body) => {
 		return true;
 	}
 	catch (e) {
-		console.error("Error in UserAPI.js",e)
+		console.error("Error in UserAPI.js", e)
 		return e;
 	}
 };
@@ -28,6 +28,34 @@ const getUserInfo = async () => {
 	}
 };
 
+const getAllHutWorkers = async () => {
+	try {
+		let response = await REST.GET(`${api}/hutworkers/all`, true, true);
+		if (response.ok) {
+			const users = await response.json();
+			return users;
+		}
+	}
+	catch (error) {
+		const errorJSON = await error.json();
+		throw errorJSON;
+	}
+};
+
+const getAllLocalGuides = async () => {
+	try {
+		let response = await REST.GET(`${api}/localguides/all`, true, true);
+		if (response.ok) {
+			const users = await response.json();
+			return users;
+		}
+	}
+	catch (error) {
+		const errorJSON = await error.json();
+		throw errorJSON;
+	}
+};
+
 const verifyUser = async (token) => {
 	try {
 		let response = await REST.UPDATE('PUT', `${api}/verify/${token}`);
@@ -38,6 +66,30 @@ const verifyUser = async (token) => {
 	catch (error) {
 		const errorJSON = await error.json();
 		throw errorJSON;
+	}
+};
+
+const approveUser = async (userID) => {
+	try {
+		let response = await REST.UPDATE('PUT', `${api}/approve/${userID}`, [], true);
+		if (response.ok) {
+			return true;
+		}
+	}
+	catch (error) {
+		throw error;
+	}
+};
+
+const unApproveUser = async (userID) => {
+	try {
+		let response = await REST.UPDATE('PUT', `${api}/unapprove/${userID}`, [], true);
+		if (response.ok) {
+			return true;
+		}
+	}
+	catch (error) {
+		throw error;
 	}
 };
 
@@ -63,7 +115,7 @@ const logIn = async (credentials) => {
 		}
 	}
 	catch (e) {
-		console.error("Error in UserAPI.js",e)
+		console.error("Error in UserAPI.js", e)
 		throw e;
 	}
 };
@@ -76,11 +128,11 @@ const logOut = async () => {
 		}
 	}
 	catch (e) {
-		console.error("Error in UserAPI.js",e)
+		console.error("Error in UserAPI.js", e)
 		return e;
 	}
 };
 
 
-const UserAPI = { Register, getUserInfo, logIn, logOut, verifyUser, sendVerificationEmail };
+const UserAPI = { Register, getUserInfo, logIn, logOut, verifyUser, sendVerificationEmail, getAllHutWorkers, getAllLocalGuides, approveUser, unApproveUser };
 export default UserAPI;

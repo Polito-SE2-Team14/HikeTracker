@@ -29,6 +29,21 @@ passport.deserializeUser(function (user, cb) {
     return cb(null, user);
 })
 
+const isLoggedIn = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    return res.status(401).json({ error: 'Not authorized 1' });
+}
+
+const isAdmin = (req, res, next) => {
+
+    if (req.user && req.user.type === 'manager') {
+        return next();
+    }
+    return res.status(401).json({ error: 'Not authorized 2' });
+}
+
 router.post('',
     check(["name", "surname", "password"]).not().isEmpty().trim().escape(),
     check('email').isEmail().normalizeEmail(),
@@ -98,6 +113,62 @@ router.get('/current',
         }
         else
             res.status(401).json({ error: 'Not authenticated' });
+    }
+);
+
+router.get('/hutworkers/all', isAdmin, isLoggedIn,
+    async (req, res) => {
+        await userController
+            .getAllHutWorkes(true)
+            .then((users) => {
+                return res.status(200).json(users);
+            })
+            .catch((err) => {
+                return errorResponse(err, 500, res)
+            });
+    }
+);
+
+router.get('/localguides/all', isAdmin, isLoggedIn,
+    async (req, res) => {
+        await userController
+            .getAllLocalGuides(true)
+            .then((users) => {
+                return res.status(200).json(users);
+            })
+            .catch((err) => {
+                return errorResponse(err, 500, res)
+            });
+    }
+);
+
+router.put('/approve/:userID', isLoggedIn, isAdmin,
+    param("userID").isInt().not().isEmpty(),
+    async (req, res) => {
+        if (!validationResult(req).isEmpty())
+            return res.status(422).end();
+            
+        await userController
+            .approve(req.params.userID)
+            .then(() => res.status(201).end())
+            .catch((err) => {
+                return errorResponse(err, 500, res)
+            });
+    }
+);
+
+router.put('/unapprove/:userID', isLoggedIn, isAdmin,
+    param("userID").isInt().not().isEmpty(),
+    async (req, res) => {
+        if (!validationResult(req).isEmpty())
+            return res.status(422).end();
+            
+        await userController
+            .unApprove(req.params.userID)
+            .then(() => res.status(201).end())
+            .catch((err) => {
+                return errorResponse(err, 500, res)
+            });
     }
 );
 

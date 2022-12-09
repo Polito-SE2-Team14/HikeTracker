@@ -86,12 +86,11 @@ export function AppNavBar(props) {
 					</Row>
 				</Container>
 			</Navbar>
-			<SideBar show={showSidebar} pageSelect={handlePageSelect} onHide={handleCloseClick} />
+			<SideBar userType={props.userType} show={showSidebar} pageSelect={handlePageSelect} onHide={handleCloseClick} />
 		</>
 	);
 }
 
-console.log('test' , RoleManagement.isManager());
 
 function SideBar(props) {
 	return (

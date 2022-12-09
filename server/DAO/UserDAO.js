@@ -44,7 +44,8 @@ exports.getUserById = (id) => {
 				resolve({ error: 'User not found' });
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname,
-				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified
+				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified,
+				approved: row.approved
 			}
 			resolve(user);
 
@@ -63,7 +64,8 @@ exports.getUserByToken = (token) => {
 				reject({ error: 'Token is wrong' });
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname,
-				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email
+				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email,
+				approved: row.approved
 			}
 			resolve(user);
 
@@ -82,6 +84,26 @@ exports.verifyUser = (id) => {
 	});
 };
 
+exports.approveUser = (userID) => {
+	return new Promise((resolve, reject) => {
+		const sql = 'UPDATE USER SET approved = 1 WHERE userID=?';
+		db.run(sql, [userID], (err) => {
+			if (err) reject(err);
+			resolve(true);
+		});
+	});
+};
+
+exports.unApproveUser = (userID) => {
+	return new Promise((resolve, reject) => {
+		const sql = 'UPDATE USER SET approved = 0 WHERE userID=?';
+		db.run(sql, [userID], (err) => {
+			if (err) reject(err);
+			resolve(true);
+		});
+	});
+};
+
 exports.getUser = (email, password) => {
 	return new Promise((resolve, reject) => {
 		const sql = 'SELECT * FROM USER WHERE email = ?';
@@ -90,7 +112,8 @@ exports.getUser = (email, password) => {
 			else if (row === undefined) { return resolve(false); }
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname, email: row.email,
-				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
+				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified,
+				approved: row.approved
 			}
 			const salt = row.salt.toString("hex");
 			crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
@@ -123,6 +146,39 @@ function StoreUser(user, salt, password, token, verified = 0, approved = 0) {
 				phoneNumber: phoneNumber, type: type, token: token, verified: verified, approved: approved
 			}
 			resolve(newUser);
+
+		})
+	});
+}
+
+/**
+ * @param {string} type 
+ * @param {boolean} orderByUnapproved  
+ * @returns Array of User objects
+ */
+exports.getUsersByType = (type, orderByUnapproved = false) => {
+
+	return new Promise((resolve, reject) => {
+		let sql = "SELECT * FROM User WHERE type = ?";
+
+		if (orderByUnapproved) {
+			sql = sql + " ORDER BY approved = 0 DESC";
+		}
+
+		db.all(sql, [type], function (err, rows) {
+			if (err) {
+				console.error("Err: ", err)
+				reject(err);
+			}
+
+			const users = rows.map(row => {
+				return {
+					userID: row.userID, name: row.name, surname: row.surname, email: row.email,
+					phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified, approved: row.approved
+				}
+			}
+			)
+			resolve(users);
 
 		})
 	});

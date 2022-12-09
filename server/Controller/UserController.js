@@ -87,6 +87,48 @@ exports.verify = async (token) => {
     }
 }
 
+exports.getAllLocalGuides = async (orderByUnapproved = false) => {
+    try {
+        let users = await userDAO.getUsersByType("localGuide", orderByUnapproved);
+        return users;
+    } catch (error) {
+        console.error("Error in UserController", error)
+        throw (error);
+    }
+}
+
+exports.getAllHutWorkes = async (orderByUnapproved = false) => {
+    try {
+        let users = await userDAO.getUsersByType("hutWorker", orderByUnapproved);
+        return users;
+    } catch (error) {
+        console.error("Error in UserController", error)
+        throw (error);
+    }
+}
+
+exports.approve = async (userID) => {
+    try {
+        let user = await userDAO.getUserById(userID);
+        await userDAO.approveUser(user.userID);
+        return true;
+    } catch (error) {
+        console.error("Error in UserController", error.error)
+        throw (error.error);
+    }
+}
+
+exports.unApprove = async (userID) => {
+    try {
+        let user = await userDAO.getUserById(userID);
+        await userDAO.unApproveUser(user.userID);
+        return true;
+    } catch (error) {
+        console.error("Error in UserController", error.error)
+        throw (error.error);
+    }
+}
+
 //TODO test this function
 exports.resendVerificationEmail = async (token) => {
     try {
