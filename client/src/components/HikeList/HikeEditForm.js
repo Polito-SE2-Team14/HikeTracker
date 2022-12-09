@@ -8,7 +8,9 @@ import { isInArea } from "../HikeData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
-import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
+
+import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
+// import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
 
 
 //New Select
@@ -174,7 +176,11 @@ function HikeForm(props) {
 
 			<Form.Group controlId="formCountry" className="mb-3">
 				<Form.Label>Country</Form.Label>
-				<CountryDropdown
+				{/* <CountryDropdown
+					country={country}
+					setCountry={setCountry}
+				/> */}
+				<CountrySelect
 					country={country}
 					setCountry={setCountry}
 				/>
@@ -191,7 +197,13 @@ function HikeForm(props) {
 
 			<Form.Group controlId="formProvince" className="mb-3">
 				<Form.Label>Province</Form.Label>
-				<ProvinceDropdown
+				{/* <ProvinceDropdown
+					disabled={country === ""}
+					province={province}
+					setProvince={setProvince}
+					country={country}
+				/> */}
+				<ProvinceSelect
 					disabled={country === ""}
 					province={province}
 					setProvince={setProvince}
@@ -209,7 +221,14 @@ function HikeForm(props) {
 
 			<Form.Group controlId="formMunicipality" className="mb-3">
 				<Form.Label>Municipality</Form.Label>
-				<MunicipalityDropdown
+				{/* <MunicipalityDropdown
+					disabled={province === ""}
+					municipality={municipality}
+					setMunicipality={setMunicipality}
+					country={country}
+					province={province}
+				/> */}
+				<MunicipalitySelect
 					disabled={province === ""}
 					municipality={municipality}
 					setMunicipality={setMunicipality}
@@ -488,7 +507,7 @@ function EditPointsForm(props) {
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
 				<Select options={closeHuts.options} onChange={(ev) => setLinkedHuts(old => [...old, closeHuts[ev.value]])} />
-				{}
+				{ }
 			</Form.Group>
 			<Row>
 				<div className="text-end">

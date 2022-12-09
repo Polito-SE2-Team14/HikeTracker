@@ -9,7 +9,8 @@ import {
 	InputGroup,
 } from "react-bootstrap";
 import { PointSelectMap } from "../Map/Maps";
-import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
+// import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
+import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
 export function HutCreationModal(props) {
 	return (
@@ -114,27 +115,26 @@ function HutCreationForm(props) {
 
 			<Form.Group className="mb-3">
 				<Row>
-					<Col>
-						<Form.Label>Country</Form.Label>
-						<CountryDropdown
-							country={country}
-							setCountry={setCountry}
-						/>
-					</Col>
-					<Col>
-						<Form.Label>Province</Form.Label>
-						<ProvinceDropdown
-							disabled={country===""}
-							province={province}
-							setProvince={setProvince}
-							country={country}
-						/>
-					</Col>
+					<Form.Label>Country</Form.Label>
+					<CountrySelect
+						country={country}
+						setCountry={setCountry}
+					/>
+
+				</Row>
+				<Row>
+					<Form.Label>Province</Form.Label>
+					<ProvinceSelect
+						disabled={country === ""}
+						province={province}
+						setProvince={setProvince}
+						country={country}
+					/>
 				</Row>
 				<Row>
 					<Form.Label>Municipality</Form.Label>
-					<MunicipalityDropdown
-						disabled={province===""}
+					<MunicipalitySelect
+						disabled={province === ""}
 						municipality={municipality}
 						setMunicipality={setMunicipality}
 						country={country}
