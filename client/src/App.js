@@ -79,7 +79,7 @@ function App() {
 				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? <HomePage /> : <Navigate replace to='/not-verified' />} />
 				<Route
 					path="/admin"
-					element={RoleManagement.isManager() ? <AdminPage /> : <Navigate replace to='/' />}
+					element={RoleManagement.isManager(userType) ? <AdminPage /> : <Navigate replace to='/' />}
 				/>
 				<Route
 					path="/login"
