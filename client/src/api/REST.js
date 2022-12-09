@@ -33,9 +33,10 @@ const UPDATE = async (method, api, body, credentials = false) => {
 		method: method,
 		headers: {
 			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(body),
+		}
 	};
+	if (body != null && body != undefined)
+		req.body = JSON.stringify(body);
 
 	if (credentials) {
 		req.credentials = "include";

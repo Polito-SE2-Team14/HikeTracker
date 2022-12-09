@@ -57,7 +57,6 @@ exports.getHike = function (wantedID) {
 				reject(err);
 			} else {
 				try {
-					row.track = this.getHikeTrack(row.hikeID);
 					resolve({
 						hikeID: row.hikeID, title: row.title,
 						length: row.length, expectedTime: row.expectedTime,
@@ -65,7 +64,7 @@ exports.getHike = function (wantedID) {
 						description: row.description, startPointID: row.startPointID,
 						endPointID: row.endPointID, municipality: row.municipality,
 						province: row.province, country: row.country,
-						track: row.track, creatorID: row.creatorID,
+						creatorID: row.creatorID,
 						creatorName: row.name, creatorSurname: row.surname
 					}
 					);
@@ -240,19 +239,7 @@ exports.addHike = function (newHike) {
 					newTrack(this.lastID, track);
 					resolve(
 						{
-							hikeID: this.lastID,
-							title: title,
-							length: length,
-							expectedTime: expectedTime,
-							ascent: ascent,
-							difficulty: difficulty,
-							description: description,
-							startPointID: startPointID,
-							endPointID: endPointID,
-							municipality: municipality,
-							province: province,
-							country: country,
-							track: track
+							hikeID: this.lastID
 						}
 					);
 				}

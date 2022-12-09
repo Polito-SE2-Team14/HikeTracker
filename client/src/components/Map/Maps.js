@@ -55,7 +55,7 @@ export function HikeMap(props) {
 					) : (
 						<TrackMarker position={track[track.length - 1]} />
 					)}
-					{props.markers.referencePoints.length > 0
+					{props.markers.referencePoints && props.markers.referencePoints.length > 0
 						? props.markers.referencePoints.map((p, i) => (
 								<HikeMarker key={i} point={p} />
 						  ))
