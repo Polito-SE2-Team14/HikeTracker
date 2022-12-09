@@ -292,7 +292,7 @@ describe('Hike Tests', () => {
 		// 	expect(newHike).toBeUndefined();
 		// })
 
-		// test("Invalid creatorID (unautorized User)", async () => {
+		// test("Invalid creatorID (unauthorized User)", async () => {
 		// 	let newErr
 		// 	let hike = {
 		// 		title: "Title", length: 10, expectedTime: 10, ascent: 10,
