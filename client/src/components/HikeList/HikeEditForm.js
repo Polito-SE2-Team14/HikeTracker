@@ -375,33 +375,46 @@ function EditPointsForm(props) {
 
 	let getPoints = async () => {
 		try {
-			console.log(props.hike)
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
-			let huts = await HikeAPI.getCloseHuts(props.hike.hikeID);
+			let newHuts = await HikeAPI.getCloseHuts(props.hike.hikeID);
+			let linkedIDs = []; //await HikeAPI.getLinkedHuts(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
 
 			points = points ? points.filter(p => p.pointType !== 'generic') : [];
 
 			setTrack(newTrack);
 
-			setCloseHuts(huts.map((p, i) => {
+			let huts = newHuts.map((p, i) => {
 				return {
-					...p,
+					pointID: p.pointID,
+					name: p.name,
+					longitude: p.longitude,
+					latitude: p.latitude,
 					options: {
 						'value': i,
 						'label': p.name
 					}
 				}
-			}));
+			})
+
+			setCloseHuts(huts.filter(p => !linkedIDs.includes(p.pointID)));
+
+			setLinkedHuts(huts.filter(p => linkedIDs.includes(p.pointID)));
 
 			setStartPoints(
 				points.filter(p =>
-					isInArea(p, {
-						center: newTrack[0],
-						radius: 5000
-					})).map((p, i) => {
+					isInArea(
+						{ longitude: p.lon, latitude: p.lat },
+						{
+							center: newTrack[0],
+							radius: 5000
+						}
+					)).map((p, i) => {
 						return {
-							...p,
+							pointID: p.pointID,
+							name: p.name,
+							longitude: p.lon,
+							latitude: p.lat,
 							options: {
 								'value': i,
 								'label': p.name
@@ -411,12 +424,18 @@ function EditPointsForm(props) {
 			);
 			setEndPoints(
 				points.filter(p =>
-					isInArea(p, {
-						center: newTrack[newTrack.length - 1],
-						radius: 5000
-					})).map((p, i) => {
+					isInArea(
+						{ longitude: p.lon, latitude: p.lat },
+						{
+							center: newTrack[newTrack.length - 1],
+							radius: 5000
+						}
+					)).map((p, i) => {
 						return {
-							...p,
+							pointID: p.pointID,
+							name: p.name,
+							longitude: p.lon,
+							latitude: p.lat,
 							options: {
 								'value': i,
 								'label': p.name
@@ -431,7 +450,7 @@ function EditPointsForm(props) {
 				if (startPoint)
 					return startPoint;
 				else
-					return newTrack[0];
+					return;
 			});
 			setEnd(() => {
 				let endPoint = points.filter(p => p.pointID == props.hike.endPointID).pop();
@@ -439,7 +458,7 @@ function EditPointsForm(props) {
 				if (endPoint)
 					return endPoint;
 				else
-					return newTrack[newTrack.length - 1];
+					return;
 			});
 		} catch (e) {
 			console.error(e);
@@ -519,7 +538,11 @@ function EditPointsForm(props) {
 				<HikeMap
 					user={props.user}
 					track={track}
-					markers={[start, end]}
+					markers={{
+						start: start,
+						end: end,
+						referencePoints: linkedHuts
+					}}
 				/>
 			</Row>
 			<Row>
@@ -536,7 +559,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPoints.map(p => p.options)} onChange={(ev) => setStart(startPoints[ev.target.value])} />
+					<Select options={startPoints.map(p => p.options)} onChange={(ev) => setStart(startPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -553,19 +576,27 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPoints.map(p => p.options)} onChange={(ev) => setEnd(endPoints[ev.target.value])} />
+					<Select options={endPoints.map(p => p.options)} onChange={(ev) => setEnd(endPoints[ev.value])} />
 				</Form.Group>
 			</Row>
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
-				<Select options={closeHuts.map(p => p.options)} onChange={(ev) => handleAdd(ev.target.value)} />
+				<Select options={closeHuts.map(p => p.options)} onChange={(ev) => handleAdd(ev.value)} />
 				<div>
 					{linkedHuts.map(p =>
 						<Row>
-							{p.options.label}
-							<Button onClick={() => handleRemove(p.options.value)}>
-								X
-							</Button>
+							<Col>
+								{p.options.label}
+							</Col>
+							<Col className="text-end">
+								<Button
+									size="sm"
+									variant="delete"
+									onClick={() => handleRemove(p.options.value)}
+								>
+									X
+								</Button>
+							</Col>
 						</Row>
 					)}
 				</div>
