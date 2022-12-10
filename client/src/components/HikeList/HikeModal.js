@@ -91,7 +91,7 @@ export function HikeModal(props) {
 							</Button> : false}
 						</Col>
 						<Col className="d-flex justify-content-end">
-							{RoleManagement.isAuthor(props.user, props.hike) ? <Button className="me-1" variant="warning" onClick={props.onEdit}>
+							{RoleManagement.isAuthor(props.user, props.hike.creatorID) ? <Button className="me-1" variant="warning" onClick={props.onEdit}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Edit
 							</Button> : false}
 							{/* <Button variant="success" onClick={props.onStart}>

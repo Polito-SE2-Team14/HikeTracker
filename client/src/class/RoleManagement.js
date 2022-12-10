@@ -37,9 +37,9 @@ const isLocalGuide = (user) => {
 };
 
 
-const isAuthor = (user, hike) => {
+const isAuthor = (user, ID) => {
     //return true; // DEBUG
-    return user && user.userID === hike.hikeID
+    return user && user.userID === ID
 }
 
 
