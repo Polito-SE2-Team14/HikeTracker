@@ -37,6 +37,14 @@ exports.linkHutToHike = async (hutID, hikeID) => {
 	return addedLink;
 }
 
+exports.getHutsLinkedToHike= async (hikeID)=>{
+	if (isNaN(hikeID))
+		throw Error("Type error with hikeID")
+	const hutIDs = await hikeDAO.getHutsLinkedToHike(hikeID)
+		.catch(err => { throw err });
+	return hutIDs;
+}
+
 exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 	if (isNaN(hutID))
 		throw Error("Type error with hutID")
