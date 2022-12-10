@@ -141,7 +141,7 @@ function HikeForm(props) {
 
 		}
 
-		props.onSubmit(hike.hikeID);
+		await props.onSubmit(hike.hikeID);
 		props.goToPoints();
 	};
 
@@ -347,9 +347,13 @@ function HikeForm(props) {
 						<Button variant="primary" type="submit" >
 							Apply and edit points
 						</Button>{" "}
-						<Button variant="secondary" onClick={props.goToPoints} >
-							Edit points
-						</Button>{" "}
+						{props.hike &&
+							<div>
+								<Button variant="secondary" onClick={props.goToPoints} >
+									Edit points
+								</Button>{" "}
+							</div>
+						}
 						<Button variant="secondary" onClick={props.onHide}>
 							Cancel
 						</Button>
@@ -371,6 +375,7 @@ function EditPointsForm(props) {
 
 	let getPoints = async () => {
 		try {
+			console.log(props.hike)
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			let huts = await HikeAPI.getCloseHuts(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
