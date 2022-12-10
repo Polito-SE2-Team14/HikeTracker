@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
 import { PointSelectMap } from "../Map/Maps";
+import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
 export function NewPLotForm(props) {
-	let [lotName, setLotName] = useState("");
-	let [carspace, setCarspace] = useState(0);
-	let [description, setDescription] = useState("");
-	let [address, setAddress] = useState("");
-	let [altitude, setAltitude] = useState(0);
-	let [latitude, setLatitude] = useState(0);
-	let [longitude, setLongitude] = useState(0);
-	let [municipality, setMunicipality] = useState("");
-	let [province, setProvince] = useState("");
-	let [country, setCountry] = useState("");
+	const [lotName, setLotName] = useState("");
+	const [carspace, setCarspace] = useState(0);
+	const [description, setDescription] = useState("");
+	const [address, setAddress] = useState("");
+	const [altitude, setAltitude] = useState(0);
+	const [latitude, setLatitude] = useState(0);
+	const [longitude, setLongitude] = useState(0);
+	const [municipality, setMunicipality] = useState("");
+	const [province, setProvince] = useState("");
+	const [country, setCountry] = useState("");
 
-	
-	let handleSubmit = (event) => {
+
+	const handleSubmit = (event) => {
 		event.preventDefault();
 		let newLot = {
 			name: lotName, municipality: municipality, province: province,
@@ -81,26 +82,35 @@ export function NewPLotForm(props) {
 					</Row>
 
 					<Row>
-						<Form.Group controlId="Municipality" className="mb-3">
-							<Form.Label>Municipality</Form.Label>
-							<Form.Control
-								type="text"
-								value={municipality}
-								onChange={ev => setMunicipality(ev.target.value)}
-								required={true} />
+						<Form.Group controlId="Country" className="mb-3">
+							<Form.Label>Country</Form.Label>
+							<CountrySelect country={country} setCountry={setCountry} />
 						</Form.Group>
 					</Row>
 					<Row>
 						<Form.Group controlId="Province" className="mb-3">
 							<Form.Label>Province</Form.Label>
-							<Form.Control
-								type="text"
-								value={province}
-								onChange={ev => setProvince(ev.target.value)}
-								required={true} />
+							<ProvinceSelect
+								disabled={country === ""}
+								province={province}
+								setProvince={setProvince}
+								country={country}
+							/>
 						</Form.Group>
 					</Row>
 					<Row>
+						<Form.Group controlId="Municipality" className="mb-3">
+							<Form.Label>Municipality</Form.Label>
+							<MunicipalitySelect
+								disabled={province === ""}
+								municipality={municipality}
+								setMunicipality={setMunicipality}
+								country={country}
+								province={province}
+							/>
+						</Form.Group>
+					</Row>
+					{/* <Row>
 						<Form.Group controlId="Country" className="mb-3">
 							<Form.Label>Country</Form.Label>
 							<Form.Control
@@ -109,7 +119,7 @@ export function NewPLotForm(props) {
 								onChange={ev => setCountry(ev.target.value)}
 								required={true} />
 						</Form.Group>
-					</Row>
+					</Row> */}
 					<Row>
 						<Form.Group controlId="Address" className="mb-3">
 							<Form.Label>Address</Form.Label>

@@ -19,12 +19,14 @@ import RoleManagement from "./class/RoleManagement";
 //USER API
 import userAPI from "./api/UserAPI";
 import { AdminPage } from "./pages/AdminPage";
+import { UserNotApprovedPage } from "./pages/UserNotApprovedPage";
 
 function App() {
 	const [user, setUser] = useState({});
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [userType, setUserType] = useState(null);
 	const [isVerified, setIsVerified] = useState(false);
+	const [isApproved, setIsApproved] = useState(false);
 	const [message, setMessage] = useState("");
 
 	useEffect(() => {
@@ -36,6 +38,7 @@ function App() {
 					setUser(currentUser);
 					setLoggedIn(true);
 					setUserType(currentUser.type);
+					setIsApproved(currentUser.approved === 1 ? true : false);
 					setIsVerified(currentUser.verified === 1 ? true : false);
 					//console.log("user", user)
 				}
@@ -52,6 +55,7 @@ function App() {
 			setLoggedIn(true);
 			setUser(currentUser);
 			setUserType(currentUser.type);
+			setIsApproved(currentUser.approved === 1 ? true : false);
 			setIsVerified(currentUser.verified === 1 ? true : false);
 			setMessage("");
 			return true
@@ -69,6 +73,7 @@ function App() {
 		setUser(null);
 		setUserType(null);
 		setIsVerified(false);
+		setIsApproved(false);
 		setMessage("");
 	};
 
@@ -76,7 +81,7 @@ function App() {
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} userType={userType} />
 			<Routes>
-				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? <HomePage /> : <Navigate replace to='/not-verified' />} />
+				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage /> : <Navigate replace to='/not-verified' />} />
 				<Route
 					path="/admin"
 					element={RoleManagement.isManager(userType) ? <AdminPage /> : <Navigate replace to='/' />}
@@ -98,6 +103,7 @@ function App() {
 				<Route path="/huts" element={<HutsPage user={user} />} />
 				<Route path="/parking-lots" element={<ParkingLotsPage user={user} />} />
 				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
+				<Route path="/not-approved" element={(loggedIn && !isApproved) ? <UserNotApprovedPage /> : <Navigate replace to='/' />} />
 			</Routes>
 		</Router>
 	);

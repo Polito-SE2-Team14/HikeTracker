@@ -4,6 +4,7 @@
  * @returns {boolean}
  */
 const isHiker = (userType) => {
+    //return true; // DEBUG
     return userType === 'hiker';
 };
 
@@ -36,9 +37,12 @@ const isLocalGuide = (userType) => {
 };
 
 
+const isAuthor = (user, hike) => {
+    //return true; // DEBUG
+    return user.userID === hike.hikeID
+}
 
 
 
-
-const RoleManagement = { isHiker, isHutWorker, isLocalGuide, isManager };
+const RoleManagement = { isHiker, isHutWorker, isLocalGuide, isManager, isAuthor };
 export default RoleManagement;

@@ -67,7 +67,7 @@ export function HikeModal(props) {
 								setMarkers={setMarkers}
 							/>
 						) : (
-							<Row className="d-flex justify-content-center">
+							<Row className="d-flex justify-content-center mt-5 mb-3">
 								{" "}
 								Log in to see the map!{" "}
 							</Row>
@@ -86,17 +86,17 @@ export function HikeModal(props) {
 							>
 								<FontAwesomeIcon icon={faXmark} /> Close
 							</Button>
-							<Button variant="danger" onClick={props.onDelete}>
+							{RoleManagement.isAuthor(props.user, props.hike) ? <Button variant="danger" onClick={props.onDelete}>
 								<FontAwesomeIcon icon={faTrashCan} /> Delete
-							</Button>
+							</Button> : false}
 						</Col>
 						<Col className="d-flex justify-content-end">
-							<Button className="me-1" variant="warning" onClick={props.onEdit}>
+							{RoleManagement.isAuthor(props.user, props.hike) ? <Button className="me-1" variant="warning" onClick={props.onEdit}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Edit
-							</Button>{" "}
-							<Button variant="success" onClick={props.onStart}>
-								<FontAwesomeIcon icon={faPlay} /> Start
-							</Button>
+							</Button> : false}
+							{/* <Button variant="success" onClick={props.onStart}>
+								<FontAwesomeIcon icon={faPlay} />{" Start"}
+							</Button> */}
 						</Col>
 					</Row>
 				</Col>
@@ -160,7 +160,7 @@ function InfoTab(props) {
 				<Col>
 					<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 				</Col>
-				<Col>{`by ${hike.creatorSurname} ${hike.creatorName} `}</Col>
+				<Col>{`by ${hike.creatorName} ${hike.creatorSurname}`}</Col>
 			</Row>
 		</Container>
 	);

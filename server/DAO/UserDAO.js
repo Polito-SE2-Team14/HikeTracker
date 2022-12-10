@@ -45,13 +45,14 @@ exports.getUserById = (id) => {
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname,
 				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified,
+				approved: row.approved,
 				email: row.email, completedHikes: row.completedHikes,
 				favouriteDifficulty: row.favouriteDifficulty, minTime: row.minTime,
 				maxTime: row.maxTime, totalTime: row.totalTime, averageTime: row.averageTime,
 				minDistance: row.minDistance, maxDistance: row.maxDistance,
 				totalDistance: row.totalDistance, averageLength: row.averageLength,
 				favouriteCountry: row.favouriteCountry, favouriteProvince: row.favouriteProvince,
-				minAscent: row.minAscent, maxAscent: row.maxAscent, averageAscent: row.averageAscent
+				minAscent: row.minAscent, maxAscent: row.maxAscent, averageAscent: row.averageAscent,
 			}
 			resolve(user);
 
@@ -65,7 +66,7 @@ exports.updateUser = (userID,info)=>{
 		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
 			if(err){
 				reject(err);
-			}else if(row==null | row==undefined){
+			}else if(row==null || row==undefined){
 				reject({error: "User not found"});
 			}else{
 				let sqlUpdate="UPDATE USER SET";
@@ -106,7 +107,8 @@ exports.getUserByToken = (token) => {
 				reject({ error: 'Token is wrong' });
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname,
-				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email
+				phoneNumber: row.phoneNumber, type: row.type, verified: row.verified, email: row.email,
+				approved: row.approved
 			}
 			resolve(user);
 
@@ -125,6 +127,26 @@ exports.verifyUser = (id) => {
 	});
 };
 
+exports.approveUser = (userID) => {
+	return new Promise((resolve, reject) => {
+		const sql = 'UPDATE USER SET approved = 1 WHERE userID=?';
+		db.run(sql, [userID], (err) => {
+			if (err) reject(err);
+			resolve(true);
+		});
+	});
+};
+
+exports.unApproveUser = (userID) => {
+	return new Promise((resolve, reject) => {
+		const sql = 'UPDATE USER SET approved = 0 WHERE userID=?';
+		db.run(sql, [userID], (err) => {
+			if (err) reject(err);
+			resolve(true);
+		});
+	});
+};
+
 exports.getUser = (email, password) => {
 	return new Promise((resolve, reject) => {
 		const sql = 'SELECT * FROM USER WHERE email = ?';
@@ -133,7 +155,8 @@ exports.getUser = (email, password) => {
 			else if (row === undefined) { return resolve(false); }
 			const user = {
 				userID: row.userID, name: row.name, surname: row.surname, email: row.email,
-				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified
+				phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified,
+				approved: row.approved
 			}
 			const salt = row.salt.toString("hex");
 			crypto.scrypt(password.toString("hex"), salt.toString("hex"), 16, (err, hashedPassword) => {
@@ -172,6 +195,39 @@ function StoreUser(user, salt, password, token, verified = 0, approved = 0) {
 }
 
 /**
+ * @param {string} type 
+ * @param {boolean} orderByUnapproved  
+ * @returns Array of User objects
+ */
+exports.getUsersByType = (type, orderByUnapproved = false) => {
+
+	return new Promise((resolve, reject) => {
+		let sql = "SELECT * FROM User WHERE type = ?";
+
+		if (orderByUnapproved) {
+			sql = sql + " ORDER BY approved = 0 DESC";
+		}
+
+		db.all(sql, [type], function (err, rows) {
+			if (err) {
+				console.error("Err: ", err)
+				reject(err);
+			}
+
+			const users = rows.map(row => {
+				return {
+					userID: row.userID, name: row.name, surname: row.surname, email: row.email,
+					phoneNumber: row.phoneNumber, type: row.type, token: row.token, verified: row.verified, approved: row.approved
+				}
+			}
+			)
+			resolve(users);
+
+		})
+	});
+}
+
+/**
  * Registers new user (friend or hiker) if it's not already present in the datatbase
  * 
  * @param {string} name 
@@ -199,16 +255,16 @@ exports.Register = async (user, token, verified, approved) => {
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
 	
-	// we must add only the necessary information
-	delete user.name;
-	delete user.surname;
-	delete user.email;
-	delete user.phoneNumber;
-	delete user.type;
-	delete user.password;
-	await this.updateUser(finalUser.userID,{...user})
-		.then(u=> finalUser=u)
-		.catch(err => {throw err});
+	// // we must add only the necessary information
+	// delete user.name;
+	// delete user.surname;
+	// delete user.email;
+	// delete user.phoneNumber;
+	// delete user.type;
+	// delete user.password;
+	// await this.updateUser(finalUser.userID,{...user})
+	// 	.then(u=> finalUser=u)
+	// 	.catch(err => {throw err});
 
 	return finalUser
 }

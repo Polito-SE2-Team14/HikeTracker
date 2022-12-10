@@ -5,11 +5,11 @@ import { AreaSelectMap } from "../Map/Maps";
 
 import { timeText } from "../HikeData";
 
-import {
-	CountryDropdown,
-	ProvinceDropdown,
-	MunicipalityDropdown,
-} from "../Dropdowns";
+// import {
+// 	CountryDropdown,
+// 	ProvinceDropdown,
+// 	MunicipalityDropdown,
+// } from "../Dropdowns";
 
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
@@ -119,11 +119,14 @@ export function HikeFilters(props) {
 						</Col>
 					</Row>
 					{showAreaMap ? (
+						<>
 						<AreaSelectMap
 							onSetArea={(area) => {
 								setArea(area);
 							}}
 						/>
+						<div className="text-muted mt-1">Distance is measured from starting point of the hike</div>
+						</>
 					) : (
 						false
 					)}

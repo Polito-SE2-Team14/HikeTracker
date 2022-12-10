@@ -242,15 +242,96 @@ describe('User Tests', () => {
 			expect(gottenUser.verified).toBe(1);
 
 		})
+	})
 
-		test("verification of a local guide", async () => {
-			expect(1).toBe(1)
-			//TODO edoardo's job
+	describe("get all users", () => {
+
+		test("get all localGuides", async () => {
+			let newUser = newUsers[2];
+			let addedUser;
+			await userController.register(newUser, 1, 0)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			let newUser2 = newUsers[3];
+			let addedUser2;
+			await userController.register(newUser2, 1, 0)
+				.then(u => {
+					addedUser2 = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			let allusers;
+			await userController.getAllLocalGuides(false).then(u => {
+				allusers = u;
+			});
+
+			expect(allusers.length).toBe(2);
+
 		})
 
-		test("verification of a hut worker", async () => {
-			expect(1).toBe(1)
+		test("get all hutworkers", async () => {
+			let newUser = newUsers[1];
+			let addedUser;
+			await userController.register(newUser, 1, 0)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
 
+			let allusers;
+			await userController.getAllHutWorkes(false).then(u => {
+				allusers = u;
+			});
+
+			expect(allusers.length).toBe(1);
+
+		})
+	})
+
+	describe("approving", () => {
+
+		test("approving a user", async () => {
+			let newUser = newUsers[0];
+			let addedUser;
+			let gottenUser;
+			await userController.register(newUser, 1, 0)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			await userController.approve(addedUser.userID);
+
+			await userController.getUser(addedUser.userID).then(u => {
+				gottenUser = u;
+			});
+
+			expect(addedUser.approved).toBe(0);
+			expect(gottenUser.approved).toBe(1);
+
+		})
+
+		test("unApproving a user", async () => {
+			let newUser = newUsers[0];
+			let addedUser;
+			let gottenUser;
+			await userController.register(newUser, 1, 1)
+				.then(u => {
+					addedUser = u;
+				})
+				.catch(err => { console.error(err); throw err; });
+
+			await userController.unApprove(addedUser.userID);
+
+			await userController.getUser(addedUser.userID).then(u => {
+				gottenUser = u;
+			});
+
+			expect(addedUser.approved).toBe(1);
+			expect(gottenUser.approved).toBe(0);
 		})
 	})
 
