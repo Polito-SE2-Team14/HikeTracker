@@ -1,0 +1,36 @@
+@media (min-width: 1200px){
+    .avatar-image {
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+
+@media (max-width: 1200px){
+    .stats {
+        text-align: center;
+    }
+
+    .avatar-image {
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .avatar-image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .avatar-image {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+

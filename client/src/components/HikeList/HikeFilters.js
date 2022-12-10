@@ -119,11 +119,14 @@ export function HikeFilters(props) {
 						</Col>
 					</Row>
 					{showAreaMap ? (
+						<>
 						<AreaSelectMap
 							onSetArea={(area) => {
 								setArea(area);
 							}}
 						/>
+						<div className="text-muted mt-1">Distance is measured from starting point of the hike</div>
+						</>
 					) : (
 						false
 					)}
