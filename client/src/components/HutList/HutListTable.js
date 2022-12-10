@@ -7,47 +7,66 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
-import { SideHutFilter } from "./SideHutFilter";
 
 import PointAPI from "../../api/PointAPI";
 import { EmptySearch } from "../EmptySeach";
 
+import { HutFilters } from "./HutFilters";
+import RoleManagement from "../../class/RoleManagement";
+
 export function HutListTable(props) {
-	return props.huts.length === 0 ? (
-		<EmptySearch />
-	) : (
-		<Row>
-			<Col lg={3} className="d-none d-xl-block">
-				<Card className="p-2">
-					<h3>Filters</h3>
-					<Container>
-					<h5>Name</h5>
-					<Form.Control
-									type="search"
-									placeholder="Search"
-									/* value={filters.name}
-									onChange={(ev) =>
-										setFilters({ ...filters, name: ev.target.value.trim() })
-									} */
-								/>
-					<hr/>
-					<SideHutFilter />
-					</Container>
-				</Card>
-			</Col>
-			<Col>
-				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-					{props.huts.map((hut, i) => (
-						<HutListItem
-							key={i}
-							user={props.user}
-							hut={hut}
-							setHuts={props.setHuts}
-						/>
-					))}
-				</Row>
-			</Col>
-		</Row>
+	let shownHuts = props.huts.map((hut, i) => (
+		<Col key={i}>
+			<HutListItem user={props.user} hut={hut} setHuts={props.setHuts} />
+		</Col>
+	));
+
+	return (
+		<>
+			<Row>
+				<Col lg={3} className="d-none d-xl-block">
+					{RoleManagement.isLocalGuide(props.user) ? (
+						<Row className="mb-3 mt-3">
+							{props.insertButton}
+						</Row>
+					) : (
+						false
+					)}
+					<Row>
+						<Card className="p-2">
+							<h3>Filters</h3>
+							<Container>
+								<Row>
+									<h5>Name</h5>
+									<Form.Control
+										type="search"
+										placeholder="Search"
+										value={props.filters.name}
+										onChange={(ev) =>
+											props.setFilters({
+												...props.filters,
+												name: ev.target.value.trim(),
+											})
+										}
+									/>
+								</Row>
+								<Row className="mt-4">
+									<HutFilters
+										filters={props.filters}
+										setFilters={props.setFilters}
+									/>
+								</Row>
+							</Container>
+						</Card>
+					</Row>
+				</Col>
+				<Col>
+					<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
+						{props.huts.length === 0 ? <EmptySearch /> : shownHuts}
+					</Row>
+				</Col>
+			</Row>
+		</>
 	);
 }
 function HutListItem(props) {
@@ -103,11 +122,6 @@ function HutListItem(props) {
 							</Col>
 							<Col xs={4}>
 								<FontAwesomeIcon icon={faBed} /> {props.hut.bedspace}
-							</Col>
-						</Row>
-						<Row>
-							<Col>
-								{`by ${props.hut.creatorSurname} ${props.hut.creatorName} `}
 							</Col>
 						</Row>
 					</Card.Body>

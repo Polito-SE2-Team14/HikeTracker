@@ -8,6 +8,7 @@ import {
 	faCity,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RoleManagement from "../../class/RoleManagement";
 
 export function HutModal(props) {
 	return (
@@ -16,27 +17,37 @@ export function HutModal(props) {
 				<Modal.Title>{props.hut.name}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-					<Row className=" mt-2">
-						<Col>
-							<strong>{" Description: "}
-							</strong>{props.hut.description ? props.hut.description : "None"}
-						</Col>
-					</Row>
 				<Row className=" mt-2">
 					<Col>
-						<strong>{" Altitude: "}</strong>{props.hut.altitude ? props.hut.altitude : "None"}
+						<strong>{" Description: "}</strong>
+						{props.hut.description ? props.hut.description : "None"}
 					</Col>
 				</Row>
+
 				<br />
 				<LocationMap point={props.hut} />
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{" Municipality (Province, Country):"}</strong>
-						<br/>
-						{` ${props.hut.municipality} (${props.hut.province}, ${props.hut.country})`}
+						<strong>
+							{` ${props.hut.municipality} (${props.hut.province}, ${props.hut.country})`}
+						</strong>
 					</Col>
 				</Row>
+				<Row xs={1} className="d-flex align-items-top">
+					<Col>
+						<FontAwesomeIcon icon={faMap} />
+						<strong>{" Address:"}</strong>
+						{` ${props.hut.address}`}
+					</Col>
+				</Row>
+				<Row className=" mt-2">
+					<Col>
+						<strong>{" Altitude: "}</strong>
+						{props.hut.altitude ? `${props.hut.altitude} meters` : "None"}
+					</Col>
+				</Row>
+				<hr />
 				<Row xs={1} md={2} className="d-flex align-items-top">
 					<Col>
 						<strong>{" Website:"}</strong>
@@ -53,15 +64,8 @@ export function HutModal(props) {
 						{` ${props.hut.phoneNumber ? props.hut.phoneNumber : "None"}`}
 					</Col>
 				</Row>
+				<hr />
 				<Row xs={1} md={2} className="d-flex align-items-top">
-					<Col>
-						<FontAwesomeIcon icon={faMap} />
-						<strong>{" Address:"}</strong>
-						{` ${props.hut.address}`}
-					</Col>
-				</Row>
-				<Row xs={1} md={2} className="d-flex align-items-top">
-
 					<Col>
 						<FontAwesomeIcon icon={faBed} />
 						<strong>{" Available beds:"}</strong>
@@ -83,9 +87,13 @@ export function HutModal(props) {
 							>
 								<FontAwesomeIcon icon={faXmark} /> Close
 							</Button>
-							<Button variant="danger" onClick={props.onDelete}>
-								<FontAwesomeIcon icon={faTrashCan} /> Delete
-							</Button>
+							{RoleManagement.isAuthor(props.user, props.hut.creatorID) ? (
+								<Button variant="danger" onClick={props.onDelete}>
+									<FontAwesomeIcon icon={faTrashCan} /> Delete
+								</Button>
+							) : (
+								false
+							)}
 						</Col>
 						{/* <Col className="d-flex justify-content-end">
 							<Button className="me-1" variant="warning" onClick={props.onEdit}>

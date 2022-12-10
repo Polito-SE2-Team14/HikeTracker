@@ -7,8 +7,10 @@ import {
 	faBed,
 	faMap,
 	faCity,
+	faCar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RoleManagement from "../../class/RoleManagement";
 
 export function PLotModal(props) {
 	return (
@@ -18,17 +20,12 @@ export function PLotModal(props) {
 			</Modal.Header>
 			<Modal.Body>
 				<LocationMap point={props.lot} />
-					<Row className=" mt-2">
-					<Col>
-						<strong>{" Altitude:"}</strong>
-						<br />{` ${props.lot.altitude}`}
-					</Col>
-				</Row>
+					
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />
-						<strong>{" Municipality (Province, Country):"}</strong>
-						<br />{` ${props.lot.municipality} (${props.lot.province}, ${props.lot.country})`}
+						<strong>
+						{` ${props.lot.municipality} (${props.lot.province}, ${props.lot.country})`}</strong>
 					</Col>
 				</Row>
 				{props.lot.description &&
@@ -45,12 +42,18 @@ export function PLotModal(props) {
 						{` ${props.lot.address}`}
 					</Col>}
 					<Col>
-						<FontAwesomeIcon icon={faBed} />
+					<Row className=" mt-2">
+					<Col>
+						<strong>{" Altitude:"}</strong>{` ${props.lot.altitude} meters`}
+					</Col>
+				</Row></Col>
+					<Col>
+						<FontAwesomeIcon icon={faCar} />
 						<strong>{" Carspace:"}</strong>
 						{` ${props.lot.carspace}`}
 					</Col>
-					<Col>
-						{`by ${props.lot.creatorSurname} ${props.lot.creatorName} `}
+					<Col className="mt-3">
+						{`by ${props.lot.creatorName} ${props.lot.creatorSurname} `}
 					</Col>
 				</Row>
 			</Modal.Body>
@@ -65,9 +68,9 @@ export function PLotModal(props) {
 							>
 								<FontAwesomeIcon icon={faXmark} /> Close
 							</Button>
-							<Button variant="danger" onClick={props.onDelete}>
+							{RoleManagement.isAuthor(props.user, props.lot.creatorID) ? <Button variant="danger" onClick={props.onDelete}>
 								<FontAwesomeIcon icon={faTrashCan} /> Delete
-							</Button>
+							</Button> : false}
 						</Col>
 					</Row>
 				</Col>
