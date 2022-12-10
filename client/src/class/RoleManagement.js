@@ -1,45 +1,45 @@
 /**
  * Check If User is Hiker
- * @param {string} userType - Type of user
+ * @param {string} user - Type of user
  * @returns {boolean}
  */
-const isHiker = (userType) => {
+const isHiker = (user) => {
     //return true; // DEBUG
-    return userType === 'hiker';
+    return user && user.type === 'hiker';
 };
 
 /**
  * Check If User is localGuide
- * @param {string} userType - Type of user
+ * @param {string} user - Type of user
  * @returns {boolean}
  */
-const isLocalGuide = (userType) => {
+const isLocalGuide = (user) => {
      //console.log("userType === 'localGuide'", userType === 'localGuide')
-    return userType === 'localGuide';
+    return user && user.type === 'localGuide';
 };
 
 /**
  * Check If User is hutWorker
- * @param {string} userType - Type of user
+ * @param {string} user - Type of user
  * @returns {boolean}
  */
- const isHutWorker = (userType) => {
-    return userType === 'hutWorker';
+ const isHutWorker = (user) => {
+    return user && user.type === 'hutWorker';
 };
 
 /**
  * Check If User is hutWorker
- * @param {string} userType - Type of user
+ * @param {string} user - Type of user
  * @returns {boolean}
  */
- const isManager = (userType) => {
-    return userType === 'manager';
+ const isManager = (user) => {
+    return user && user.type === 'manager';
 };
 
 
 const isAuthor = (user, hike) => {
     //return true; // DEBUG
-    return user.userID === hike.hikeID
+    return user && user.userID === hike.hikeID
 }
 
 

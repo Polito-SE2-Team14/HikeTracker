@@ -11,6 +11,7 @@ import { HutCreationModal } from "../components/HutList/HutCreationModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { HutFilterModal } from "../components/HutList/HutFilterModal";
+import RoleManagement from "../class/RoleManagement";
 
 export function HutsPage(props) {
 	const [loading, setLoading] = useState(true);
@@ -131,7 +132,7 @@ export function HutsPage(props) {
 						</Col>
 
 						{
-							props.user && props.user.type === "localGuide" ?
+							RoleManagement.isLocalGuide(props.user) ?
 								<Col xs={5} className="text-end">
 									<Button variant="success" onClick={() => handleSubmit()}>
 										<FontAwesomeIcon icon={faPlus} /> Register Hut
