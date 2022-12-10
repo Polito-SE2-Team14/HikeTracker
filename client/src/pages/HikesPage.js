@@ -110,7 +110,7 @@ export function HikesPage(props) {
 								<FontAwesomeIcon icon={faFilter} />
 							</Button>
 						</Col>
-						{RoleManagement.isLocalGuide(props.userType) ? (
+						{RoleManagement.isLocalGuide(props.user.type) ? (
 							<Col xs={4} className="text-end">
 								<InsertHikeButton />
 							</Col>
