@@ -376,14 +376,15 @@ function EditPointsForm(props) {
 	let getPoints = async () => {
 		try {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
-			let huts = await HikeAPI.getCloseHuts(props.hike.hikeID);
+			let newHuts = await HikeAPI.getCloseHuts(props.hike.hikeID);
+			let linkedIDs = []; //await HikeAPI.getLinkedHuts(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
 
 			points = points ? points.filter(p => p.pointType !== 'generic') : [];
 
 			setTrack(newTrack);
 
-			setCloseHuts(huts.map((p, i) => {
+			let huts = newHuts.map((p, i) => {
 				return {
 					pointID: p.pointID,
 					name: p.name,
@@ -394,7 +395,11 @@ function EditPointsForm(props) {
 						'label': p.name
 					}
 				}
-			}));
+			})
+
+			setCloseHuts(huts.filter(p => !linkedIDs.includes(p.pointID)));
+
+			setLinkedHuts(huts.filter(p => linkedIDs.includes(p.pointID)));
 
 			setStartPoints(
 				points.filter(p =>
@@ -580,10 +585,18 @@ function EditPointsForm(props) {
 				<div>
 					{linkedHuts.map(p =>
 						<Row>
-							{p.options.label}
-							<Button onClick={() => handleRemove(p.options.value)}>
-								X
-							</Button>
+							<Col>
+								{p.options.label}
+							</Col>
+							<Col className="text-end">
+								<Button
+									size="sm"
+									variant="delete"
+									onClick={() => handleRemove(p.options.value)}
+								>
+									X
+								</Button>
+							</Col>
 						</Row>
 					)}
 				</div>
