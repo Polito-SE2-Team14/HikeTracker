@@ -14,6 +14,10 @@ const Register = async (body) => {
 	}
 };
 
+const getUserStats = async () => {
+
+};
+
 const getUserInfo = async () => {
 	try {
 		let response = await REST.GET(`${api}/current`, true);
