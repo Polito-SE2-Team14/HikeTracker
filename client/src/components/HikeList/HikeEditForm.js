@@ -422,6 +422,53 @@ function EditPointsForm(props) {
 		}
 	};
 
+	let handleAdd = (value) => {
+		setLinkedHuts(old => [...old, closeHuts[value]]
+			.map((p, i) => {
+				return {
+					...p,
+					options: {
+						'value': i,
+						'label': p.name
+					}
+				}
+			}));
+
+		setCloseHuts(old => old.filter((p, i) => i !== value)
+			.map((p, i) => {
+				return {
+					...p,
+					options: {
+						'value': i,
+						'label': p.name
+					}
+				}
+			}));
+	};
+
+	let handleRemove = (value) => {
+		setCloseHuts(old => [...old, linkedHuts[value]]
+			.map((p, i) => {
+				return {
+					...p,
+					options: {
+						'value': i,
+						'label': p.name
+					}
+				}
+			}));
+		setLinkedHuts(old => old.filter((p, i) => i !== value)
+			.map((p, i) => {
+				return {
+					...p,
+					options: {
+						'value': i,
+						'label': p.name
+					}
+				}
+			}));
+	}
+
 	let handleSubmit = async event => {
 		event.preventDefault();
 
@@ -465,7 +512,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPoints.options} onChange={(ev) => setStart(startPoints[ev.value])} />
+					<Select options={startPoints.map(p => p.options)} onChange={(ev) => setStart(startPoints[ev.target.value])} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -482,13 +529,22 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPoints.options} onChange={(ev) => setEnd(endPoints[ev.value])} />
+					<Select options={endPoints.map(p => p.options)} onChange={(ev) => setEnd(endPoints[ev.target.value])} />
 				</Form.Group>
 			</Row>
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
-				<Select options={closeHuts.options} onChange={(ev) => setLinkedHuts(old => [...old, closeHuts[ev.value]])} />
-				{}
+				<Select options={closeHuts.map(p => p.options)} onChange={(ev) => handleAdd(ev.target.value)} />
+				<div>
+					{linkedHuts.map(p =>
+						<Row>
+							{p.options.label}
+							<Button onClick={() => handleRemove(p.options.value)}>
+								X
+							</Button>
+						</Row>
+					)}
+				</div>
 			</Form.Group>
 			<Row>
 				<div className="text-end">
