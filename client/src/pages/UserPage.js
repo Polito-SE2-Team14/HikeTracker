@@ -11,14 +11,6 @@ export function UserPage(props) {
 	return (
 		<Container>
 			<Row className="mt-4 stats ">
-				<Col xs={4} className="d-flex justify-content-center">
-					<Avatar
-					className="avatar-image"
-						style={style}
-						alt="hiker image"
-						src="https://imgur.com/CCd40sm.jpg"
-					/>
-				</Col>
 				<Col>
 					<Row className="mt-3">
 						<h1>{`${props.user.name} ${props.user.surname}`}</h1>
@@ -28,7 +20,9 @@ export function UserPage(props) {
 					</Row>
 					<hr/>
 					<Row>
+						<Col className="text-end">
 						Status: Verified/Pending
+						</Col>
 					</Row>
 				</Col>
 			</Row>
