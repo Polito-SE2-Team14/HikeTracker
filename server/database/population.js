@@ -73,7 +73,6 @@ function userStatsCreation(){
 		sqlInsert+=sqlValues;
 		commands.push(sqlInsert);
 	})
-	console.log(commands);
 
 	return commands.map(sql => createDropTables(db,sql));
 }
