@@ -46,7 +46,7 @@ export function HikeModal(props) {
 			<Modal.Body>
 				<Tabs
 					defaultActiveKey={
-						RoleManagement.isHiker(props.user.type) || RoleManagement.isLocalGuide(props.user.type) ? "map" : "info"
+						RoleManagement.isHiker(props.user) || RoleManagement.isLocalGuide(props.user) ? "map" : "info"
 					}
 				>
 					<Tab eventKey="info" title="Info">
@@ -58,7 +58,7 @@ export function HikeModal(props) {
 						/>
 					</Tab>
 					<Tab eventKey="map" title="Map">
-						{RoleManagement.isHiker(props.user.type) || RoleManagement.isLocalGuide(props.user.type) ? (
+						{RoleManagement.isHiker(props.user) || RoleManagement.isLocalGuide(props.user) ? (
 							<MapTab
 								show={show}
 								user={props.user}
