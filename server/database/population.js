@@ -12,7 +12,8 @@ const HikeDAO = require('../DAO/hikeDAO');
 const userDAO = require("../DAO/UserDAO")
 const pointsDAO = require("../DAO/pointsDAO")
 const hutController = require("../Controller/HutController")
-const parkingLotController = require("../Controller/ParkingLotController")
+const parkingLotController = require("../Controller/ParkingLotController");
+const { resolve } = require("path");
 
 function hikesCreation() {
 	console.log("Adding hikes")
@@ -41,9 +42,40 @@ function usersCreation() {
 	const users = JSON.parse(jsonString).users;
 
 	return users.map(u => {
-		//console.log(i++, "- User added")
 		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'), 1, 1)
+		//console.log(i++, "- User added")
 	})
+}
+
+function userStatsCreation(){
+	let db = dbManager.getDB()
+	const jsonStatsString = readFileSync(path.join(__dirname, "./dbFiles/userStats.json"));
+	const usersStats = JSON.parse(jsonStatsString).stats;
+
+	let commands=[];
+	usersStats.map((us)=>{
+		let sqlInsert=`INSERT INTO USER_STATS (`;
+		let sqlValues=` VALUES (`;
+		
+		Object.entries(us).forEach(([key,value]) => {
+				sqlInsert+=`${key}, `;
+				if(typeof value == 'string' || value instanceof String){
+					sqlValues+=`"${value}", `;
+				}else{
+					sqlValues+=`${value}, `;
+				}
+		});
+	
+		sqlInsert=sqlInsert.substring(0,sqlInsert.length-2);
+		sqlInsert+=")"
+		sqlValues=sqlValues.substring(0,sqlValues.length-2);
+		sqlValues+=");";
+		sqlInsert+=sqlValues;
+		commands.push(sqlInsert);
+	})
+	console.log(commands);
+
+	return commands.map(sql => createDropTables(db,sql));
 }
 
 function pointsCreation() {
@@ -62,7 +94,6 @@ function pointsCreation() {
 			return parkingLotController.addParkingLot(p)
 		else console.log(p)
 	})
-
 }
 
 function tablesDropping() {
@@ -76,6 +107,7 @@ function tablesDropping() {
 		`DROP TABLE IF EXISTS HIKELINKHUT;`,
 		`DROP TABLE IF EXISTS POINT;`,
 		`DROP TABLE IF EXISTS HIKE;`,
+		`DROP TABLE IF EXISTS USER_STATS;`,
 		`DROP TABLE IF EXISTS USER;`
 	]
 	return commands.map(sql => createDropTables(db,sql))
@@ -86,13 +118,14 @@ function tablesCreations() {
 	let db = dbManager.getDB()
 	console.log("TableCreation")
 	const commands = [
-		` CREATE TABLE USER (userID INTEGER PRIMARY KEY,name TEXT,surname TEXT,email TEXT,phoneNumber TEXT,type TEXT,salt TEXT,	hashedPassword TEXT,verified INTEGER,approved INTEGER,token TEXT,completedHikes INTEGER, favouriteDifficulty TEXT, minTime INTEGER, maxTime INTEGER, totalTime INTEGER, averageTime INTEGER, minDistance INTEGER, maxDistance INTEGER, totalDistance INTEGER, averageDistance INTEGER, favouriteCountry TEXT, favouriteProvince TEXT, minAscent INTEGER, maxAscent INTEGER, averageAscent INTEGER);`,
+		` CREATE TABLE USER (userID INTEGER PRIMARY KEY,name TEXT,surname TEXT,email TEXT,phoneNumber TEXT,type TEXT,salt TEXT,	hashedPassword TEXT,verified INTEGER,approved INTEGER,token TEXT);`,
 		` CREATE TABLE POINT(pointID INTEGER PRIMARY KEY,name TEXT,description TEXT, altitude REAL, latitude REAL,longitude REAL,address TEXT,municipality TEXT,province TEXT,country TEXT, pointType TEXT NOT NULL,creatorID INTEGER);`,
 		` CREATE TABLE HUT (hutID INTEGER PRIMARY KEY,bedspace INTEGER, phoneNumber TEXT, website TEXT, email TEXT);`,
 		` CREATE TABLE PARKINGLOT(parkingLotId INTEGER PRIMARY KEY,	carspace INTEGER);`,
 		` CREATE TABLE HIKEREFERENCEPOINT(hikeID INTEGER NOT NULL,referencePointID INTEGER NOT NULL,PRIMARY KEY(hikeID, referencePointId));`,
 		` CREATE TABLE HIKELINKHUT(hikeID INTEGER NOT NULL,hutID INTEGER NOT NULL,PRIMARY KEY(hikeID, hutID));`,
 		` CREATE TABLE HIKE(hikeID INTEGER PRIMARY KEY,title TEXT,length INTEGER,expectedTime INTEGER,ascent INTEGER,difficulty TEXT,startPointID INTEGER,endPointID INTEGER,description TEXT,municipality TEXT,province TEXT,country TEXT,creatorID INTEGER	);`,
+		` CREATE TABLE USER_STATS (userID INTEGER PRIMARY KEY, completedHikes INTEGER, favouriteDifficulty TEXT, minTime INTEGER, maxTime INTEGER, totalTime INTEGER, averageTime INTEGER, minDistance INTEGER, maxDistance INTEGER, totalDistance INTEGER, averageDistance INTEGER, favouriteCountry TEXT, favouriteProvince TEXT, minAscent INTEGER, maxAscent INTEGER, averageAscent INTEGER);`
 		//` CREATE TABLE HIKEGROUP(groupID INTEGER NOT NULL,hikeID INTEGER NOT NULL,leaderID INTEGER NOT NULL,PRIMARY KEY(groupID, hikeID));`,
 		//` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
 		//` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
@@ -124,6 +157,9 @@ Promise.all(tablesDropping())
 					.catch((err) => { console.error("User", err) })
 			}).then(() => {
 				Promise.all(pointsCreation())
+					.catch((err) => { console.error("Points", err) })
+			}).then(() => {
+				Promise.all(userStatsCreation())
 					.catch((err) => { console.error("Points", err) })
 			})
 			.then(() => {

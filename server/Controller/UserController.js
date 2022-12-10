@@ -151,3 +151,13 @@ exports.updateUser=async(userID,info)=>{
 		throw(error);
 	}
 }
+
+exports.addUserStats=async(userStats)=>{
+	try{
+		let addedStats = await userDAO.addUserStats(userStats);
+		return addedStats;
+	}catch(error){
+		console.error(error);
+		throw(error);
+	}
+}

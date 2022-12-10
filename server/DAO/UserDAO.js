@@ -2,6 +2,9 @@ const crypto = require("node:crypto");
 
 const Singleton = require("../database/DBManagerSingleton")
 const DBManager = require("../database/DBManager");
+const { resolve } = require("node:path");
+const { user } = require("../Config/nodemailer.config");
+const { unwatchFile } = require("node:fs");
 /** @type {DBManager} */
 const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
@@ -59,42 +62,6 @@ exports.getUserById = (id) => {
 		});
 	});
 };
-
-//updates the user adding only the provided info (not all fields are mandatory)
-exports.updateUser = (userID,info)=>{
-	return new Promise((resolve,reject)=>{
-		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
-			if(err){
-				reject(err);
-			}else if(row==null || row==undefined){
-				reject({error: "User not found"});
-			}else{
-				let sqlUpdate="UPDATE USER SET";
-				let sqlWHERE=` WHERE userID=${userID};`;
-				
-				Object.entries(info).forEach(([key,value]) => {
-					if(typeof value == 'string' || value instanceof String){
-						sqlUpdate+=` ${key} = "${value}",`;
-					}else{
-						sqlUpdate+=` ${key} = ${value},`;
-					}
-				});
-
-				//remove the last ","
-				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-1);
-				sqlUpdate+=sqlWHERE;
-
-				db.run(sqlUpdate,(err)=>{
-					if(err){
-						reject(err);
-					}else{
-						resolve({...row,...info});
-					}
-				})
-			}
-		})
-	})
-}
 
 exports.getUserByToken = (token) => {
 	return new Promise((resolve, reject) => {
@@ -254,17 +221,47 @@ exports.Register = async (user, token, verified, approved) => {
 	await StoreUser(user, pass.salt, pass.hashedPassword, token, verified, approved)
 		.then(u => finalUser = u)
 		.catch(err => { throw err })
-	
-	// // we must add only the necessary information
-	// delete user.name;
-	// delete user.surname;
-	// delete user.email;
-	// delete user.phoneNumber;
-	// delete user.type;
-	// delete user.password;
-	// await this.updateUser(finalUser.userID,{...user})
-	// 	.then(u=> finalUser=u)
-	// 	.catch(err => {throw err});
 
 	return finalUser
+}
+
+//updates the user adding only the provided info (not all fields are mandatory)
+exports.addUserStats = (userStats)=>{
+	return new Promise((resolve,reject)=>{
+		db.get("SELECT * FROM USER WHERE userID=?;",[userStats.userID],(err,row)=>{
+			console.log(row);
+			if(err){
+				console.log(err);
+				reject(err);
+			}else if(row==null || row==undefined){
+				reject({error: "User not found"});
+			}else{
+				let sqlInsert=`INSERT INTO USER_STATS (`;
+				let sqlValues=` VALUES (`;
+
+				Object.entries(userStats).forEach(([key,value]) => {
+						sqlInsert+=`${key}, `;
+						if(typeof value == 'string' || value instanceof String){
+							sqlValues+=`"${value}", `;
+						}else{
+							sqlValues+=`${value}, `;
+						}
+				});
+
+				sqlInsert=sqlInsert.substring(0,sqlInsert.length-2);
+				sqlInsert+=")"
+				sqlValues=sqlValues.substring(0,sqlValues.length-2);
+				sqlValues+=");";
+				sqlInsert+=sqlValues;
+
+				db.run(sqlInsert,(err)=>{
+					if(err){
+						reject(err);
+					}else{
+						resolve({...row,...info});
+					}
+				})
+			}
+		})
+	})
 }
