@@ -24,8 +24,6 @@ exports.register = async (newUser, verified, approved) => {
 
 	let { name, surname, email, phoneNumber, type } = newUser
 
-	console.log(newUser);
-
 	if (typeof name != "string")
 		throw Error("Type error with name")
 	if (typeof surname != "string")

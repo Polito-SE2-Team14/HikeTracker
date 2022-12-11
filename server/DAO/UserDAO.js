@@ -222,6 +222,7 @@ exports.Register = async (user, token, verified, approved) => {
 		.then(u => finalUser = u)
 		.catch(err => { console.log(err); throw err })
 
+	console.log(finalUser);
 	return finalUser
 }
 

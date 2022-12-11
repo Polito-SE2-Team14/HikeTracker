@@ -52,12 +52,8 @@ router.post('',
 	check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
 	async (req, res) => {
 
-		console.log(validationResult(req));
-
 		if (!validationResult(req).isEmpty())
 			return res.status(422).end()
-
-		console.log(req.body);
 
 		await userController.register(req.body, 0, 0)
 			.then(() => res.status(201).end())
