@@ -24,7 +24,6 @@ import { UserNotApprovedPage } from "./pages/UserNotApprovedPage";
 function App() {
 	const [user, setUser] = useState(null);
 	const [loggedIn, setLoggedIn] = useState(false);
-	const [userType, setUserType] = useState(null);
 	const [isVerified, setIsVerified] = useState(false);
 	const [isApproved, setIsApproved] = useState(false);
 	const [message, setMessage] = useState("");
@@ -37,7 +36,6 @@ function App() {
 				if (currentUser) {
 					setUser(currentUser);
 					setLoggedIn(true);
-					setUserType(currentUser.type);
 					setIsApproved(currentUser.approved === 1 ? true : false);
 					setIsVerified(currentUser.verified === 1 ? true : false);
 					//console.log("user", user)
@@ -55,7 +53,6 @@ function App() {
 			console.log(currentUser);
 			setLoggedIn(true);
 			setUser(currentUser);
-			setUserType(currentUser.type);
 			setIsApproved(currentUser.approved === 1 ? true : false);
 			setIsVerified(currentUser.verified === 1 ? true : false);
 			setMessage("");
@@ -72,7 +69,6 @@ function App() {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
-		setUserType(null);
 		setIsVerified(false);
 		setIsApproved(false);
 		setMessage("");
@@ -100,9 +96,9 @@ function App() {
 					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
 				/>
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
-				<Route path="/hikes" element={<HikesPage user={user} userType={userType} />} />
+				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
-				<Route path="/parking-lots" element={<ParkingLotsPage user={user} userType={userType}/>} />
+				<Route path="/parking-lots" element={<ParkingLotsPage user={user}/>} />
 				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
 				<Route path="/not-approved" element={(loggedIn && !isApproved) ? <UserNotApprovedPage /> : <Navigate replace to='/' />} />
 			</Routes>
