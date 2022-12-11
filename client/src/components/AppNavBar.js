@@ -105,7 +105,7 @@ function SideBar(props) {
 						</ListGroup.Item>
 						: null
 					}
-					{props.userType &&
+					{props.user &&
 						<ListGroup.Item action onClick={() => props.pageSelect("/")}>
 							<SideBarElement icon={<FontAwesomeIcon icon={faCompass} />} name="Home Page" />
 						</ListGroup.Item>
