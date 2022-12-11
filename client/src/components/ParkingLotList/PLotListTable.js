@@ -11,6 +11,7 @@ import {
 import { PLotModal } from "./PLotModal";
 import { ParkingLotFilters } from "./PLotFilters";
 import RoleManagement from "../../class/RoleManagement";
+import { EmptySearch } from "../EmptySeach";
 
 function PLotListTable(props) {
 	let shownParkingLots = props.lots.map((lot, i) => (
@@ -57,7 +58,7 @@ function PLotListTable(props) {
 			
 			<Col>
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center mb-5">
-					{shownParkingLots}
+				{props.lots.length === 0 ? <EmptySearch /> : shownParkingLots}
 				</Row>
 			</Col>
 		</Row>

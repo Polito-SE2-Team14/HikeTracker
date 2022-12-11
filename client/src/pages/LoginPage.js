@@ -26,8 +26,8 @@ export function LoginPage(props) {
 						/>
 					</Row>
 					<Row>
-						<p style={{textAlign: "center", marginTop:5} }>Not a member? 
-							{' '}<u><a onClick={handleRegistration}>Register</a></u>
+						<p style={{ textAlign: "center", marginTop: 5 }}>Not a member?
+							{' '}<u><a onClick={handleRegistration} style={{ cursor: 'pointer' }}>Register</a></u>
 						</p>
 					</Row>
 				</Col >
