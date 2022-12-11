@@ -47,7 +47,7 @@ describe('User Tests', () => {
 			expect(user.phoneNumber).toBe(newUser.phoneNumber);
 			expect(user.type).toBe(newUser.type);
 			expect(user.verified).toBe(1)
-			expect(user.approved).toBe(1)
+			expect(user.approved).toBe(true)
 		});
 
 		test("Registration of a new hut worker", async () => {
@@ -294,7 +294,7 @@ describe('User Tests', () => {
 	describe("approving", () => {
 
 		test("approving a user", async () => {
-			let newUser = newUsers[0];
+			let newUser = newUsers[1];
 			let addedUser;
 			let gottenUser;
 			await userController.register(newUser, 1, 0)
@@ -305,9 +305,10 @@ describe('User Tests', () => {
 
 			await userController.approve(addedUser.userID);
 
-			await userController.getUser(addedUser.userID).then(u => {
-				gottenUser = u;
-			});
+			await userController.getUser(addedUser.userID)
+				.then(u => gottenUser = u);
+		
+			
 
 			expect(addedUser.approved).toBe(0);
 			expect(gottenUser.approved).toBe(1);
@@ -330,7 +331,7 @@ describe('User Tests', () => {
 				gottenUser = u;
 			});
 
-			expect(addedUser.approved).toBe(1);
+			expect(addedUser.approved).toBe(true);
 			expect(gottenUser.approved).toBe(0);
 		})
 	})

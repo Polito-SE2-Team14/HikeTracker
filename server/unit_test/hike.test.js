@@ -11,10 +11,20 @@ const dbManager = require("../database/DBManagerSingleton").getInstance()
 const db = dbManager.getDB();
 // const populationFunctions = require("../database/populationFunctions")
 
-beforeEach(async () => await dbManager.clearDb());
-afterAll(async () => await dbManager.clearDb());
 
 describe('Hike Tests', () => {
+
+	beforeEach(async () => {
+		await dbManager.clearDb()
+		await dbManager.deleteAllHikes()
+	}
+	)
+	afterAll(async () => {
+		await dbManager.clearDb()
+		await dbManager.deleteAllHikes()
+	});
+
+
 	describe("creation of new Hike", () => {
 
 		test("Valid creation", async () => {
@@ -76,10 +86,11 @@ describe('Hike Tests', () => {
 
 
 		test("Invalid title", async () => {
+
 			let newErr
 			let hike = {
 				title: 10, length: 10, expectedTime: 10, ascent: 10,
-				difficulty: "Hiker", description: "Description",
+				difficulty: "Hiker", description: "WDFAFAWFAWFAWF",
 				country: 'Italy', municipality: "Torino", province: "Torino",
 				creatorID: 4
 			}
@@ -87,6 +98,7 @@ describe('Hike Tests', () => {
 				.catch(err => newErr = err)
 
 			let newHike = await getHike(1);
+
 
 			expect(newErr).not.toBe(null)
 			expect(newErr).not.toBe(undefined)
@@ -557,7 +569,7 @@ describe('Hike Tests', () => {
 			expect(askedHike).toBe(null)
 		})
 	}) */
-	describe("Get huts close to an hike", () => {
+	/* describe("Get huts close to an hike", () => {
 		test("Valid hikeID", async () => {
 			let caughtError;
 			let huts = await hikeController.getCloseHutsForHike(1)
@@ -574,7 +586,7 @@ describe('Hike Tests', () => {
 				});
 			expect(caughtError).not.toBe(undefined);
 		})
-	})
+	}) */
 	describe("Link a hut to an hike", () => {
 		test("Valid hutID to valid hikeID", async () => {
 
