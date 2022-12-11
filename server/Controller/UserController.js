@@ -37,7 +37,7 @@ exports.register = async (newUser, verified, approved) => {
 
 	let token = crypto.randomBytes(20).toString('hex');
 	const user = await userDAO.Register(newUser, token, verified, approved)
-		.catch(err => { throw err });
+		.catch(err => { console.log(err); throw err });
 
 	//EMAIL VERIFICATION
 	if (verified !== 1 && approved !== 1)
@@ -158,6 +158,24 @@ exports.addUserStats=async(userStats)=>{
 		return addedStats;
 	}catch(error){
 		console.error(error);
+		throw(error);
+	}
+}
+
+exports.getUserStats=async(userID)=>{
+	try{
+		let userStats=await userDAO.getUserStats(userID);
+		return userStats;
+	}catch(error){
+		throw(error);
+	}
+}
+
+exports.updateUserStats=async(userID)=>{
+	try{
+		let userStats=await userDAO.updateUserStats(userID);
+		return userStats;
+	}catch(error){
 		throw(error);
 	}
 }

@@ -28,6 +28,20 @@ const getUserInfo = async () => {
 	}
 };
 
+const getUserStats = async () => {
+	try {
+		let response = await REST.GET(`${api}/current/stats`, true);
+		if (response.ok) {
+			const user = await response.json();
+			return user;
+		}
+	}
+	catch (error) {
+		const errorJSON = await error.json();
+		throw errorJSON;
+	}
+};
+
 const getAllHutWorkers = async () => {
 	try {
 		let response = await REST.GET(`${api}/hutworkers/all`, true, true);
@@ -134,5 +148,5 @@ const logOut = async () => {
 };
 
 
-const UserAPI = { Register, getUserInfo, logIn, logOut, verifyUser, sendVerificationEmail, getAllHutWorkers, getAllLocalGuides, approveUser, unApproveUser };
+const UserAPI = { Register, getUserInfo, getUserStats, logIn, logOut, verifyUser, sendVerificationEmail, getAllHutWorkers, getAllLocalGuides, approveUser, unApproveUser };
 export default UserAPI;

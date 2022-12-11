@@ -22,7 +22,7 @@ import { AdminPage } from "./pages/AdminPage";
 import { UserNotApprovedPage } from "./pages/UserNotApprovedPage";
 
 function App() {
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(null);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [userType, setUserType] = useState(null);
 	const [isVerified, setIsVerified] = useState(false);
@@ -52,6 +52,7 @@ function App() {
 	const handleLogin = async (credentials) => {
 		try {
 			const currentUser = await userAPI.logIn(credentials);
+			console.log(currentUser);
 			setLoggedIn(true);
 			setUser(currentUser);
 			setUserType(currentUser.type);
@@ -101,7 +102,7 @@ function App() {
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
 				<Route path="/hikes" element={<HikesPage user={user} userType={userType} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
-				<Route path="/parking-lots" element={<ParkingLotsPage user={user} />} />
+				<Route path="/parking-lots" element={<ParkingLotsPage user={user} userType={userType}/>} />
 				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
 				<Route path="/not-approved" element={(loggedIn && !isApproved) ? <UserNotApprovedPage /> : <Navigate replace to='/' />} />
 			</Routes>

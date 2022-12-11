@@ -131,6 +131,36 @@ router.get('/current',
 	}
 );
 
+router.get('/current/stats',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.getUserStats(req.user.userID)
+				.then((stats)=>{
+					return res.status(200).json(stats);
+				}).catch((err)=>{
+					return errorResponse(err,500,res)
+				});
+		}
+		else
+			res.status(401).json({ error: 'Not authenticated' });
+	}
+);
+
+router.put('/current/stats',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.updateUserStats(req.body.newStats)
+				.then((stats)=>{
+					return res.status(200).json(stats);
+				}).catch((err)=>{
+					return errorResponse(err,500,res)
+				});
+		}
+		else
+			res.status(401).json({ error: 'Not authenticated' });
+	}
+);
+
 router.get('/hutworkers/all', isAdmin, isLoggedIn,
 	async (req, res) => {
 		await userController
