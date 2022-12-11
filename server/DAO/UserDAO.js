@@ -222,7 +222,6 @@ exports.Register = async (user, token, verified, approved) => {
 		.then(u => finalUser = u)
 		.catch(err => { console.log(err); throw err })
 
-	console.log(finalUser);
 	return finalUser
 }
 
@@ -268,31 +267,40 @@ exports.addUserStats = (userStats)=>{
 
 exports.getUserStats = (userID)=>{
 	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM USER_STATS WHERE userID=?",[userID],(err,row)=>{
+		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
 			if(err){
 				reject(err);
 			}else if(row==null | row==undefined){
 				reject({err: "No info for the given ID"});
 			}else{
-				const userStats={
-					userID: row.userID,
-					completedHikes: row.completedHikes,
-					favouriteDifficulty: row.favouriteDifficulty,
-					minTime: row.minTime,
-					maxTime: row.maxTime,
-					totalTime: row.totalTime,
-					averageTime: row.averageTime,
-					minDistance: row.minDistance,
-					maxDistance: row.maxDistance,
-					totalDistance: row.totalDistance,
-					averageDistance: row.averageDistance,
-					favouriteCountry: row.favouriteCountry,
-					favouriteProvince: row.favouriteProvince,
-					minAscent: row.minAscent,
-					maxAscent: row.maxAscent,
-					averageAscent: row.averageAscent
-				}
-				resolve(userStats);
+				db.get("SELECT * FROM USER_STATS WHERE userID=?",[userID],(err,row)=>{
+					if(err){
+						reject(err);
+					}else if(row==null | row==undefined){
+						resolve(false);
+					}else{
+						const userStats={
+							userID: row.userID,
+							completedHikes: row.completedHikes,
+							favouriteDifficulty: row.favouriteDifficulty,
+							minTime: row.minTime,
+							maxTime: row.maxTime,
+							totalTime: row.totalTime,
+							averageTime: row.averageTime,
+							minDistance: row.minDistance,
+							maxDistance: row.maxDistance,
+							totalDistance: row.totalDistance,
+							averageDistance: row.averageDistance,
+							favouriteCountry: row.favouriteCountry,
+							favouriteProvince: row.favouriteProvince,
+							minAscent: row.minAscent,
+							maxAscent: row.maxAscent,
+							averageAscent: row.averageAscent
+						}
+						resolve(userStats);
+		
+					}
+				})
 			}
 		})
 	})
