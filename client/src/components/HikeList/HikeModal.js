@@ -47,7 +47,7 @@ export function HikeModal(props) {
 			<Modal.Body>
 				<Tabs
 					defaultActiveKey={
-						RoleManagement.isHiker(props.user) || RoleManagement.isLocalGuide(props.user) ? "map" : "info"
+						props.user ? "map" : "info"
 					}
 				>
 					<Tab eventKey="info" title="Info">
@@ -59,7 +59,7 @@ export function HikeModal(props) {
 						/>
 					</Tab>
 					<Tab eventKey="map" title="Map">
-						{RoleManagement.isHiker(props.user) || RoleManagement.isLocalGuide(props.user) ? (
+						{props.user ? (
 							<MapTab
 								show={show}
 								user={props.user}
@@ -234,9 +234,9 @@ function MapTab(props) {
 					onPointSelect={onPointSelect}
 					onPointDeselect={onPointDeselect}
 				/>
-				<span className="text-muted">
+				{RoleManagement.isLocalGuide(props.user) ? <span className="text-muted">
 					Insert a reference point by clicking on the track
-				</span>
+				</span> : false}
 			</Row>
 			{showForm ? (
 				<ReferencePointForm
