@@ -35,7 +35,6 @@ const getUserStats = async () => {
 			const user = await response.json();
 			return user;
 		}
-		else return null;
 	}
 	catch (error) {
 		const errorJSON = await error.json();
