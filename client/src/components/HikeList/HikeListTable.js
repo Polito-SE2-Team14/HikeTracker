@@ -38,37 +38,39 @@ function HikeListTable(props) {
 
 	return (
 		<Row>
-			<Col lg={3} className="d-none d-xl-block">
-				{RoleManagement.isLocalGuide(props.user) ? (
-					<Row className="mb-3">{props.insertButton}</Row>
-				) : (
-					false
-				)}
-				<Row>
-					<Card className="p-2">
-						<h3>Filters</h3>
-						<Container>
-							<h5>Name</h5>
-							<Form.Control
-								type="search"
-								placeholder="Search"
-								value={props.filters.title}
-								onChange={(ev) =>
-									props.setFilters({
-										...props.filters,
-										title: ev.target.value.trim(),
-									})
-								}
-							/>
-							<hr />
-							<HikeFilters
-								filters={props.filters}
-								setFilters={props.setFilters}
-							/>
-						</Container>
-					</Card>
-				</Row>
-			</Col>
+			{!props.suggested &&
+				<Col lg={3} className="d-none d-xl-block">
+					{RoleManagement.isLocalGuide(props.user) ? (
+						<Row className="mb-3">{props.insertButton}</Row>
+					) : (
+						false
+					)}
+					<Row>
+						<Card className="p-2">
+							<h3>Filters</h3>
+							<Container>
+								<h5>Name</h5>
+								<Form.Control
+									type="search"
+									placeholder="Search"
+									value={props.filters.title}
+									onChange={(ev) =>
+										props.setFilters({
+											...props.filters,
+											title: ev.target.value.trim(),
+										})
+									}
+								/>
+								<hr />
+								<HikeFilters
+									filters={props.filters}
+									setFilters={props.setFilters}
+								/>
+							</Container>
+						</Card>
+					</Row>
+				</Col>
+			}
 
 			<Col className="mb-5">
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
@@ -110,7 +112,7 @@ function HikeListItem(props) {
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => {}}/>}
+				onStart={() => { }} />}
 
 			<Col className="mt-3">
 				<Card>
