@@ -365,6 +365,7 @@ function HikeForm(props) {
 }
 
 function EditPointsForm(props) {
+	const [msg, setMsg] = useState(false);
 	const [startPoints, setStartPoints] = useState([]);
 	const [start, setStart] = useState(null);
 	const [endPoints, setEndPoints] = useState([]);
@@ -515,17 +516,20 @@ function EditPointsForm(props) {
 	let handleSubmit = async event => {
 		event.preventDefault();
 
-		try {
-			await HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
-			await HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
-			await HikeAPI.addHuts(props.hike.hikeID, linkedHuts.map(h => h.pointID));
+		if (start && end)
+			try {
+				await HikeAPI.addStartPoint(props.hike.hikeID, start.pointID);
+				await HikeAPI.addEndPoint(props.hike.hikeID, end.pointID);
+				await HikeAPI.addHuts(props.hike.hikeID, linkedHuts.map(h => h.pointID));
 
-			props.onSubmit(props.hike.hikeID);
-			props.onHide();
-		}
-		catch (e) {
-			console.error(e);
-		}
+				setMsg(false);
+				props.onSubmit(props.hike.hikeID);
+				props.onHide();
+			}
+			catch (e) {
+				console.error(e);
+			}
+		else setMsg('Start Point and End Point must be set');
 	};
 
 	useEffect(() => {
@@ -545,6 +549,7 @@ function EditPointsForm(props) {
 					}}
 				/>
 			</Row>
+			{msg && <Alert variant='danger' onClose={() => props.setMsg(false)} dismissible>{msg}</Alert>}
 			<Row>
 				<Form.Group controlId="formStartPoint" className="mb-3">
 					<Form.Label>Start Point</Form.Label>
