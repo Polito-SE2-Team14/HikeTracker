@@ -36,6 +36,7 @@ export function HikeModal(props) {
 		start: null,
 		end: null,
 		referencePoints: [],
+		linkedHuts: []
 	});
 
 	return (
@@ -145,13 +146,13 @@ function InfoTab(props) {
 					{props.markers.start && (
 						<Col>
 							<strong>Start Point:</strong>
-							{props.markers.start}
+							{props.markers.start.name}
 						</Col>
 					)}
 					{props.markers.end && (
 						<Col>
 							<strong>End Point:</strong>
-							{props.markers.end}
+							{props.markers.end.name}
 						</Col>
 					)}
 				</Row>
@@ -184,12 +185,25 @@ function MapTab(props) {
 		let end = await PointAPI.getPoint(props.hike.endPointID);
 
 		let referencePoints = await HikeAPI.getHikePoints(props.hike.hikeID);
-		let linkedHuts = []; //await HikeAPI.getLinkedHuts(props.hike.hikeID);
+		let linkedHuts = await HikeAPI.getLinkedHuts(props.hike.hikeID);
+		let huts = await HikeAPI.getCloseHuts(props.hike.hikeID)
+			.then(h => h.filter(p => linkedHuts.includes(p.pointID)));
 
 		props.setMarkers({
-			start: start,
-			end: end,
-			referencePoints: [...referencePoints, ...linkedHuts]
+			start: {
+				pointID: start.pointID,
+				name: start.name,
+				latitude: start.lat, 
+				longitude: start.lon
+			},
+			end: {
+				pointID: end.pointID,
+				name: end.name,
+				latitude: end.lat,
+				longitude: end.lon
+			},
+			referencePoints: referencePoints,
+			linkedHuts: huts
 		});
 	};
 
@@ -247,6 +261,9 @@ function MapTab(props) {
 				</Col>
 				<Col>
 					<h5>Huts</h5>
+					{props.markers.linkedHuts.map((p, i) => {
+						return <ReferencePointInfo key={i} point={p} />;
+					})}
 				</Col>
 			</Row>
 		</Container>
@@ -258,7 +275,7 @@ function ReferencePointInfo(props) {
 		<ListGroup.Item>
 			<Row className="d-flex align-items-center">
 				<Col>{props.point.name}</Col>
-			{/* <Col xs={2}>
+				{/* <Col xs={2}>
 					<Button size="sm" variant="danger">
 						<FontAwesomeIcon icon={faTrashCan} />
 					</Button>

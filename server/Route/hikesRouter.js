@@ -249,8 +249,22 @@ router.post("/end",
 				return errorResponse(err, 500, res)
 			});
 	}
+)
 
+router.get("/:hikeID/linkedHuts",
+	check(["hikeID"]).not().isEmpty().isInt({ min: 0 }),
+	async(req,res)=>{
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponse(errors.array(), 422, res)
 
+		await hikeController.getHutsLinkedToHike(req.params.hikeID)
+			.then((msg) => res.status(201).json(msg))
+			.catch((err) => {
+				console.error(err);
+				return errorResponse(err, 500, res)
+			});
+	}
 )
 
 // DELETE request to delete an hike

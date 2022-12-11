@@ -4,17 +4,17 @@ const sqlite = require('sqlite3');
 const crypto = require('crypto');
 class DBManager {
 
-	#db;
-	constructor(dbName) {
-		// open the database
-		this.#db = new sqlite.Database(path.join(__dirname, './' + dbName + ".sqlite"), (err) => {
-			if (err) {
-				console.error("error db manager", err)
-				throw err;
-			}
-			//console.log(dbName + " started")
-		});
-	}
+    #db;
+    constructor(dbName) {
+        // open the database
+        this.#db = new sqlite.Database(path.join(__dirname, './' + dbName + ".sqlite"), (err) => {
+            if (err) {
+                console.error("error db manager", err)
+                throw err;
+            }
+            //console.log(dbName + " started")
+        });
+    }
 
     getDB() {
         return this.#db
@@ -22,21 +22,12 @@ class DBManager {
 
     async deleteAllHikes() {
         let db = this.#db;
-        return new Promise(function (resolve, reject) {
-            let trackNum = 0;
-
-            db.get('SELECT COUNT(DISTINCT hikeID) as n FROM Hike', [], (err, row) => {
-                trackNum = row.n;
-            })
-
-            db.run(`DELETE FROM HIKE WHERE 1=1;`);
-
-            for (let i = 1; i <= trackNum; i++)
-                unlink(path.resolve(__dirname + `/tracks/_${i}_.trk`), err => {
-                    console.log(path.resolve(__dirname + `/tracks/_${i}_.trk`))
-                });
-
-            resolve();
+        return new Promise((resolve, reject) =>
+            db.get('SELECT COUNT(DISTINCT hikeID) as n FROM Hike', [], (err, row) => resolve(row.n))
+        ).then(res => {
+            db.run('DELETE FROM Hike');
+            for (let i = 1; i <= res; i++)
+                unlink(path.resolve(__dirname + `/tracks/_${i}_.trk`), err => {});
         });
     }
 

@@ -81,7 +81,7 @@ function App() {
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} userType={userType} />
 			<Routes>
-				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage /> : <Navigate replace to='/not-verified' />} />
+				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage user={user} /> : <Navigate replace to='/not-verified' />} />
 				<Route
 					path="/admin"
 					element={RoleManagement.isManager(userType) ? <AdminPage /> : <Navigate replace to='/' />}
