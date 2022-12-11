@@ -1,9 +1,24 @@
+import React, { useState, useEffect } from "react";
+
 import { Loading } from "../components/Loading";
 import HikeListTable from "../components/HikeList/HikeListTable";
+import { filterAllHikes } from "../components/HikeList/filtering_functions";
+import HikeAPI from "../api/HikeAPI";
+import { Container } from "react-bootstrap";
 
 export function HomePage(props) {
 	const [loading, setLoading] = useState(true);
 	const [hikes, setHikes] = useState([]);
+	const [selectedHike, setSelectedHike] = useState(null);
+	const [filteredHikes, setFilteredHikes] = useState([]);
+	const [filters, setFilters] = useState({
+		title: "",
+		area: {},
+		difficulties: [],
+		length: [],
+		ascent: [],
+		expectedTime: [],
+	});
 
 	const getSuggestedHikes = async () => {
 		let stats //= await get
@@ -22,22 +37,25 @@ export function HomePage(props) {
 		getSuggestedHikes();
 	}, [hikes.length]);
 
+	useEffect(() => {
+		setFilteredHikes(filterAllHikes(hikes, filters));
+	}, [filters, hikes]);
+
 	return (
 		<>
 			{loading ? (
 				<Loading />
 			) : (
-				<HikeListTable
-					hikes={filteredHikes}
-					setHikes={setHikes}
-					filters={filters}
-					setFilters={setFilters}
-					selectedHike={selectedHike}
-					setSelectedHike={setSelectedHike}
-					insertButton={<InsertHikeButton />}
-					showHikeForm={handleShowHikeForm}
-					user={props.user}
-				/>
+				<Container>
+					<HikeListTable
+						hikes={filteredHikes}
+						filters={filters}
+						setFilters={setFilters}
+						selectedHike={selectedHike}
+						setSelectedHike={setSelectedHike}
+						user={props.user}
+					/>
+				</Container>
 			)}
 		</>
 	);
