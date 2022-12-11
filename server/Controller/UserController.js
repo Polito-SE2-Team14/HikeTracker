@@ -161,3 +161,12 @@ exports.addUserStats=async(userStats)=>{
 		throw(error);
 	}
 }
+
+exports.getUserStats=async(userID)=>{
+	try{
+		let userStats=await userDAO.getUserStats(userID);
+		return userStats;
+	}catch(error){
+		throw(error);
+	}
+}
