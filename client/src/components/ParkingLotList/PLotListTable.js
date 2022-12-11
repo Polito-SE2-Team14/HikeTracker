@@ -11,7 +11,7 @@ import {
 import { PLotModal } from "./PLotModal";
 import { ParkingLotFilters } from "./PLotFilters";
 import RoleManagement from "../../class/RoleManagement";
-import { EmptySearch } from "../EmptySeach";
+import { EmptySearch } from "../EmptySearch";
 
 function PLotListTable(props) {
 	let shownParkingLots = props.lots.map((lot, i) => (

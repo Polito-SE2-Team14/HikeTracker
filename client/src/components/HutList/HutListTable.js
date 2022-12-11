@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
 
 import PointAPI from "../../api/PointAPI";
-import { EmptySearch } from "../EmptySeach";
+import { EmptySearch } from "../EmptySearch";
 
 import { HutFilters } from "./HutFilters";
 import RoleManagement from "../../class/RoleManagement";

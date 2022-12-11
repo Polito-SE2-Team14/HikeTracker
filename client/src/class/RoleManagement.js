@@ -14,7 +14,6 @@ const isHiker = (user) => {
  * @returns {boolean}
  */
 const isLocalGuide = (user) => {
-    return true; //DEBUG
     return user && user.type === 'localGuide';
 };
 
