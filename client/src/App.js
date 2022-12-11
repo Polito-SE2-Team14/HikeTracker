@@ -65,6 +65,17 @@ function App() {
 		}
 	};
 
+	function userCheck() {
+		let page = (<HomePage />);
+
+		if (loggedIn) {
+			if (!isVerified) page = (<Navigate replace to='/not-verified' />);
+			if (!isApproved) page = (<Navigate replace to='/not-approved' />);
+		}
+
+		return page;
+	}
+
 	async function handleLogout() {
 		await userAPI.logOut();
 		setLoggedIn(false);
@@ -72,13 +83,13 @@ function App() {
 		setIsVerified(false);
 		setIsApproved(false);
 		setMessage("");
-	};
+	}
 
 	return (
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} user={user} />
 			<Routes>
-				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage user={user} /> : <Navigate replace to='/not-verified' />} />
+				<Route path="/" element={userCheck} />
 				<Route
 					path="/admin"
 					element={RoleManagement.isManager(user) ? <AdminPage /> : <Navigate replace to='/' />}
