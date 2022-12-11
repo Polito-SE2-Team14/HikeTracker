@@ -232,7 +232,7 @@ const addReferencePoint = async (point, hikeID) => {
 
 const addHut = async (hikeID, hutID) => {
 	try {
-		await REST.UPDATE("PUT", `${api}/${hikeID}/huts/${hutID}`, null, true);
+		await REST.UPDATE("POST", `${api}/${hikeID}/huts/${hutID}`, null, true);
 
 		return true;
 	} catch (e) {
@@ -269,7 +269,7 @@ const getLinkedHuts = async hikeID => {
 		let response = await REST.GET(`${api}/${hikeID}/linkedHuts`);
 		let hutsJson = await response.json();
 
-		return hutsJson.map(p => p.hutID);
+		return hutsJson;
 	} catch (e) {
 		console.error("Error in HikeAPI.js", e)
 		throw e;
