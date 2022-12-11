@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 
 import { Loading } from "../components/Loading";
 import HikeListTable from "../components/HikeList/HikeListTable";
-import { filterAllHikes } from "../components/HikeList/filtering_functions";
 import HikeAPI from "../api/HikeAPI";
 import UserAPI from "../api/UserAPI";
 import { Container } from "react-bootstrap";

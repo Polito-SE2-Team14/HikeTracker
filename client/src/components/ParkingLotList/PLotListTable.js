@@ -23,42 +23,43 @@ function PLotListTable(props) {
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
-					{RoleManagement.isLocalGuide(props.user) ? (
-						<Row className="mb-3 mt-3">
-							{/* {props.insertButton} */}
-						</Row>
-					) : (
-						false
-					)}
-					<Row>
+				{RoleManagement.isLocalGuide(props.user) ? (
+					<Row className="mb-3 mt-3">{props.insertButton}</Row>
+				) : (
+					false
+				)}
+				<Row>
 					<Card className="p-2">
-							<h3>Filters</h3>
-							<Container>
-								<Row>
-									<h5>Name</h5>
-									<Form.Control
-										type="search"
-										placeholder="Search"
-										value={props.filters.name}
-										onChange={(ev) =>
-											props.setFilters({
-												...props.filters,
-												name: ev.target.value.trim(),
-											})
-										}
-									/>
-								</Row>
-								<Row className="mt-4">
-								<ParkingLotFilters filters={props.filters} setFilters={props.setFilters} />
-								</Row>
-							</Container>
-						</Card>
-					</Row>
+						<h3>Filters</h3>
+						<Container>
+							<Row>
+								<h5>Name</h5>
+								<Form.Control
+									type="search"
+									placeholder="Search"
+									value={props.filters.name}
+									onChange={(ev) =>
+										props.setFilters({
+											...props.filters,
+											name: ev.target.value.trim(),
+										})
+									}
+								/>
+							</Row>
+							<Row className="mt-4">
+								<ParkingLotFilters
+									filters={props.filters}
+									setFilters={props.setFilters}
+								/>
+							</Row>
+						</Container>
+					</Card>
+				</Row>
 			</Col>
-			
+
 			<Col>
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center mb-5">
-				{props.lots.length === 0 ? <EmptySearch /> : shownParkingLots}
+					{props.lots.length === 0 ? <EmptySearch /> : shownParkingLots}
 				</Row>
 			</Col>
 		</Row>

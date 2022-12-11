@@ -10,7 +10,7 @@ import {
 } from "../CoMunProvSelect";
 
 const MIN_SPACE_NUMBER = 1;
-const MAX_SPACE_NUMBER = 50;
+const MAX_SPACE_NUMBER = 300;
 
 export function ParkingLotFilters(props) {
 	const [addressName, setAddressName] = useState("");
@@ -141,7 +141,7 @@ export function ParkingLotFilters(props) {
 						max={MAX_SPACE_NUMBER}
 					/>
 					<Row>
-						<Form.Text>{`Between ${carInterval[0]} beds and ${carInterval[1]} beds`}</Form.Text>
+						<Form.Text>{`Between ${carInterval[0]} spaces and ${carInterval[1]} spaces`}</Form.Text>
 					</Row>
 				</Form.Group>
 

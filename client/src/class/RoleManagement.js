@@ -14,7 +14,7 @@ const isHiker = (user) => {
  * @returns {boolean}
  */
 const isLocalGuide = (user) => {
-     //console.log("userType === 'localGuide'", userType === 'localGuide')
+    return true; //DEBUG
     return user && user.type === 'localGuide';
 };
 
