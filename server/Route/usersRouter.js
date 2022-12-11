@@ -47,7 +47,7 @@ const isAdmin = (req, res, next) => {
 
 router.post('',
 	check(["name", "surname", "password"]).not().isEmpty().trim().escape(),
-	check('email').isEmail().normalizeEmail(),
+	check('email').isEmail().normalizeEmail({gmail_remove_dots:false}),
 	check("phoneNumber").not().isEmpty().isInt(),
 	check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
 	async (req, res) => {
