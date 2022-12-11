@@ -190,18 +190,18 @@ function MapTab(props) {
 			.then(h => h.filter(p => linkedHuts.includes(p.pointID)));
 
 		props.setMarkers({
-			start: {
+			start: start ? {
 				pointID: start.pointID,
 				name: start.name,
 				latitude: start.lat,
 				longitude: start.lon
-			},
-			end: {
+			} : null,
+			end: end ? {
 				pointID: end.pointID,
 				name: end.name,
 				latitude: end.lat,
 				longitude: end.lon
-			},
+			} : null,
 			referencePoints: referencePoints,
 			linkedHuts: huts
 		});
@@ -229,6 +229,7 @@ function MapTab(props) {
 		<Container>
 			<Row>
 				<HikeMap
+				editable
 					user={props.user}
 					track={props.track}
 					markers={props.markers}
