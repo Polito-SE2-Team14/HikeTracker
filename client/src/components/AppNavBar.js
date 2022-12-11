@@ -59,9 +59,6 @@ export function AppNavBar(props) {
 							</Button>
 						</Col>
 						<Col className="d-flex align-items-center justify-content-center">
-							{
-								//TODO add icon
-							}
 							<Button variant="navbar" size="xl" onClick={handleHomeClick}>
 								HIKEfive!
 							</Button>
@@ -86,7 +83,7 @@ export function AppNavBar(props) {
 					</Row>
 				</Container>
 			</Navbar>
-			<SideBar userType={props.userType} show={showSidebar} pageSelect={handlePageSelect} onHide={handleCloseClick} />
+			<SideBar user={props.user} show={showSidebar} pageSelect={handlePageSelect} onHide={handleCloseClick} />
 		</>
 	);
 }
@@ -102,7 +99,7 @@ function SideBar(props) {
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
-					{RoleManagement.isManager(props.userType) ?
+					{RoleManagement.isManager(props.user) ?
 						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
 							<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
 						</ListGroup.Item>

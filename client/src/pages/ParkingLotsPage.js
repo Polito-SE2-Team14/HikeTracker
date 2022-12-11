@@ -14,6 +14,16 @@ export function ParkingLotsPage(props) {
 	const [lots, setLots] = useState([]);
 	const [showLotForm, setShowLotForm] = useState(false);
 
+	const [filters, setFilters] = useState({
+		name: "",
+		address: "",
+		area: null,
+		country: null,
+		province: null,
+		municipality: null,
+		carspace: [],
+	});
+
 	const getAllParkingLots = async () => {
 		let allLots;
 		await ParkingLotAPI.getAllParkingLots()
@@ -66,7 +76,7 @@ export function ParkingLotsPage(props) {
 				<Loading />
 			) : (
 				<Container>
-					<h1 className="mt-3">Parking Lots</h1>
+					<h1 className="mt-3 text-center">Parking Lots</h1>
 					<Row className="mt-3">
 						{RoleManagement.isLocalGuide(props.user) ? (
 							<Col className="text-end">{insertButton}</Col>
@@ -82,7 +92,7 @@ export function ParkingLotsPage(props) {
 						setLots={setLots}
 					/>
 
-					<PLotListTable lots={lots} setLots={setLots} />
+					<PLotListTable lots={lots} setLots={setLots} filters={filters} setFilters={setFilters}/>
 				</Container>
 			)}
 		</>

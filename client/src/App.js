@@ -79,12 +79,12 @@ function App() {
 
 	return (
 		<Router>
-			<AppNavBar loggedIn={loggedIn} logout={handleLogout} userType={userType} />
+			<AppNavBar loggedIn={loggedIn} logout={handleLogout} user={user} />
 			<Routes>
 				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage user={user} /> : <Navigate replace to='/not-verified' />} />
 				<Route
 					path="/admin"
-					element={RoleManagement.isManager(userType) ? <AdminPage /> : <Navigate replace to='/' />}
+					element={RoleManagement.isManager(user) ? <AdminPage /> : <Navigate replace to='/' />}
 				/>
 				<Route
 					path="/login"
