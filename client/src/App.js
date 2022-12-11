@@ -65,20 +65,31 @@ function App() {
 		}
 	};
 
-	const handleLogout = async () => {
+	function userCheck() {
+		let page = (<HomePage />);
+
+		if (loggedIn) {
+			if (!isVerified) page = (<Navigate replace to='/not-verified' />);
+			if (!isApproved) page = (<Navigate replace to='/not-approved' />);
+		}
+
+		return page;
+	}
+
+	async function handleLogout() {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
 		setIsVerified(false);
 		setIsApproved(false);
 		setMessage("");
-	};
+	}
 
 	return (
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} user={user} />
 			<Routes>
-				<Route path="/" element={!loggedIn || (loggedIn && isVerified) ? loggedIn && !isApproved ? <Navigate replace to='/not-approved' /> : <HomePage user={user} /> : <Navigate replace to='/not-verified' />} />
+				<Route path="/" element={userCheck} />
 				<Route
 					path="/admin"
 					element={RoleManagement.isManager(user) ? <AdminPage /> : <Navigate replace to='/' />}
@@ -98,7 +109,7 @@ function App() {
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
 				<Route path="/hikes" element={<HikesPage user={user} />} />
 				<Route path="/huts" element={<HutsPage user={user} />} />
-				<Route path="/parking-lots" element={<ParkingLotsPage user={user}/>} />
+				<Route path="/parking-lots" element={<ParkingLotsPage user={user} />} />
 				<Route path="/not-verified" element={(loggedIn && !isVerified) ? <UserNotVerifiedPage user={user} /> : <Navigate replace to='/' />} />
 				<Route path="/not-approved" element={(loggedIn && !isApproved) ? <UserNotApprovedPage /> : <Navigate replace to='/' />} />
 			</Routes>
