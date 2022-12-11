@@ -174,9 +174,9 @@ exports.getUserStats = async (userID) => {
 	}
 }
 
-exports.updateUserStats = async (userID) => {
+exports.updateUserStats = async (userID, newUserStats) => {
 	try {
-		let userStats = await userDAO.updateUserStats(userID);
+		let userStats = await userDAO.updateUserStats(userID, newUserStats);
 		return userStats;
 	} catch (error) {
 		throw (error);

@@ -306,9 +306,11 @@ exports.getUserStats = (userID)=>{
 	})
 }
 
-exports.updateUserStats=(newUserStats)=>{
+exports.updateUserStats=(userID, newUserStats)=>{
+	console.log(newUserStats);
+
 	return new Promise((resolve,reject)=>{
-		db.get("SELECT * FROM USER_STATS WHERE userID=?;",[newUserStats.userID],(err,row)=>{
+		db.get("SELECT * FROM USER_STATS WHERE userID=?;",[userID],(err,row)=>{
 			if(err){
 				console.log(err);
 				reject(err);
@@ -317,7 +319,7 @@ exports.updateUserStats=(newUserStats)=>{
 			}else{
 				let sqlUpdate=`UPDATE USER_STATS SET `;
 				
-				Object.entries(userStats).forEach(([key,value]) => {
+				Object.entries(newUserStats).forEach(([key,value]) => {
 					if(key!="userID"){
 						sqlUpdate+=`${key} = `;
 						if(typeof value == 'string' || value instanceof String){
@@ -329,7 +331,7 @@ exports.updateUserStats=(newUserStats)=>{
 				});
 
 				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-2);
-				sqlUpdate+=`) WHERE userID = ${newUserStats.userID};`;
+				sqlUpdate+=`) WHERE userID = ${userID};`;
 
 				db.run(sqlUpdate,(err)=>{
 					if(err){
