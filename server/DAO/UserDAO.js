@@ -229,7 +229,6 @@ exports.Register = async (user, token, verified, approved) => {
 exports.addUserStats = (userStats)=>{
 	return new Promise((resolve,reject)=>{
 		db.get("SELECT * FROM USER WHERE userID=?;",[userStats.userID],(err,row)=>{
-			console.log(row);
 			if(err){
 				console.log(err);
 				reject(err);
@@ -296,4 +295,41 @@ exports.getUserStats = (userID)=>{
 			}
 		})
 	})
+}
+
+exports.updateUserStats=(newUserStats)=>{
+	return new Promise((resolve,reject)=>{
+		db.get("SELECT * FROM USER_STATS WHERE userID=?;",[newUserStats.userID],(err,row)=>{
+			if(err){
+				console.log(err);
+				reject(err);
+			}else if(row==null || row==undefined){
+				reject({error: "User not found"});
+			}else{
+				let sqlUpdate=`UPDATE USER_STATS SET `;
+				
+				Object.entries(userStats).forEach(([key,value]) => {
+					if(key!="userID"){
+						sqlUpdate+=`${key} = `;
+						if(typeof value == 'string' || value instanceof String){
+							sqlUpdate+=`"${value}", `;
+						}else{
+							sqlUpdate+=`${value}, `;
+						}
+					}
+				});
+
+				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-2);
+				sqlUpdate+=`) WHERE userID = ${newUserStats.userID};`;
+
+				db.run(sqlUpdate,(err)=>{
+					if(err){
+						reject(err);
+					}else{
+						resolve(newUserStats);
+					}
+				})
+			}
+		})
+	})	
 }
