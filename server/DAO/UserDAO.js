@@ -209,19 +209,20 @@ exports.getUsersByType = (type, orderByUnapproved = false) => {
 exports.Register = async (user, token, verified, approved) => {
 
 	await CheckExistingUser(user.email, user.phoneNumber)
-		.catch(err => { throw err })
+		.catch(err => { console.log(err); throw err })
 
 	let pass;
 	await EncryptPassword(user.password)
 		.then(p => pass = p)
-		.catch(err => { throw err })
+		.catch(err => { console.log(err); throw err })
 
 
 	let finalUser;
 	await StoreUser(user, pass.salt, pass.hashedPassword, token, verified, approved)
 		.then(u => finalUser = u)
-		.catch(err => { throw err })
+		.catch(err => { console.log(err); throw err })
 
+	console.log(finalUser);
 	return finalUser
 }
 

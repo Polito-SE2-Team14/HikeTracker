@@ -7,7 +7,7 @@ export function RegistrationForm(props) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [repeatPwd, setRepeatPwd] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState(0);
 	const [type, setType] = useState('');
 
 	const handleSubmit = (event) => {
@@ -26,7 +26,6 @@ export function RegistrationForm(props) {
 			return !String(phone).match(/[^0-9]/i);
 		};
 
-
 		if (name === '' || !validateName(name)) {
 			invalids.push(" name");
 			setName('');
@@ -39,7 +38,7 @@ export function RegistrationForm(props) {
 			invalids.push(" username");
 			setEmail('');
 		}
-		if (phoneNumber === '' || !validatePhone(phoneNumber)) {
+		if (phoneNumber === 0 || !validatePhone(phoneNumber)) {
 			invalids.push(" phone");
 			setPhoneNumber('');
 		}
@@ -74,7 +73,7 @@ export function RegistrationForm(props) {
 						</Form.Group>
 						<Form.Group controlId='phoneNumber'>
 							<Form.Label>Phone</Form.Label>
-							<Form.Control type='text' value={phoneNumber} onChange={ev => setPhoneNumber(ev.target.value)} />
+							<Form.Control type='number' value={phoneNumber} onChange={ev => setPhoneNumber(parseInt(ev.target.value))} />
 						</Form.Group>
 						<Form.Group>
 							<Form.Label>User Type</Form.Label>

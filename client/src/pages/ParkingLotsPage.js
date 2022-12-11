@@ -64,7 +64,7 @@ export function ParkingLotsPage(props) {
 					<h1 className="mt-3">Parking Lots</h1>
 					<Row className="mt-3">
 						{
-							props.user.type === "localGuide" ?
+							props.userType === "localGuide" ?
 								<Col className="text-end">
 									<Button variant="success" onClick={handleShowLotForm}>
 										<FontAwesomeIcon icon={faPlus} /> Add new parking lot
