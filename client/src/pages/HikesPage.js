@@ -16,12 +16,16 @@ import RoleManagement from "../class/RoleManagement";
 export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
 
+	const [userStats, setUserStats] = useState(null);
 	const [hikes, setHikes] = useState([]);
 	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({
 		title: "",
 		area: {},
+		country: "",
+		province: "",
+		municipality: "",
 		difficulties: [],
 		length: [],
 		ascent: [],
@@ -68,6 +72,92 @@ export function HikesPage(props) {
 
 		return insertedHike;
 	};
+
+	const applyPreferences = async () => {
+		let stats = await UserAPI.getUserStats();
+		let newFilters = {
+			title: "",
+			area: {},
+			country: "",
+			province: "",
+			municipality: "",
+			difficulties: [],
+			length: [],
+			ascent: [],
+			expectedTime: [],
+		};
+
+		let hikes
+		await HikeAPI.getAllHikes()
+			.then(h => {
+				if (stats) {
+					hikes = h;
+
+					let suggested = hikes.filter(hike =>
+						hike.difficulty === stats.favouriteDifficulty
+					);
+
+					if (suggested.length > 0) {
+						hikes = suggested;
+						newFilters.difficulties.push(stats.favouriteDifficulty);
+					}
+
+					suggested = hikes.filter(hike =>
+						hike.country === stats.favouriteCountry &&
+						hike.province === stats.favouriteProvince
+					);
+
+					if (suggested.length > 0) {
+						hikes = suggested;
+
+						newFilters.country = stats.favouriteCountry;
+						newFilters.province = stats.favouriteProvince;
+					}
+
+					suggested = hikes.filter(hike =>
+						hike.expectedTime >= stats.minTime &&
+						hike.expectedTime <= stats.maxtime
+					);
+
+					if (suggested.length > 0) {
+						hikes = suggested;
+
+						newFilters.expectedTime.push(stats.minTime);
+						newFilters.expectedTime.push(stats.maxTime);
+					}
+
+					suggested = hikes.filter(hike =>
+						hike.ascent >= stats.minAscent &&
+						hike.ascent <= stats.maxAscent
+					);
+
+					if (suggested.length > 0) {
+						hikes = suggested;
+
+						newFilters.ascent.push(stats.minAscent);
+						newFilters.ascent.push(stats.maxAscent);
+					}
+
+					suggested = hikes.filter(hike =>
+						hike.length >= stats.minDistance &&
+						hike.length <= stats.maxDistance
+					);
+
+					if (suggested.length > 0) {
+						hikes = suggested;
+
+						newFilters.length.push(stats.minDistance);
+						newFilters.length.push(stats.maxDistance);
+					}
+
+					setFilters(newFilters)
+				}
+
+				setLoading(false);
+			})
+			.catch((error) => { console.log(error); });
+
+	}
 
 	useEffect(() => {
 		getAllHikes();
