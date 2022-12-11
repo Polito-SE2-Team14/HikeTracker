@@ -138,7 +138,7 @@ router.get('/current',
 router.get('/current/stats',
 	async (req, res) => {
 		if (req.isAuthenticated()) {
-			await userController.getUserStats(req.user.id)
+			await userController.getUserStats(req.user.userID)
 				.then((stats)=>{
 					return res.status(200).json(stats);
 				}).catch((err)=>{
