@@ -14,13 +14,7 @@ export function HomePage(props) {
 	const [selectedHike, setSelectedHike] = useState(null);
 
 	const getSuggestedHikes = async () => {
-		let stats;
-		try {
-			stats = await UserAPI.getUserStats();
-		}
-		catch (e) {
-			stats = null;
-		}
+		let stats = await UserAPI.getUserStats();
 
 		let hikes
 		await HikeAPI.getAllHikes()
