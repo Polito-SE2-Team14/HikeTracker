@@ -73,8 +73,13 @@ export function HikesPage(props) {
 		getAllHikes();
 	}, [hikes.length]);
 
+	async function updateFilters() {
+		let filtered = await filterAllHikes(hikes, filters);
+		setFilteredHikes(filtered);
+	}
+
 	useEffect(() => {
-		setFilteredHikes(filterAllHikes(hikes, filters));
+		updateFilters()
 	}, [filters, hikes]);
 
 	function InsertHikeButton() {

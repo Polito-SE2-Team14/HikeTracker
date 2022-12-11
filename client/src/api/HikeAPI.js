@@ -29,7 +29,8 @@ const getAllHikes = async () => {
 					endPointID: h.endPointID,
 					creatorID: h.creatorID,
 					creatorName: h.creatorName,
-					creatorSurname: h.creatorSurname
+					creatorSurname: h.creatorSurname,
+					track: h.track,
 				};
 			}
 		);
@@ -59,7 +60,7 @@ const getHike = async (hikeID) => {
 			country: hikeJson.country,
 			creatorID: hikeJson.creatorID,
 			creatorName: hikeJson.creatorName,
-			creatorSurname: hikeJson.creatorSurname
+			creatorSurname: hikeJson.creatorSurname,
 		};
 	}
 	catch (e) {

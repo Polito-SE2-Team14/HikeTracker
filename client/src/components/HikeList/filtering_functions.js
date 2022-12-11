@@ -1,12 +1,19 @@
+import { isInArea } from "../HikeData";
+
 function filterHike(hike, filters){
 	let to_return = true;
 
 	if(!hike.title.toLowerCase().includes(filters.title.toLowerCase())){
 		to_return = false;
 	}
+	
+	
+	let point = {
+		latitude: hike.track[0][0],
+		longitude: hike.track[0][1],
+	}
 
-	// TODO(antonio): check area from starting point coords
-	if(filters.area){
+	if(filters.area && !isInArea(point, filters.area)){
 		to_return = false;
 	}
 
@@ -45,8 +52,8 @@ function filterHike(hike, filters){
 	return to_return;
 }
 
-export function filterAllHikes(hikes_list,filters){
-	return hikes_list.filter((hike) => 
-		filterHike(hike, filters)
+export async function filterAllHikes(hikes_list,filters){
+	return hikes_list.filter((hike) => {
+		return filterHike(hike, filters);}
 	)
 }

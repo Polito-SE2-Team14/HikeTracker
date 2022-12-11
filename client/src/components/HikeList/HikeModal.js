@@ -38,6 +38,7 @@ export function HikeModal(props) {
 		referencePoints: [],
 		linkedHuts: []
 	});
+	const [track, setTrack] = useState([]);
 
 	return (
 		<Modal show={props.show} onHide={props.onClose}>
@@ -66,6 +67,8 @@ export function HikeModal(props) {
 								hike={hike}
 								markers={markers}
 								setMarkers={setMarkers}
+								track={track}
+								setTrack={setTrack}
 							/>
 						) : (
 							<Row className="d-flex justify-content-center mt-5 mb-3">
@@ -169,14 +172,12 @@ function InfoTab(props) {
 function MapTab(props) {
 	let show = props.show;
 
-	const [track, setTrack] = useState([]);
-
 	const [showForm, setShowForm] = useState(false);
 	const [coords, setCoords] = useState([]);
 
 	const updatePath = async () => {
 		let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
-		setTrack(newTrack);
+		props.setTrack(newTrack);
 	};
 
 	let getMarkers = async () => {
@@ -229,7 +230,7 @@ function MapTab(props) {
 			<Row>
 				<HikeMap
 					user={props.user}
-					track={track}
+					track={props.track}
 					markers={props.markers}
 					onPointSelect={onPointSelect}
 					onPointDeselect={onPointDeselect}
