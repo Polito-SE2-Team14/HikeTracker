@@ -115,7 +115,7 @@ export function HutsPage(props) {
 			{loading ? (
 				<Loading />
 			) : (
-				<Container>
+				<Container className="mb-4">
 					<h1 className="mt-3 text-center">Huts</h1>
 					<Row className="mt-3 d-xl-none">
 						<Col>

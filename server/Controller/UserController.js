@@ -36,6 +36,9 @@ exports.register = async (newUser, verified, approved) => {
 		throw Error("Type error with type")
 
 	let token = crypto.randomBytes(20).toString('hex');
+	if (type === 'hiker') {
+		approved = true;
+	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
 		.catch(err => { console.log(err); throw err });
 
@@ -89,45 +92,45 @@ exports.verify = async (token) => {
 }
 
 exports.getAllLocalGuides = async (orderByUnapproved = false) => {
-    try {
-        let users = await userDAO.getUsersByType("localGuide", orderByUnapproved);
-        return users;
-    } catch (error) {
-        console.error("Error in UserController", error)
-        throw (error);
-    }
+	try {
+		let users = await userDAO.getUsersByType("localGuide", orderByUnapproved);
+		return users;
+	} catch (error) {
+		console.error("Error in UserController", error)
+		throw (error);
+	}
 }
 
 exports.getAllHutWorkes = async (orderByUnapproved = false) => {
-    try {
-        let users = await userDAO.getUsersByType("hutWorker", orderByUnapproved);
-        return users;
-    } catch (error) {
-        console.error("Error in UserController", error)
-        throw (error);
-    }
+	try {
+		let users = await userDAO.getUsersByType("hutWorker", orderByUnapproved);
+		return users;
+	} catch (error) {
+		console.error("Error in UserController", error)
+		throw (error);
+	}
 }
 
 exports.approve = async (userID) => {
-    try {
-        let user = await userDAO.getUserById(userID);
-        await userDAO.approveUser(user.userID);
-        return true;
-    } catch (error) {
-        console.error("Error in UserController", error.error)
-        throw (error.error);
-    }
+	try {
+		let user = await userDAO.getUserById(userID);
+		await userDAO.approveUser(user.userID);
+		return true;
+	} catch (error) {
+		console.error("Error in UserController", error.error)
+		throw (error.error);
+	}
 }
 
 exports.unApprove = async (userID) => {
-    try {
-        let user = await userDAO.getUserById(userID);
-        await userDAO.unApproveUser(user.userID);
-        return true;
-    } catch (error) {
-        console.error("Error in UserController", error.error)
-        throw (error.error);
-    }
+	try {
+		let user = await userDAO.getUserById(userID);
+		await userDAO.unApproveUser(user.userID);
+		return true;
+	} catch (error) {
+		console.error("Error in UserController", error.error)
+		throw (error.error);
+	}
 }
 
 //TODO test this function
@@ -142,40 +145,40 @@ exports.resendVerificationEmail = async (token) => {
 	}
 }
 
-exports.updateUser=async(userID,info)=>{
-	try{
-		let user = await userDAO.updateUser(userID,info);
+exports.updateUser = async (userID, info) => {
+	try {
+		let user = await userDAO.updateUser(userID, info);
 		return user;
-	}catch(error){
+	} catch (error) {
 		console.error(error);
-		throw(error);
+		throw (error);
 	}
 }
 
-exports.addUserStats=async(userStats)=>{
-	try{
+exports.addUserStats = async (userStats) => {
+	try {
 		let addedStats = await userDAO.addUserStats(userStats);
 		return addedStats;
-	}catch(error){
+	} catch (error) {
 		console.error(error);
-		throw(error);
+		throw (error);
 	}
 }
 
-exports.getUserStats=async(userID)=>{
-	try{
-		let userStats=await userDAO.getUserStats(userID);
+exports.getUserStats = async (userID) => {
+	try {
+		let userStats = await userDAO.getUserStats(userID);
 		return userStats;
-	}catch(error){
-		throw(error);
+	} catch (error) {
+		throw (error);
 	}
 }
 
-exports.updateUserStats=async(userID)=>{
-	try{
-		let userStats=await userDAO.updateUserStats(userID);
+exports.updateUserStats = async (userID) => {
+	try {
+		let userStats = await userDAO.updateUserStats(userID);
 		return userStats;
-	}catch(error){
-		throw(error);
+	} catch (error) {
+		throw (error);
 	}
 }

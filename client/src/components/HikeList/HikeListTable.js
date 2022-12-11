@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { HikeModal } from "./HikeModal";
-import { EmptySearch } from "../EmptySeach";
+import { EmptySearch } from "../EmptySearch";
 
 import { HikeFilters } from "./HikeFilters";
 import "../../styles/HikeListTable.css";

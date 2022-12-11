@@ -9,10 +9,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { HutModal } from "./HutModal";
 
 import PointAPI from "../../api/PointAPI";
-import { EmptySearch } from "../EmptySeach";
+import { EmptySearch } from "../EmptySearch";
 
 import { HutFilters } from "./HutFilters";
 import RoleManagement from "../../class/RoleManagement";
+
+import "../../styles/HutListTable.css"
 
 export function HutListTable(props) {
 	let shownHuts = props.huts.map((hut, i) => (
@@ -22,51 +24,47 @@ export function HutListTable(props) {
 	));
 
 	return (
-		<>
-			<Row>
-				<Col lg={3} className="d-none d-xl-block">
-					{RoleManagement.isLocalGuide(props.user) ? (
-						<Row className="mb-3 mt-3">
-							{props.insertButton}
-						</Row>
-					) : (
-						false
-					)}
-					<Row>
-						<Card className="p-2">
-							<h3>Filters</h3>
-							<Container>
-								<Row>
-									<h5>Name</h5>
-									<Form.Control
-										type="search"
-										placeholder="Search"
-										value={props.filters.name}
-										onChange={(ev) =>
-											props.setFilters({
-												...props.filters,
-												name: ev.target.value.trim(),
-											})
-										}
-									/>
-								</Row>
-								<Row className="mt-4">
-									<HutFilters
-										filters={props.filters}
-										setFilters={props.setFilters}
-									/>
-								</Row>
-							</Container>
-						</Card>
-					</Row>
-				</Col>
-				<Col>
-					<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-						{props.huts.length === 0 ? <EmptySearch /> : shownHuts}
-					</Row>
-				</Col>
-			</Row>
-		</>
+		<Row>
+			<Col lg={3} className="d-none d-xl-block">
+				{RoleManagement.isLocalGuide(props.user) ? (
+					<Row className="mb-3 mt-3">{props.insertButton}</Row>
+				) : (
+					false
+				)}
+				<Row>
+					<Card className="p-2">
+						<h3>Filters</h3>
+						<Container>
+							<Row>
+								<h5>Name</h5>
+								<Form.Control
+									type="search"
+									placeholder="Search"
+									value={props.filters.name}
+									onChange={(ev) =>
+										props.setFilters({
+											...props.filters,
+											name: ev.target.value.trim(),
+										})
+									}
+								/>
+							</Row>
+							<Row className="mt-4">
+								<HutFilters
+									filters={props.filters}
+									setFilters={props.setFilters}
+								/>
+							</Row>
+						</Container>
+					</Card>
+				</Row>
+			</Col>
+			<Col>
+				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
+					{props.huts.length === 0 ? <EmptySearch /> : shownHuts}
+				</Row>
+			</Col>
+		</Row>
 	);
 }
 function HutListItem(props) {
@@ -100,9 +98,9 @@ function HutListItem(props) {
 				<Card>
 					<Card.Body>
 						<Card.Title>
-							<Row>
+							<Row className="top-row">
 								<Col xs={8} sm={9}>
-									{props.hut.name}
+									{props.hut.name.slice(0, 25).concat("...")}
 								</Col>
 								<Col className="text-end">
 									<Button
@@ -115,7 +113,7 @@ function HutListItem(props) {
 								</Col>
 							</Row>
 						</Card.Title>
-						<Row>
+						<Row className="bottom-row">
 							<Col>
 								<FontAwesomeIcon icon={faCity} />{" "}
 								{` ${props.hut.municipality} (${props.hut.province})`}

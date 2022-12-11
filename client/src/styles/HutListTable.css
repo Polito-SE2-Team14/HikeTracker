@@ -1,0 +1,39 @@
+@media (min-width: 1200px) { 
+    .top-row {
+        min-height: 80px!important;
+    }
+    
+    .bottom-row {
+        min-height: 50px!important;
+    }
+}
+
+@media (max-width: 1200px) { 
+    .top-row {
+        min-height: 20px!important;
+    }
+
+    .bottom-row {
+        min-height: 0px!important;
+    }
+}
+
+@media (max-width: 993px) { 
+    .top-row {
+        min-height: 20px!important;
+    }
+
+    .bottom-row {
+        min-height: 60px!important;
+    }
+}
+
+@media (max-width: 576px) {
+    .top-row {
+        min-height: 20px!important;
+    }
+
+    .bottom-row {
+        min-height: 0px!important;
+    }
+}
