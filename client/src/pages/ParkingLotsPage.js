@@ -7,72 +7,72 @@ import { NewPLotForm } from "../components/ParkingLotList/PLotInsertModule";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-
+import RoleManagement from "../class/RoleManagement";
 
 export function ParkingLotsPage(props) {
 	const [loading, setLoading] = useState(true);
 	const [lots, setLots] = useState([]);
-	const [selectedLot, setSelectedLot] = useState(null);
 	const [showLotForm, setShowLotForm] = useState(false);
 
-	// 	PROPS.USER?
 	const getAllParkingLots = async () => {
-
-		let allLots
+		let allLots;
 		await ParkingLotAPI.getAllParkingLots()
-			.catch(err => { console.error(err); throw err })
-			.then(lots => {
+			.catch((err) => {
+				console.error(err);
+				throw err;
+			})
+			.then((lots) => {
 				allLots = lots;
 				setLots(allLots);
 				setLoading(false);
-			})
+			});
 	};
 
 	const handleShowLotForm = () => {
 		setShowLotForm(true);
-	}
+	};
 
 	const handleHideLotForm = () => {
 		setShowLotForm(false);
-	}
+	};
 
 	const addPlot = async (newLot) => {
-
-		newLot.creatorID = props.user.userID
+		newLot.creatorID = props.user.userID;
 
 		await ParkingLotAPI.addParkingLot(newLot)
 			.then(() => {
 				setLots((lots) => [...lots, newLot]);
 			})
 			.catch((err) => {
-				throw (err);
+				throw err;
 			});
-	}
+	};
 
 	useEffect(() => {
 		getAllParkingLots();
 	}, [lots.length]);
 
+	const insertButton = () => {
+		return (
+			<Button variant="success" onClick={handleShowLotForm}>
+				<FontAwesomeIcon icon={faPlus} /> Add new parking lot
+			</Button>
+		);
+	};
 
 	return (
 		<>
-			{loading ?
+			{loading ? (
 				<Loading />
-				:
+			) : (
 				<Container>
 					<h1 className="mt-3">Parking Lots</h1>
 					<Row className="mt-3">
-						{
-							props.user.type === "localGuide" ?
-								<Col className="text-end">
-									<Button variant="success" onClick={handleShowLotForm}>
-										<FontAwesomeIcon icon={faPlus} /> Add new parking lot
-									</Button>
-								</Col>
-								:
-								<></>
-						}
+						{RoleManagement.isLocalGuide(props.user) ? (
+							<Col className="text-end">{insertButton}</Col>
+						) : (
+							false
+						)}
 					</Row>
 
 					<NewPLotForm
@@ -82,11 +82,9 @@ export function ParkingLotsPage(props) {
 						setLots={setLots}
 					/>
 
-					<PLotListTable
-						lots={lots}
-						setLots={setLots}
-					/>
+					<PLotListTable lots={lots} setLots={setLots} />
 				</Container>
-			}
-		</>);
+			)}
+		</>
+	);
 }
