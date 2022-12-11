@@ -41,10 +41,15 @@ function HikeListTable(props) {
 			{!props.suggested &&
 				<Col lg={3} className="d-none d-xl-block">
 					{RoleManagement.isLocalGuide(props.user) ? (
-						<Row className="mb-3">{props.insertButton}</Row>
+						<Row className="mb-1">{props.insertButton}</Row>
 					) : (
 						false
 					)}
+					{props.user ? <Row>
+					<Button className="mb-3" onClick={() => {
+						props.applyPreferences();
+					}}>I'm feeling adventurous!</Button>
+					</Row> : false}
 					<Row>
 						<Card className="p-2">
 							<h3>Filters</h3>
