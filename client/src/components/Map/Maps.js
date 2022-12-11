@@ -57,9 +57,13 @@ export function HikeMap(props) {
 					)}
 					{props.markers.referencePoints && props.markers.referencePoints.length > 0
 						? props.markers.referencePoints.map((p, i) => (
-								<HikeMarker key={i} point={p} />
-						  ))
+							<HikeMarker key={i} point={p} />
+						))
 						: false}
+					{props.markers.linkedHuts && props.markers.linkedHuts.length > 0
+						&& props.markers.linkedHuts.map((p, i) => (
+							<HikeMarker key={i} point={p} />
+						))}
 					<HikePath
 						positions={track}
 						canAddPoints={RoleManagement.isLocalGuide(props.user)}

@@ -266,10 +266,10 @@ const getCloseHuts = async hikeID => {
 
 const getLinkedHuts = async hikeID => {
 	try {
-		let response = await REST.GET(`${api}/${hikeID}/huts`);
+		let response = await REST.GET(`${api}/${hikeID}/linkedHuts`);
 		let hutsJson = await response.json();
 
-		return hutsJson;
+		return hutsJson.map(p => p.hutID);
 	} catch (e) {
 		console.error("Error in HikeAPI.js", e)
 		throw e;

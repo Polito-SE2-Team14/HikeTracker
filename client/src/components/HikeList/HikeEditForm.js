@@ -377,7 +377,7 @@ function EditPointsForm(props) {
 		try {
 			let newTrack = await HikeAPI.getHikeTrack(props.hike.hikeID);
 			let newHuts = await HikeAPI.getCloseHuts(props.hike.hikeID);
-			let linkedIDs = []; //await HikeAPI.getLinkedHuts(props.hike.hikeID);
+			let linkedIDs = await HikeAPI.getLinkedHuts(props.hike.hikeID);
 			let points = await PointAPI.getAllPoints();
 
 			points = points ? points.filter(p => p.pointType !== 'generic') : [];
@@ -541,7 +541,7 @@ function EditPointsForm(props) {
 					markers={{
 						start: start,
 						end: end,
-						referencePoints: linkedHuts
+						linkedHuts: linkedHuts
 					}}
 				/>
 			</Row>
@@ -583,8 +583,8 @@ function EditPointsForm(props) {
 				<Form.Label>Huts</Form.Label>
 				<Select options={closeHuts.map(p => p.options)} onChange={(ev) => handleAdd(ev.value)} />
 				<div>
-					{linkedHuts.map(p =>
-						<Row>
+					{linkedHuts.map((p, i) =>
+						<Row key={i}>
 							<Col>
 								{p.options.label}
 							</Col>
