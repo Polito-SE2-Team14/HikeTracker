@@ -47,6 +47,7 @@ export function HomePage(props) {
 				<Loading />
 			) : (
 				<Container>
+					<h1 className="mt-3 text-center">Our Suggestions For You</h1>
 					<HikeListTable
 						hikes={filteredHikes}
 						filters={filters}
