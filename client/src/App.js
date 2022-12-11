@@ -22,7 +22,7 @@ import { AdminPage } from "./pages/AdminPage";
 import { UserNotApprovedPage } from "./pages/UserNotApprovedPage";
 
 function App() {
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState(null);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [userType, setUserType] = useState(null);
 	const [isVerified, setIsVerified] = useState(false);
