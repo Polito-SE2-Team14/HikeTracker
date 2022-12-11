@@ -69,8 +69,7 @@ export function HikeModal(props) {
 							/>
 						) : (
 							<Row className="d-flex justify-content-center mt-5 mb-3">
-								{" "}
-								Log in to see the map!{" "}
+								{!props.user ? "Log in to see the map!" : "You are not authorized to see the map!"}
 							</Row>
 						)}
 					</Tab>
@@ -193,7 +192,7 @@ function MapTab(props) {
 			start: {
 				pointID: start.pointID,
 				name: start.name,
-				latitude: start.lat, 
+				latitude: start.lat,
 				longitude: start.lon
 			},
 			end: {
