@@ -96,6 +96,19 @@ export function HikeFilters(props) {
 		setTimeInterval([MIN_TIME_VALUE, MAX_TIME_VALUE]);
 	}
 
+/* 	useEffect(() => {
+		setCountry(props.filters.country);
+		setProvince(props.filters.province);
+		setMunicipality(props.filters.municipality);
+		setShowAreaMap(false)
+		setBeginnerDiff(props.filters.difficulties.contains("Beginner"));
+		setHikerDiff(props.filters.difficulties.contains("Hiker"));
+		setProDiff(props.filters.difficulties.contains("Pro Hiker"));
+		setDistanceInterval([props.filters.length[0], props.filters.length[1]]);
+		setAscentInterval([props.filters.ascent[0], props.filters.ascent[1]]);
+		setTimeInterval([props.filters.expectedTime[0], props.filters.expectedTime[1]]);
+	}, [props.filters]) */
+
 	return (
 		<Container>
 			<Form>

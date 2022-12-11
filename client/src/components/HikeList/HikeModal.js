@@ -89,7 +89,7 @@ export function HikeModal(props) {
 							>
 								<FontAwesomeIcon icon={faXmark} /> Close
 							</Button>
-							{RoleManagement.isAuthor(props.user, props.hike) ? <Button variant="danger" onClick={props.onDelete}>
+							{RoleManagement.isAuthor(props.user, props.hike.creatorID) ? <Button variant="danger" onClick={props.onDelete}>
 								<FontAwesomeIcon icon={faTrashCan} /> Delete
 							</Button> : false}
 						</Col>

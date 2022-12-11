@@ -247,6 +247,7 @@ export function HikesPage(props) {
 						insertButton={<InsertHikeButton />}
 						showHikeForm={handleShowHikeForm}
 						user={props.user}
+						applyPreferences={applyPreferences}
 					/>
 				</Container>
 			)}
