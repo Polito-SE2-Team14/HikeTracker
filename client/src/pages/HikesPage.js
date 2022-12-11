@@ -1,6 +1,7 @@
 import { Container, Modal, Button, Row, Col, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import HikeAPI from "../api/HikeAPI";
+import UserAPI from "../api/UserAPI";
 import HikeListTable from "../components/HikeList/HikeListTable";
 import { filterAllHikes } from "../components/HikeList/filtering_functions";
 import { Loading } from "../components/Loading";
