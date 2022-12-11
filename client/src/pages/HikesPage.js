@@ -37,17 +37,18 @@ export function HikesPage(props) {
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
 	const getAllHikes = async () => {
-		let hikes
+		let hikes;
 		await HikeAPI.getAllHikes()
-			.then(h => {
-				hikes = h
+			.then((h) => {
+				hikes = h;
 				setHikes(hikes);
 				setFilteredHikes(hikes);
 				setLoading(false);
 			})
-			.catch((error) => { console.log(error); })
-		
-};
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	const handleClose = () => {
 		setshowFilterForm(false);
@@ -170,7 +171,7 @@ export function HikesPage(props) {
 	}
 
 	useEffect(() => {
-		updateFilters()
+		updateFilters();
 	}, [filters, hikes]);
 
 	function InsertHikeButton() {

@@ -8,12 +8,12 @@ function filterHike(hike, filters){
 	}
 	
 	
-	let point = {
+	let point = hike.track ? {
 		latitude: hike.track[0][0],
 		longitude: hike.track[0][1],
-	}
+	} : null;
 
-	if(filters.area && !isInArea(point, filters.area)){
+	if(filters.area && point && !isInArea(point, filters.area)){
 		to_return = false;
 	}
 
