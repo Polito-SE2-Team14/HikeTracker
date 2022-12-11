@@ -15,6 +15,7 @@ export function HomePage(props) {
 
 	const getSuggestedHikes = async () => {
 		let stats = await UserAPI.getUserStats();
+
 		let hikes
 		await HikeAPI.getAllHikes()
 			.then(h => {
@@ -78,14 +79,14 @@ export function HomePage(props) {
 				<Container>
 					{!userStats ?
 						(
-								<Container className="mt-5">
-									<Row className="d-flex justify-content-center text-center">
-										Sorry there are no suggestions for now <br />
-									</Row>
-									<Row className="d-flex justify-content-center text-muted mt-2">
-										Go and expore the world!
-									</Row>
-								</Container>
+							<Container className="mt-5">
+								<Row className="d-flex justify-content-center text-center">
+									Sorry there are no suggestions for now <br />
+								</Row>
+								<Row className="d-flex justify-content-center text-muted mt-2">
+									Go and expore the world!
+								</Row>
+							</Container>
 						) : (
 							<>
 								<h1 className="mt-3 text-center">Our Suggestions For You</h1>
