@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { AppNavBar } from "./components/AppNavBar";
 import { LoginPage } from "./pages/LoginPage";
@@ -65,7 +65,7 @@ function App() {
 		}
 	};
 
-	async function handleLogout() {
+	const handleLogout = async () => {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
@@ -76,7 +76,7 @@ function App() {
 
 	return (
 		<Router>
-			<AppNavBar loggedIn={loggedIn} logout={handleLogout} user={user} />
+			<AppNavBar loggedIn={loggedIn} logout={useCallback(() => handleLogout, [])} user={user} />
 			<Routes>
 				<Route path="/" element={<HomePage loggedIn={loggedIn} verified={isVerified} approved={isApproved} user={user} />} />
 				<Route
