@@ -65,7 +65,7 @@ function App() {
 		}
 	};
 
-	const handleLogout = async () => {
+	async function handleLogout() {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
