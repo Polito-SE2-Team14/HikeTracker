@@ -366,19 +366,19 @@ function UserDashboard(props) {
 							<h4>Time</h4>
 							<span>
 								<b>Total time: </b>
-								{`${props.stats.totalTime} meters`}
+								{`${props.stats.totalTime} minutes`}
 							</span>
 							<span>
 								<b>Shortest time: </b>
-								{`${props.stats.minTime} meters`}
+								{`${props.stats.minTime} minutes`}
 							</span>
 							<span>
 								<b>Longest time: </b>
-								{`${props.stats.maxTime} meters`}
+								{`${props.stats.maxTime} minutes`}
 							</span>
 							<span>
 								<b>Average time: </b>
-								{`${props.stats.averageTime} meters`}
+								{`${props.stats.averageTime} minutes`}
 							</span>
 						</Row>
 					</Col>
