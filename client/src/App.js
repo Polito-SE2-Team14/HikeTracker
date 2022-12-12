@@ -65,18 +65,7 @@ function App() {
 		}
 	};
 
-	function userCheck() {
-		let page = (<HomePage />);
-
-		if (loggedIn) {
-			if (!isVerified) page = (<Navigate replace to='/not-verified' />);
-			if (!isApproved && user.type !== 'hiker') page = (<Navigate replace to='/not-approved' />);
-		}
-
-		return page;
-	}
-
-	async function handleLogout() {
+	const handleLogout = async () => {
 		await userAPI.logOut();
 		setLoggedIn(false);
 		setUser(null);
@@ -89,7 +78,7 @@ function App() {
 		<Router>
 			<AppNavBar loggedIn={loggedIn} logout={handleLogout} user={user} />
 			<Routes>
-				<Route path="/" element={userCheck} />
+				<Route path="/" element={<HomePage loggedIn={loggedIn} verified={isVerified} approved={isApproved} user={user} />} />
 				<Route
 					path="/admin"
 					element={RoleManagement.isManager(user) ? <AdminPage /> : <Navigate replace to='/' />}
