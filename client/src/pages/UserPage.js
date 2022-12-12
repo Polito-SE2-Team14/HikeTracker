@@ -19,6 +19,8 @@ import {
 } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import UserAPI from "../api/UserAPI";
+import RoleManagement from "../class/RoleManagement";
+
 
 import { CountrySelect, ProvinceSelect } from "../components/CoMunProvSelect";
 
@@ -299,9 +301,10 @@ function UserDashboard(props) {
 								Set preferences
 							</Button>
 						</Col>
-						<Col className="text-end">
-							{`Status: ${props.user.verified > 0 ? "Verified" : "Pending"}`}
-						</Col>
+						{(RoleManagement.isHutWorker(props.user) || RoleManagement.isLocalGuide(props.user)) &&
+							<Col className="text-end">
+							{`Status: ${props.user.approved > 0 ? "Approved" : "Pending"}`}
+						</Col>}
 					</Row>
 				</Col>
 			</Row>
