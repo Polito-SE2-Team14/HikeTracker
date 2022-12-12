@@ -12,6 +12,9 @@ const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
 const dbManager = Singleton.getInstance();
 
+const SingletonTest = require("./SingletonTest")
+SingletonTest.getInstance()
+
 before('starting hut tests', async () => await dbManager.clearDb());
 
 beforeEach('adding users', async () => await dbManager.addUsers());

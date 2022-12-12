@@ -1,5 +1,6 @@
 'use strict'
 
+const crypto = require("node:crypto");
 const chai = require('chai');
 const assert = chai.assert;
 
@@ -10,6 +11,9 @@ const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
 const dbManager = Singleton.getInstance();
+
+const SingletonTest = require("./SingletonTest")
+SingletonTest.getInstance()
 
 before('starting user tests', async () => await dbManager.clearDb());
 
@@ -53,7 +57,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -85,7 +89,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -100,7 +104,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -115,7 +119,7 @@ describe('User test suite', () => {
 				email: null,
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -130,7 +134,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: null,
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -145,7 +149,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: null,
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -174,7 +178,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -188,7 +192,7 @@ describe('User test suite', () => {
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -202,7 +206,7 @@ describe('User test suite', () => {
 				surname: 'Rossi',
 				phoneNumber: '1234567890',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -216,7 +220,7 @@ describe('User test suite', () => {
 				surname: 'Rossi',
 				email: 'mario.rossi@ex.com',
 				type: 'hiker',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
@@ -230,7 +234,7 @@ describe('User test suite', () => {
 				surname: 'Rossi',
 				email: 'mario.rossi@ex.com',
 				phoneNumber: '1234567890',
-				password: 'password'
+				password: crypto.randomBytes(16).toString("hex")
 			};
 
 			let response = await userAPICall.addNewUser(user);
