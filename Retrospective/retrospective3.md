@@ -75,3 +75,4 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
 - One thing you are proud of as a Team!!
+  - less go babyyy
