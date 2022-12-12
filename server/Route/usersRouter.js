@@ -149,7 +149,7 @@ router.get('/current/stats',
 router.put('/current/stats',
 	async (req, res) => {
 		if (req.isAuthenticated()) {
-			await userController.updateUserStats(req.body.newStats)
+			await userController.updateUserStats(req.user.userID, req.body.newStats)
 				.then((stats)=>{
 					return res.status(200).json(stats);
 				}).catch((err)=>{

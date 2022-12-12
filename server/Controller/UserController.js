@@ -157,6 +157,8 @@ exports.updateUser = async (userID, info) => {
 
 exports.addUserStats = async (userStats) => {
 
+	console.log(userStats)
+
 
 	if (Number.isNaN(userStats.userID)) {
 		console.error("Invalid userID")
@@ -239,10 +241,11 @@ exports.getUserStats = async (userID) => {
 	return userStats;
 }
 
-exports.updateUserStats = async (userID) => {
-	let userStats
-	await userDAO.updateUserStats(userID);
-	then(us => userStats = us)
-		.catch(error => { console.error(error); throw error })
+exports.updateUserStats = async (userID, userStats) => {
+
+	console.log("userStats",userStats)
+
+	await userDAO.updateUserStats(userID, userStats)
+		.catch (error => { console.error(error); throw error })
 	return userStats;
 }
