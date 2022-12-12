@@ -243,7 +243,13 @@ class DBManager {
     async addUsers() {
         const db = this.#db;
 
-        const sql = 'INSERT INTO User(userID, name, surname, type, verified, approved) VALUES(?, ?, ?, ?, ?, ?)'
+        let pass;
+        let salt = crypto.randomBytes(16).toString('hex');
+        crypto.scrypt('password'.toString('hex'), salt, 16, (err, hashedPass) => {
+            pass = hashedPass.toString('hex');
+        });
+
+        const sql = `INSERT INTO User VALUES(?, ?, ?, "ex@email.com", "1234567890", ?, ${salt}, ${pass}, ?, ?, 0)`;
         let users = [
             [1, 'Antonio', 'Bianchi', 'hiker', 0, 0],
             [2, 'Barbara', 'Ann', 'hiker', 1, 0],
