@@ -156,29 +156,93 @@ exports.updateUser = async (userID, info) => {
 }
 
 exports.addUserStats = async (userStats) => {
-	try {
-		let addedStats = await userDAO.addUserStats(userStats);
-		return addedStats;
-	} catch (error) {
-		console.error(error);
-		throw (error);
+
+
+	if (Number.isNaN(userStats.userID)) {
+		console.error("Invalid userID")
+		throw Error("Invalid userID")
 	}
+	if (userStats.completedHikes != null
+		&& typeof userStats.completedHikes !== "number") {
+		console.error("Invalid completedHikes")
+		throw Error("Invalid completedHikes")
+	}
+	if (userStats.minTime != null
+		&& typeof userStats.minTime !== "number") {
+		console.error("Invalid minTime")
+		throw Error("Invalid minTime")
+	}
+	if (userStats.maxTime != null
+		&& typeof userStats.maxTime !== "number") {
+		console.error("Invalid maxTime")
+		throw Error("Invalid maxTime")
+	}
+	if (userStats.totalTime != null
+		&& typeof userStats.totalTime !== "number") {
+		console.error("Invalid totalTime")
+		throw Error("Invalid totalTime")
+	}
+	if (userStats.averageTime != null
+		&& typeof userStats.averageTime !== "number") {
+		console.error("Invalid averageTime")
+		throw Error("Invalid averageTime")
+	}
+	if (userStats.minDistance != null
+		&& typeof userStats.minDistance !== "number") {
+		console.error("Invalid minDistance")
+		throw Error("Invalid minDistance")
+	}
+	if (userStats.maxDistance != null
+		&& typeof userStats.maxDistance !== "number") {
+		console.error("Invalid maxDistance")
+		throw Error("Invalid maxDistance")
+	}
+	if (userStats.totalDistance != null
+		&& typeof userStats.totalDistance !== "number") {
+		console.error("Invalid totalDistance")
+		throw Error("Invalid totalDistance")
+	}
+	if (userStats.averageDistance != null
+		&& typeof userStats.averageDistance !== "number") {
+		console.error("Invalid averageDistance")
+		throw Error("Invalid averageDistance")
+	}
+	if (userStats.minAscent != null
+		&& typeof userStats.minAscent !== "number") {
+		console.error("Invalid minAscent")
+		throw Error("Invalid minAscent")
+	}
+	if (userStats.maxAscent != null
+		&& typeof userStats.maxAscent !== "number") {
+		console.error("Invalid maxAscent")
+		throw Error("Invalid maxAscent")
+	}
+	if (userStats.averageAscent != null
+		&& typeof userStats.averageAscent !== "number") {
+		console.error("Invalid averageAscent")
+		throw Error("Invalid averageAscent")
+	}
+
+	let addedStats
+	await userDAO.addUserStats(userStats)
+		.then(stats => addedStats = stats)
+		.catch(error => { console.error(error); throw error })
+	return addedStats;
+
 }
 
 exports.getUserStats = async (userID) => {
-	try {
-		let userStats = await userDAO.getUserStats(userID);
-		return userStats;
-	} catch (error) {
-		throw (error);
-	}
+	let userStats
+	await userDAO.getUserStats(userID)
+		.then(us => userStats = us)
+		.catch(error => { console.error(error); throw error })
+	return userStats;
 }
 
 exports.updateUserStats = async (userID) => {
-	try {
-		let userStats = await userDAO.updateUserStats(userID);
-		return userStats;
-	} catch (error) {
-		throw (error);
-	}
+	let userStats
+	await userDAO.updateUserStats(userID);
+	then(us => userStats = us)
+		.catch(error => { console.error(error); throw error })
+	return userStats;
 }

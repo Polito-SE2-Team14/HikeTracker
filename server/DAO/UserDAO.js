@@ -257,7 +257,7 @@ exports.addUserStats = (userStats)=>{
 					if(err){
 						reject(err);
 					}else{
-						resolve({...row,...info});
+						resolve(true);
 					}
 				})
 			}

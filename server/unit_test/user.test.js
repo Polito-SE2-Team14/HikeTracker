@@ -25,11 +25,14 @@ let newUsers = [
 	}
 ];
 
-beforeEach(async () => await dbManager.clearDb());
-afterAll(async () => await dbManager.clearDb());
 
 
 describe('User Tests', () => {
+
+	beforeEach(async () => await dbManager.clearDb());
+	afterAll(async () => await dbManager.clearDb());
+
+
 	describe('Registration tests', () => {
 		test('Valid registration of new hiker user', async () => {
 			let newUser = newUsers[0];
@@ -50,9 +53,36 @@ describe('User Tests', () => {
 			expect(user.approved).toBe(true)
 		});
 
-		test("Registration of a new hut worker", async () => {
-			//TODO edoardo's job
-			expect(1).toBe(1)
+		test("Registration and approval of a new hut worker", async () => {
+			let newUser = newUsers[1];
+			let user;
+
+			await userController.register(newUser, 1, 0)
+				.catch(err => { throw err })
+
+
+			await userController.getUser(1)
+				.then(u => user = u)
+				.catch(err => { throw err })
+
+			expect(user).not.toBeUndefined();
+			expect(user.name).toBe(newUser.name);
+			expect(user.surname).toBe(newUser.surname);
+			expect(user.email).toBe(newUser.email);
+			expect(user.phoneNumber).toBe(newUser.phoneNumber);
+			expect(user.type).toBe(newUser.type);
+			expect(user.verified).toBe(1)
+			expect(user.approved).toBe(0)
+
+			await userController.approve(1)
+				.catch(err => { throw err })
+
+			await userController.getUser(1)
+				.then(u => user = u)
+				.catch(err => { throw err })
+
+			expect(user.approved).toBe(1)
+
 
 		})
 
@@ -307,8 +337,8 @@ describe('User Tests', () => {
 
 			await userController.getUser(addedUser.userID)
 				.then(u => gottenUser = u);
-		
-			
+
+
 
 			expect(addedUser.approved).toBe(0);
 			expect(gottenUser.approved).toBe(1);
@@ -338,8 +368,33 @@ describe('User Tests', () => {
 
 	describe("setting profile", () => {
 		test("test on set profile", async () => {
-			//TODO edoardo's job
-			expect(1).toBe(1)
+
+			let newUser = newUsers[0];
+			await userController.register(newUser, 1, 1)
+				.then(u => {
+				})
+				.catch(err => { console.error(err); throw err; });
+
+
+			const userStats = {
+				userID: 1, completedHikes: 1,
+				favouriteDifficulty: "Tourist", minTime: 100,
+				maxTime: 200, totalTime: 1000, averageTime: 100,
+				minDistance: 200, maxDistance: 300, totalDistance: 3000, averageDistance: 100,
+				favouriteCountry: "Italy", favouriteProvince: "Turin",
+				minAscent: 100, maxAscent: 200, averageAscent: 1000
+			}
+
+			await userController.addUserStats(userStats)
+				.catch(err => { console.error(err); throw err })
+
+			let addedStats
+			await userController.getUserStats(1)
+				.then(s => addedStats = s)
+				.catch(err => { console.error(err); throw err })
+
+			expect(userStats).toEqual(addedStats)
+
 		})
 	})
 

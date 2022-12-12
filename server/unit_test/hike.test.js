@@ -401,7 +401,7 @@ describe('Hike Tests', () => {
 		// });
 	});
 
-	describe("Delete hike", () => {
+	/* describe("Delete hike", () => {
 		test('Delete hike with invalid hikeID', async () => {
 			let newErr;
 
@@ -444,7 +444,7 @@ describe('Hike Tests', () => {
 			expect(hikes.length).toBe(1);
 			expect(hikes[0].hikeID).toBe(2);
 		});
-	});
+	}); */
 
 	describe("link start", () => {
 		test("Valid hike and start point", async () => {
