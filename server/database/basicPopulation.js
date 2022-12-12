@@ -15,9 +15,10 @@ function tablesDropping() {
 		`DROP TABLE IF EXISTS HIKELINKHUT;`,
 		`DROP TABLE IF EXISTS POINT;`,
 		`DROP TABLE IF EXISTS HIKE;`,
+		`DROP TABLE IF EXISTS USER_STATS;`,
 		`DROP TABLE IF EXISTS USER;`
 	]
-	return commands.map(sql => createDropTables(db,sql))
+	return commands.map(sql => createDropTables(db, sql))
 
 }
 
@@ -32,15 +33,16 @@ function tablesCreations() {
 		` CREATE TABLE HIKEREFERENCEPOINT(hikeID INTEGER NOT NULL,referencePointID INTEGER NOT NULL,PRIMARY KEY(hikeID, referencePointId));`,
 		` CREATE TABLE HIKELINKHUT(hikeID INTEGER NOT NULL,hutID INTEGER NOT NULL,PRIMARY KEY(hikeID, hutID));`,
 		` CREATE TABLE HIKE(hikeID INTEGER PRIMARY KEY,title TEXT,length INTEGER,expectedTime INTEGER,ascent INTEGER,difficulty TEXT,startPointID INTEGER,endPointID INTEGER,description TEXT,municipality TEXT,province TEXT,country TEXT,creatorID INTEGER	);`,
+		` CREATE TABLE USER_STATS (userID INTEGER PRIMARY KEY, completedHikes INTEGER, favouriteDifficulty TEXT, minTime INTEGER, maxTime INTEGER, totalTime INTEGER, averageTime INTEGER, minDistance INTEGER, maxDistance INTEGER, totalDistance INTEGER, averageDistance INTEGER, favouriteCountry TEXT, favouriteProvince TEXT, minAscent INTEGER, maxAscent INTEGER, averageAscent INTEGER);`,
 		//` CREATE TABLE HIKEGROUP(groupID INTEGER NOT NULL,hikeID INTEGER NOT NULL,leaderID INTEGER NOT NULL,PRIMARY KEY(groupID, hikeID));`,
 		//` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
 		//` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
 	]
-	return commands.map(sql => createDropTables(db,sql))
+	return commands.map(sql => createDropTables(db, sql))
 
 }
 
-function createDropTables(db,sql) {
+function createDropTables(db, sql) {
 	return new Promise((resolve, reject) => {
 		db.run(sql, err => {
 			if (err) { console.error(sql, err); reject(err); }
