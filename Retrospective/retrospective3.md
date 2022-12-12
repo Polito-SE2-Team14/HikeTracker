@@ -41,10 +41,10 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 > place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
 - Hours per task average, standard deviation (estimate and actual)
-    - estimate average:  hours | estimate standard deviation: 
-    - actual average:  hours | actual standard deviation: 
+    - estimate average: 1,15h hours | estimate standard deviation:  0,96 hours 
+    - actual average: 1,15 hours | actual standard deviation: 1,07 hours
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1
-    - error ratio: 
+    - error ratio: -0,0001
 
 
 ## QUALITY MEASURES 
@@ -52,7 +52,7 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Unit Testing:
   - Total hours estimated: 
   - Total hours spent: 
-  - Nr of automated unit test cases: 
+  - Nr of automated unit test cases: 73
 - E2E testing:
   - Total hours estimated: 
   - Total hours spent: 
