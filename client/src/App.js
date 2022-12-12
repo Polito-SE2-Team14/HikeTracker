@@ -70,7 +70,7 @@ function App() {
 
 		if (loggedIn) {
 			if (!isVerified) page = (<Navigate replace to='/not-verified' />);
-			if (!isApproved) page = (<Navigate replace to='/not-approved' />);
+			if (!isApproved && user.type !== 'hiker') page = (<Navigate replace to='/not-approved' />);
 		}
 
 		return page;

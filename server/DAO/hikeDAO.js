@@ -1,4 +1,4 @@
-const { writeFile, unlink, readFileSync, existsSync } = require("fs");
+const { writeFileSync, unlink, readFileSync, existsSync } = require("fs");
 
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
@@ -7,7 +7,6 @@ const dbManager = Singleton.getInstance();
 const db = dbManager.getDB();
 
 const path = require("path");
-const { resolve } = require("path");
 
 /**
  * Queries the db to get all hikes
@@ -20,7 +19,7 @@ exports.getAllHikes = function () {
 			if (err) {
 				reject(err);
 			}
-			try {
+			else try {
 				const hikes = rows.map(
 					(h) => {
 						return {
@@ -37,7 +36,6 @@ exports.getAllHikes = function () {
 				resolve(hikes);
 			}
 			catch (e) {
-				console.error(e)
 				reject(e);
 			}
 		});
@@ -125,17 +123,22 @@ exports.getCloseHutsForHike = function (hikeID) {
 				console.error(err)
 				reject(err);
 			}
-			const track = this.getHikeTrack(hikeID);
-			let huts = rows.filter((hut) => {
-				for (let i = 0; i < track.length; i++) {
-					if (distanceBetweenCoords([hut.latitude, hut.longitude], track[i]) <= 5000) {
-						return true;
+			else try {
+				const track = this.getHikeTrack(hikeID);
+				let huts = rows.filter((hut) => {
+					for (let i = 0; i < track.length; i++) {
+						if (distanceBetweenCoords([hut.latitude, hut.longitude], track[i]) <= 5000) {
+							return true;
+						}
 					}
-				}
-				return false;
-			});
-			resolve(huts);
-		})
+					return false;
+				});
+				resolve(huts);
+			}
+			catch(e){
+				reject(e);
+			}
+		});
 	});
 }
 
@@ -338,10 +341,9 @@ exports.getHikeTrack = function (hikeID) {
 			// return readFileSync(file, { encoding: 'utf8', flag: 'r' });
 			return JSON.parse(readFileSync(file, { encoding: 'utf8', flag: 'r' }));
 		} catch (err) {
-			console.error(err);
 			throw Error(err)
 		}
-	return null;
+	return [];
 }
 
 exports.setStart = function (hikeID, startPointID) {
@@ -377,9 +379,7 @@ function newTrack(hikeId, track) {
 	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)
 
 	if (file)
-		writeFile(file, JSON.stringify(track), { flag: 'w', encoding: 'utf8' }, err => {
-			if (err) throw err;
-		});
+		writeFileSync(file, JSON.stringify(track), { flag: 'w', encoding: 'utf8' });
 	else throw Error('wrong path');
 }
 

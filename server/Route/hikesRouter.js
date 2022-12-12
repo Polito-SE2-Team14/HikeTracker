@@ -55,7 +55,7 @@ router.get("/:hikeID/huts",
 	async(req,res)=>{
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 
 		await hikeController.getCloseHutsForHike(req.params.hikeID)
 		.then((msg) => {
@@ -74,7 +74,7 @@ router.post("/:hikeID/huts/:hutID",
 	async(req,res)=>{
 		const errors = validationResult(req);
 		if(!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 		
 		await hikeController.linkHutToHike(req.params.hutID,req.params.hikeID)
 		.then((msg)=>{
@@ -93,7 +93,7 @@ router.delete("/:hikeID/huts/:hutID",
 	async(req,res)=>{
 		const errors = validationResult(req);
 		if(!errors.isEmpty())
-			return errorResponseJson(errors.array(), 422, res)
+			return errorResponse(errors.array(), 422, res)
 		
 		await hikeController.deleteHutToHikeLink(req.params.hutID,req.params.hikeID)
 		.then((msg)=>{
@@ -288,7 +288,6 @@ router.delete("/:hikeID",
 				console.error(err);
 				return errorResponse(err, 500, res)
 			});
-
 	});
 
 module.exports = router;
