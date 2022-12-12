@@ -12,22 +12,11 @@ const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
 const dbManager = Singleton.getInstance();
 
-let huts;
-let referencePoints;
+before('starting hike tests', async () => await dbManager.clearDb());
 
-before('creating users for hike tests', async () => {
-	await dbManager.clearDb();
-	await dbManager.addUsers();
-	huts = await dbManager.addHuts();
-	referencePoints = await dbManager.addReferencePoints();
-});
+beforeEach('adding users', async () => await dbManager.addUsers());
 
-beforeEach('clearing hikes', async () => {
-	await dbManager.deleteAllHikes();
-	await dbManager.deleteLinksToHuts();
-});
-
-after('finished hike tests', async () => await dbManager.clearDb());
+afterEach('clearing DB', async () => await dbManager.clearDb());
 
 describe('Hikes test suite', () => {
 	describe("Getting hikes", () => {
@@ -133,6 +122,7 @@ describe('Hikes test suite', () => {
 
 	it('GET /hikes/:hikeID/huts not empty', async () => {
 		await dbManager.addHikes();
+		let huts = await dbManager.addHuts();
 
 		const expectedData = huts.map(hut => {
 			return {
@@ -177,20 +167,21 @@ describe('Hikes test suite', () => {
 	});
 
 	describe('Linking huts to an hike', () => {
-		it('POST /hikes/:hikeID/huts/:hutID', async () => {
-			await dbManager.addHikes();
+	it('POST /hikes/:hikeID/huts/:hutID', async () => {
+		await dbManager.addHikes();
+		await dbManager.addHuts();
 
-			const expectedData = {
-				hutID: '1',
-				hikeID: '3'
-			};
+		const expectedData = {
+			hutID: '1',
+			hikeID: '3'
+		};
 
-			let response = await hikeAPICall.linkHutCall(3, 1);
-			let data = await response.data;
+		let response = await hikeAPICall.linkHutCall(3, 1);
+		let data = await response.data;
 
-			assert.equal(response.status, 201, response.status);
-			assert.deepEqual(data, expectedData);
-		});
+		assert.equal(response.status, 201, response.status);
+		assert.deepEqual(data, expectedData);
+	});
 
 		it('POST /hikes/:hikeID/huts/:hutID NaN', async () => {
 			let response = await hikeAPICall.linkHutCall('invalid', 1);
@@ -266,17 +257,17 @@ describe('Hikes test suite', () => {
 			assert.deepEqual(data, []);
 		});
 
-		it('GET /hikes/:hikeID/referencePoints not empty', async () => {
-			await dbManager.addHikes();
+	it('GET /hikes/:hikeID/referencePoints not empty', async () => {
+		await dbManager.addHikes();
 
-			const expectedData = referencePoints;
+		const expectedData = await dbManager.addReferencePoints();
 
-			let response = await hikeAPICall.getReferencePointsCall(1);
-			let data = await response.data;
+		let response = await hikeAPICall.getReferencePointsCall(1);
+		let data = await response.data;
 
-			assert.equal(response.status, 201, response.status);
-			assert.deepEqual(data, expectedData);
-		});
+		assert.equal(response.status, 201, response.status);
+		assert.deepEqual(data, expectedData);
+	});
 
 		it('GET /hikes/:hikeID/referencePoints NaN', async () => {
 			await dbManager.addHikes();
@@ -1376,12 +1367,12 @@ describe('Hikes test suite', () => {
 	describe('Deleting hike', () => {
 		it('DELETE /hikes/:hikeID', async () => {
 			await dbManager.addHikes();
-			
+
 			let response = await hikeAPICall.deleteHikeCall(2);
 
 			assert.equal(response.status, 201, response.status);
 		});
-		
+
 		it('DELETE /hikes/:hikeID NaN', async () => {
 			await dbManager.addHikes();
 

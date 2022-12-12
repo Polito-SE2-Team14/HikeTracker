@@ -201,16 +201,6 @@ class DBManager {
         ));
     }
 
-    async deleteLinksToHuts() {
-        const db = this.#db;
-
-        const sql = 'DELETE FROM HikeLinkHut';
-
-        return new Promise((resolve, reject) =>
-            db.run(sql, [], err => resolve())
-        );
-    }
-
     async addReferencePoints() {
         const db = this.#db;
 
@@ -219,9 +209,9 @@ class DBManager {
 
         let i = 3;
         const ref = [
-            [++i, `hut#${i}`, `description#${i}`, 100, 46.02348, 7.74796, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'hut'],
-            [++i, `hut#${i}`, `description#${i}`, 100, 46.0239, 7.74824, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'hut'],
-            [++i, `hut#${i}`, `description#${i}`, 100, 46.02394, 7.74826, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'hut']
+            [++i, `hut#${i}`, `description#${i}`, 100, 46.02348, 7.74796, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'generic'],
+            [++i, `hut#${i}`, `description#${i}`, 100, 46.0239, 7.74824, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'generic'],
+            [++i, `hut#${i}`, `description#${i}`, 100, 46.02394, 7.74826, `address#${i}`, 'Collegno', 'Turin', 'Italy', 'generic']
         ];
 
         return Promise.all(ref.map(p =>
