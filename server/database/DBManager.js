@@ -248,24 +248,25 @@ class DBManager {
         crypto.scrypt('password'.toString('hex'), salt, 16, (err, hashedPass) => {
             pass = hashedPass.toString('hex');
         });
+        `(userID, name, surname, email, phoneNumber, type, salt, hashedPassword, verified, approved, token)`
 
-        const sql = `INSERT INTO User VALUES(?, ?, ?, "ex@email.com", "1234567890", ?, ${salt}, ${pass}, ?, ?, 0)`;
+        const sql = `INSERT INTO User VALUES(?, ?, ?, "ex@email.com", "1234567890", ?, ?, ?, ?, ?, null)`;
         let users = [
-            [1, 'Antonio', 'Bianchi', 'hiker', 0, 0],
-            [2, 'Barbara', 'Ann', 'hiker', 1, 0],
-            [3, 'Andrew', 'Miller', 'hiker', 1, 1],
-            [4, 'John', 'Smith', 'localGuide', 0, 0],
-            [5, 'Walter', 'Verdi', 'localGuide', 1, 0],
-            [6, 'Mario', 'Rossi', 'localGuide', 1, 1],
-            [7, 'Weather', 'Report', 'hutWorker', 0, 0],
-            [8, 'Anasui', 'Narciso', 'hutWorker', 1, 0],
-            [9, 'Foo', 'Fighters', 'hutWorker', 1, 1],
-            [10, 'Jotaro', 'Kujo', 'manager', 1, 1]
+            [1, 'Antonio', 'Bianchi', 'hiker', salt, pass, 0, 0],
+            [2, 'Barbara', 'Ann', 'hiker', salt, pass, 1, 0],
+            [3, 'Andrew', 'Miller', 'hiker', salt, pass, 1, 1],
+            [4, 'John', 'Smith', 'localGuide', salt, pass, 0, 0],
+            [5, 'Walter', 'Verdi', 'localGuide', salt, pass, 1, 0],
+            [6, 'Mario', 'Rossi', 'localGuide', salt, pass, 1, 1],
+            [7, 'Weather', 'Report', 'hutWorker', salt, pass, 0, 0],
+            [8, 'Anasui', 'Narciso', 'hutWorker', salt, pass, 1, 0],
+            [9, 'Foo', 'Fighters', 'hutWorker', salt, pass, 1, 1],
+            [10, 'Jotaro', 'Kujo', 'manager', salt, pass, 1, 1]
         ];
 
         return Promise.all(users.map(user =>
             new Promise((resolve, reject) => {
-                db.run(sql, user, err => resolve());
+                db.run(sql, user, err => resolve(err));
             })
         ));
     }

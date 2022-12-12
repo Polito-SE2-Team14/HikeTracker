@@ -28,7 +28,7 @@ describe('User test suite', () => {
 		// 		email: 'mario.rossi@ex.com',
 		// 		phoneNumber: '0123456789',
 		// 		type: 'hiker',
-		// 		password: 'password'
+		// 		password: crypto.randomBytes(16).toString("hex")
 		// 	};
 
 		// 	let response = await userAPICall.addNewUser(user);
@@ -69,7 +69,7 @@ describe('User test suite', () => {
 
 			response = await userAPICall.addNewUser(user);
 
-			assert.equal(response.status, 505, response.status);
+			assert.equal(response.status, 422, response.status);
 		});
 
 		it('POST /users missing body', async () => {
