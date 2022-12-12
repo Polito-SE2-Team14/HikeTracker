@@ -52,7 +52,7 @@ export function HikeFilters(props) {
 	useEffect(() => {
 		let difficultyArray = [];
 
-		if (beginnerDiff) difficultyArray.push("Beginner");
+		if (beginnerDiff) difficultyArray.push("Tourist");
 		if (hikerDiff) difficultyArray.push("Hiker");
 		if (proDiff) difficultyArray.push("Pro Hiker");
 
@@ -184,7 +184,7 @@ export function HikeFilters(props) {
 						<h5>Difficulty</h5>
 						<Form.Check
 							inline
-							label="Beginner"
+							label="Tourist"
 							type="checkbox"
 							checked={beginnerDiff}
 							onChange={(ev) => {

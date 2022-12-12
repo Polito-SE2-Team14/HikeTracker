@@ -226,38 +226,38 @@ exports.Register = async (user, token, verified, approved) => {
 }
 
 //updates the user adding only the provided info (not all fields are mandatory)
-exports.addUserStats = (userStats)=>{
-	return new Promise((resolve,reject)=>{
-		db.get("SELECT * FROM USER WHERE userID=?;",[userStats.userID],(err,row)=>{
-			if(err){
+exports.addUserStats = (userStats) => {
+	return new Promise((resolve, reject) => {
+		db.get("SELECT * FROM USER WHERE userID=?;", [userStats.userID], (err, row) => {
+			if (err) {
 				console.log(err);
 				reject(err);
-			}else if(row==null || row==undefined){
-				reject({error: "User not found"});
-			}else{
-				let sqlInsert=`INSERT INTO USER_STATS (`;
-				let sqlValues=` VALUES (`;
+			} else if (row == null || row == undefined) {
+				reject({ error: "User not found" });
+			} else {
+				let sqlInsert = `INSERT INTO USER_STATS (`;
+				let sqlValues = ` VALUES (`;
 
-				Object.entries(userStats).forEach(([key,value]) => {
-						sqlInsert+=`${key}, `;
-						if(typeof value == 'string' || value instanceof String){
-							sqlValues+=`"${value}", `;
-						}else{
-							sqlValues+=`${value}, `;
-						}
+				Object.entries(userStats).forEach(([key, value]) => {
+					sqlInsert += `${key}, `;
+					if (typeof value == 'string' || value instanceof String) {
+						sqlValues += `"${value}", `;
+					} else {
+						sqlValues += `${value}, `;
+					}
 				});
 
-				sqlInsert=sqlInsert.substring(0,sqlInsert.length-2);
-				sqlInsert+=")"
-				sqlValues=sqlValues.substring(0,sqlValues.length-2);
-				sqlValues+=");";
-				sqlInsert+=sqlValues;
+				sqlInsert = sqlInsert.substring(0, sqlInsert.length - 2);
+				sqlInsert += ")"
+				sqlValues = sqlValues.substring(0, sqlValues.length - 2);
+				sqlValues += ");";
+				sqlInsert += sqlValues;
 
-				db.run(sqlInsert,(err)=>{
-					if(err){
+				db.run(sqlInsert, (err) => {
+					if (err) {
 						reject(err);
-					}else{
-						resolve({...row,...info});
+					} else {
+						resolve(true);
 					}
 				})
 			}
@@ -265,21 +265,21 @@ exports.addUserStats = (userStats)=>{
 	})
 }
 
-exports.getUserStats = (userID)=>{
+exports.getUserStats = (userID) => {
 	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM USER WHERE userID=?",[userID],(err,row)=>{
-			if(err){
+		db.get("SELECT * FROM USER WHERE userID=?", [userID], (err, row) => {
+			if (err) {
 				reject(err);
-			}else if(row==null | row==undefined){
-				reject({err: "No info for the given ID"});
-			}else{
-				db.get("SELECT * FROM USER_STATS WHERE userID=?",[userID],(err,row)=>{
-					if(err){
+			} else if (row == null | row == undefined) {
+				reject({ err: "No info for the given ID" });
+			} else {
+				db.get("SELECT * FROM USER_STATS WHERE userID=?", [userID], (err, row) => {
+					if (err) {
 						reject(err);
-					}else if(row==null | row==undefined){
+					} else if (row == null | row == undefined) {
 						resolve(false);
-					}else{
-						const userStats={
+					} else {
+						const userStats = {
 							userID: row.userID,
 							completedHikes: row.completedHikes,
 							favouriteDifficulty: row.favouriteDifficulty,
@@ -298,7 +298,7 @@ exports.getUserStats = (userID)=>{
 							averageAscent: row.averageAscent
 						}
 						resolve(userStats);
-		
+
 					}
 				})
 			}
@@ -306,18 +306,20 @@ exports.getUserStats = (userID)=>{
 	})
 }
 
-exports.updateUserStats=(newUserStats)=>{
-	return new Promise((resolve,reject)=>{
-		db.get("SELECT * FROM USER_STATS WHERE userID=?;",[newUserStats.userID],(err,row)=>{
-			if(err){
+exports.updateUserStats = (userID, newUserStats) => {
+	console.log("newUserStats",newUserStats);
+
+	return new Promise((resolve, reject) => {
+		db.get("SELECT * FROM USER_STATS WHERE userID=?;", [userID], (err, row) => {
+			if (err) {
 				console.log(err);
 				reject(err);
-			}else if(row==null || row==undefined){
-				reject({error: "User not found"});
-			}else{
-				let sqlUpdate=`UPDATE USER_STATS SET `;
+			} else if (row == null || row == undefined) {
+				reject({ error: "User not found" });
+			} else {
+				/* let sqlUpdate=`UPDATE USER_STATS SET `;
 				
-				Object.entries(userStats).forEach(([key,value]) => {
+				Object.entries(newUserStats).forEach(([key,value]) => {
 					if(key!="userID"){
 						sqlUpdate+=`${key} = `;
 						if(typeof value == 'string' || value instanceof String){
@@ -329,16 +331,29 @@ exports.updateUserStats=(newUserStats)=>{
 				});
 
 				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-2);
-				sqlUpdate+=`) WHERE userID = ${newUserStats.userID};`;
+				sqlUpdate+=`) WHERE userID = ${userID};`; */
 
-				db.run(sqlUpdate,(err)=>{
-					if(err){
+				let sqlUpdate =
+					`UPDATE USER_STATS SET 
+				COMPLETEDHIKES = ?,FAVOURITEDIFFICULTY = ?,MINTIME = ?,
+				MAXTIME = ?,TOTALTIME = ?,AVERAGETIME = ?,
+				MINDISTANCE = ?,MAXDISTANCE = ?,TOTALDISTANCE = ?,
+				AVERAGEDISTANCE = ?,FAVOURITECOUNTRY = ?,FAVOURITEPROVINCE = ?,
+				MINASCENT = ?,	MAXASCENT = ?,	AVERAGEASCENT = ?
+				WHERE userID = ?`
+				db.run(sqlUpdate, [newUserStats.completedHikes, newUserStats.favouriteDifficulty,
+					newUserStats.minDistance, newUserStats.maxDistance, newUserStats.totalTime,
+					newUserStats.averageTime, newUserStats.minDistance, newUserStats.maxDistance,
+					newUserStats.totalDistance, newUserStats.averageDistance, newUserStats.favouriteCountry,
+					newUserStats.favouriteProvince, newUserStats.minAscent, newUserStats.maxAscent,
+					newUserStats.averageAscent,userID], function (err) {
+					if (err) {
 						reject(err);
-					}else{
+					} else {
 						resolve(newUserStats);
 					}
 				})
 			}
 		})
-	})	
+	})
 }

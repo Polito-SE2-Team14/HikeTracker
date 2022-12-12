@@ -42,6 +42,20 @@ const getUserStats = async () => {
 	}
 };
 
+const setUserStats = async (stats) => {
+	let body = {
+		newStats: { ...stats }
+	}
+
+	try {
+		await REST.UPDATE("PUT", `${api}/current/stats`, body, true);
+		return true;
+	} catch (e) {
+		console.error("Error in UserAPI.js", e)
+		throw e;
+	}
+}
+
 const getAllHutWorkers = async () => {
 	try {
 		let response = await REST.GET(`${api}/hutworkers/all`, true, true);
@@ -91,6 +105,7 @@ const approveUser = async (userID) => {
 		}
 	}
 	catch (error) {
+		console.error(error)
 		throw error;
 	}
 };
@@ -103,6 +118,7 @@ const unApproveUser = async (userID) => {
 		}
 	}
 	catch (error) {
+		console.error(error)
 		throw error;
 	}
 };
@@ -148,5 +164,5 @@ const logOut = async () => {
 };
 
 
-const UserAPI = { Register, getUserInfo, getUserStats, logIn, logOut, verifyUser, sendVerificationEmail, getAllHutWorkers, getAllLocalGuides, approveUser, unApproveUser };
+const UserAPI = { Register, getUserInfo, getUserStats, setUserStats, logIn, logOut, verifyUser, sendVerificationEmail, getAllHutWorkers, getAllLocalGuides, approveUser, unApproveUser };
 export default UserAPI;

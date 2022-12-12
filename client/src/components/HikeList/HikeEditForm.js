@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Form, InputGroup, Row, Col } from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col, Alert} from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Map/Maps";
