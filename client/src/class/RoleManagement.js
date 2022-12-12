@@ -4,7 +4,6 @@
  * @returns {boolean}
  */
 const isHiker = (user) => {
-    //return true; // DEBUG
     return user && user.type === 'hiker';
 };
 
@@ -37,7 +36,6 @@ const isLocalGuide = (user) => {
 
 
 const isAuthor = (user, ID) => {
-    //return true; // DEBUG
     return user && user.userID === ID
 }
 

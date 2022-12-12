@@ -75,7 +75,6 @@ function HikeForm(props) {
 		props.hike ? props.hike.description : ""
 	);
 
-	let [selectedFile, setSelectedFile] = useState("");
 	let [fileContent, setFileContent] = useState("");
 	let [useFile, setUseFile] = useState(false);
 	let [province, setProvince] = useState(props.hike ? props.hike.province : "");
@@ -84,7 +83,6 @@ function HikeForm(props) {
 
 
 	let fileChangeHandler = (event) => {
-		setSelectedFile(event.target.files[0]);
 		const reader = new FileReader();
 		reader.readAsText(event.target.files[0]);
 		reader.onload = () => {

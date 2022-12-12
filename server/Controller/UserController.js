@@ -54,8 +54,6 @@ exports.register = async (newUser, verified, approved) => {
 exports.sendVerificationEmail = async (token, userEmail) => {
 	//EMAIL VERIFICATION
 
-	// let testAccount = await nodemailer.createTestAccount();
-
 	// create reusable transporter object using the default SMTP transport
 	const transporter = nodemailer.createTransport({
 		service: "Gmail",

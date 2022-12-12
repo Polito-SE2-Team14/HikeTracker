@@ -20,7 +20,11 @@ export function timeText(timeValue) {
     let hours = Math.floor(timeValue / 60);
     let minutes = timeValue % 60;
 
-    return `${hours}h${minutes == 0 ? "" : ` ${minutes}m`}`;
+    let string;
+    if (minutes === 0) string = `${hours}h`;
+    else string = `${hours}h${minutes}m`;
+
+    return string
 }
 
 function distanceBetweenCoords(p1, p2) {

@@ -5,12 +5,6 @@ import { AreaSelectMap } from "../Map/Maps";
 
 import { timeText } from "../HikeData";
 
-// import {
-// 	CountryDropdown,
-// 	ProvinceDropdown,
-// 	MunicipalityDropdown,
-// } from "../Dropdowns";
-
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
 const MIN_DISTANCE_VALUE = 2;

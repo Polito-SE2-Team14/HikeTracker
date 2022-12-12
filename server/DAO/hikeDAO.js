@@ -338,7 +338,6 @@ exports.getHikeTrack = function (hikeID) {
 	const file = checkPath(`../database/tracks/_${hikeID}_.trk`);
 	if (file)
 		try {
-			// return readFileSync(file, { encoding: 'utf8', flag: 'r' });
 			return JSON.parse(readFileSync(file, { encoding: 'utf8', flag: 'r' }));
 		} catch (err) {
 			throw Error(err)
@@ -391,7 +390,7 @@ function deleteTrack(hikeId) {
 			unlink(file, err => {
 				if (err) throw err;
 			});
-		else throw 'wrong path';
+		else throw Error('wrong path');
 	}
 	catch (error) {
 		throw error

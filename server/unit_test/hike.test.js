@@ -529,7 +529,7 @@ describe('Hike Tests', () => {
 				.then(id => referencePointID = id)
 				.catch(err => { console.error(err); throw err })
 
-
+			let insertedRefencePoint
 			await hikeController.getReferencePointsForHike(addedHike.hikeID)
 				.then(rp => insertedRefencePoint = rp[0])
 				.catch(err => { console.error(err); throw err })
