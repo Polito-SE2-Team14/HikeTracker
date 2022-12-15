@@ -59,13 +59,16 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
   - Total hours estimated: 
   - Total hours spent: 
 - Technical Debt management:
-  - Total hours estimated 
-  - Total hours spent
+  - Total hours estimated: 5h
+  - Total hours spent: 6h
   - Hours estimated for remediation by SonarQube
   - Hours estimated for remediation by SonarQube only for the selected and planned issues 
   - Hours spent on remediation 
-  - debt ratio (as reported by SonarQube under "Measures-Maintainability")
+  - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0.4%
   - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability )  
+    - Reliability: A
+    - Security: A
+    - Mantainability: A
 
 
 ## ASSESSMENT
