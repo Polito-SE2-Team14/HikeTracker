@@ -74,19 +74,19 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
-- Our estimation was quite accurate
+  - Our estimation was quite accurate
 
 - What lessons did you learn (both positive and negative) in this sprint?
-- A good initial setup allowed us to work better and implement more features
+  - A good initial setup allowed us to work better and implement more features
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
-- We coordinated better and we interacted with each other more frequently
+  - We coordinated better and we interacted with each other more frequently
       
 - Which ones you were not able to achieve? Why?
-- We met every goal set in the previous sprint
+  - We met every goal set in the previous sprint
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
-- Keep the same pace we had in this sprint
+  - Keep the same pace we had in this sprint
 
 - One thing you are proud of as a Team!!
-- We are proud of the improvement of the coordination between us sprint by sprint
+  - We are proud of the improvement of the coordination between us sprint by sprint
