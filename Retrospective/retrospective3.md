@@ -1,6 +1,8 @@
 TEMPLATE FOR RETROSPECTIVE (Team 14)
 =====================================
-
+- [process measures](#process-measures)
+- [quality measures](#quality-measures)
+- [general assessment](#assessment)
 ## PROCESS MEASURES 
 
 ### Macro statistics
@@ -19,7 +21,6 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Code present on VCS
 - End-to-End tests performed
 
-> Please refine your DoD if required (you cannot remove items!) 
 
 ### Detailed statistics
 
@@ -37,8 +38,6 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 | _#32_ |    4    |   5    |   2h 45m   |      1h      |
 | _#33_ |    5    |   13   |     6h     |    5h 35m    |
 
-
-> place technical tasks corresponding to story `#0` and leave out story points (not applicable in this case)
 
 - Hours per task average, standard deviation (estimate and actual)
     - estimate average: 1,15h hours | estimate standard deviation:  0,96 hours 
@@ -59,7 +58,14 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Code review 
   - Total hours estimated: 
   - Total hours spent: 
-  
+- Technical Debt management:
+  - Total hours estimated 
+  - Total hours spent
+  - Hours estimated for remediation by SonarQube
+  - Hours estimated for remediation by SonarQube only for the selected and planned issues 
+  - Hours spent on remediation 
+  - debt ratio (as reported by SonarQube under "Measures-Maintainability")
+  - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability )  
 
 
 ## ASSESSMENT
