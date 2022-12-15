@@ -1,10 +1,12 @@
 import REST from "./REST";
 
-const api = "/points";
+const pointApi = "/points";
+
+const hutsApi = "/huts"
 
 const getAllPoints = async () => {
 	try {
-		let response = await REST.GET(api);
+		let response = await REST.GET(pointApi);
 		let pointsJson = await response.json();
 
 		return pointsJson.map((p) => {
@@ -32,7 +34,7 @@ const getPoint = async (pointID) => {
 			return undefined;
 		}
 
-		let response = await REST.GET(`${api}/${pointID}`);
+		let response = await REST.GET(`${pointApi}/${pointID}`);
 		console.log(response);
 		let pointJson = await response.json();
 
@@ -58,7 +60,7 @@ const getPoint = async (pointID) => {
  */
 const getAllHuts = async () => {
 	try {
-		let response = await REST.GET(`${api}/huts`);
+		let response = await REST.GET(`${hutsApi}`);
 		let hutsJson = await response.json();
 
 		return hutsJson;
@@ -71,7 +73,7 @@ const getAllHuts = async () => {
 const createHut = async (hut) => {
 	try {
 		console.log(hut);
-		let response = await REST.UPDATE("POST", `${api}/huts`, hut);
+		let response = await REST.UPDATE("POST", `${hutsApi}`, hut);
 		if (!response.status) throw Error();
 	} catch (err) {
 		console.error("Error in PointAPI.js", err);
@@ -81,7 +83,7 @@ const createHut = async (hut) => {
 
 const deleteHut = async (hutID) => {
 	try {
-		let response = await REST.DELETE(api + "/huts/" + hutID);
+		let response = await REST.DELETE(hutsApi + "/" + hutID);
 		if (!response.status) throw Error();
 	} catch (err) {
 		console.error("Error in PointAPI.js", err);

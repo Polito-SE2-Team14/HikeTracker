@@ -11,7 +11,7 @@ class HutAPICall {
 
     //GET
     async getHutsCall() {
-        const url = this.#baseURL + "/api/huts";
+        const url = this.#baseURL + "/huts";
         let response;
 
         await axios.get(url, { responseType: "json" })
@@ -23,7 +23,7 @@ class HutAPICall {
 
     //POST
     async addHutCall(newHut) {
-        const url = this.#baseURL + "/api/points/huts";
+        const url = this.#baseURL + "/api/huts";
 
         const headers = { headers: { 'Content-Type': 'application/json' } };
         let response;

@@ -248,7 +248,7 @@ class DBManager {
         crypto.scrypt('password'.toString('hex'), salt, 16, (err, hashedPass) => {
             pass = hashedPass.toString('hex');
         });
-        `(userID, name, surname, email, phoneNumber, type, salt, hashedPassword, verified, approved, token)`
+        //`(userID, name, surname, email, phoneNumber, type, salt, hashedPassword, verified, approved, token)`
 
         const sql = `INSERT INTO User VALUES(?, ?, ?, "ex@email.com", "1234567890", ?, ?, ?, ?, ?, null)`;
         let users = [
