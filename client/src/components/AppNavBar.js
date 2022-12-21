@@ -1,6 +1,15 @@
 import "../styles/AppNavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faCircleUser, faRightToBracket, faCarSide, faHouse, faPersonHiking, faCompass, faClipboardList } from "@fortawesome/free-solid-svg-icons";
+import {
+	faBars,
+	faCircleUser,
+	faRightToBracket,
+	faCarSide,
+	faHouse,
+	faPersonHiking,
+	faCompass,
+	faClipboardList,
+} from "@fortawesome/free-solid-svg-icons";
 import RoleManagement from "../class/RoleManagement";
 import {
 	Button,
@@ -53,7 +62,10 @@ export function AppNavBar(props) {
 			<Navbar bg="transparent" className="mountain-bg font-weight-bold">
 				<Container fluid className="d-flex justify-content-center">
 					<Row className="navbar-items d-flex justify-content-between">
-						<Col xs={1} className="d-flex align-items-center justify-content-center">
+						<Col
+							xs={1}
+							className="d-flex align-items-center justify-content-center"
+						>
 							<Button variant="navbar" onClick={handleMenuClick}>
 								<FontAwesomeIcon icon={faBars} />
 							</Button>
@@ -63,31 +75,42 @@ export function AppNavBar(props) {
 								HIKEfive!
 							</Button>
 						</Col>
-						<Col xs={1} className="d-flex align-items-center justify-content-center">
-							{props.loggedIn ?
-
-								<NavDropdown title={navDropdownTitleForUser} id="collasible-nav-dropdown" drop='start'>
-									<NavDropdown.Item onClick={handleUserClick}>Profile</NavDropdown.Item>
+						<Col
+							xs={1}
+							className="d-flex align-items-center justify-content-center"
+						>
+							{props.loggedIn ? (
+								<NavDropdown
+									title={navDropdownTitleForUser}
+									id="collasible-nav-dropdown"
+									drop="start"
+								>
+									<NavDropdown.Item onClick={handleUserClick}>
+										Profile
+									</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item onClick={handleLogout}>
 										Log Out
 									</NavDropdown.Item>
 								</NavDropdown>
-
-								:
+							) : (
 								<Button variant="navbar" onClick={handleUserClick}>
 									<FontAwesomeIcon icon={faRightToBracket} />
 								</Button>
-							}
+							)}
 						</Col>
 					</Row>
 				</Container>
 			</Navbar>
-			<SideBar user={props.user} show={showSidebar} pageSelect={handlePageSelect} onHide={handleCloseClick} />
+			<SideBar
+				user={props.user}
+				show={showSidebar}
+				pageSelect={handlePageSelect}
+				onHide={handleCloseClick}
+			/>
 		</>
 	);
 }
-
 
 function SideBar(props) {
 	return (
@@ -99,28 +122,42 @@ function SideBar(props) {
 			</Offcanvas.Header>
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
-					{RoleManagement.isManager(props.user) ?
+					{RoleManagement.isManager(props.user) ? (
 						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
-							<SideBarElement icon={<FontAwesomeIcon icon={faClipboardList} />} name="Admin Page" />
+							<SideBarElement
+								icon={<FontAwesomeIcon icon={faClipboardList} />}
+								name="Admin Page"
+							/>
 						</ListGroup.Item>
-						: null
-					}
-					{props.user &&
-						<ListGroup.Item action onClick={() => props.pageSelect("/")}>
-							<SideBarElement icon={<FontAwesomeIcon icon={faCompass} />} name="Home Page" />
-						</ListGroup.Item>
-					}
+					) : null}
+
+					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
+						<SideBarElement
+							icon={<FontAwesomeIcon icon={faCompass} />}
+							name="Home Page"
+						/>
+					</ListGroup.Item>
+
 					<ListGroup.Item action onClick={() => props.pageSelect("/hikes")}>
-						<SideBarElement icon={<FontAwesomeIcon icon={faPersonHiking} />} name="Hikes" />
+						<SideBarElement
+							icon={<FontAwesomeIcon icon={faPersonHiking} />}
+							name="Hikes"
+						/>
 					</ListGroup.Item>
 					<ListGroup.Item action onClick={() => props.pageSelect("/huts")}>
-						<SideBarElement icon={<FontAwesomeIcon icon={faHouse} />} name="Huts" />
+						<SideBarElement
+							icon={<FontAwesomeIcon icon={faHouse} />}
+							name="Huts"
+						/>
 					</ListGroup.Item>
 					<ListGroup.Item
 						action
 						onClick={() => props.pageSelect("/parking-lots")}
 					>
-						<SideBarElement icon={<FontAwesomeIcon icon={faCarSide} />} name="Parking lots" />
+						<SideBarElement
+							icon={<FontAwesomeIcon icon={faCarSide} />}
+							name="Parking lots"
+						/>
 					</ListGroup.Item>
 				</ListGroup>
 			</Offcanvas.Body>
