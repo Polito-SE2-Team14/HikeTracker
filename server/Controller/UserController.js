@@ -7,7 +7,7 @@ const { resolve } = require("node:path");
 
 exports.login = async (email, password) => {
 	const user = await userDAO.getUser(email, password)
-		
+
 	return user;
 }
 
@@ -38,6 +38,8 @@ exports.register = async (newUser, verified, approved) => {
 		approved = true;
 	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
+		.catch(err => { console.log(err); throw err });
+
 
 	//EMAIL VERIFICATION
 	if (verified !== 1 && approved !== 1)
@@ -238,7 +240,7 @@ exports.getUserStats = async (userID) => {
 
 exports.updateUserStats = async (userID, userStats) => {
 
-	console.log("userStats",userStats)
+	console.log("userStats", userStats)
 
 	await userDAO.updateUserStats(userID, userStats)
 
