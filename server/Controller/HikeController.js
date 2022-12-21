@@ -13,9 +13,6 @@ exports.getHike = async (hikeID) => {
 	let hike;
 	await hikeDAO.getHike(hikeID)
 		.then(h => hike = h)
-		.catch(err => { throw err });
-
-
 	return hike;
 }
 
@@ -23,7 +20,6 @@ exports.getCloseHutsForHike = async (hikeID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
 	const huts = await hikeDAO.getCloseHutsForHike(hikeID)
-		.catch(err => { throw err });
 	return huts;
 }
 
@@ -33,7 +29,6 @@ exports.linkHutToHike = async (hutID, hikeID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
 	const addedLink = await hikeDAO.linkHutToHike(hutID, hikeID)
-		.catch(err => { throw err });
 	return addedLink;
 }
 
@@ -41,7 +36,6 @@ exports.getHutsLinkedToHike= async (hikeID)=>{
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
 	const hutIDs = await hikeDAO.getHutsLinkedToHike(hikeID)
-		.catch(err => { throw err });
 	return hutIDs;
 }
 
@@ -52,16 +46,12 @@ exports.deleteHutToHikeLink = async (hutID, hikeID) => {
 		throw Error("Type error with hikeID")
 
 	const removedLink = await hikeDAO.deleteHutToHikeLink(hutID, hikeID)
-		.catch(err => { throw err });
 	return removedLink;
 }
 
 exports.getReferencePointsForHike = async (hikeID) => {
 
 	const points = await hikeDAO.getReferencePointsForHike(hikeID)
-		.catch(err => { throw err });
-
-
 	return points;
 }
 
@@ -95,10 +85,7 @@ exports.addHike = async (hike) => {
 		throw Error("Type error with creatorID");
 	//check on track
 
-	const addedHike = await hikeDAO.addHike(hike).catch((err) => {
-		throw err;
-	});
-
+	const addedHike = await hikeDAO.addHike(hike)
 	return addedHike;
 }
 
@@ -115,18 +102,9 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 	let referencePointID;
 	await poinstDAO.createPoint(referencePoint)
 		.then((id) => referencePointID = id)
-		.catch((err) => {
-			throw err;
-		});
-
 
 	await hikeDAO
-		.addReferencePoint(hikeID, referencePointID)
-		.catch((err) => {
-			throw err;
-		});
-	
-	
+		.addReferencePoint(hikeID, referencePointID)	
 
 	return referencePointID
 }
@@ -135,13 +113,8 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 exports.updateHike = async (hike) => {
 	await hikeDAO
 		.updateHike(hike)
-		.then((msg) => {
-			return msg;
-		})
-		.catch((err) => {
-			throw err;
-		});
-
+		.then((msg) => {return msg;})
+		
 	return hike;
 }
 
@@ -158,10 +131,7 @@ exports.deleteHike = async (hikeID) => {
 	// 	throw Error("There is no hike with that ID")
 
 	await hikeDAO.deleteHike(hikeID)
-		.catch((err) => {
-			console.error(err);
-			throw err;
-		})
+	
 }
 
 //TODO test this function
@@ -181,7 +151,6 @@ exports.setStart = async (hikeID, startPointID) => {
 	if (isNaN(startPointID))
 		throw Error("Type error with hikeID")
 	await hikeDAO.setStart(hikeID, startPointID)
-		.catch(err => { console.error(err); throw err })
 }
 
 exports.setEnd = async (hikeID, endPointID) => {
@@ -190,5 +159,4 @@ exports.setEnd = async (hikeID, endPointID) => {
 	if (isNaN(endPointID))
 		throw Error("Type error with hikeID")
 	await hikeDAO.setEnd(hikeID, endPointID)
-		.catch(err => { console.error(err); throw err })
 }

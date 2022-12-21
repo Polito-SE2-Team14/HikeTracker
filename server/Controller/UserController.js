@@ -7,15 +7,13 @@ const { resolve } = require("node:path");
 
 exports.login = async (email, password) => {
 	const user = await userDAO.getUser(email, password)
-		.catch(() => { throw Error(); });
-
-
+		
 	return user;
 }
 
 exports.getUser = async (userID) => {
 	const user = await userDAO.getUserById(userID)
-		.catch(() => { throw Error(); });
+
 	return user;
 }
 
@@ -40,7 +38,6 @@ exports.register = async (newUser, verified, approved) => {
 		approved = true;
 	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
-		.catch(err => { console.log(err); throw err });
 
 	//EMAIL VERIFICATION
 	if (verified !== 1 && approved !== 1)
@@ -226,7 +223,7 @@ exports.addUserStats = async (userStats) => {
 	let addedStats
 	await userDAO.addUserStats(userStats)
 		.then(stats => addedStats = stats)
-		.catch(error => { console.error(error); throw error })
+
 	return addedStats;
 
 }
@@ -235,7 +232,7 @@ exports.getUserStats = async (userID) => {
 	let userStats
 	await userDAO.getUserStats(userID)
 		.then(us => userStats = us)
-		.catch(error => { console.error(error); throw error })
+
 	return userStats;
 }
 
@@ -244,6 +241,6 @@ exports.updateUserStats = async (userID, userStats) => {
 	console.log("userStats",userStats)
 
 	await userDAO.updateUserStats(userID, userStats)
-		.catch (error => { console.error(error); throw error })
+
 	return userStats;
 }

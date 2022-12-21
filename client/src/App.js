@@ -93,7 +93,7 @@ function App() {
 				/>
 				<Route
 					path="/user"
-					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={handleLogout} />}
+					element={<UserPage user={user} setLoggedIn={setLoggedIn} setUser={setUser} logout={useCallback(() => handleLogout, [])} />}
 				/>
 				<Route path="/user/verify/:token" element={<UserVerificationPage user={user} setIsVerified={setIsVerified} />} />
 				<Route path="/hikes" element={<HikesPage user={user} />} />
