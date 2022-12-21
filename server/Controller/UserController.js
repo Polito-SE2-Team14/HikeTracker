@@ -3,6 +3,7 @@ const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 const nodemailerConfig = require("../Config/nodemailer.config");
 const { resolve } = require("node:path");
+const { isNull } = require("node:util");
 
 
 exports.login = async (email, password) => {
@@ -152,6 +153,12 @@ exports.updateUser = async (userID, info) => {
 	}
 }
 
+const isNullOrWrongType = (value, type) => {
+	if (value == null || typeof value !== type)
+		return true
+	else return false
+}
+
 exports.addUserStats = async (userStats) => {
 
 	console.log(userStats)
@@ -161,72 +168,60 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid userID")
 		throw Error("Invalid userID")
 	}
-	if (userStats.completedHikes != null
-		&& typeof userStats.completedHikes !== "number") {
+	if (isNullOrWrongType(userStats.completedHikes, "number")) {
 		console.error("Invalid completedHikes")
 		throw Error("Invalid completedHikes")
 	}
-	if (userStats.minTime != null
-		&& typeof userStats.minTime !== "number") {
+	if (isNullOrWrongType(userStats.minTime, "number")) {
 		console.error("Invalid minTime")
 		throw Error("Invalid minTime")
 	}
-	if (userStats.maxTime != null
-		&& typeof userStats.maxTime !== "number") {
-		console.error("Invalid maxTime")
-		throw Error("Invalid maxTime")
-	}
-	if (userStats.totalTime != null
-		&& typeof userStats.totalTime !== "number") {
-		console.error("Invalid totalTime")
-		throw Error("Invalid totalTime")
-	}
-	if (userStats.averageTime != null
-		&& typeof userStats.averageTime !== "number") {
-		console.error("Invalid averageTime")
-		throw Error("Invalid averageTime")
-	}
-	if (userStats.minDistance != null
-		&& typeof userStats.minDistance !== "number") {
-		console.error("Invalid minDistance")
-		throw Error("Invalid minDistance")
-	}
-	if (userStats.maxDistance != null
-		&& typeof userStats.maxDistance !== "number") {
-		console.error("Invalid maxDistance")
-		throw Error("Invalid maxDistance")
-	}
-	if (userStats.totalDistance != null
-		&& typeof userStats.totalDistance !== "number") {
-		console.error("Invalid totalDistance")
-		throw Error("Invalid totalDistance")
-	}
-	if (userStats.averageDistance != null
-		&& typeof userStats.averageDistance !== "number") {
-		console.error("Invalid averageDistance")
-		throw Error("Invalid averageDistance")
-	}
-	if (userStats.minAscent != null
-		&& typeof userStats.minAscent !== "number") {
-		console.error("Invalid minAscent")
-		throw Error("Invalid minAscent")
-	}
-	if (userStats.maxAscent != null
-		&& typeof userStats.maxAscent !== "number") {
-		console.error("Invalid maxAscent")
-		throw Error("Invalid maxAscent")
-	}
-	if (userStats.averageAscent != null
-		&& typeof userStats.averageAscent !== "number") {
-		console.error("Invalid averageAscent")
-		throw Error("Invalid averageAscent")
-	}
+	if (isNullOrWrongType(userStats.maxTime, "number")) {
+	console.error("Invalid maxTime")
+	throw Error("Invalid maxTime")
+}
+if (isNullOrWrongType(userStats.totalTime, "number")) {
+	console.error("Invalid totalTime")
+	throw Error("Invalid totalTime")
+}
+if (isNullOrWrongType(userStats.averageTime, "number")) {
+	console.error("Invalid averageTime")
+	throw Error("Invalid averageTime")
+}
+if (isNullOrWrongType(userStats.minDistance, "number")) {
+	console.error("Invalid minDistance")
+	throw Error("Invalid minDistance")
+}
+if (isNullOrWrongType(userStats.maxDistance, "number")) {
+	console.error("Invalid maxDistance")
+	throw Error("Invalid maxDistance")
+}
+if (isNullOrWrongType(userStats.totalDistance, "number")) {
+	console.error("Invalid totalDistance")
+	throw Error("Invalid totalDistance")
+}
+if (isNullOrWrongType(userStats.averageDistance, "number")) {
+	console.error("Invalid averageDistance")
+	throw Error("Invalid averageDistance")
+}
+if (isNullOrWrongType(userStats.minAscent, "number")) {
+	console.error("Invalid minAscent")
+	throw Error("Invalid minAscent")
+}
+if (isNullOrWrongType(userStats.maxAscent, "number")) {
+	console.error("Invalid maxAscent")
+	throw Error("Invalid maxAscent")
+}
+if (isNullOrWrongType(userStats.averageAscent, "number")) {
+	console.error("Invalid averageAscent")
+	throw Error("Invalid averageAscent")
+}
 
-	let addedStats
-	await userDAO.addUserStats(userStats)
-		.then(stats => addedStats = stats)
+let addedStats
+await userDAO.addUserStats(userStats)
+	.then(stats => addedStats = stats)
 
-	return addedStats;
+return addedStats;
 
 }
 
