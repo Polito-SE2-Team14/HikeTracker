@@ -280,11 +280,9 @@ router.delete("/:hikeID",
 		await hikeController
 			.deleteHike(req.params.hikeID)
 			.then((msg) => {
-				console.log("Router ok");
 				return res.status(201).json(msg);
 			})
 			.catch((err) => {
-				console.log("Router err");
 				console.error(err);
 				return errorResponse(err, 500, res)
 			});

@@ -59,9 +59,6 @@ exports.getReferencePointsForHike = async (hikeID) => {
 exports.addHike = async (hike) => {
 
 	let { title, length, ascent, expectedTime, description, country, municipality, province, difficulty, creatorID } = hike
-	//console.log(hike)
-
-	
 	
 	if (typeof title != "string") 		
 		throw Error("Type error with name")

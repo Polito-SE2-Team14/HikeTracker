@@ -2,8 +2,6 @@ const userDAO = require("../DAO/UserDAO")
 const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 const nodemailerConfig = require("../Config/nodemailer.config");
-const { resolve } = require("node:path");
-const { isNull } = require("node:util");
 
 
 exports.login = async (email, password) => {
@@ -39,7 +37,7 @@ exports.register = async (newUser, verified, approved) => {
 		approved = true;
 	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
-		.catch(err => { console.log(err); throw err });
+		.catch(err => { console.error(err); throw err });
 
 
 	//EMAIL VERIFICATION
@@ -71,8 +69,6 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 		subject: "HIKEfive Verification Email", // Subject line
 		html: "<p>You’ve received this message because your email address has been registered with our site. Please click the button below to verify your email address and confirm that you are the owner of this account.</p><p><a href='http://localhost:3000/user/verify/" + token + "'>Verify</a></p>", // html body
 	});
-
-	console.log("Message sent: %s", info.messageId);
 
 	return true;
 
@@ -154,15 +150,10 @@ exports.updateUser = async (userID, info) => {
 }
 
 const isNullOrWrongType = (value, type) => {
-	if (value == null || typeof value !== type)
-		return true
-	else return false
+	return (value == null || typeof value !== type)
 }
 
 exports.addUserStats = async (userStats) => {
-
-	console.log(userStats)
-
 
 	if (Number.isNaN(userStats.userID)) {
 		console.error("Invalid userID")
@@ -177,51 +168,51 @@ exports.addUserStats = async (userStats) => {
 		throw Error("Invalid minTime")
 	}
 	if (isNullOrWrongType(userStats.maxTime, "number")) {
-	console.error("Invalid maxTime")
-	throw Error("Invalid maxTime")
-}
-if (isNullOrWrongType(userStats.totalTime, "number")) {
-	console.error("Invalid totalTime")
-	throw Error("Invalid totalTime")
-}
-if (isNullOrWrongType(userStats.averageTime, "number")) {
-	console.error("Invalid averageTime")
-	throw Error("Invalid averageTime")
-}
-if (isNullOrWrongType(userStats.minDistance, "number")) {
-	console.error("Invalid minDistance")
-	throw Error("Invalid minDistance")
-}
-if (isNullOrWrongType(userStats.maxDistance, "number")) {
-	console.error("Invalid maxDistance")
-	throw Error("Invalid maxDistance")
-}
-if (isNullOrWrongType(userStats.totalDistance, "number")) {
-	console.error("Invalid totalDistance")
-	throw Error("Invalid totalDistance")
-}
-if (isNullOrWrongType(userStats.averageDistance, "number")) {
-	console.error("Invalid averageDistance")
-	throw Error("Invalid averageDistance")
-}
-if (isNullOrWrongType(userStats.minAscent, "number")) {
-	console.error("Invalid minAscent")
-	throw Error("Invalid minAscent")
-}
-if (isNullOrWrongType(userStats.maxAscent, "number")) {
-	console.error("Invalid maxAscent")
-	throw Error("Invalid maxAscent")
-}
-if (isNullOrWrongType(userStats.averageAscent, "number")) {
-	console.error("Invalid averageAscent")
-	throw Error("Invalid averageAscent")
-}
+		console.error("Invalid maxTime")
+		throw Error("Invalid maxTime")
+	}
+	if (isNullOrWrongType(userStats.totalTime, "number")) {
+		console.error("Invalid totalTime")
+		throw Error("Invalid totalTime")
+	}
+	if (isNullOrWrongType(userStats.averageTime, "number")) {
+		console.error("Invalid averageTime")
+		throw Error("Invalid averageTime")
+	}
+	if (isNullOrWrongType(userStats.minDistance, "number")) {
+		console.error("Invalid minDistance")
+		throw Error("Invalid minDistance")
+	}
+	if (isNullOrWrongType(userStats.maxDistance, "number")) {
+		console.error("Invalid maxDistance")
+		throw Error("Invalid maxDistance")
+	}
+	if (isNullOrWrongType(userStats.totalDistance, "number")) {
+		console.error("Invalid totalDistance")
+		throw Error("Invalid totalDistance")
+	}
+	if (isNullOrWrongType(userStats.averageDistance, "number")) {
+		console.error("Invalid averageDistance")
+		throw Error("Invalid averageDistance")
+	}
+	if (isNullOrWrongType(userStats.minAscent, "number")) {
+		console.error("Invalid minAscent")
+		throw Error("Invalid minAscent")
+	}
+	if (isNullOrWrongType(userStats.maxAscent, "number")) {
+		console.error("Invalid maxAscent")
+		throw Error("Invalid maxAscent")
+	}
+	if (isNullOrWrongType(userStats.averageAscent, "number")) {
+		console.error("Invalid averageAscent")
+		throw Error("Invalid averageAscent")
+	}
 
-let addedStats
-await userDAO.addUserStats(userStats)
-	.then(stats => addedStats = stats)
+	let addedStats
+	await userDAO.addUserStats(userStats)
+		.then(stats => addedStats = stats)
 
-return addedStats;
+	return addedStats;
 
 }
 
@@ -234,8 +225,6 @@ exports.getUserStats = async (userID) => {
 }
 
 exports.updateUserStats = async (userID, userStats) => {
-
-	console.log("userStats", userStats)
 
 	await userDAO.updateUserStats(userID, userStats)
 
