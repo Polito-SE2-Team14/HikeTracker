@@ -4,25 +4,21 @@ const pointsDAO = require("../DAO/pointsDAO");
 //TODO test this function
 exports.getAllParkingLots = async () => {
 	const parkingLots = await pLotDAO.getAllParkingLots()
-		.catch((err) => {
-			throw err;
-		});
+		
 	return parkingLots;
 }
 
 //TODO test this function
 exports.getParkingLotById = async (id) => {
-	const parkingLot = await pLotDAO.getParkingLotById(id).catch(() => {
-		throw Error();
-	});
+	const parkingLot = await pLotDAO.getParkingLotById(id)
+
 	return parkingLot;
 }
 
 //TODO test this function
 exports.parkingLotExists = async (pLotId) => {
-	const exists = await pLotDAO.parkingLotExists(pLotId).catch(() => {
-		throw Error();
-	});
+	const exists = await pLotDAO.parkingLotExists(pLotId)
+
 	return exists;
 }
 
@@ -61,11 +57,8 @@ exports.addParkingLot = async (newPLot) => {
 		address: address, type: "parkinglot", creatorID: Number(creatorID), description: description
 	})
 		.then(newID => pointID = newID)
-		.catch(err => { console.error("controller:", err); throw err });
-
 
 	await pLotDAO.addParkingLot(pointID, carspace)
-		.catch((err) => { throw err; });
 
 	const addedPLot =
 	{
@@ -83,8 +76,6 @@ exports.addParkingLot = async (newPLot) => {
 //TODO test this function
 exports.deleteParkingLot = async (pLotId) => {
 	await pointsDAO.deletePoint(pLotId)
-		.catch(err => { throw err; });
 
 	await pLotDAO.deleteParkingLot(pLotId)
-		.catch(err => { throw err; });
 }

@@ -68,7 +68,6 @@ exports.getHike = function (wantedID) {
 					);
 				}
 				catch (e) {
-					console.error(e);
 					reject(e);
 				}
 			}
@@ -327,7 +326,6 @@ exports.deleteHike = function (hikeID) {
 					resolve({ msg: `Hike with ID ${hikeID} deleted correctly` });
 				}
 				catch (e) {
-					console.error(e);
 					reject(e);
 				}
 		});

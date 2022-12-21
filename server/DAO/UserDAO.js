@@ -230,39 +230,41 @@ exports.addUserStats = (userStats) => {
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM USER WHERE userID=?;", [userStats.userID], (err, row) => {
 			if (err) {
-				console.log(err);
+				console.error(err);
 				reject(err);
-			} else if (row == null || row == undefined) {
-				reject({ error: "User not found" });
-			} else {
-				let sqlInsert = `INSERT INTO USER_STATS (`;
-				let sqlValues = ` VALUES (`;
-
-				Object.entries(userStats).forEach(([key, value]) => {
-					sqlInsert += `${key}, `;
-					if (typeof value == 'string' || value instanceof String) {
-						sqlValues += `"${value}", `;
-					} else {
-						sqlValues += `${value}, `;
-					}
-				});
-
-				sqlInsert = sqlInsert.substring(0, sqlInsert.length - 2);
-				sqlInsert += ")"
-				sqlValues = sqlValues.substring(0, sqlValues.length - 2);
-				sqlValues += ");";
-				sqlInsert += sqlValues;
-
-				db.run(sqlInsert, (err) => {
-					if (err) {
-						reject(err);
-					} else {
-						resolve(true);
-					}
-				})
 			}
-		})
-	})
+			if (row == null) {
+				reject({ error: "User not found" });
+			}
+
+			let sqlInsert = `INSERT INTO USER_STATS (`;
+			let sqlValues = ` VALUES (`;
+
+			Object.entries(userStats).forEach(([key, value]) => {
+				sqlInsert += `${key}, `;
+				if (typeof value == 'string' || value instanceof String) {
+					sqlValues += `"${value}", `;
+				} else {
+					sqlValues += `${value}, `;
+				}
+			});
+
+			sqlInsert = sqlInsert.substring(0, sqlInsert.length - 2);
+			sqlInsert += ")"
+			sqlValues = sqlValues.substring(0, sqlValues.length - 2);
+			sqlValues += ");";
+			sqlInsert += sqlValues;
+
+			db.run(sqlInsert, (err) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(true);
+				}
+			})
+		}
+		)
+})
 }
 
 exports.getUserStats = (userID) => {
@@ -307,8 +309,6 @@ exports.getUserStats = (userID) => {
 }
 
 exports.updateUserStats = (userID, newUserStats) => {
-	console.log("newUserStats",newUserStats);
-
 	return new Promise((resolve, reject) => {
 		db.get("SELECT * FROM USER_STATS WHERE userID=?;", [userID], (err, row) => {
 			if (err) {
@@ -342,11 +342,11 @@ exports.updateUserStats = (userID, newUserStats) => {
 				MINASCENT = ?,	MAXASCENT = ?,	AVERAGEASCENT = ?
 				WHERE userID = ?`
 				db.run(sqlUpdate, [newUserStats.completedHikes, newUserStats.favouriteDifficulty,
-					newUserStats.minDistance, newUserStats.maxDistance, newUserStats.totalTime,
-					newUserStats.averageTime, newUserStats.minDistance, newUserStats.maxDistance,
-					newUserStats.totalDistance, newUserStats.averageDistance, newUserStats.favouriteCountry,
-					newUserStats.favouriteProvince, newUserStats.minAscent, newUserStats.maxAscent,
-					newUserStats.averageAscent,userID], function (err) {
+				newUserStats.minDistance, newUserStats.maxDistance, newUserStats.totalTime,
+				newUserStats.averageTime, newUserStats.minDistance, newUserStats.maxDistance,
+				newUserStats.totalDistance, newUserStats.averageDistance, newUserStats.favouriteCountry,
+				newUserStats.favouriteProvince, newUserStats.minAscent, newUserStats.maxAscent,
+				newUserStats.averageAscent, userID], function (err) {
 					if (err) {
 						reject(err);
 					} else {

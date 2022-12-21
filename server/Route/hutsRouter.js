@@ -20,8 +20,6 @@ router.post('',
 	check(["phoneNumber"]).isInt().not().isEmpty().trim().escape(),
 	async (req, res) => {
 
-		console.log(req.body)
-
 
 		if (!validationResult(req).isEmpty()) {
 			return errorResponse(validationResult(req).array(), 422, res)

@@ -3,9 +3,7 @@ const hutDAO = require("../DAO/hutDAO")
 
 //TODO test this function
 exports.getHuts = async () => {
-	const huts = await hutDAO.getHuts().catch(() => {
-		throw Error();
-	});
+	const huts = await hutDAO.getHuts()
 
 	return huts;
 }
@@ -42,7 +40,6 @@ exports.createHut = async (hut) => {
 		type: "hut", creatorID: Number(creatorID)
 	})
 		.then(newID => pointID = newID)
-		.catch(err => { console.error("controller:", err); throw err });
 
 
 	await hutDAO
@@ -50,10 +47,6 @@ exports.createHut = async (hut) => {
 			pointID: pointID, bedspace: Number(bedspace),
 			website: website, phoneNumber: phoneNumber, email: email
 		})
-		.catch((err) => {
-			console.error(err);
-			throw err;
-		});
 
 	let hutToBeReturned = {
 		pointID: pointID,
@@ -89,18 +82,14 @@ exports.updateHut = async (hut) => {
 		throw Error("Type error with creatorID")
 
 	await pointsDAO.updatePoint(hut)
-		.catch(err => { throw err })
 
 	await hutDAO.updateHut(hut)
-		.catch(err => { throw err })
 }
 
 //TODO test this function
 exports.deleteHut = async (pointID) => {
 	await hutDAO.deleteHut(pointID)
-		.catch(err => { throw err })
 
 	await pointsDAO.deletePoint(pointID)
-		.catch(err => { throw err })
 
 }

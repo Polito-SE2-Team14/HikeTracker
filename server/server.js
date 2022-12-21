@@ -64,6 +64,9 @@ app.use(prefixRoute + 'parkinglots', pLotRouter);
 // ################################# Huts APIs ##########################################
 const hutsRouter = require("./Route/hutsRouter");
 app.use(prefixRoute + 'huts', hutsRouter);
+// ################################# HikeRecords APIs ##########################################
+const hikeRecordsRouter = require("./Route/hikeRecordsRouter");
+app.use(prefixRoute + 'hikeRecords', hikeRecordsRouter);
 
 // activate the server
 app.listen(port, () => {

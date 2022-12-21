@@ -27,6 +27,8 @@ import { HikeMap } from "../Map/Maps";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import RoleManagement from "../../class/RoleManagement";
+import dayjs from 'dayjs'
+import DateTimePicker from 'react-datetime-picker'
 
 export function HikeModal(props) {
 	let hike = props.hike;
@@ -110,6 +112,8 @@ export function HikeModal(props) {
 
 function InfoTab(props) {
 	let hike = props.hike;
+	const [dateTime, setDateTime] = useState(new Date());
+	console.log(dayjs(dateTime));
 
 	return (
 		<Container>
@@ -120,6 +124,11 @@ function InfoTab(props) {
 			/>
 			<Row>
 				<Col>{`${hike.municipality} (${hike.province}, ${hike.country})`}</Col>
+			</Row>
+
+			<Row>
+				<strong>{" Manual Clock:"}</strong>
+				<Col><DateTimePicker format="y-MM-dd h:mm:ss a" onChange={setDateTime} value={dateTime} /></Col>
 			</Row>
 			<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 				<Col>
@@ -143,29 +152,31 @@ function InfoTab(props) {
 					{` ${hike.expectedTime} minutes`}
 				</Col>
 			</Row>
-			{props.markers.start && props.markers.end && (
-				<Row className="mt-3">
-					{props.markers.start && (
-						<Col>
-							<strong>Start Point:</strong>
-							{props.markers.start.name}
-						</Col>
-					)}
-					{props.markers.end && (
-						<Col>
-							<strong>End Point:</strong>
-							{props.markers.end.name}
-						</Col>
-					)}
-				</Row>
-			)}
+			{
+				props.markers.start && props.markers.end && (
+					<Row className="mt-3">
+						{props.markers.start && (
+							<Col>
+								<strong>Start Point:</strong>
+								{props.markers.start.name}
+							</Col>
+						)}
+						{props.markers.end && (
+							<Col>
+								<strong>End Point:</strong>
+								{props.markers.end.name}
+							</Col>
+						)}
+					</Row>
+				)
+			}
 			<Row className="mt-3">
 				<Col>
 					<FontAwesomeIcon icon={faQuoteLeft} size="xl" /> {hike.description}
 				</Col>
 				<Col>{`by ${hike.creatorName} ${hike.creatorSurname}`}</Col>
 			</Row>
-		</Container>
+		</Container >
 	);
 }
 
@@ -229,7 +240,7 @@ function MapTab(props) {
 		<Container>
 			<Row>
 				<HikeMap
-				editable
+					editable
 					user={props.user}
 					track={props.track}
 					markers={props.markers}
