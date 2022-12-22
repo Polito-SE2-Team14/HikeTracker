@@ -13,7 +13,6 @@ const userDAO = require("../DAO/UserDAO")
 const pointsDAO = require("../DAO/pointsDAO")
 const hutController = require("../Controller/HutController")
 const parkingLotController = require("../Controller/ParkingLotController");
-const { resolve } = require("path");
 
 function hikesCreation() {
 	console.log("Adding hikes")
