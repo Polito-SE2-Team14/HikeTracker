@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Form, InputGroup, Row, Col, Alert} from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col, Alert } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Map/Maps";
@@ -29,8 +29,8 @@ export function HikeEditForm(props) {
 		setHike(null);
 	};
 
-	let onSubmit = async (hikeID) => {
-		let newHike = await HikeAPI.getHike(hikeID);
+	let onSubmit = async (data) => {
+		let newHike = data;
 		newHike.show = true;
 
 		props.setHikes(old =>
@@ -100,29 +100,26 @@ function HikeForm(props) {
 		let hike = {
 			hikeID: props.hike ? props.hike.hikeID : null,
 			title: title,
-			length: Math.round(length),
-			expectedTime: expectedTime,
-			ascent: ascent,
 			difficulty: difficulty,
 			description: description,
 			municipality: municipality,
 			province: province,
-			gpxFile: fileContent,
+			country: country
 		};
 
 		if (hike.hikeID) {
 			// NOTE: editing form
 
-			HikeAPI.editHike(
-				{
-					hikeID: props.hike.hikeID, title: title, length: Math.round(length),
-					expectedTime: expectedTime, ascent: ascent, difficulty: difficulty,
-					description: description, municipality: municipality, province: province
-				}
-			).catch((e) => {
-				// TODO(antonio): error handling
-				console.error(e);
-			});
+			// HikeAPI.editHike(
+			// 	{
+			// 		hikeID: props.hike.hikeID, title: title, length: Math.round(length),
+			// 		expectedTime: expectedTime, ascent: ascent, difficulty: difficulty,
+			// 		description: description, municipality: municipality, province: province
+			// 	}
+			// ).catch((e) => {
+			// 	// TODO(antonio): error handling
+			// 	console.error(e);
+			// });
 		} else {
 
 			await props.newHike(
@@ -131,7 +128,10 @@ function HikeForm(props) {
 					description: description, municipality: municipality, province: province,
 					country: country
 				})
-				.then(h => hike = h)
+				.then(h => hike = {
+					...hike,
+					...h
+				})
 				.catch((e) => {
 					// TODO(antonio): error handling
 					console.error(e);
@@ -139,7 +139,7 @@ function HikeForm(props) {
 
 		}
 
-		await props.onSubmit(hike.hikeID);
+		await props.onSubmit(hike);
 		props.goToPoints();
 	};
 

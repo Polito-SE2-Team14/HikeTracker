@@ -76,7 +76,7 @@ function App() {
 
 	return (
 		<Router>
-			<AppNavBar loggedIn={loggedIn} logout={useCallback(() => handleLogout, [])} user={user} />
+			<AppNavBar loggedIn={loggedIn} logout={useCallback(handleLogout, [])} user={user} />
 			<Routes>
 				<Route path="/" element={<HomePage loggedIn={loggedIn} verified={isVerified} approved={isApproved} user={user} />} />
 				<Route
