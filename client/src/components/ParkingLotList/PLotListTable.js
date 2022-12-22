@@ -99,7 +99,7 @@ function PLotListItem(props) {
 						<Card.Title>
 							<Row>
 								<Col xs={8} sm={9}>
-									{props.lot.name}
+									{props.lot.name.length > 25 ? props.lot.name.slice(0, 24).concat("...") : props.lot.name}
 								</Col>
 								<Col className="text-end">
 									<Button

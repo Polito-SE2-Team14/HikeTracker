@@ -125,7 +125,7 @@ function HikeListItem(props) {
 						<Card.Title>
 							<Row className="top-row">
 								<Col xs={8} sm={9}>
-									{props.hike.title.slice(0, 25).concat("...")}
+									{props.hike.title.length > 25 ? props.hike.title.trim().slice(0, 24).concat("...") : props.hike.title}
 								</Col>
 								<Col className="text-end">
 									<Button
