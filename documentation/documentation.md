@@ -1,3 +1,5 @@
+# HikeFIVE!
+
 ## Completed Stories
 
 ### HT-1
@@ -89,3 +91,41 @@ So that I can get personalised recommendations
 As a hiker<br/>
 I want to filter the list of hikes based on my profile<br/>
 So that I can see them based on certain characteristics
+
+
+## Features
+
+HikeFIVE! is made of these pages:
+- Homepage (/)
+- Hikes page (/hikes)
+- Huts page (/huts)
+- ParkingLots page (/parking-lots)
+- Admin dashboard (/admin)
+- Profile page (/user)
+- Login page (/login)
+- Registration page (/registration)
+
+## Used technologies
+
+The web application is made in JavaScript, both backend and frontend.
+For frontend we used react.
+For backend we used express.
+We used SQLite as Database.
+
+We used the following libraries
+- dayjs
+- react bootstrap
+- material ui
+- cors
+- gpxparser
+- express validator
+- morgan
+- passport
+
+## Testing
+
+For testing we used two frameworks.
+ - Mocha for integration testing
+ - Jest for unit testing
+
+On every update on our VCS, both test suites are executed
