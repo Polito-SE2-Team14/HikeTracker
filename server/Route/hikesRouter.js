@@ -42,7 +42,7 @@ router.get(
 
 		await hikeController
 			.getHikeTrack(hikeID)
-			.then((track) => {return res.json(track)})
+			.then((track) => { return res.json(track) })
 			.catch((err) => {
 				return errorResponse(err, 500, res)
 			});
@@ -52,56 +52,18 @@ router.get(
 // returns all huts close the given hike
 router.get("/:hikeID/huts",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),
-	async(req,res)=>{
+	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
 			return errorResponse(errors.array(), 422, res)
 
 		await hikeController.getCloseHutsForHike(req.params.hikeID)
-		.then((msg) => {
-			return res.status(201).json(msg);
-		})
-		.catch((err) => {
-			return errorResponse(err, 500, res)
-		});
-	}
-);
-
-//link the hut whose id is hutID to the hike whose id is hikeID 
-router.post("/:hikeID/huts/:hutID",
-	check("hikeID").not().isEmpty().isInt({ min: 0 }),
-	check("hutID").not().isEmpty().isInt({ min: 0 }),
-	async(req,res)=>{
-		const errors = validationResult(req);
-		if(!errors.isEmpty())
-			return errorResponse(errors.array(), 422, res)
-		
-		await hikeController.linkHutToHike(req.params.hutID,req.params.hikeID)
-		.then((msg)=>{
-			return res.status(201).json(msg);
-		})
-		.catch((err)=>{
-			return errorResponse(err,500,res)
-		});
-	}
-);
-
-//delete the link between the hut whose id is hutID and the hike whose id is hikeID 
-router.delete("/:hikeID/huts/:hutID",
-	check("hikeID").not().isEmpty().isInt({ min: 0 }),
-	check("hutID").not().isEmpty().isInt({ min: 0 }),
-	async(req,res)=>{
-		const errors = validationResult(req);
-		if(!errors.isEmpty())
-			return errorResponse(errors.array(), 422, res)
-		
-		await hikeController.deleteHutToHikeLink(req.params.hutID,req.params.hikeID)
-		.then((msg)=>{
-			return res.status(201).json(msg);
-		})
-		.catch((err)=>{
-			return errorResponse(err,500,res)
-		});
+			.then((msg) => {
+				return res.status(201).json(msg);
+			})
+			.catch((err) => {
+				return errorResponse(err, 500, res)
+			});
 	}
 );
 
@@ -127,6 +89,23 @@ router.get("/:hikeID/referencePoints",
 			});
 
 	})
+
+
+router.get("/:hikeID/linkedHuts",
+check(["hikeID"]).not().isEmpty().isInt({ min: 0 }),
+async (req, res) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty())
+		return errorResponse(errors.array(), 422, res)
+
+	await hikeController.getHutsLinkedToHike(req.params.hikeID)
+		.then((msg) => res.status(201).json(msg))
+		.catch((err) => {
+			console.error(err);
+			return errorResponse(err, 500, res)
+		});
+}
+)
 
 // POST request to /api/hikes to add a new hike
 router.post("",
@@ -154,6 +133,26 @@ router.post("",
 
 	}
 );
+//link the hut whose id is hutID to the hike whose id is hikeID 
+router.post("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponse(errors.array(), 422, res)
+
+		await hikeController.linkHutToHike(req.params.hutID, req.params.hikeID)
+			.then((msg) => {
+				return res.status(201).json(msg);
+			})
+			.catch((err) => {
+				return errorResponse(err, 500, res)
+			});
+	}
+);
+
+
 
 //POST request to /api/hikes/referencePoints to save a referencePoint in the database
 router.post("/referencePoints",
@@ -184,34 +183,6 @@ router.post("/referencePoints",
 	})
 
 
-// PUT request to /api/hikes to update an existing hike
-router.put("",
-	check(["hikeID", "length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
-	check(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
-	async (req, res) => {
-
-		const errors = validationResult(req);
-		if (!errors.isEmpty())
-			return errorResponse(errors.array(), 422, res)
-
-
-		let present = check_hike(req.body.hikeID);
-		if (!present)
-			return errorResponse({ error: `No hike with the given ID found` }, 404, res)
-
-		let hike = req.body
-
-		await hikeController
-			.updateHike(hike)
-			.then((msg) => {
-				res.status(201).json(msg);
-			})
-			.catch((err) => {
-				console.error(err);
-				return errorResponse(err, 500, res)
-			});
-	}
-);
 
 // POST request to store link a start point to an hike
 router.post("/start",
@@ -251,21 +222,35 @@ router.post("/end",
 	}
 )
 
-router.get("/:hikeID/linkedHuts",
-	check(["hikeID"]).not().isEmpty().isInt({ min: 0 }),
-	async(req,res)=>{
+
+// PUT request to /api/hikes to update an existing hike
+router.put("",
+	check(["hikeID", "length", "expectedTime", "ascent"]).not().isEmpty().isInt({ min: 0 }),
+	check(["title", "description", "difficulty", "municipality", "province"]).not().isEmpty().trim().escape(),
+	async (req, res) => {
+
 		const errors = validationResult(req);
 		if (!errors.isEmpty())
 			return errorResponse(errors.array(), 422, res)
 
-		await hikeController.getHutsLinkedToHike(req.params.hikeID)
-			.then((msg) => res.status(201).json(msg))
+
+		let present = check_hike(req.body.hikeID);
+		if (!present)
+			return errorResponse({ error: `No hike with the given ID found` }, 404, res)
+
+		let hike = req.body
+
+		await hikeController
+			.updateHike(hike)
+			.then((msg) => {
+				res.status(201).json(msg);
+			})
 			.catch((err) => {
 				console.error(err);
 				return errorResponse(err, 500, res)
 			});
 	}
-)
+);
 
 // DELETE request to delete an hike
 router.delete("/:hikeID",
@@ -274,7 +259,7 @@ router.delete("/:hikeID",
 
 		let present = await check_hike(req.params.hikeID)
 			.catch(err => { return res.status(404).json({ error: err }) })
-		if (!present) 
+		if (!present)
 			return errorResponse({ error: `No hike with the given ID found` }, 404, res)
 
 		await hikeController
@@ -287,5 +272,24 @@ router.delete("/:hikeID",
 				return errorResponse(err, 500, res)
 			});
 	});
+
+//delete the link between the hut whose id is hutID and the hike whose id is hikeID 
+router.delete("/:hikeID/huts/:hutID",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	check("hutID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponse(errors.array(), 422, res)
+
+		await hikeController.deleteHutToHikeLink(req.params.hutID, req.params.hikeID)
+			.then((msg) => {
+				return res.status(201).json(msg);
+			})
+			.catch((err) => {
+				return errorResponse(err, 500, res)
+			});
+	}
+);
 
 module.exports = router;
