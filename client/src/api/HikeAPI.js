@@ -108,7 +108,13 @@ const newHike = async (hike) => {
 		let response = await REST.UPDATE("POST", api, body, true);
 		let hikeJson = await response.json();
 
-		return hikeJson;
+		return {
+			hikeID: hikeJson.hikeID,
+			length: length,
+			expectedTime: eta,
+			ascent: ascent,
+			track: points
+		};
 	} catch (e) {
 		console.error("Error in HikeAPI.js", e)
 		throw e;

@@ -67,7 +67,12 @@ export function HikesPage(props) {
 		let insertedHike;
 		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
-			.then((h) => (insertedHike = h))
+			.then((h) => (insertedHike = {
+				...h,
+				creatorID: props.user.userID,
+				creatorName: props.user.name,
+				creatorSurname: props.user.surname
+			}))
 			.catch((e) => {
 				console.error(e);
 			});
