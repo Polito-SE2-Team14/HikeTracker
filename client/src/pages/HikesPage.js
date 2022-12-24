@@ -2,6 +2,7 @@ import { Container, Modal, Button, Row, Col, Form } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import HikeAPI from "../api/HikeAPI";
 import UserAPI from "../api/UserAPI";
+import HikeRecordsAPI from "../api/HikeRecordsAPI";
 import HikeListTable from "../components/HikeList/HikeListTable";
 import { filterAllHikes } from "../components/HikeList/filtering_functions";
 import { Loading } from "../components/Loading";
@@ -19,6 +20,7 @@ export function HikesPage(props) {
 
 	const [userStats, setUserStats] = useState(null);
 	const [hikes, setHikes] = useState([]);
+	const [userHikeRecords, setUserHikeRecords] = useState([]);
 	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({
@@ -48,6 +50,19 @@ export function HikesPage(props) {
 			.catch((error) => {
 				console.log(error);
 			});
+	};
+
+	const getAllUserHikeRecords = async () => {
+		if (props.user && props.user.userID) {
+			await HikeRecordsAPI.getHikeRecordsForUser(props.user.userID)
+				.then((h) => {
+					setUserHikeRecords(h);
+					console.log(userHikeRecords);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
 	const handleClose = () => {
@@ -163,6 +178,7 @@ export function HikesPage(props) {
 
 	useEffect(() => {
 		getAllHikes();
+		getAllUserHikeRecords();
 	}, [hikes.length]);
 
 	async function updateFilters() {
@@ -239,6 +255,8 @@ export function HikesPage(props) {
 					/>
 					<HikeListTable
 						hikes={filteredHikes}
+						userHikeRecords={userHikeRecords}
+						getAllUserHikeRecords={getAllUserHikeRecords}
 						setHikes={setHikes}
 						filters={filters}
 						setFilters={setFilters}

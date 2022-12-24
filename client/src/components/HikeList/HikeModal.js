@@ -59,6 +59,9 @@ export function HikeModal(props) {
 							user={props.user}
 							hike={hike}
 							markers={markers}
+							userRecord={props.userRecord}
+							customDateTime={props.customDateTime}
+							setCustomDateTime={props.setCustomDateTime}
 						/>
 					</Tab>
 					<Tab eventKey="map" title="Map">
@@ -99,9 +102,11 @@ export function HikeModal(props) {
 							{RoleManagement.isAuthor(props.user, props.hike.creatorID) ? <Button className="me-1" variant="warning" onClick={props.onEdit}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Edit
 							</Button> : false}
-							{/* <Button variant="success" onClick={props.onStart}>
-								<FontAwesomeIcon icon={faPlay} />{" Start"}
-							</Button> */}
+							{RoleManagement.isHiker(props.user) && props.userRecord.length == 0 && props.hikeIsStarted == false &&
+								<Button variant="success" onClick={props.handleStartHike}>
+									<FontAwesomeIcon icon={faPlay} />{" Start"}
+								</Button>
+							}
 						</Col>
 					</Row>
 				</Col>
@@ -112,9 +117,7 @@ export function HikeModal(props) {
 
 function InfoTab(props) {
 	let hike = props.hike;
-	const [dateTime, setDateTime] = useState(new Date());
-	console.log(dayjs(dateTime));
-
+	// console.log(props.userRecord);
 	return (
 		<Container>
 			<img
@@ -125,11 +128,13 @@ function InfoTab(props) {
 			<Row>
 				<Col>{`${hike.municipality} (${hike.province}, ${hike.country})`}</Col>
 			</Row>
+			{RoleManagement.isHiker(props.user) && props.userRecord.length > 0 && props.userRecord[0].status == "open" &&
+				<Row>
+					<strong>{" Manual Clock:"}</strong>
+					<Col><DateTimePicker onChange={props.setCustomDateTime} value={props.customDateTime} /></Col>
+				</Row>
 
-			<Row>
-				<strong>{" Manual Clock:"}</strong>
-				<Col><DateTimePicker format="y-MM-dd h:mm:ss a" onChange={setDateTime} value={dateTime} /></Col>
-			</Row>
+			}
 			<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 				<Col>
 					<FontAwesomeIcon icon={faPersonWalking} />

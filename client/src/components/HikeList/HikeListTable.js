@@ -1,6 +1,7 @@
 import { Button, Card, Row, Col, Container, Form } from "react-bootstrap";
 import React, { useState } from "react";
 import HikeAPI from "../../api/HikeAPI";
+import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faMountain,
@@ -18,6 +19,7 @@ import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
 import { timeText } from "../HikeData";
+const dayjs = require('dayjs')
 
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
@@ -30,6 +32,9 @@ function HikeListTable(props) {
 			<HikeListItem
 				user={props.user}
 				hike={hike}
+				getAllUserHikeRecords={props.getAllUserHikeRecords}
+				userRecord={props.userHikeRecords.filter(record => record.hikeID == hike.hikeID)}
+				hikeIsStarted={props.userHikeRecords.filter(record => record.status == "open").length == 1}
 				setHikes={props.setHikes}
 				handleEditForm={handleShowEditForm}
 			/>
@@ -46,9 +51,9 @@ function HikeListTable(props) {
 						false
 					)}
 					{props.user ? <Row>
-					<Button className="mb-3" onClick={() => {
-						props.applyPreferences();
-					}}>I'm feeling adventurous!</Button>
+						<Button className="mb-3" onClick={() => {
+							props.applyPreferences();
+						}}>I'm feeling adventurous!</Button>
 					</Row> : false}
 					<Row>
 						<Card className="p-2">
@@ -88,6 +93,15 @@ function HikeListTable(props) {
 
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
+	const [customDateTime, setCustomDateTime] = useState(new Date());
+	const handleStartHike = async () => {
+		// setShowHikeModal(false);
+		await HikeRecordsAPI.addNewRecord({ userID: props.user.userID, hikeID: props.hike.hikeID, startDate: dayjs().format("YYYY-MM-DD HH:mm:ss") })
+			.then(() => {
+				props.getAllUserHikeRecords();
+			})
+			.catch((err) => console.log(err));
+	};
 
 	const handleCloseHikeModal = () => {
 		setShowHikeModal(false);
@@ -114,6 +128,11 @@ function HikeListItem(props) {
 				show={showHikeModal}
 				hike={props.hike}
 				user={props.user}
+				userRecord={props.userRecord}
+				hikeIsStarted = {props.hikeIsStarted}
+				customDateTime={customDateTime}
+				setCustomDateTime={setCustomDateTime}
+				handleStartHike={handleStartHike}
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}
