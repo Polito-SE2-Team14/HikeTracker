@@ -4,10 +4,23 @@ const api = "/hikeRecords";
 
 const getHikeRecordsForUser = async (userID) => {
 	try {
-		let response = await REST.GET(api+"/"+userID);
+		let response = await REST.GET(api + "/" + userID);
 		let returnedJson = await response.json();
 
-        return returnedJson;
+		return returnedJson;
+
+	} catch (err) {
+		console.error("Error in HikeRecordsAPI.js", err)
+		throw err;
+	}
+}
+
+const getHikeRecordForUserWithStatusOpen = async (userID) => {
+	try {
+		let response = await REST.GET(api + "/" + userID + "/status/open");
+		let returnedJson = await response.json();
+
+		return returnedJson;
 
 	} catch (err) {
 		console.error("Error in HikeRecordsAPI.js", err)
@@ -28,7 +41,7 @@ const addNewRecord = async (record) => {
 
 const updateRecord = async (record) => {
 	try {
-        await REST.UPDATE("PUT", api, record, true)
+		await REST.UPDATE("PUT", api, record, true)
 		return true;
 	} catch (err) {
 		console.error("Error in HikeRecordsAPI.js", err)
@@ -36,6 +49,6 @@ const updateRecord = async (record) => {
 	}
 }
 
-const HikeRecordsAPI = { getHikeRecordsForUser, addNewRecord, updateRecord }
+const HikeRecordsAPI = { getHikeRecordsForUser, addNewRecord, updateRecord, getHikeRecordForUserWithStatusOpen }
 
 export default HikeRecordsAPI;

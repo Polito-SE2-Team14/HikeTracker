@@ -32,9 +32,11 @@ function HikeListTable(props) {
 			<HikeListItem
 				user={props.user}
 				hike={hike}
-				getAllUserHikeRecords={props.getAllUserHikeRecords}
-				userRecord={props.userHikeRecords.filter(record => record.hikeID == hike.hikeID)}
-				hikeIsStarted={props.userHikeRecords.filter(record => record.status == "open").length == 1}
+				getUserHikeRecord={props.getUserHikeRecord}
+				setUserHikeRecord={props.setUserHikeRecord}
+				userRecord={props.userHikeRecord}
+				thisHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID == hike.hikeID }
+				otherHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID != hike.hikeID }
 				setHikes={props.setHikes}
 				handleEditForm={handleShowEditForm}
 			/>
@@ -93,12 +95,24 @@ function HikeListTable(props) {
 
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
-	const [customDateTime, setCustomDateTime] = useState(new Date());
+	const [customDateTime, setCustomDateTime] = useState(dayjs());
 	const handleStartHike = async () => {
 		// setShowHikeModal(false);
 		await HikeRecordsAPI.addNewRecord({ userID: props.user.userID, hikeID: props.hike.hikeID, startDate: dayjs().format("YYYY-MM-DD HH:mm:ss") })
 			.then(() => {
-				props.getAllUserHikeRecords();
+				props.getUserHikeRecord();
+				setCustomDateTime(dayjs());
+			})
+			.catch((err) => console.log(err));
+	};
+
+	const handleStopHike = async () => {
+		let record = props.userRecord;
+		record.endDate = dayjs(customDateTime).format("YYYY-MM-DD HH:mm:ss");
+		await HikeRecordsAPI.updateRecord(record)
+			.then(() => {
+				props.setUserHikeRecord(null);
+				setCustomDateTime(dayjs());
 			})
 			.catch((err) => console.log(err));
 	};
@@ -129,10 +143,12 @@ function HikeListItem(props) {
 				hike={props.hike}
 				user={props.user}
 				userRecord={props.userRecord}
-				hikeIsStarted = {props.hikeIsStarted}
+				thisHikeIsStarted = {props.thisHikeIsStarted}
+				otherHikeIsStarted = {props.otherHikeIsStarted}
 				customDateTime={customDateTime}
 				setCustomDateTime={setCustomDateTime}
 				handleStartHike={handleStartHike}
+				handleStopHike={handleStopHike}
 				onClose={() => handleCloseHikeModal()}
 				onDelete={() => handleDeleteHike(props.hike)}
 				onEdit={() => props.handleEditForm(props.hike)}

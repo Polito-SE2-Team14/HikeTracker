@@ -12,6 +12,14 @@ router.get('/:userID', async (req, res) => {
         .catch(err => errorResponse(err, 500, res))
 })
 
+//GET api to get a record of a user with status open
+router.get('/:userID/status/open', async (req, res) => {
+    const userID = req.params.userID
+    await hikeRecordsController.getRecordByStatusOpen(userID)
+        .then(record => res.status(200).json(record))
+        .catch(err => errorResponse(err, 500, res))
+})
+
 //POST api to add a new record
 router.post('', async (req, res) => {
     const record = req.body

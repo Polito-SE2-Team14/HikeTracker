@@ -7,6 +7,11 @@ exports.getRecords = async (userID) => {
     return records
 }
 
+exports.getRecordByStatusOpen = async (userID) => {
+    const records = await hikeRecordsDAO.getRecordWithStatusOpen(userID)
+    return records
+}
+
 //add a new record
 exports.addNewRecord = async (record) => {
     record.status = "open"

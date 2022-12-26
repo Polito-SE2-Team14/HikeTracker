@@ -20,7 +20,7 @@ export function HikesPage(props) {
 
 	const [userStats, setUserStats] = useState(null);
 	const [hikes, setHikes] = useState([]);
-	const [userHikeRecords, setUserHikeRecords] = useState([]);
+	const [userHikeRecord, setUserHikeRecord] = useState(null);
 	const [filteredHikes, setFilteredHikes] = useState([]);
 	const [showFilterForm, setshowFilterForm] = useState(false);
 	const [filters, setFilters] = useState({
@@ -52,12 +52,11 @@ export function HikesPage(props) {
 			});
 	};
 
-	const getAllUserHikeRecords = async () => {
+	const getUserHikeRecordWithStatusOpen = async () => {
 		if (props.user && props.user.userID) {
-			await HikeRecordsAPI.getHikeRecordsForUser(props.user.userID)
+			await HikeRecordsAPI.getHikeRecordForUserWithStatusOpen(props.user.userID)
 				.then((h) => {
-					setUserHikeRecords(h);
-					console.log(userHikeRecords);
+					setUserHikeRecord(h);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -183,7 +182,7 @@ export function HikesPage(props) {
 
 	useEffect(() => {
 		getAllHikes();
-		getAllUserHikeRecords();
+		getUserHikeRecordWithStatusOpen();
 	}, [hikes.length]);
 
 	async function updateFilters() {
@@ -260,8 +259,9 @@ export function HikesPage(props) {
 					/>
 					<HikeListTable
 						hikes={filteredHikes}
-						userHikeRecords={userHikeRecords}
-						getAllUserHikeRecords={getAllUserHikeRecords}
+						userHikeRecord={userHikeRecord}
+						getUserHikeRecord={getUserHikeRecordWithStatusOpen}
+						setUserHikeRecord={setUserHikeRecord}
 						setHikes={setHikes}
 						filters={filters}
 						setFilters={setFilters}

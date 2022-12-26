@@ -16,6 +16,17 @@ exports.getRecords = async (userID) => {
 	});
 }
 
+exports.getRecordWithStatusOpen = async (userID) => {
+    return new Promise((resolve, reject) => {
+		const sql = "SELECT * FROM USERHIKERECORDS WHERE userID = ? AND status = 'open' ";
+		db.get(sql, [userID], function (err, row) {
+            if (err) reject(err);
+            console.log(row)
+			resolve(row);
+		});
+	});
+}
+
 exports.addNewRecord = async (record) => {
     const {userID, hikeID, status, startDate, endDate} = record
     return new Promise((resolve, reject) => {

@@ -8,6 +8,7 @@ import {
 	Container,
 	Form,
 	ListGroup,
+	Alert,
 } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +18,7 @@ import {
 	faFlag,
 	faClock,
 	faPlay,
+	faStop,
 	faTrashCan,
 	faPenToSquare,
 	faXmark,
@@ -27,8 +29,12 @@ import { HikeMap } from "../Map/Maps";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import RoleManagement from "../../class/RoleManagement";
-import dayjs from 'dayjs'
-import DateTimePicker from 'react-datetime-picker'
+import dayjs, { Dayjs } from 'dayjs'
+// import DateTimePicker from 'react-datetime-picker'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { TextField } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 
 export function HikeModal(props) {
 	let hike = props.hike;
@@ -48,6 +54,15 @@ export function HikeModal(props) {
 				<Modal.Title>{hike.title}</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
+				{RoleManagement.isHiker(props.user) && props.thisHikeIsStarted &&
+					<Row>
+						<Col>
+							<Alert key="info" variant="info" className="text-center">
+								Hike is in progress ...
+							</Alert>
+						</Col>
+					</Row>
+				}
 				<Tabs
 					defaultActiveKey={
 						props.user ? "map" : "info"
@@ -59,6 +74,8 @@ export function HikeModal(props) {
 							user={props.user}
 							hike={hike}
 							markers={markers}
+							thisHikeIsStarted={props.thisHikeIsStarted}
+							otherHikeIsStarted={props.otherHikeIsStarted}
 							userRecord={props.userRecord}
 							customDateTime={props.customDateTime}
 							setCustomDateTime={props.setCustomDateTime}
@@ -102,9 +119,14 @@ export function HikeModal(props) {
 							{RoleManagement.isAuthor(props.user, props.hike.creatorID) ? <Button className="me-1" variant="warning" onClick={props.onEdit}>
 								<FontAwesomeIcon icon={faPenToSquare} /> Edit
 							</Button> : false}
-							{RoleManagement.isHiker(props.user) && props.userRecord.length == 0 && props.hikeIsStarted == false &&
+							{RoleManagement.isHiker(props.user) && !props.thisHikeIsStarted && !props.otherHikeIsStarted &&
 								<Button variant="success" onClick={props.handleStartHike}>
 									<FontAwesomeIcon icon={faPlay} />{" Start"}
+								</Button>
+							}
+							{RoleManagement.isHiker(props.user) && props.thisHikeIsStarted &&
+								<Button variant="danger" onClick={props.handleStopHike}>
+									<FontAwesomeIcon icon={faStop} />{" Stop"}
 								</Button>
 							}
 						</Col>
@@ -117,6 +139,7 @@ export function HikeModal(props) {
 
 function InfoTab(props) {
 	let hike = props.hike;
+	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
 	// console.log(props.userRecord);
 	return (
 		<Container>
@@ -128,13 +151,6 @@ function InfoTab(props) {
 			<Row>
 				<Col>{`${hike.municipality} (${hike.province}, ${hike.country})`}</Col>
 			</Row>
-			{RoleManagement.isHiker(props.user) && props.userRecord.length > 0 && props.userRecord[0].status == "open" &&
-				<Row>
-					<strong>{" Manual Clock:"}</strong>
-					<Col><DateTimePicker onChange={props.setCustomDateTime} value={props.customDateTime} /></Col>
-				</Row>
-
-			}
 			<Row xs={1} md={2} className="d-flex align-items-top mt-2">
 				<Col>
 					<FontAwesomeIcon icon={faPersonWalking} />
@@ -181,6 +197,25 @@ function InfoTab(props) {
 				</Col>
 				<Col>{`by ${hike.creatorName} ${hike.creatorSurname}`}</Col>
 			</Row>
+
+			{RoleManagement.isHiker(props.user) && props.thisHikeIsStarted &&
+				<Row className="text-center" style={{marginTop: '10px'}}>
+					<Col>
+						<LocalizationProvider dateAdapter={AdapterDayjs}>
+							<DateTimePicker
+								label="Manual Clock"
+								renderInput={(params) => <TextField {...params} />}
+								value={props.customDateTime}
+								onChange={(newValue) => {
+									props.setCustomDateTime(newValue);
+								}}
+								minDateTime={minDateTime}
+							/>
+						</LocalizationProvider>
+						{/* <DateTimePicker onChange={props.setCustomDateTime} value={props.customDateTime} /> */}
+					</Col>
+				</Row>
+			}
 		</Container >
 	);
 }
