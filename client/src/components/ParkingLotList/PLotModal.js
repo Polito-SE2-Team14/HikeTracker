@@ -1,6 +1,6 @@
 import { Modal, Button, Row, Col } from "react-bootstrap";
 import React from "react";
-import { LocationMap } from "../Map/Maps";
+import { LocationMap } from "../Maps/LocationMap";
 import {
 	faXmark,
 	faTrashCan,

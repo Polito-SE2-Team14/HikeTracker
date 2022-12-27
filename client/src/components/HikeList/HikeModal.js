@@ -24,7 +24,7 @@ import {
 	faXmark,
 	faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { HikeMap } from "../Map/Maps";
+import { HikeMap } from "../Maps/HikeMap";
 
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";

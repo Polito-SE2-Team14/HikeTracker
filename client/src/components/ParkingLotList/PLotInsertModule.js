@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal, Form, Row, Col, Button } from "react-bootstrap";
-import { PointSelectMap } from "../Map/Maps";
+import { PointSelectMap } from "../Maps/PointSelectMap";
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
 export function NewPLotForm(props) {

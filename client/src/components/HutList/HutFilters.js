@@ -1,7 +1,7 @@
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
-import { AreaSelectMap } from "../Map/Maps";
+import { AreaSelectMap } from "../Maps/AreaSelectMap";
 
 import {
 	CountrySelect,
@@ -75,6 +75,7 @@ export function HutFilters(props) {
 					{showAreaMap ? (
 						<>
 							<AreaSelectMap
+							points={props.huts}
 								onSetArea={(area) => {
 									setArea(area);
 								}}

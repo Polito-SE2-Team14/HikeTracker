@@ -81,12 +81,15 @@ export function HikesPage(props) {
 		let insertedHike;
 		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
-			.then((h) => (insertedHike = {
-				...h,
-				creatorID: props.user.userID,
-				creatorName: props.user.name,
-				creatorSurname: props.user.surname
-			}))
+			.then(
+				(h) =>
+					(insertedHike = {
+						...h,
+						creatorID: props.user.userID,
+						creatorName: props.user.name,
+						creatorSurname: props.user.surname,
+					})
+			)
 			.catch((e) => {
 				console.error(e);
 			});
@@ -108,14 +111,14 @@ export function HikesPage(props) {
 			expectedTime: [],
 		};
 
-		let hikes
+		let hikes;
 		await HikeAPI.getAllHikes()
-			.then(h => {
+			.then((h) => {
 				if (stats) {
 					hikes = h;
 
-					let suggested = hikes.filter(hike =>
-						hike.difficulty === stats.favouriteDifficulty
+					let suggested = hikes.filter(
+						(hike) => hike.difficulty === stats.favouriteDifficulty
 					);
 
 					if (suggested.length > 0) {
@@ -123,9 +126,10 @@ export function HikesPage(props) {
 						newFilters.difficulties.push(stats.favouriteDifficulty);
 					}
 
-					suggested = hikes.filter(hike =>
-						hike.country === stats.favouriteCountry &&
-						hike.province === stats.favouriteProvince
+					suggested = hikes.filter(
+						(hike) =>
+							hike.country === stats.favouriteCountry &&
+							hike.province === stats.favouriteProvince
 					);
 
 					if (suggested.length > 0) {
@@ -135,9 +139,10 @@ export function HikesPage(props) {
 						newFilters.province = stats.favouriteProvince;
 					}
 
-					suggested = hikes.filter(hike =>
-						hike.expectedTime >= stats.minTime &&
-						hike.expectedTime <= stats.maxtime
+					suggested = hikes.filter(
+						(hike) =>
+							hike.expectedTime >= stats.minTime &&
+							hike.expectedTime <= stats.maxtime
 					);
 
 					if (suggested.length > 0) {
@@ -147,9 +152,9 @@ export function HikesPage(props) {
 						newFilters.expectedTime.push(stats.maxTime);
 					}
 
-					suggested = hikes.filter(hike =>
-						hike.ascent >= stats.minAscent &&
-						hike.ascent <= stats.maxAscent
+					suggested = hikes.filter(
+						(hike) =>
+							hike.ascent >= stats.minAscent && hike.ascent <= stats.maxAscent
 					);
 
 					if (suggested.length > 0) {
@@ -159,9 +164,10 @@ export function HikesPage(props) {
 						newFilters.ascent.push(stats.maxAscent);
 					}
 
-					suggested = hikes.filter(hike =>
-						hike.length >= stats.minDistance &&
-						hike.length <= stats.maxDistance
+					suggested = hikes.filter(
+						(hike) =>
+							hike.length >= stats.minDistance &&
+							hike.length <= stats.maxDistance
 					);
 
 					if (suggested.length > 0) {
@@ -171,14 +177,15 @@ export function HikesPage(props) {
 						newFilters.length.push(stats.maxDistance);
 					}
 
-					setFilters(newFilters)
+					setFilters(newFilters);
 				}
 
 				setLoading(false);
 			})
-			.catch((error) => { console.log(error); });
-
-	}
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	useEffect(() => {
 		getAllHikes();
@@ -240,7 +247,11 @@ export function HikesPage(props) {
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<HikeFilters filters={filters} setFilters={setFilters} />
+							<HikeFilters
+								hikes={hikes}
+								filters={filters}
+								setFilters={setFilters}
+							/>
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleClose}>
@@ -258,7 +269,8 @@ export function HikesPage(props) {
 						user={props.user}
 					/>
 					<HikeListTable
-						hikes={filteredHikes}
+						hikes={hikes}
+						shownHikes={filteredHikes}
 						userHikeRecord={userHikeRecord}
 						getUserHikeRecord={getUserHikeRecordWithStatusOpen}
 						setUserHikeRecord={setUserHikeRecord}

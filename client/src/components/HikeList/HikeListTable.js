@@ -27,7 +27,7 @@ function HikeListTable(props) {
 		props.showHikeForm();
 	};
 
-	let shownHikes = props.hikes.map((hike, i) => (
+	let shownHikes = props.shownHikes.map((hike, i) => (
 		<Col key={i}>
 			<HikeListItem
 				user={props.user}
@@ -75,6 +75,7 @@ function HikeListTable(props) {
 								/>
 								<hr />
 								<HikeFilters
+									hikes={props.hikes}
 									filters={props.filters}
 									setFilters={props.setFilters}
 								/>

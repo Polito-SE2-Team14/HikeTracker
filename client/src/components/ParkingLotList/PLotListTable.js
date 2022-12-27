@@ -14,7 +14,7 @@ import RoleManagement from "../../class/RoleManagement";
 import { EmptySearch } from "../EmptySearch";
 
 function PLotListTable(props) {
-	let shownParkingLots = props.lots.map((lot, i) => (
+	let shownParkingLots = props.shownParkingLots.map((lot, i) => (
 		<div key={i}>
 			<PLotListItem lot={lot} setLots={props.setLots} />
 		</div>
@@ -48,6 +48,7 @@ function PLotListTable(props) {
 							</Row>
 							<Row className="mt-4">
 								<ParkingLotFilters
+								lots={props.lots}
 									filters={props.filters}
 									setFilters={props.setFilters}
 								/>

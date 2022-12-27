@@ -148,7 +148,7 @@ export function HutsPage(props) {
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<HutFilters filters={filters} setFilters={setFilters} />
+							<HutFilters huts={huts} filters={filters} setFilters={setFilters} />
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleCloseFilterModal}>
@@ -165,7 +165,8 @@ export function HutsPage(props) {
 					/>
 
 					<HutListTable
-						huts={filteredHuts}
+						huts={huts}
+						shownHuts={filteredHuts}
 						setHuts={setHuts}
 						user={props.user}
 						filters={filters}

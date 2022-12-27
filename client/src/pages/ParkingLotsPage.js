@@ -53,11 +53,11 @@ export function ParkingLotsPage(props) {
 
 	const handleShowFilterModal = () => {
 		setShowFilterForm(true);
-	}
+	};
 
 	const handleCloseFilterModal = () => {
 		setShowFilterForm(false);
-	}
+	};
 
 	const addPlot = async (newLot) => {
 		newLot.creatorID = props.user.userID;
@@ -122,7 +122,7 @@ export function ParkingLotsPage(props) {
 							<Modal.Title>Filter</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
-							<ParkingLotFilters filters={filters} setFilters={setFilters} />
+							<ParkingLotFilters lots={lots} filters={filters} setFilters={setFilters} />
 						</Modal.Body>
 						<Modal.Footer>
 							<Button variant="secondary" onClick={handleCloseFilterModal}>
@@ -139,7 +139,8 @@ export function ParkingLotsPage(props) {
 					/>
 
 					<PLotListTable
-						lots={filteredLosts}
+						lots={lots}
+						shownParkingLots={filteredLosts}
 						setLots={setLots}
 						user={props.user}
 						filters={filters}
@@ -174,7 +175,9 @@ function applyFilters(lots, filters) {
 			lot.name.toLowerCase().startsWith(filters.name.toLowerCase()) &&
 			lot.country.toLowerCase().startsWith(filters.country.toLowerCase()) &&
 			lot.province.toLowerCase().startsWith(filters.province.toLowerCase()) &&
-			lot.municipality.toLowerCase().startsWith(filters.municipality.toLowerCase()) &&
+			lot.municipality
+				.toLowerCase()
+				.startsWith(filters.municipality.toLowerCase()) &&
 			checkArea(lot) &&
 			lot.address.toLowerCase().includes(filters.address.toLowerCase()) &&
 			checkCarspace(lot)

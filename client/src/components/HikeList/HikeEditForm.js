@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Modal, Form, InputGroup, Row, Col, Alert} from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
-import { HikeMap } from "../Map/Maps";
+import { HikeMap } from "../Maps/HikeMap";
 import { isInArea } from "../HikeData";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

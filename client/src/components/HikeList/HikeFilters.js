@@ -1,7 +1,7 @@
 import { Row, Col, Container, Form, Button } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Slider from "@mui/material/Slider";
-import { AreaSelectMap } from "../Map/Maps";
+import { AreaSelectMap } from "../Maps/AreaSelectMap";
 
 import { timeText } from "../HikeData";
 
@@ -90,19 +90,6 @@ export function HikeFilters(props) {
 		setTimeInterval([MIN_TIME_VALUE, MAX_TIME_VALUE]);
 	}
 
-/* 	useEffect(() => {
-		setCountry(props.filters.country);
-		setProvince(props.filters.province);
-		setMunicipality(props.filters.municipality);
-		setShowAreaMap(false)
-		setBeginnerDiff(props.filters.difficulties.contains("Beginner"));
-		setHikerDiff(props.filters.difficulties.contains("Hiker"));
-		setProDiff(props.filters.difficulties.contains("Pro Hiker"));
-		setDistanceInterval([props.filters.length[0], props.filters.length[1]]);
-		setAscentInterval([props.filters.ascent[0], props.filters.ascent[1]]);
-		setTimeInterval([props.filters.expectedTime[0], props.filters.expectedTime[1]]);
-	}, [props.filters]) */
-
 	return (
 		<Container>
 			<Form>
@@ -128,6 +115,7 @@ export function HikeFilters(props) {
 					{showAreaMap ? (
 						<>
 						<AreaSelectMap
+							hikes={props.hikes}
 							onSetArea={(area) => {
 								setArea(area);
 							}}
@@ -141,15 +129,8 @@ export function HikeFilters(props) {
 				<hr />
 				<Form.Group>
 					<Form.Label>Country</Form.Label>
-					{/* <CountryDropdown country={country} setCountry={setCountry} /> */}
 					<CountrySelect country={country} setCountry={setCountry} />
 					<Form.Label className="mt-3">Province</Form.Label>
-					{/* <ProvinceDropdown
-						disabled={country === ""}
-						province={province}
-						setProvince={setProvince}
-						country={country}
-					/> */}
 					<ProvinceSelect
 						disabled={country === ""}
 						province={province}
@@ -157,13 +138,6 @@ export function HikeFilters(props) {
 						country={country}
 					/>
 					<Form.Label className="mt-3">Municipality</Form.Label>
-					{/* <MunicipalityDropdown
-						disabled={province === ""}
-						municipality={municipality}
-						setMunicipality={setMunicipality}
-						country={country}
-						province={province}
-					/> */}
 					<MunicipalitySelect
 						disabled={province === ""}
 						municipality={municipality}

@@ -17,7 +17,7 @@ import RoleManagement from "../../class/RoleManagement";
 import "../../styles/HutListTable.css"
 
 export function HutListTable(props) {
-	let shownHuts = props.huts.map((hut, i) => (
+	let shownHuts = props.shownHuts.map((hut, i) => (
 		<Col key={i}>
 			<HutListItem user={props.user} hut={hut} setHuts={props.setHuts} />
 		</Col>
@@ -51,6 +51,7 @@ export function HutListTable(props) {
 							</Row>
 							<Row className="mt-4">
 								<HutFilters
+								huts={props.huts}
 									filters={props.filters}
 									setFilters={props.setFilters}
 								/>

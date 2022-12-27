@@ -6,9 +6,8 @@ import {
 	Form,
 	Modal,
 	ModalFooter,
-	InputGroup,
 } from "react-bootstrap";
-import { PointSelectMap } from "../Map/Maps";
+import { PointSelectMap } from "../Maps/PointSelectMap";
 // import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
 
