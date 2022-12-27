@@ -8,6 +8,13 @@ import { useEffect, useMemo, useState } from "react";
 import { MapEvents, GpsTrackButton, SelectPositionButton } from "./MapSelectors";
 
 const DEFAULT_CENTER = [45.070312, 7.686856];
+
+/**
+ * Map that allows to select a point
+ * @param {int} height - heigth of the map in pixels
+ * @param {function} onSetPoint - function that gets called every time the point is set, takes an {latitude: float, longitude: float} object as parameter
+ * @returns 
+ */
 export function PointSelectMap(props) {
 	const [position, setPosition] = useState(DEFAULT_CENTER);
 	const [selectPosition, setSelectPosition] = useState(false);

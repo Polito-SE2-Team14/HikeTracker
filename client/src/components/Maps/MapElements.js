@@ -81,7 +81,7 @@ export function PointMarker(props) {
 	switch (props.point.pointType) {
 		case "generic":
 			popup = <PointPopup point={props.point} />;
-			icon = greenIcon;
+			icon = blueIcon;
 			break;
 		case "hut":
 			popup = <HutPopup hut={props.point} />;
@@ -89,7 +89,7 @@ export function PointMarker(props) {
 			break;
 		case "parkinglot":
 			popup = <ParkingLotPopup parkingLot={props.point} />;
-			icon = blueIcon;
+			icon = greenIcon;
 			break;
 		default:
 			popup = false;

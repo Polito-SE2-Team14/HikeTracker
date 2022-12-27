@@ -12,9 +12,10 @@ import { HikesInfoMarkers, HikesPointMarkers } from "./MapElements";
 const DEFAULT_CENTER = [45.070312, 7.686856];
 
 /**
- * Displays a map with an hike and its reference points
+ * Map that allows to select an area, defined by a center and a radius
  * @param {Array} height - height in pixel of the map
- * @param {Point[]} markers - markers shown on the map
+ * @param {Hike[]} hikes - hikes to show in the map
+ * @param {Point[]} points - points to show on the map
  * @param {function} onSetArea - function that gets called every time the area is set, takes an {center: [float, float], radius: float} object as parameter
  */
 export function AreaSelectMap(props) {
@@ -22,8 +23,6 @@ export function AreaSelectMap(props) {
 	const [selectPosition, setSelectPosition] = useState(false);
 	const [radius, setRadius] = useState(1000);
 	const [map, setMap] = useState(null);
-
-	console.log(props.points);
 
 	const displayMap = useMemo(() => {
 		return (

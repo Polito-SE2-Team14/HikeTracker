@@ -5,8 +5,12 @@ import {
 import { getLatLon } from "../HikeData";
 import { PointMarker } from "./MapElements";
 
-
-
+/**
+ * Creates a map with a single marker showing the location
+ * @param {int} height - height of the map in pixel
+ * @param {Point} point - point object to show on the map 
+ * @returns 
+ */
 export function LocationMap(props) {
 	return (
 		<>
