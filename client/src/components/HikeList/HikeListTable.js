@@ -86,6 +86,8 @@ function HikeListTable(props) {
 			}
 
 			<Col className="mb-5">
+				Your hike in progress / Let's start a new hike!
+			<hr/>
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>

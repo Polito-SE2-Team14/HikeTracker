@@ -268,6 +268,7 @@ export function HikesPage(props) {
 						newHike={newHike}
 						user={props.user}
 					/>
+
 					<HikeListTable
 						hikes={hikes}
 						shownHikes={filteredHikes}
