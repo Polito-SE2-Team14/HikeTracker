@@ -47,7 +47,23 @@ router.get(
 				return errorResponse(err, 500, res)
 			});
 	}
-)
+);
+
+// GET request to /api/hikes/:hikeID/image to obtain hike image
+router.get(
+	"/:hikeID/image",
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const hikeID = req.params.hikeID;
+
+		await hikeController
+			.getHikeImage(hikeID)
+			.then((image) => { return res.json(image) })
+			.catch((err) => {
+				return errorResponse(err, 500, res)
+			});
+	}
+);
 
 // returns all huts close the given hike
 router.get("/:hikeID/huts",
@@ -92,19 +108,19 @@ router.get("/:hikeID/referencePoints",
 
 
 router.get("/:hikeID/linkedHuts",
-check(["hikeID"]).not().isEmpty().isInt({ min: 0 }),
-async (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty())
-		return errorResponse(errors.array(), 422, res)
+	check(["hikeID"]).not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponse(errors.array(), 422, res)
 
-	await hikeController.getHutsLinkedToHike(req.params.hikeID)
-		.then((msg) => res.status(201).json(msg))
-		.catch((err) => {
-			console.error(err);
-			return errorResponse(err, 500, res)
-		});
-}
+		await hikeController.getHutsLinkedToHike(req.params.hikeID)
+			.then((msg) => res.status(201).json(msg))
+			.catch((err) => {
+				console.error(err);
+				return errorResponse(err, 500, res)
+			});
+	}
 )
 
 // POST request to /api/hikes to add a new hike
@@ -133,6 +149,20 @@ router.post("",
 
 	}
 );
+
+//check on body
+router.post('/:hikeID/image',
+	check("hikeID").not().isEmpty().isInt({ min: 0 }),
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty())
+			return errorResponse(errors.array(), 422, res);
+
+		await hikeController.newHikeImage(req.params.hikeID, req.body.image)
+			.then(() => res.status(201))
+			.catch((err) => errorResponse(err, 500, res));
+	});
+
 //link the hut whose id is hutID to the hike whose id is hikeID 
 router.post("/:hikeID/huts/:hutID",
 	check("hikeID").not().isEmpty().isInt({ min: 0 }),

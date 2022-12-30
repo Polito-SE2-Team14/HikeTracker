@@ -80,11 +80,21 @@ exports.addHike = async (hike) => {
 		throw Error("Type error with difficulty")
 	if (isNaN(creatorID))
 		throw Error("Type error with creatorID");
+		//check creator existing 
 	//check on track
 
 	const addedHike = await hikeDAO.addHike(hike)
 	return addedHike;
 }
+
+exports.newHikeImage = async (hikeID, image) => {
+	try {
+		hikeDAO.newImage(hikeID, image);
+	}
+	catch (e) {
+		throw e;
+	}
+};
 
 exports.addReferencePoint = async (hikeID, referencePoint) => {
 
@@ -136,6 +146,17 @@ exports.getHikeTrack = async (hikeID) => {
 	try {
 		const track = hikeDAO.getHikeTrack(hikeID)
 		return track
+	}
+	catch (err) {
+		throw err
+	}
+}
+
+//TODO test this function
+exports.getHikeImage = async (hikeID) => {
+	try {
+		const image = hikeDAO.getHikeImage(hikeID);
+		return image
 	}
 	catch (err) {
 		throw err

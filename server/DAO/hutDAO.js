@@ -1,3 +1,4 @@
+const Images = require('../database/images');
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
@@ -30,6 +31,8 @@ exports.getHuts = () => {
 	});
 };
 
+exports.getHutImage = hutID => Images.getImage(hutID, 'hut');
+
 exports.createHut = (hut) => {
 	return new Promise((resolve, reject) => {
 		const sql = "INSERT INTO HUT (hutID, bedspace, email, website, phoneNumber) VALUES (?,?,?,?,?)";
@@ -39,6 +42,8 @@ exports.createHut = (hut) => {
 		});
 	});
 };
+
+exports.newImage = (hutID, image) => Images.newImage(hutID, 'hut', image);
 
 exports.updateHut = (hut) => {
 	return new Promise((resolve, reject) => {
@@ -57,9 +62,15 @@ exports.updateHut = (hut) => {
 exports.deleteHut = (pointID) => {
 	return new Promise((resolve, reject) => {
 		const sql = "DELETE FROM HUT WHERE hutID = ?";
-		db.run(sql, [pointID], function (err, row) {
+		db.run(sql, [pointID], err => {
 			if (err) reject(err);
-			resolve();
+			else try {
+				Images.deleteImage(pointID, 'hut');
+				resolve();
+			}
+			catch(e) {
+
+			}
 		});
 	});
 };
