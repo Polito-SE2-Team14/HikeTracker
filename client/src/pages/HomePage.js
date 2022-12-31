@@ -22,7 +22,7 @@ export function HomePage(props) {
 
 function CatchPhrase() {
 	return (
-		<div style={{fontSize:"4rem"}}>
+		<div style={{ fontSize: "4rem" }}>
 			<Row>
 				<span>
 					Your <span className="fw-bold">BEST COMPANION</span> for
