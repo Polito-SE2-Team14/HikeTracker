@@ -72,7 +72,7 @@ exports.createHut = async (hut) => {
 
 exports.newHutImage = async (hutID, image) => {
 	try {
-		hutDAO.newImage(hutID, image);
+		await hutDAO.newImage(hutID, image);
 	}
 	catch (e) {
 		throw e;

@@ -89,7 +89,7 @@ exports.addHike = async (hike) => {
 
 exports.newHikeImage = async (hikeID, image) => {
 	try {
-		hikeDAO.newImage(hikeID, image);
+		await hikeDAO.newImage(hikeID, image);
 	}
 	catch (e) {
 		throw e;
