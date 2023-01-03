@@ -63,7 +63,7 @@ export function CircleAreaForm(props) {
 	);
 }
 export function SelectPositionButton(props) {
-	selectPositionTrue=function(){props.setSelectPosition(true)}
+	let selectPositionTrue=function(){props.setSelectPosition(true)}
 	return (
 		<Button
 			variant="warning"
