@@ -310,7 +310,7 @@ exports.getUserStats = (userID) => {
 
 exports.updateUserStats = (userID, newUserStats) => {
 	return new Promise((resolve, reject) => {
-		db.get("SELECT * FROM USER_STATS WHERE userID=?;", [userID], (err, row) => {
+		db.get("SELECT * FROM USER WHERE userID=?;", [userID], (err, row) => {
 			if (err) {
 				console.log(err);
 				reject(err);
