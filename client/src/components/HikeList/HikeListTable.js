@@ -28,7 +28,7 @@ function HikeListTable(props) {
 	const [trackInProgress, setTrackInProgress] = useState(undefined);
 	const [markers, setMarkers] = useState({});
 
-	const handleShowEditForm = (hike) => {
+	let handleShowEditForm = (hike) => {
 		props.setSelectedHike(hike);
 		props.showHikeForm();
 	};
@@ -210,7 +210,7 @@ function HikeListTable(props) {
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
 
-	const handleStartHike = async function (){
+	let handleStartHike = async function (){
 		// setShowHikeModal(false);
 		await HikeRecordsAPI.addNewRecord({
 			userID: props.user.userID,
