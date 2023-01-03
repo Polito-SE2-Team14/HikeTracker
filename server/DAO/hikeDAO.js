@@ -147,31 +147,31 @@ exports.linkHutToHike = function (hutID, hikeID) {
 			if (err) {
 				console.error(err);
 				reject(err);
-			} else if (rows.length == 0) {
+			}
+			if (rows.length == 0) {
 				console.error("No hut has the given ID");
 				reject(new Error("No hut has the given ID"));
-			} else {
-				db.all("SELECT * FROM HIKE WHERE hikeID=?", [hikeID], function (err, rows) {
+			}
+			db.all("SELECT * FROM HIKE WHERE hikeID=?", [hikeID], function (err, rows) {
+				if (err) {
+					console.error(err);
+					reject(err);
+				}
+				if (rows.length == 0) {
+					console.error("No hike has the given ID");
+					reject(new Error("No hike has the given ID"));
+				}
+				db.run("INSERT INTO HIKELINKHUT (hikeID, hutID) VALUES(?,?);", [hikeID, hutID], (err) => {
 					if (err) {
 						console.error(err);
 						reject(err);
-					} else if (rows.length == 0) {
-						console.error("No hike has the given ID");
-						reject(new Error("No hike has the given ID"));
-					} else {
-						db.run("INSERT INTO HIKELINKHUT (hikeID, hutID) VALUES(?,?);", [hikeID, hutID], (err) => {
-							if (err) {
-								console.error(err);
-								reject(err);
-							}
-							resolve({
-								hutID: hutID,
-								hikeID: hikeID
-							});
-						})
 					}
+					resolve({
+						hutID: hutID,
+						hikeID: hikeID
+					});
 				})
-			}
+			})
 		})
 	})
 }
