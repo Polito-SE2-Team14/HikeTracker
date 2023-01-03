@@ -1,5 +1,6 @@
 const { writeFileSync, unlink, readFileSync, existsSync } = require("fs");
 
+const Images = require('../database/images');
 const Singleton = require("../database/DBManagerSingleton");
 const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
@@ -134,7 +135,7 @@ exports.getCloseHutsForHike = function (hikeID) {
 				});
 				resolve(huts);
 			}
-			catch(e){
+			catch (e) {
 				reject(e);
 			}
 		});
@@ -236,7 +237,6 @@ exports.getReferencePointsForHike = function (hikeID) {
  * @returns {Promise} a promise containing the new hike in case of success or an error
  */
 exports.addHike = function (newHike) {
-
 	let { title, length, expectedTime, ascent, difficulty, description, country,
 		startPointID, endPointID, municipality, province, track, creatorID } = newHike
 
@@ -253,6 +253,7 @@ exports.addHike = function (newHike) {
 
 				try {
 					newTrack(this.lastID, track);
+
 					resolve(
 						{
 							hikeID: this.lastID
@@ -265,8 +266,9 @@ exports.addHike = function (newHike) {
 			}
 		);
 	});
-}
+};
 
+exports.newImage = (hikeID, image) => Images.newImage(hikeID, 'hike', image);
 
 exports.addReferencePoint = function (hikeID, referencePointID) {
 
@@ -323,6 +325,7 @@ exports.deleteHike = function (hikeID) {
 			else
 				try {
 					deleteTrack(hikeID);
+					Images.deleteImage(hikeID, 'hike');
 					resolve({ msg: `Hike with ID ${hikeID} deleted correctly` });
 				}
 				catch (e) {
@@ -342,6 +345,8 @@ exports.getHikeTrack = function (hikeID) {
 		}
 	return [];
 }
+
+exports.getHikeImage = hikeID => Images.getImage(hikeID, 'hike');
 
 exports.setStart = function (hikeID, startPointID) {
 	return new Promise((resolve, reject) => {
@@ -370,7 +375,6 @@ exports.setEnd = function (hikeID, endPointID) {
 		);
 	});
 }
-
 
 function newTrack(hikeId, track) {
 	const file = checkPath(`../database/tracks/_${hikeId}_.trk`)

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	Col,
 	Row,
@@ -10,15 +10,44 @@ import {
 import { PointSelectMap } from "../Maps/PointSelectMap";
 // import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
+import { ImageForm } from '../ImageForm';
+
+import PointAPI from "../../api/PointAPI";
 
 export function HutCreationModal(props) {
+	const [hutID, setHutID] = useState(null);
+	const [image, setImage] = useState(false);
+	const [show, setShow] = useState(false);
+
+	const handleCreate = useCallback(async hut => {
+		let newHut = await props.handleCreate(hut);
+
+		setHutID(newHut);
+	}, [props.show]);
+
+	useEffect(() => {
+		if (props.show && !image)
+			setShow(true);
+		else if (image) {
+			setShow(false);
+			setHutID(null);
+		}
+	}, [props.show, image]);
+
 	return (
-		<Modal show={props.show} onHide={props.onHide}>
+		<Modal show={show} onHide={props.onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>Hut Info</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HutCreationForm handleCreate={props.handleCreate} />
+				{!hutID ?
+					<HutCreationForm handleCreate={handleCreate} /> :
+					<ImageForm
+						id={hutID}
+						setImage={setImage}
+						API={PointAPI}
+					/>
+				}
 			</Modal.Body>
 			{props.footerVisible && (
 				<ModalFooter style={{ color: "red" }}>

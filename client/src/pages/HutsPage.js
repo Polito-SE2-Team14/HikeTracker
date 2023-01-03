@@ -50,7 +50,7 @@ export function HutsPage(props) {
 		setModalVisible(false);
 	};
 
-	const handleCreate = function(givenHut){
+	const handleCreate = async function(givenHut){
 		let hut = {
 			name: givenHut.name,
 			description: givenHut.description,
@@ -68,17 +68,21 @@ export function HutsPage(props) {
 			email: givenHut.email,
 		};
 
-		PointAPI.createHut(hut)
-			.then(() => {
+		await PointAPI.createHut(hut)
+			.then((res) => {
 				setHuts([...huts, hut]);
 				setModalFooterVisible(false);
 				setModalVisible(false);
+
+				hut.pointID = res.pointID;
 			})
 			.catch((err) => {
 				console.error(err);
 				setModalFooterVisible(err);
 				setTimeout(() => setModalFooterVisible(false), 3000);
 			});
+
+		return hut.pointID;
 	};
 
 	const getAllHuts = async function(){

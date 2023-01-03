@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Modal, Form, InputGroup, Row, Col, Alert} from "react-bootstrap";
+import { Button, Modal, Form, InputGroup, Row, Col, Alert } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import { HikeMap } from "../Maps/HikeMap";
@@ -15,17 +15,20 @@ import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvS
 
 //New Select
 import Select from 'react-select'
+import { ImageForm } from "../ImageForm";
 
 // TODO(antonio): edit points, how??
 // TODO(antonio): proper documentation
 export function HikeEditForm(props) {
-	let [editPoints, setEditPoints] = useState(false);
-	let [hike, setHike] = useState(props.hike);
+	const [editPoints, setEditPoints] = useState(false);
+	const [hike, setHike] = useState(props.hike);
+	const [image, setImage] = useState(false);
 
 	let onHide = () => {
 		props.onHide();
 
 		setEditPoints(false);
+		setImage(false);
 		setHike(null);
 	};
 
@@ -52,9 +55,28 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} goToPoints={setEndPointsTrue} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
+					<HikeForm
+						hike={hike}
+						goToPoints={setEndPointsTrue}
+						onSubmit={onSubmit}
+						onHide={onHide}
+						newHike={props.newHike}
+					/>
 				) : (
-					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
+					image ? (
+						<EditPointsForm
+							hike={hike}
+							onSubmit={onSubmit}
+							onHide={onHide}
+							user={props.user}
+						/>
+					) : (
+						<ImageForm
+							id={hike.hikeID}
+							setImage={setImage}
+							API={HikeAPI}
+						/>
+					)
 				)}
 			</Modal.Body>
 		</Modal>
@@ -350,7 +372,7 @@ function HikeForm(props) {
 				<Col>
 					<div className="text-end">
 						<Button variant="primary" type="submit" >
-							Apply and edit points
+							Apply and Set Image
 						</Button>{" "}
 						{props.hike &&
 							<div>
@@ -528,7 +550,7 @@ function EditPointsForm(props) {
 				await HikeAPI.addHuts(props.hike.hikeID, linkedHuts.map(h => h.pointID));
 
 				setMsg(false);
-				props.onSubmit(props.hike.hikeID);
+				props.onSubmit(props.hike);
 				props.onHide();
 			}
 			catch (e) {
