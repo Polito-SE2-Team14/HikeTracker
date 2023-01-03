@@ -55,7 +55,7 @@ export function HutFilters(props) {
 	}
 
 	let showAreaMapTrue=function(ev){
-		setShowAreaMap(false)
+		setShowAreaMap(true)
 	}
 
 	let showAreaMapFalse=function(ev){

@@ -30,6 +30,7 @@ export function HutListTable(props) {
 			})
 		}
 
+		console.log(props.huts);
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
@@ -53,7 +54,7 @@ export function HutListTable(props) {
 							</Row>
 							<Row className="mt-4">
 								<HutFilters
-								huts={props.huts}
+									huts={props.huts}
 									filters={props.filters}
 									setFilters={props.setFilters}
 								/>
