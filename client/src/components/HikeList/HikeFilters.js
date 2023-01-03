@@ -94,7 +94,7 @@ export function HikeFilters(props) {
 	let setShowAreaMapFalse = function(){setShowAreaMap(true)}
 	let selectArea = function(area){setArea(area)}
 	let selectBeginnerDifficulty=function(ev){setBeginnerDiff(ev.target.checked)}
-	let selectHikerDifficulty=function(ev){setHikeerDiff(ev.target.checked)}
+	let selectHikerDifficulty=function(ev){setHikerDiff(ev.target.checked)}
 	let selectProDifficulty = function(ev){setProDiff(ev.target.checked)}
 
 	return (
