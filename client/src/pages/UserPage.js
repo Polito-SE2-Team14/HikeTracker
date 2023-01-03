@@ -16,11 +16,12 @@ import {
 	Modal,
 	Form,
 	InputGroup,
+	Tabs,
+	Tab,
 } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import UserAPI from "../api/UserAPI";
 import RoleManagement from "../class/RoleManagement";
-
 
 import { CountrySelect, ProvinceSelect } from "../components/CoMunProvSelect";
 
@@ -43,7 +44,7 @@ export function UserPage(props) {
 	};
 
 	useEffect(() => {
-		if(!showPreferenceForm)
+		if (!showPreferenceForm)
 			getStats().then((stats) => {
 				setStats(stats);
 			});
@@ -51,11 +52,25 @@ export function UserPage(props) {
 
 	return props.user ? (
 		<>
-			<UserDashboard
-				stats={stats}
-				user={props.user}
-				handleOpenPreferenceForm={handleOpenPreferenceForm}
-			/>
+			<Container className="mt-4">
+				<Row className="mt-3">
+					<h1>{`${props.user.name} ${props.user.surname}`}</h1>
+				</Row>
+				<UserBadges user={props.user} />
+				<hr />
+				<Tabs defaultActiveKey="completed-hikes">
+					<Tab eventKey="completed-hikes" title="Completed Hikes">
+						frontend is my cross and i must carry it
+					</Tab>
+					<Tab eventKey="stats" title="Stats">
+						<UserDashboard
+							stats={stats}
+							user={props.user}
+							handleOpenPreferenceForm={handleOpenPreferenceForm}
+						/>
+					</Tab>
+				</Tabs>
+			</Container>
 			<PreferenceForm
 				stats={stats}
 				setStats={setStats}
@@ -84,14 +99,26 @@ function PreferenceForm(props) {
 		props.stats.favouriteProvince ? props.stats.favouriteProvince : ""
 	);
 
-	const [minDistance, setMinDistance] = useState(props.stats.minDistance ? props.stats.minDistance : 0);
-	const [maxDistance, setMaxDistance] = useState(props.stats.maxDistance ? props.stats.maxDistance : 0);
+	const [minDistance, setMinDistance] = useState(
+		props.stats.minDistance ? props.stats.minDistance : 0
+	);
+	const [maxDistance, setMaxDistance] = useState(
+		props.stats.maxDistance ? props.stats.maxDistance : 0
+	);
 
-	const [minAscent, setMinAscent] = useState(props.stats.minAscent ? props.stats.minAscent : 0);
-	const [maxAscent, setMaxAscent] = useState(props.stats.maxAscent ? props.stats.maxAscent : 0);
+	const [minAscent, setMinAscent] = useState(
+		props.stats.minAscent ? props.stats.minAscent : 0
+	);
+	const [maxAscent, setMaxAscent] = useState(
+		props.stats.maxAscent ? props.stats.maxAscent : 0
+	);
 
-	const [minTime, setMinTime] = useState(props.stats.minTime ? props.stats.minTime : 0);
-	const [maxTime, setMaxTime] = useState(props.stats.maxTime ? props.stats.maxTime : 0);
+	const [minTime, setMinTime] = useState(
+		props.stats.minTime ? props.stats.minTime : 0
+	);
+	const [maxTime, setMaxTime] = useState(
+		props.stats.maxTime ? props.stats.maxTime : 0
+	);
 
 	const handleSubmit = (ev) => {
 		ev.preventDefault();
@@ -283,30 +310,20 @@ function PreferenceForm(props) {
 }
 
 function UserDashboard(props) {
-
-	console.log(props.stats)
-
 	return (
-		<Container>
+		<>
 			<Row className="mt-4 stats ">
 				<Col>
-					<Row className="mt-3">
-						<h1>{`${props.user.name} ${props.user.surname}`}</h1>
-					</Row>
-					<UserBadges user={props.user} />
-					<hr />
-					<Row>
-						<Col>
-							<Button onClick={props.handleOpenPreferenceForm}>
-								Set preferences
-							</Button>
-						</Col>
-						{(RoleManagement.isHutWorker(props.user) || RoleManagement.isLocalGuide(props.user)) &&
-							<Col className="text-end">
-							{`Status: ${props.user.approved > 0 ? "Approved" : "Pending"}`}
-						</Col>}
-					</Row>
+					<Button onClick={props.handleOpenPreferenceForm}>
+						Set preferences
+					</Button>
 				</Col>
+				{(RoleManagement.isHutWorker(props.user) ||
+					RoleManagement.isLocalGuide(props.user)) && (
+					<Col className="text-end">
+						{`Status: ${props.user.approved > 0 ? "Approved" : "Pending"}`}
+					</Col>
+				)}
 			</Row>
 			<Row className="d-flex justify-content-center stats mb-5">
 				<Row className="mt-2">
@@ -390,7 +407,7 @@ function UserDashboard(props) {
 					</Col>
 				</Row>
 			</Row>
-		</Container>
+		</>
 	);
 }
 
