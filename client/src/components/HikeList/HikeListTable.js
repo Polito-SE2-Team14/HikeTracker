@@ -1,6 +1,7 @@
 import { Button, Card, Row, Col, Container, Form } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HikeAPI from "../../api/HikeAPI";
+import PointAPI from "../../api/PointAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,9 +20,14 @@ import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
 import { timeText } from "../HikeData";
-const dayjs = require('dayjs')
+import { HikeMap } from "../Maps/HikeMap";
+const dayjs = require("dayjs");
 
 function HikeListTable(props) {
+	const [hikeInProgress, setHikeInProgress] = useState(undefined);
+	const [trackInProgress, setTrackInProgress] = useState(undefined);
+	const [markers, setMarkers] = useState({});
+
 	const handleShowEditForm = (hike) => {
 		props.setSelectedHike(hike);
 		props.showHikeForm();
@@ -35,28 +41,84 @@ function HikeListTable(props) {
 				getUserHikeRecord={props.getUserHikeRecord}
 				setUserHikeRecord={props.setUserHikeRecord}
 				userRecord={props.userHikeRecord}
-				thisHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID == hike.hikeID }
-				otherHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID != hike.hikeID }
+				thisHikeIsStarted={
+					props.userHikeRecord && props.userHikeRecord.hikeID == hike.hikeID
+				}
+				otherHikeIsStarted={
+					props.userHikeRecord && props.userHikeRecord.hikeID != hike.hikeID
+				}
 				setHikes={props.setHikes}
 				handleEditForm={handleShowEditForm}
 			/>
 		</Col>
 	));
 
+	useEffect(() => {
+		if (!props.userHikeRecord) {
+			setHikeInProgress(undefined);
+			return;
+		}
+
+		HikeAPI.getHike(props.userHikeRecord.hikeID).then((hike) => {
+			setHikeInProgress(hike);
+			getMarkers(hike);
+		});
+
+		HikeAPI.getHikeTrack(props.userHikeRecord.hikeID).then((track) => {
+			setTrackInProgress(track);
+		});
+	}, [props.userHikeRecord]);
+
+	let getMarkers = async (hike) => {
+		let start = await PointAPI.getPoint(hike.startPointID);
+		let end = await PointAPI.getPoint(hike.endPointID);
+
+		let referencePoints = await HikeAPI.getHikePoints(hike.hikeID);
+		let linkedHuts = await HikeAPI.getLinkedHuts(hike.hikeID);
+		let huts = await HikeAPI.getCloseHuts(hike.hikeID)
+			.then(h => h.filter(p => linkedHuts.includes(p.pointID)));
+
+		setMarkers({
+			start: start ? {
+				pointID: start.pointID,
+				name: start.name,
+				latitude: start.lat,
+				longitude: start.lon
+			} : null,
+			end: end ? {
+				pointID: end.pointID,
+				name: end.name,
+				latitude: end.lat,
+				longitude: end.lon
+			} : null,
+			referencePoints: referencePoints,
+			linkedHuts: huts
+		});
+	};
+
 	return (
 		<Row>
-			{!props.suggested &&
+			{!props.suggested && (
 				<Col lg={3} className="d-none d-xl-block">
 					{RoleManagement.isLocalGuide(props.user) ? (
 						<Row className="mb-1">{props.insertButton}</Row>
 					) : (
 						false
 					)}
-					{props.user ? <Row>
-						<Button className="mb-3" onClick={() => {
-							props.applyPreferences();
-						}}>I'm feeling adventurous!</Button>
-					</Row> : false}
+					{props.user ? (
+						<Row>
+							<Button
+								className="mb-3"
+								onClick={() => {
+									props.applyPreferences();
+								}}
+							>
+								I'm feeling adventurous!
+							</Button>
+						</Row>
+					) : (
+						false
+					)}
 					<Row>
 						<Card className="p-2">
 							<h3>Filters</h3>
@@ -83,11 +145,41 @@ function HikeListTable(props) {
 						</Card>
 					</Row>
 				</Col>
-			}
+			)}
 
 			<Col className="mb-5">
-				Your hike in progress / Let's start a new hike!
-			<hr/>
+				{hikeInProgress ? (
+					<>
+						<Card className="mt-2">
+							<Card.Body>
+								<Card.Title>{hikeInProgress.title}</Card.Title>
+								<HikeStats hike={hikeInProgress} />
+								<Container className="mt-2">
+									<HikeMap
+										track={trackInProgress}
+										markers={{}}
+										user={props.user}
+									/>
+									<Row className="text-muted mt-1">Start time</Row>
+									<Row>{props.userHikeRecord.startDate}</Row>
+								</Container>
+							</Card.Body>
+							<Card.Footer>
+								<Row>
+									<Col>Hike in progress</Col>
+									<Col className="text-end">
+										<Button size="sm" variant="danger" onClick={() => {}}>
+											Terminate hike
+										</Button>
+									</Col>
+								</Row>
+							</Card.Footer>
+						</Card>
+						<hr />
+					</>
+				) : (
+					false
+				)}
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -101,7 +193,11 @@ function HikeListItem(props) {
 	const [customDateTime, setCustomDateTime] = useState(dayjs());
 	const handleStartHike = async () => {
 		// setShowHikeModal(false);
-		await HikeRecordsAPI.addNewRecord({ userID: props.user.userID, hikeID: props.hike.hikeID, startDate: dayjs().format("YYYY-MM-DD HH:mm:ss") })
+		await HikeRecordsAPI.addNewRecord({
+			userID: props.user.userID,
+			hikeID: props.hike.hikeID,
+			startDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+		})
 			.then(() => {
 				props.getUserHikeRecord();
 				setCustomDateTime(dayjs());
@@ -141,21 +237,24 @@ function HikeListItem(props) {
 
 	return (
 		<>
-			{<HikeModal
-				show={showHikeModal}
-				hike={props.hike}
-				user={props.user}
-				userRecord={props.userRecord}
-				thisHikeIsStarted = {props.thisHikeIsStarted}
-				otherHikeIsStarted = {props.otherHikeIsStarted}
-				customDateTime={customDateTime}
-				setCustomDateTime={setCustomDateTime}
-				handleStartHike={handleStartHike}
-				handleStopHike={handleStopHike}
-				onClose={() => handleCloseHikeModal()}
-				onDelete={() => handleDeleteHike(props.hike)}
-				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => { }} />}
+			{
+				<HikeModal
+					show={showHikeModal}
+					hike={props.hike}
+					user={props.user}
+					userRecord={props.userRecord}
+					thisHikeIsStarted={props.thisHikeIsStarted}
+					otherHikeIsStarted={props.otherHikeIsStarted}
+					customDateTime={customDateTime}
+					setCustomDateTime={setCustomDateTime}
+					handleStartHike={handleStartHike}
+					handleStopHike={handleStopHike}
+					onClose={() => handleCloseHikeModal()}
+					onDelete={() => handleDeleteHike(props.hike)}
+					onEdit={() => props.handleEditForm(props.hike)}
+					onStart={() => {}}
+				/>
+			}
 
 			<Col className="mt-3">
 				<Card>
@@ -163,7 +262,9 @@ function HikeListItem(props) {
 						<Card.Title>
 							<Row className="top-row">
 								<Col xs={8} sm={9}>
-									{props.hike.title.length > 25 ? props.hike.title.trim().slice(0, 24).concat("...") : props.hike.title}
+									{props.hike.title.length > 25
+										? props.hike.title.trim().slice(0, 24).concat("...")
+										: props.hike.title}
 								</Col>
 								<Col className="text-end">
 									<Button
@@ -177,30 +278,37 @@ function HikeListItem(props) {
 							</Row>
 						</Card.Title>
 						<Container>
-							<Row>
-								<Col>
-									<FontAwesomeIcon icon={faPersonWalking} />{" "}
-									{(props.hike.length / 1000).toFixed(2)}
-									{" Km"}
-								</Col>
-								<Col>
-									<FontAwesomeIcon icon={faMountain} /> {props.hike.ascent}
-									{" m"}
-								</Col>
-							</Row>
-							<Row className="bottom-row">
-								<Col>
-									<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
-								</Col>
-								<Col>
-									<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
-								</Col>
-							</Row>
+							<HikeStats hike={props.hike} />
 						</Container>
 					</Card.Body>
-					{/* <Card.Footer className="text-muted">{`suggested/show date of last play?`}</Card.Footer> */}
 				</Card>
 			</Col>
+		</>
+	);
+}
+
+function HikeStats(props) {
+	return (
+		<>
+			<Row>
+				<Col>
+					<FontAwesomeIcon icon={faPersonWalking} />{" "}
+					{(props.hike.length / 1000).toFixed(2)}
+					{" Km"}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faMountain} /> {props.hike.ascent}
+					{" m"}
+				</Col>
+			</Row>
+			<Row className="bottom-row">
+				<Col>
+					<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
+				</Col>
+			</Row>
 		</>
 	);
 }
