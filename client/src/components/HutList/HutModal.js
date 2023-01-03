@@ -9,8 +9,23 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RoleManagement from "../../class/RoleManagement";
+import { useState, useEffect } from "react";
+import PointAPI from "../../api/PointAPI";
 
 export function HutModal(props) {
+	const [showMap, setShowMap] = useState(false);
+	const [image, setImage] = useState('');
+
+	useEffect(() => {
+		const getImage = async () => {
+			let newImage = await PointAPI.getImage(props.hut.pointID);
+
+			setImage(newImage);
+		};
+
+		getImage();
+	}, [props.hut.pointID]);
+
 	return (
 		<Modal show={props.show} onHide={props.onClose}>
 			<Modal.Header closeButton>
@@ -22,10 +37,22 @@ export function HutModal(props) {
 						<strong>{" Description: "}</strong>
 						{props.hut.description ? props.hut.description : "None"}
 					</Col>
+					<Col className="text-end">
+						<Button variant="info" onClick={() => setShowMap(v => !v)}>
+							Show {showMap ? 'Image' : 'Map'}
+						</Button>
+					</Col>
 				</Row>
 
 				<br />
-				<LocationMap point={props.hut} />
+				{showMap ? 
+					<LocationMap point={props.hut} /> :
+					<img
+						src={image}
+						className="img-fluid mt-4"
+						alt="..."
+					/>
+				}
 				<Row className=" mt-2">
 					<Col>
 						<FontAwesomeIcon icon={faCity} />

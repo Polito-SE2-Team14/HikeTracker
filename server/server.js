@@ -5,6 +5,7 @@ const express = require('express');
 const morgan = require('morgan')
 const session = require('express-session');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 
 // Passport-related imports
 const passport = require('passport');
@@ -16,6 +17,8 @@ const prefixRoute = '/api/';
 const app = new express();
 const port = 3001;
 
+app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.urlencoded({ limit: '1mb', extended: true }));
 app.use(express.json());
 app.use(morgan('dev'));
 

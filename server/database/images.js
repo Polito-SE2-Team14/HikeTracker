@@ -1,11 +1,12 @@
+const path = require('path');
 const { writeFileSync, unlink, readFileSync, existsSync } = require("fs");
 
 exports.getImage = function (id, type) {
-	const file = checkPath(`./images/${type}/_${id}_.trk`);
+	const file = checkPath(`./images/${type}s/_${id}_.img`);
 
 	if (file)
 		try {
-			return JSON.parse(readFileSync(file, { encoding: 'utf8', flag: 'r' }));
+			return readFileSync(file, {encoding: 'binary'});
 		} catch (err) {
 			throw Error(err)
 		}
@@ -17,17 +18,17 @@ exports.getImage = function (id, type) {
  * @param {string} type - 'hut' or 'hike'
  * @param {*} image 
  */
-exports.newImage = (id, type, image) => {
-	const file = checkPath(`./images/${type}/_${id}_.img`);
+exports.newImage = async (id, type, image) => {
+	const file = checkPath(`./images/${type}s/_${id}_.img`);
 
 	if (file)
-		writeFileSync(file, JSON.stringify(image), { flag: 'w', encoding: 'utf8' });
+		writeFileSync(file, image, {encoding: 'binary'});
 	else throw Error('wrong path');
 }
 
 exports.deleteImage = (id, type) => {
 	try {
-		let file = checkPath(`./images/${type}/_${id}_.img`);
+		let file = checkPath(`./images/${type}s/_${id}_.img`);
 
 		if (existsSync(file))
 			unlink(file, err => {

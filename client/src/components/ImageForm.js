@@ -5,12 +5,9 @@ import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 import "cropperjs/dist/cropper.css";
 
-const defaultSrc =
-	"https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
-
 export function ImageForm(props) {
 	const [cropper, setCropper] = useState(null);
-	const [image, setImage] = useState('');
+	const [data, setData] = useState('');
 
 	const handleDrop = useCallback(ev => {
 		ev.preventDefault();
@@ -18,7 +15,7 @@ export function ImageForm(props) {
 		let reader = new FileReader();
 
 		reader.onload = () =>
-			setImage(reader.result)
+			setData(reader.result);
 
 		reader.readAsDataURL(ev.target.files[0]);
 	}, []);
@@ -26,7 +23,16 @@ export function ImageForm(props) {
 	const handleSubmit = useCallback(ev => {
 		ev.preventDefault();
 
-		console.log(cropper.getCroppedCanvas().toDataURL());
+		props.API.addImage(props.id, cropper.getCroppedCanvas().toDataURL('image/jpeg', 0.1));
+		props.setImage(true);
+
+		// cropper.getCroppedCanvas().toBlob(async blob => {
+		// 	let image = await blob.text();
+
+		// 	props.API.addImage(props.id, image);
+		// 	props.setImage(true);
+		// });
+
 	}, [cropper]);
 
 	return (
@@ -34,9 +40,9 @@ export function ImageForm(props) {
 			<Row>
 				<Form.Group controlId="formFile" className="mb-3">
 					<Form.Label>Image</Form.Label>
-					{image &&
-						<Cropper style={{height: '50vh'}}
-							src={image}
+					{data &&
+						<Cropper style={{ height: '50vh' }}
+							src={data}
 							viewMode={1}
 							dragMode='move'
 							aspectRatio={16 / 9}

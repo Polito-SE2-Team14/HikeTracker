@@ -25,6 +25,7 @@ import {
 	faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { HikeMap } from "../Maps/HikeMap";
+import { Loading } from "../Loading";
 
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
@@ -138,13 +139,26 @@ export function HikeModal(props) {
 }
 
 function InfoTab(props) {
+	const [image, setImage] = useState('');
+
 	let hike = props.hike;
 	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
 	// console.log(props.userRecord);
+
+	useEffect(() => {
+		const getImage = async () => {
+			let newImage = await HikeAPI.getImage(props.hike.hikeID);
+
+			setImage(newImage);
+		};
+
+		getImage();
+	}, [props.hike.hikeID]);
+
 	return (
 		<Container>
 			<img
-				src="https://www.rei.com/dam/parrish_091412_0679_main_lg.jpg"
+				src={image}
 				className="img-fluid mt-4"
 				alt="..."
 			/>
@@ -199,7 +213,7 @@ function InfoTab(props) {
 			</Row>
 
 			{RoleManagement.isHiker(props.user) && props.thisHikeIsStarted &&
-				<Row className="text-center" style={{marginTop: '10px'}}>
+				<Row className="text-center" style={{ marginTop: '10px' }}>
 					<Col>
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DateTimePicker

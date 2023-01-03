@@ -41,7 +41,7 @@ router.post('',
 		}
 
 		await hutController.createHut(req.body)
-			.then(hut => res.status(204).json(hut))
+			.then(hut => res.status(201).json(hut))
 			.catch((err) => {
 				return errorResponse(err, 500, res)
 			});

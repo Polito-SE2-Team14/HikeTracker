@@ -32,7 +32,7 @@ exports.linkHutToHike = async (hutID, hikeID) => {
 	return addedLink;
 }
 
-exports.getHutsLinkedToHike= async (hikeID)=>{
+exports.getHutsLinkedToHike = async (hikeID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID")
 	const hutIDs = await hikeDAO.getHutsLinkedToHike(hikeID)
@@ -59,8 +59,8 @@ exports.getReferencePointsForHike = async (hikeID) => {
 exports.addHike = async (hike) => {
 
 	let { title, length, ascent, expectedTime, description, country, municipality, province, difficulty, creatorID } = hike
-	
-	if (typeof title != "string") 		
+
+	if (typeof title != "string")
 		throw Error("Type error with name")
 	if (isNaN(length))
 		throw Error("Type error with length")
@@ -80,7 +80,7 @@ exports.addHike = async (hike) => {
 		throw Error("Type error with difficulty")
 	if (isNaN(creatorID))
 		throw Error("Type error with creatorID");
-		//check creator existing 
+	//check creator existing 
 	//check on track
 
 	const addedHike = await hikeDAO.addHike(hike)
@@ -111,7 +111,7 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 		.then((id) => referencePointID = id)
 
 	await hikeDAO
-		.addReferencePoint(hikeID, referencePointID)	
+		.addReferencePoint(hikeID, referencePointID)
 
 	return referencePointID
 }
@@ -120,8 +120,8 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 exports.updateHike = async (hike) => {
 	await hikeDAO
 		.updateHike(hike)
-		.then((msg) => {return msg;})
-		
+		.then((msg) => { return msg; })
+
 	return hike;
 }
 
@@ -129,7 +129,7 @@ exports.deleteHike = async (hikeID) => {
 
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID");
-		
+
 	// let hike
 	// await this.getHike(hikeDAO)
 	// 	.then(h => hike = h)
@@ -138,7 +138,7 @@ exports.deleteHike = async (hikeID) => {
 	// 	throw Error("There is no hike with that ID")
 
 	await hikeDAO.deleteHike(hikeID)
-	
+
 }
 
 //TODO test this function
@@ -156,7 +156,7 @@ exports.getHikeTrack = async (hikeID) => {
 exports.getHikeImage = async (hikeID) => {
 	try {
 		const image = hikeDAO.getHikeImage(hikeID);
-		return image
+		return { image: image };
 	}
 	catch (err) {
 		throw err

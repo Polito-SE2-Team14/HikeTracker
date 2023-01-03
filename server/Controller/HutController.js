@@ -12,7 +12,7 @@ exports.getHuts = async () => {
 exports.getHutImage = async (hikeID) => {
 	try {
 		const image = hutDAO.getHutImage(hikeID);
-		return image
+		return { image: image };
 	}
 	catch (err) {
 		throw err
