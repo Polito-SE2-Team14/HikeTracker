@@ -51,8 +51,8 @@ export function ParkingLotFilters(props) {
 	}
 
 
-	let showAreaMapTrue = function(){setShowAreaMap(false)}
-	let showAreaMapFalse = function(){setShowAreaMap(true)}
+	let showAreaMapTrue = function(){setShowAreaMap(true)}
+	let showAreaMapFalse = function(){setShowAreaMap(false)}
 	let selectArea = function(area){setArea(area)}
 	let selectAddressName = function(ev){setAddressName(ev.target.value)}
 	return (

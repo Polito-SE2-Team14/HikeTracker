@@ -90,8 +90,8 @@ export function HikeFilters(props) {
 		setTimeInterval([MIN_TIME_VALUE, MAX_TIME_VALUE]);
 	}
 
-	let setShowAreaMapTrue = function(){setShowAreaMap(false)}
-	let setShowAreaMapFalse = function(){setShowAreaMap(true)}
+	let setShowAreaMapTrue = function(){setShowAreaMap(true)}
+	let setShowAreaMapFalse = function(){setShowAreaMap(false)}
 	let selectArea = function(area){setArea(area)}
 	let selectBeginnerDifficulty=function(ev){setBeginnerDiff(ev.target.checked)}
 	let selectHikerDifficulty=function(ev){setHikerDiff(ev.target.checked)}
