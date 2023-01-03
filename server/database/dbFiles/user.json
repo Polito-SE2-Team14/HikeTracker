@@ -12,7 +12,7 @@
 			"name":"Randolph",
 			"surname":"Carter",
 			"email":"randolph.carter@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"23456789011",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -20,7 +20,7 @@
 			"name":"Barbara",
 			"surname":"Ann",
 			"email":"barbara.ann@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"34567890112",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -28,7 +28,7 @@
 			"name":"Mario",
 			"surname":"Rossi",
 			"email":"mario.rossi@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"45678901123",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -36,7 +36,7 @@
 			"name":"Cristian",
 			"surname":"Verdi",
 			"email":"cristian.verdi@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"56789011234",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -44,7 +44,7 @@
 			"name":"Larry",
 			"surname":"Thomas",
 			"email":"larry.thomas@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"67890112345",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -52,7 +52,7 @@
 			"name":"Frank",
 			"surname":"Johnson",
 			"email":"frank.johnson@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"78901123456",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -60,7 +60,7 @@
 			"name":"Eric",
 			"surname":"Williams",
 			"email":"eric.williams@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"89011234567",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -68,7 +68,7 @@
 			"name":"Stephen",
 			"surname":"Brown",
 			"email":"stephen.brown@mail.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"90112345678",
 			"type":"hiker",
 			"password":"password"
 		},
@@ -76,7 +76,7 @@
 			"name":"Andrew",
 			"surname":"Miller",
 			"email":"andrew.miller@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"01123456789",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -84,7 +84,7 @@
 			"name":"Gregory",
 			"surname":"Jones",
 			"email":"gregory.jones@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"11234567890",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -92,7 +92,7 @@
 			"name":"Mary",
 			"surname":"Lee",
 			"email":"mary.lee@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"10987654321",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -100,7 +100,7 @@
 			"name":"Friede",
 			"surname":"Gonzalez",
 			"email":"friede.gonzalez@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"09876543211",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -108,7 +108,7 @@
 			"name":"Patricia",
 			"surname":"Harris",
 			"email":"patricia.harris@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"98765432110",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -116,7 +116,7 @@
 			"name":"Linda",
 			"surname":"Clark",
 			"email":"linda.clark@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"87654321109",
 			"type":"localGuide",
 			"password":"password"
 		},
@@ -124,7 +124,7 @@
 			"name":"Elizabeth",
 			"surname":"Lewis",
 			"email":"elizabeth.lewis@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"76543211098",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -132,7 +132,7 @@
 			"name":"Jennifer",
 			"surname":"Walker",
 			"email":"jennifer.walker@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"65432110987",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -140,7 +140,7 @@
 			"name":"Maria",
 			"surname":"Hall",
 			"email":"maria.hall@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"54321109876",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -148,7 +148,7 @@
 			"name":"Susan",
 			"surname":"Young",
 			"email":"susan.young@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"43211098765",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -156,7 +156,7 @@
 			"name":"Eileen",
 			"surname":"Allen",
 			"email":"eileen.allen@email.com",
-			"phoneNumber":"12345678901",
+			"phoneNumber":"32110987654",
 			"type":"hutWorker",
 			"password":"password"
 		},
@@ -164,7 +164,7 @@
 			"name":"Dorothy",
 			"surname":"Sanchez",
 			"email":"dorothy.sanchez@email.com",
-			"phoneNumber":"3456789012",
+			"phoneNumber":"21109876543",
 			"type":"hutWorker",
 			"password":"password"
 		}

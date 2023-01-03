@@ -35,15 +35,17 @@ function hikesCreation() {
 	});
 }
 
-function usersCreation() {
+async function usersCreation() {
 	console.log("Adding users")
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/user.json"));
 	const users = JSON.parse(jsonString).users;
 
-	return users.map(u => {
-		return userDAO.Register(u, crypto.randomBytes(20).toString('hex'), 1, 1)
-		//console.log(i++, "- User added")
-	})
+	let toReturn=[];
+	for (let i=0; i<users.length; i++){
+		let user = await userDAO.Register(users[i], crypto.randomBytes(20).toString('hex'), 1, 1)
+		toReturn.push(user);
+	}
+	return toReturn;
 }
 
 function userStatsCreation(){
@@ -152,9 +154,11 @@ Promise.all(tablesDropping())
 			.then(() => {
 				Promise.all(hikesCreation())
 					.catch((err) => { console.error("Hike", err) })
-			}).then(() => {
-				Promise.all(usersCreation())
-					.catch((err) => { console.error("User", err) })
+			}).then(async () => {
+				await usersCreation();
+				// Promise.all(usersCreation())
+				// 	.catch((err) => { console.error("User", err) })
+
 			}).then(() => {
 				Promise.all(pointsCreation())
 					.catch((err) => { console.error("Points", err) })

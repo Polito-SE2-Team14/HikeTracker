@@ -146,6 +146,21 @@ router.get('/current/stats',
 	}
 );
 
+router.post('/current/stats',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.addUserStats(req.body.newStats)
+				.then((stats)=>{
+					return res.status(200).json(stats);
+				}).catch((err)=>{
+					return errorResponse(err,500,res)
+				});
+		}
+		else
+			res.status(401).json({ error: 'Not authenticated' });
+	}
+);
+
 router.put('/current/stats',
 	async (req, res) => {
 		if (req.isAuthenticated()) {
