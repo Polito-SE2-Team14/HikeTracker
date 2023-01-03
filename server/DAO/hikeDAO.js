@@ -142,7 +142,7 @@ exports.getCloseHutsForHike = function (hikeID) {
 }
 
 exports.linkHutToHike = function (hutID, hikeID) {
-	return new Promise((resolve, reject) => {
+	return new Promise(function(resolve, reject){
 		db.all("SELECT * FROM POINT WHERE pointID=? AND pointType='hut'", [hutID], function (err, rows) {
 			if (err) {
 				console.error(err);
