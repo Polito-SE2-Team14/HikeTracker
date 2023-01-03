@@ -43,7 +43,7 @@ function HutCreationForm(props) {
 	const [municipality, setMunicipality] = useState("");
 	const [bedspace, setBedspace] = useState(0);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = function(event){
 		event.preventDefault();
 		props.handleCreate(
 			{
@@ -63,7 +63,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="text"
 						required={true}
-						onChange={(ev) => setName(ev.target.value)}
+						onChange={function(ev){setName(ev.target.value)}}
 					/>
 				</Form.Group>
 			</Row>
@@ -73,7 +73,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="text"
 						required={true}
-						onChange={(ev) => setDescription(ev.target.value)}
+						onChange={function(ev){setDescription(ev.target.value)}}
 					/>
 				</Form.Group>
 			</Row>
@@ -83,7 +83,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="float"
 						required={true}
-						onChange={(ev) => setAltitude(ev.target.value)}
+						onChange={function(ev){setAltitude(ev.target.value)}}
 					/>
 				</Form.Group>
 			</Row>
@@ -92,7 +92,7 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Latitude</Form.Label>
 						<Form.Control type="float" required={true}
-							onChange={(ev) => setLatitude(ev.target.value)}
+							onChange={function(ev){setLatitude(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>
@@ -100,12 +100,12 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Longitude</Form.Label>
 						<Form.Control type="float" required={true}
-							onChange={(ev) => setLongitude(ev.target.value)}
+							onChange={function(ev){setLongitude(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col> */}
 				<PointSelectMap
-					onSetPoint={(point) => {
+					onSetPoint={function(point){
 						setLatitude(point[0]);
 						setLongitude(point[1]);
 					}}
@@ -147,7 +147,7 @@ function HutCreationForm(props) {
 				<Form.Control
 					type="text"
 					required={true}
-					onChange={(ev) => setAddress(ev.target.value)}
+					onChange={function(ev){setAddress(ev.target.value)}}
 				/>
 			</Form.Group>
 			<Row>
@@ -157,7 +157,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="number"
 							required={true}
-							onChange={(ev) => setBedspace(ev.target.value)}
+							onChange={function(ev){setBedspace(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>
@@ -169,7 +169,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="email"
 							required={true}
-							onChange={(ev) => setEmail(ev.target.value)}
+							onChange={function(ev){setEmail(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>
@@ -181,7 +181,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="number"
 							required={true}
-							onChange={(ev) => setPhoneNumber(ev.target.value)}
+							onChange={function(ev){setPhoneNumber(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>
@@ -190,7 +190,7 @@ function HutCreationForm(props) {
 						<Form.Label>Website (optional)</Form.Label>
 						<Form.Control
 							type="text"
-							onChange={(ev) => setWebsite(ev.target.value)}
+							onChange={function(ev){setWebsite(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>

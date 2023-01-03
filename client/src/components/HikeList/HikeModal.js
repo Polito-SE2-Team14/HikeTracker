@@ -204,9 +204,9 @@ function InfoTab(props) {
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DateTimePicker
 								label="Manual Clock"
-								renderInput={(params) => <TextField {...params} />}
+								renderInput={function(params){return(<TextField {...params} />)}}
 								value={props.customDateTime}
-								onChange={(newValue) => {
+								onChange={function(newValue){
 									props.setCustomDateTime(newValue);
 								}}
 								minDateTime={minDateTime}
@@ -266,12 +266,12 @@ function MapTab(props) {
 		// eslint-disable-next-line
 	}, [show]);
 
-	const onPointSelect = (coords) => {
+	const onPointSelect = function(coords){
 		setCoords(coords);
 		setShowForm(true);
 	};
 
-	const onPointDeselect = () => {
+	const onPointDeselect =function(){
 		getMarkers();
 		setShowForm(false);
 	};
@@ -341,7 +341,7 @@ function ReferencePointForm(props) {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 
-	const handleSubmit = (ev) => {
+	const handleSubmit = function(ev){
 		ev.preventDefault();
 
 		let referencePoint = {
@@ -371,7 +371,7 @@ function ReferencePointForm(props) {
 						<Form.Control
 							placeholder="Enter a name"
 							value={name}
-							onChange={(ev) => setName(ev.target.value)}
+							onChange={function(ev){setName(ev.target.value)}}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -380,7 +380,7 @@ function ReferencePointForm(props) {
 							as="textarea"
 							placeholder="Enter a description"
 							value={description}
-							onChange={(ev) => setDescription(ev.target.value)}
+							onChange={function(ev){setDescription(ev.target.value)}}
 						/>
 					</Form.Group>
 					<span className="d-flex justify-content-end mt-3">

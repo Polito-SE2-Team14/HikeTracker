@@ -12,52 +12,52 @@ import allCountries from '../JSONs/Countries.json';
 import Select from 'react-select'
 
 export function MunicipalitySelect(props) {
-	let municipalities = allMunicipalities.filter(m => m.country_name === props.country & m.state_name === props.province)
-	let municipalitiyOptions = municipalities.map((m, i) => {
+	let municipalities = allMunicipalities.filter(function(m){return m.country_name === props.country & m.state_name === props.province})
+	let municipalitiyOptions = municipalities.map(function(m, i){
 		return {
 			'value': m.name,
 			'label': m.name
 		};
 	});
 
-	let selectedMun = municipalitiyOptions.filter(c => c.label == props.municipality);
+	let selectedMun = municipalitiyOptions.filter(function(c){return c.label == props.municipality});
 
 	return (
 		<>
-			<Select value={selectedMun.length > 0 ? selectedMun[0] : ""} isDisabled={props.disabled} options={municipalitiyOptions} onChange={(ev) => props.setMunicipality(ev.value)} />
+			<Select value={selectedMun.length > 0 ? selectedMun[0] : ""} isDisabled={props.disabled} options={municipalitiyOptions} onChange={function(ev){props.setMunicipality(ev.value)}} />
 		</>)
 }
 export function ProvinceSelect(props) {
 
-	let provinces = allProvinces.filter(p => p.country_name === props.country);
-	let provinceOptions = provinces.map((p, i) => {
+	let provinces = allProvinces.filter(function(p){return p.country_name === props.country});
+	let provinceOptions = provinces.map(function(p, i){
 		return {
 			'value': p.name,
 			'label': p.name
 		};
 	});
 
-	let selectedProvince = provinceOptions.filter(c => c.label == props.province);
+	let selectedProvince = provinceOptions.filter(function(c){return c.label == props.province});
 
 	return (
 		<>
-			<Select value={selectedProvince.length > 0 ? selectedProvince[0] : ""} isDisabled={props.disabled} options={provinceOptions} onChange={(ev) => props.setProvince(ev.value)} />
+			<Select value={selectedProvince.length > 0 ? selectedProvince[0] : ""} isDisabled={props.disabled} options={provinceOptions} onChange={function(ev){props.setProvince(ev.value)}} />
 		</>)
 }
 
 
 export function CountrySelect(props) {
 
-	let countryOptions = allCountries.map((c, i) => {
+	let countryOptions = allCountries.map(function(c, i){
 		return {
 			'value': c,
 			'label': c
 		};
 	});
 
-	let selectedCountry = countryOptions.filter(c => c.label == props.country);
+	let selectedCountry = countryOptions.filter(function(c){return c.label == props.country});
 
 	return (
-		<Select value={selectedCountry.length > 0 ? selectedCountry[0] : ""} options={countryOptions} onChange={(ev) => props.setCountry(ev.value)} />
+		<Select value={selectedCountry.length > 0 ? selectedCountry[0] : ""} options={countryOptions} onChange={function(ev){props.setCountry(ev.value)}} />
 	)
 }

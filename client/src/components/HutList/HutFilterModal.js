@@ -14,7 +14,7 @@ export function HutFilterModal(props) {
 	const [address, setAddress] = useState("");
 	const [minBedspace, setMinBedspace] = useState(0);
 
-	const onApply = (ev) => {
+	const onApply = function(ev){
 		ev.preventDefault();
 
 		// TODO(antonio): add validation
@@ -40,7 +40,7 @@ export function HutFilterModal(props) {
 						<Form.Check
 							type="switch"
 							checked={showProvinceForm}
-							onChange={(e) => setShowProvinceForm(e.target.checked)}
+							onChange={function(e){setShowProvinceForm(e.target.checked)}}
 						/>
 						<Form.Label>Province filter</Form.Label>
 					</span>
@@ -50,14 +50,14 @@ export function HutFilterModal(props) {
 							<Form.Control
 								placeholder="Insert province"
 								value={province}
-								onChange={(e) => setProvince(e.target.value)}
+								onChange={function(e){setProvince(e.target.value)}}
 							/>
 							<br/>
 							<Form.Label>Municipality</Form.Label>
 							<Form.Control
 								placeholder="Insert municipality"
 								value={municipality}
-								onChange={(e) => setMunicipality(e.target.value)}
+								onChange={function(e){setMunicipality(e.target.value)}}
 							/>
 							<br/>
 						</>
@@ -68,13 +68,13 @@ export function HutFilterModal(props) {
 						<Form.Check
 							type="switch"
 							checked={showLocationForm}
-							onChange={(e) => setShowLocationForm(e.target.checked)}
+							onChange={function(e){setShowLocationForm(e.target.checked)}}
 						/>
 						<Form.Label>Area filter</Form.Label>
 					</span>
 					{showLocationForm ? (
 						<AreaSelectMap
-							onSetArea={(area) => {
+							onSetArea={function(area){
 								setArea(area);
 							}}
 						/>
@@ -85,7 +85,7 @@ export function HutFilterModal(props) {
 						<Form.Check
 							type="switch"
 							checked={showAddressForm}
-							onChange={(e) => setShowAddressForm(e.target.checked)}
+							onChange={function(e){setShowAddressForm(e.target.checked)}}
 						/>
 						<Form.Label>Address filter</Form.Label>
 					</span>
@@ -93,7 +93,7 @@ export function HutFilterModal(props) {
 						<Form.Control
 							placeholder="Insert address"
 							value={address}
-							onChange={(e) => setAddress(e.target.value)}
+							onChange={function(e){setAddress(e.target.value)}}
 						/>
 					) : (
 						false
@@ -102,7 +102,7 @@ export function HutFilterModal(props) {
 						<Form.Check
 							type="switch"
 							checked={showBedspaceForm}
-							onChange={(e) => setShowBedspaceForm(e.target.checked)}
+							onChange={function(e){setShowBedspaceForm(e.target.checked)}}
 						/>
 						<Form.Label>Bedspace filter</Form.Label>
 					</span>
@@ -112,7 +112,7 @@ export function HutFilterModal(props) {
 								type="number"
 								placeholder="Insert bedspace"
 								value={minBedspace}
-								onChange={(e) => setMinBedspace(e.target.value)}
+								onChange={function(e){setMinBedspace(e.target.value)}}
 							/>
 							<Form.Text>Minimum bedspace available</Form.Text>
 						</>

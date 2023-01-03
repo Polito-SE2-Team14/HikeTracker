@@ -34,23 +34,23 @@ export function HutsPage(props) {
 
 	const [modalFooterVisible, setModalFooterVisible] = useState(false);
 
-	const handleShowFilterModal = () => {
+	const handleShowFilterModal = function(){
 		setShowFilterForm(true);
 	};
 
-	const handleCloseFilterModal = () => {
+	const handleCloseFilterModal = function(){
 		setShowFilterForm(false);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = function(){
 		setModalVisible(true);
 	};
 
-	const handleClose = () => {
+	const handleClose = function(){
 		setModalVisible(false);
 	};
 
-	const handleCreate = (givenHut) => {
+	const handleCreate = function(givenHut){
 		let hut = {
 			name: givenHut.name,
 			description: givenHut.description,
@@ -81,7 +81,7 @@ export function HutsPage(props) {
 			});
 	};
 
-	const getAllHuts = async () => {
+	const getAllHuts = async function(){
 		await PointAPI.getAllHuts()
 			.catch((err) => {
 				console.error(err);
@@ -105,7 +105,7 @@ export function HutsPage(props) {
 	}, [huts.length]);
 
 	const insertButton = (
-		<Button variant="success" onClick={() => handleSubmit()}>
+		<Button variant="success" onClick={function(){handleSubmit()}}>
 			<FontAwesomeIcon icon={faPlus} /> Register Hut
 		</Button>
 	);
@@ -124,8 +124,9 @@ export function HutsPage(props) {
 									type="search"
 									placeholder="Search"
 									value={filters.name}
-									onChange={(ev) =>
+									onChange={function(ev){
 										setFilters({ ...filters, name: ev.target.value.trim() })
+										}
 									}
 								/>
 								<Button onClick={handleShowFilterModal}>

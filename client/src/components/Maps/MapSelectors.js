@@ -58,7 +58,7 @@ export function CircleAreaForm(props) {
 			max={10000}
 			step={500}
 			value={props.radius}
-			onChange={(ev) => props.setRadius(ev.target.value)} />
+			onChange={function(ev){props.setRadius(ev.target.value)}} />
 	);
 }
 export function SelectPositionButton(props) {
@@ -66,7 +66,7 @@ export function SelectPositionButton(props) {
 		<Button
 			variant="warning"
 			disabled={props.selectPosition}
-			onClick={() => props.setSelectPosition(true)}
+			onClick={function(){props.setSelectPosition(true)}}
 		>
 			{props.selectPosition ? (
 				"Select on map"

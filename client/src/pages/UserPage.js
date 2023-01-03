@@ -31,15 +31,15 @@ export function UserPage(props) {
 	const [showStats, setShowStats] = useState(false);
 	const [showPreferenceForm, setShowPreferenceForm] = useState(false);
 
-	const getStats = async () => {
+	const getStats = async function(){
 		return await UserAPI.getUserStats();
 	};
 
-	const handleOpenPreferenceForm = () => {
+	const handleOpenPreferenceForm = function(){
 		setShowPreferenceForm(true);
 	};
 
-	const handleClosePreferenceForm = () => {
+	const handleClosePreferenceForm = function(){
 		setShowPreferenceForm(false);
 	};
 
@@ -99,7 +99,7 @@ function PreferenceForm(props) {
 	const [minTime, setMinTime] = useState(props.stats.minTime ? props.stats.minTime : 0);
 	const [maxTime, setMaxTime] = useState(props.stats.maxTime ? props.stats.maxTime : 0);
 
-	const handleSubmit = (ev) => {
+	const handleSubmit = function(ev){
 		ev.preventDefault();
 
 		console.log(props.user);
@@ -118,7 +118,7 @@ function PreferenceForm(props) {
 		};
 
 		console.log(props.stats);
-		if(props.stats==false){
+		if(!props.stats){
 			UserAPI.addUserStats(stats);
 		}else{
 			UserAPI.setUserStats(stats);
@@ -139,7 +139,7 @@ function PreferenceForm(props) {
 								<Form.Control
 									type="number"
 									value={completedHikes}
-									onChange={(ev) => setCompletedHikes(ev.target.value)}
+									onChange={function(ev){setCompletedHikes(ev.target.value)}}
 								/>
 							</Col>
 							<Col
@@ -152,7 +152,7 @@ function PreferenceForm(props) {
 								<Form.Label>Favorite Difficulty</Form.Label>
 								<Form.Select
 									value={favouriteDifficulty}
-									onChange={(ev) => setFavoriteDifficulty(ev.target.value)}
+									onChange={function(ev){setFavoriteDifficulty(ev.target.value)}}
 								>
 									<option>Select difficulty</option>
 									<option value="Tourist">Tourist</option>
@@ -198,7 +198,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={minDistance}
-										onChange={(ev) => setMinDistance(ev.target.value)}
+										onChange={function(ev){setMinDistance(ev.target.value)}}
 									/>
 									<InputGroup.Text>meters</InputGroup.Text>
 								</InputGroup>
@@ -215,7 +215,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={maxDistance}
-										onChange={(ev) => setMaxDistance(ev.target.value)}
+										onChange={function(ev){setMaxDistance(ev.target.value)}}
 									/>
 									<InputGroup.Text>meters</InputGroup.Text>
 								</InputGroup>
@@ -228,7 +228,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={minAscent}
-										onChange={(ev) => setMinAscent(ev.target.value)}
+										onChange={function(ev){setMinAscent(ev.target.value)}}
 									/>
 									<InputGroup.Text>meters</InputGroup.Text>
 								</InputGroup>
@@ -245,7 +245,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={maxAscent}
-										onChange={(ev) => setMaxAscent(ev.target.value)}
+										onChange={function(ev){setMaxAscent(ev.target.value)}}
 									/>
 									<InputGroup.Text>meters</InputGroup.Text>
 								</InputGroup>
@@ -258,7 +258,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={minTime}
-										onChange={(ev) => setMinTime(ev.target.value)}
+										onChange={function(ev){setMinTime(ev.target.value)}}
 									/>
 									<InputGroup.Text>minutes</InputGroup.Text>
 								</InputGroup>
@@ -275,7 +275,7 @@ function PreferenceForm(props) {
 									<Form.Control
 										type="number"
 										value={maxTime}
-										onChange={(ev) => setMaxTime(ev.target.value)}
+										onChange={function(ev){setMaxTime(ev.target.value)}}
 									/>
 									<InputGroup.Text>minutes</InputGroup.Text>
 								</InputGroup>

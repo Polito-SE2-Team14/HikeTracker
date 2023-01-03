@@ -62,11 +62,11 @@ export function HutFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+								<Button size="sm" onClick={function(){setShowAreaMap(false)}}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+								<Button size="sm" onClick={function(){setShowAreaMap(true)}}>
 									Show map
 								</Button>
 							)}
@@ -76,7 +76,7 @@ export function HutFilters(props) {
 						<>
 							<AreaSelectMap
 							points={props.huts}
-								onSetArea={(area) => {
+								onSetArea={function(area){
 									setArea(area);
 								}}
 							/>
@@ -92,7 +92,7 @@ export function HutFilters(props) {
 						type="search"
 						placeholder="Insert address"
 						value={addressName}
-						onChange={(ev) => setAddressName(ev.target.value)}
+						onChange={function(ev){setAddressName(ev.target.value)}}
 					/>
 				</Form.Group>
 				<hr />
@@ -165,7 +165,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={(ev) => {
+			onChange={function(ev){
 				props.setValue(ev.target.value);
 			}}
 		/>

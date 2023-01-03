@@ -38,11 +38,12 @@ function PLotListTable(props) {
 									type="search"
 									placeholder="Search"
 									value={props.filters.name}
-									onChange={(ev) =>
+									onChange={function(ev){
 										props.setFilters({
 											...props.filters,
 											name: ev.target.value.trim(),
-										})
+											})
+										}
 									}
 								/>
 							</Row>
@@ -70,13 +71,13 @@ function PLotListTable(props) {
 function PLotListItem(props) {
 	const [showModal, setShowModal] = useState(false);
 
-	const handleShowModal = () => {
+	const handleShowModal = function(){
 		setShowModal(true);
 	};
-	const handleHideModal = () => {
+	const handleHideModal = function(){
 		setShowModal(false);
 	};
-	const handleDeletePLot = (lot) => {
+	const handleDeletePLot = function(lot){
 		setShowModal(false);
 		ParkingLotAPI.deleteParkingLot(lot.pLotId)
 			.then(() => {
@@ -91,8 +92,8 @@ function PLotListItem(props) {
 			<PLotModal
 				lot={props.lot}
 				show={showModal}
-				onHide={() => handleHideModal()}
-				onDelete={() => handleDeletePLot(props.lot)}
+				onHide={function(){handleHideModal()}}
+				onDelete={function(){handleDeletePLot(props.lot)}}
 			/>
 			<Col className="mt-3">
 				<Card>

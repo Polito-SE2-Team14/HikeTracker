@@ -102,11 +102,11 @@ export function HikeFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+								<Button size="sm" onClick={function(){setShowAreaMap(false)}}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+								<Button size="sm" onClick={function(){setShowAreaMap(true)}}>
 									Show map
 								</Button>
 							)}
@@ -116,7 +116,7 @@ export function HikeFilters(props) {
 						<>
 						<AreaSelectMap
 							hikes={props.hikes}
-							onSetArea={(area) => {
+							onSetArea={function(area){
 								setArea(area);
 							}}
 						/>
@@ -155,7 +155,7 @@ export function HikeFilters(props) {
 							label="Tourist"
 							type="checkbox"
 							checked={beginnerDiff}
-							onChange={(ev) => {
+							onChange={function(ev){
 								setBeginnerDiff(ev.target.checked);
 							}}
 						/>
@@ -164,7 +164,7 @@ export function HikeFilters(props) {
 							label="Hiker"
 							type="checkbox"
 							checked={hikerDiff}
-							onChange={(ev) => {
+							onChange={function(ev){
 								setHikerDiff(ev.target.checked);
 							}}
 						/>
@@ -173,7 +173,7 @@ export function HikeFilters(props) {
 							label="Pro Hiker"
 							type="checkbox"
 							checked={proDiff}
-							onChange={(ev) => {
+							onChange={function(ev){
 								setProDiff(ev.target.checked);
 							}}
 						/>
@@ -246,7 +246,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={(ev) => {
+			onChange={function(ev){
 				props.setValue(ev.target.value);
 			}}
 		/>

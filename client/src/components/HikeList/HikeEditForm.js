@@ -51,7 +51,7 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} goToPoints={() => setEditPoints(true)} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
+					<HikeForm hike={hike} goToPoints={function(){setEditPoints(true)}} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
 					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
@@ -153,7 +153,7 @@ function HikeForm(props) {
 						id="file_switch"
 						size="xl"
 						checked={useFile}
-						onChange={(ev) => {
+						onChange={function(ev){
 							setUseFile(ev.target.checked);
 						}}
 					></Form.Check>
@@ -168,7 +168,7 @@ function HikeForm(props) {
 					value={title}
 					required={true}
 
-					onChange={(ev) => setTitle(ev.target.value)}
+					onChange={function(ev){setTitle(ev.target.value)}}
 				/>
 			</Form.Group>
 
@@ -259,7 +259,7 @@ function HikeForm(props) {
 										props.hike ? props.hike.length : "Enter hike length"
 									}
 									value={length}
-									onChange={(ev) => setLength(ev.target.value)}
+									onChange={function(ev){setLength(ev.target.value)}}
 								/>
 							</Form.Group>
 						</Col>
@@ -273,7 +273,7 @@ function HikeForm(props) {
 										props.hike ? props.hike.ascent : "Enter hike ascent"
 									}
 									value={ascent}
-									onChange={(ev) => setAscent(ev.target.value)}
+									onChange={function(ev){setAscent(ev.target.value)}}
 								/>
 							</Form.Group>
 						</Col>
@@ -289,7 +289,7 @@ function HikeForm(props) {
 									props.hike ? props.hike.expectedTime : "Enter expected time"
 								}
 								value={expectedTime}
-								onChange={(ev) => setExpectedTime(ev.target.value)}
+								onChange={function(ev){setExpectedTime(ev.target.value)}}
 								aria-describedby="calculate"
 							/>
 							<Button
@@ -317,7 +317,7 @@ function HikeForm(props) {
 						defaultChecked={
 							props.hike ? d === props.hike.difficulty : d === "Tourist"
 						}
-						onChange={(ev) => setDifficulty(ev.target.value)}
+						onChange={function(ev){setDifficulty(ev.target.value)}}
 					/>
 				))}
 			</Form.Group>
@@ -330,7 +330,7 @@ function HikeForm(props) {
 						props.hike ? props.hike.description : "Enter hike description"
 					}
 					value={description}
-					onChange={(ev) => setDescription(ev.target.value)}
+					onChange={function(ev){setDescription(ev.target.value)}}
 				/>
 			</Form.Group>
 
@@ -547,7 +547,7 @@ function EditPointsForm(props) {
 					}}
 				/>
 			</Row>
-			{msg && <Alert variant='danger' onClose={() => props.setMsg(false)} dismissible>{msg}</Alert>}
+			{msg && <Alert variant='danger' onClose={function(){props.setMsg(false)}} dismissible>{msg}</Alert>}
 			<Row>
 				<Form.Group controlId="formStartPoint" className="mb-3">
 					<Form.Label>Start Point</Form.Label>
@@ -562,7 +562,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPoints.map(p => p.options)} onChange={(ev) => setStart(startPoints[ev.value])} />
+					<Select options={startPoints.map((p)=>p.options)} onChange={function(ev){setStart(startPoints[ev.value])}} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -579,12 +579,12 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPoints.map(p => p.options)} onChange={(ev) => setEnd(endPoints[ev.value])} />
+					<Select options={endPoints.map(p => p.options)} onChange={function(ev){setEnd(endPoints[ev.value])}} />
 				</Form.Group>
 			</Row>
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
-				<Select options={closeHuts.map(p => p.options)} onChange={(ev) => handleAdd(ev.value)} />
+				<Select options={closeHuts.map(p => p.options)} onChange={function(ev){handleAdd(ev.value)}} />
 				<div>
 					{linkedHuts.map((p, i) =>
 						<Row key={i}>
@@ -595,7 +595,7 @@ function EditPointsForm(props) {
 								<Button
 									size="sm"
 									variant="delete"
-									onClick={() => handleRemove(p.options.value)}
+									onClick={function(){handleRemove(p.options.value)}}
 								>
 									X
 								</Button>

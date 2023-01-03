@@ -50,7 +50,7 @@ export function AppNavBar(props) {
 		navigate("/");
 	};
 
-	let handlePageSelect = (page) => {
+	let handlePageSelect = function(page){
 		setShowSidebar(false);
 		navigate(page);
 	};
@@ -123,7 +123,7 @@ function SideBar(props) {
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
 					{RoleManagement.isManager(props.user) ? (
-						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
+						<ListGroup.Item action onClick={function(){props.pageSelect("/admin")}}>
 							<SideBarElement
 								icon={<FontAwesomeIcon icon={faClipboardList} />}
 								name="Admin Page"
@@ -131,20 +131,20 @@ function SideBar(props) {
 						</ListGroup.Item>
 					) : null}
 
-					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
+					<ListGroup.Item action onClick={function(){props.pageSelect("/")}}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faCompass} />}
 							name="Home Page"
 						/>
 					</ListGroup.Item>
 
-					<ListGroup.Item action onClick={() => props.pageSelect("/hikes")}>
+					<ListGroup.Item action onClick={function(){props.pageSelect("/hikes")}}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faPersonHiking} />}
 							name="Hikes"
 						/>
 					</ListGroup.Item>
-					<ListGroup.Item action onClick={() => props.pageSelect("/huts")}>
+					<ListGroup.Item action onClick={function() {props.pageSelect("/huts")}}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faHouse} />}
 							name="Huts"
@@ -152,7 +152,7 @@ function SideBar(props) {
 					</ListGroup.Item>
 					<ListGroup.Item
 						action
-						onClick={() => props.pageSelect("/parking-lots")}
+						onClick={function(){props.pageSelect("/parking-lots")}}
 					>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faCarSide} />}

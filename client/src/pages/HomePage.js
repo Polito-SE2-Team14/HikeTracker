@@ -91,7 +91,7 @@ function NavCard(props) {
 
 	return (
 		<Card className="mb-3 mt-4">
-			<CardActionArea onClick={() => navigate(`/${props.page}`)}>
+			<CardActionArea onClick={function(){navigate(`/${props.page}`)}}>
 				<CardMedia component="img" height="240" image={props.image} />
 				<CardContent>
 					<Typography gutterBottom align="center" variant="h4" component="div">

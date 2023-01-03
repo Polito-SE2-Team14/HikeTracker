@@ -38,7 +38,7 @@ export function HikesPage(props) {
 	const [selectedHike, setSelectedHike] = useState(null);
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
-	const getAllHikes = async () => {
+	const getAllHikes = async function(){
 		let hikes;
 		await HikeAPI.getAllHikes()
 			.then((h) => {
@@ -52,7 +52,7 @@ export function HikesPage(props) {
 			});
 	};
 
-	const getUserHikeRecordWithStatusOpen = async () => {
+	const getUserHikeRecordWithStatusOpen = async function(){
 		if (props.user && props.user.userID) {
 			await HikeRecordsAPI.getHikeRecordForUserWithStatusOpen(props.user.userID)
 				.then((h) => {
@@ -64,20 +64,20 @@ export function HikesPage(props) {
 		}
 	};
 
-	const handleClose = () => {
+	const handleClose = function(){
 		setshowFilterForm(false);
 	};
 
-	const handleShowHikeForm = () => {
+	const handleShowHikeForm = function(){
 		setShowHikeForm(true);
 	};
 
-	const handleCloseHikeForm = () => {
+	const handleCloseHikeForm = function(){
 		setShowHikeForm(false);
 		setSelectedHike(null);
 	};
 
-	const newHike = async (hike) => {
+	const newHike = async function(hike){
 		let insertedHike;
 		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
@@ -97,7 +97,7 @@ export function HikesPage(props) {
 		return insertedHike;
 	};
 
-	const applyPreferences = async () => {
+	const applyPreferences = async function(){
 		let stats = await UserAPI.getUserStats();
 		let newFilters = {
 			title: "",
@@ -222,12 +222,13 @@ export function HikesPage(props) {
 								type="search"
 								placeholder="Search"
 								value={filters.title}
-								onChange={(ev) =>
+								onChange={function(ev){
 									setFilters({ ...filters, title: ev.target.value.trim() })
+									}
 								}
 							/>
 							<Button
-								onClick={() => {
+								onClick={function(){
 									setshowFilterForm(true);
 								}}
 							>

@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Table from 'react-bootstrap/Table';
 
 import {
     faCircleCheck,
@@ -19,7 +18,7 @@ export function UserTableRow(props) {
                 <td>{props.user.verified ? <FontAwesomeIcon icon={faCircleCheck} style={{ color: 'green' }} /> : <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />}</td>
                 <td>{props.user.approved ? <FontAwesomeIcon icon={faCircleCheck} style={{ color: 'green' }} /> : <FontAwesomeIcon icon={faTimesCircle} style={{ color: 'red' }} />}</td>
                 <td>
-                    {!props.user.approved ? <Button type='button' variant='success' onClick={() => props.handleApproving(props.user.userID)}>Approve</Button> : <Button type='button' variant='danger' onClick={() => props.handleUnApproving(props.user.userID)}>Unapprove</Button>}
+                    {!props.user.approved ? <Button type='button' variant='success' onClick={function(){props.handleApproving(props.user.userID)}}>Approve</Button> : <Button type='button' variant='danger' onClick={function(){props.handleUnApproving(props.user.userID)}}>Unapprove</Button>}
                 </td>
             </tr>
         </>
