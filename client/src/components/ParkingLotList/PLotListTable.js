@@ -77,12 +77,12 @@ function PLotListItem(props) {
 	let handleHideModal = function(){
 		setShowModal(false);
 	};
-	let handleDeletePLot = function(lot){
+	let handleDeletePLot = function(){
 		setShowModal(false);
-		ParkingLotAPI.deleteParkingLot(lot.pLotId)
+		ParkingLotAPI.deleteParkingLot(props.lot.pLotId)
 			.then(() => {
 				props.setLots((old) =>
-					old.filter((oldLot) => oldLot.pLotId !== lot.pLotId)
+					old.filter((oldLot) => oldLot.pLotId !== props.lot.pLotId)
 				);
 			})
 			.catch((err) => console.log(err));
@@ -92,8 +92,8 @@ function PLotListItem(props) {
 			<PLotModal
 				lot={props.lot}
 				show={showModal}
-				onHide={handleHideModal()}
-				onDelete={handleDeletePLot(props.lot)}
+				onHide={handleHideModal}
+				onDelete={handleDeletePLot}
 			/>
 			<Col className="mt-3">
 				<Card>

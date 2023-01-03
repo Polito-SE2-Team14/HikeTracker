@@ -93,7 +93,7 @@ function HutListItem(props) {
 				show={showHutModal}
 				hut={props.hut}
 				user={props.user}
-				onClose={handleCloseHutModal()}
+				onClose={handleCloseHutModal}
 				onDelete={handleDeleteHut()}
 			/>
 
