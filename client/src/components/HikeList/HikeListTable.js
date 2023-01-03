@@ -33,6 +33,19 @@ function HikeListTable(props) {
 		props.showHikeForm();
 	};
 
+	const [customDateTime, setCustomDateTime] = useState(dayjs());
+
+	const handleStopHike = async () => {
+		let record = props.userHikeRecord;
+		record.endDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
+		await HikeRecordsAPI.updateRecord(record)
+			.then(() => {
+				props.setUserHikeRecord(undefined);
+				setCustomDateTime(dayjs());
+			})
+			.catch((err) => console.log(err));
+	};
+
 	let shownHikes = props.shownHikes.map((hike, i) => (
 		<Col key={i}>
 			<HikeListItem
@@ -49,6 +62,9 @@ function HikeListTable(props) {
 				}
 				setHikes={props.setHikes}
 				handleEditForm={handleShowEditForm}
+				handleStopHike={handleStopHike}
+				customDateTime={customDateTime}
+				setCustomDateTime={setCustomDateTime}
 			/>
 		</Col>
 	));
@@ -148,7 +164,7 @@ function HikeListTable(props) {
 			)}
 
 			<Col className="mb-5">
-				{hikeInProgress ? (
+				{hikeInProgress && props.userHikeRecord ? (
 					<>
 						<Card className="mt-2">
 							<Card.Body>
@@ -157,7 +173,7 @@ function HikeListTable(props) {
 								<Container className="mt-2">
 									<HikeMap
 										track={trackInProgress}
-										markers={{}}
+										markers={markers}
 										user={props.user}
 									/>
 									<Row className="text-muted mt-1">Start time</Row>
@@ -168,18 +184,20 @@ function HikeListTable(props) {
 								<Row>
 									<Col>Hike in progress</Col>
 									<Col className="text-end">
-										<Button size="sm" variant="danger" onClick={() => {}}>
+										<Button size="sm" variant="danger" onClick={() => handleStopHike()}>
 											Terminate hike
 										</Button>
 									</Col>
 								</Row>
 							</Card.Footer>
 						</Card>
-						<hr />
+						
 					</>
-				) : (
-					false
-				)}
+				) : <Row className="text-center mt-5">
+					<Col>
+					Choose your next adventure and hit the Start button!</Col>
+					</Row>}
+				<hr />
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -190,7 +208,7 @@ function HikeListTable(props) {
 
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
-	const [customDateTime, setCustomDateTime] = useState(dayjs());
+
 	const handleStartHike = async () => {
 		// setShowHikeModal(false);
 		await HikeRecordsAPI.addNewRecord({
@@ -200,18 +218,7 @@ function HikeListItem(props) {
 		})
 			.then(() => {
 				props.getUserHikeRecord();
-				setCustomDateTime(dayjs());
-			})
-			.catch((err) => console.log(err));
-	};
-
-	const handleStopHike = async () => {
-		let record = props.userRecord;
-		record.endDate = dayjs(customDateTime).format("YYYY-MM-DD HH:mm:ss");
-		await HikeRecordsAPI.updateRecord(record)
-			.then(() => {
-				props.setUserHikeRecord(null);
-				setCustomDateTime(dayjs());
+				props.setCustomDateTime(dayjs());
 			})
 			.catch((err) => console.log(err));
 	};
@@ -245,14 +252,13 @@ function HikeListItem(props) {
 					userRecord={props.userRecord}
 					thisHikeIsStarted={props.thisHikeIsStarted}
 					otherHikeIsStarted={props.otherHikeIsStarted}
-					customDateTime={customDateTime}
-					setCustomDateTime={setCustomDateTime}
+					customDateTime={props.customDateTime}
+					setCustomDateTime={props.setCustomDateTime}
 					handleStartHike={handleStartHike}
-					handleStopHike={handleStopHike}
+					handleStopHike={props.handleStopHike}
 					onClose={() => handleCloseHikeModal()}
 					onDelete={() => handleDeleteHike(props.hike)}
 					onEdit={() => props.handleEditForm(props.hike)}
-					onStart={() => {}}
 				/>
 			}
 
