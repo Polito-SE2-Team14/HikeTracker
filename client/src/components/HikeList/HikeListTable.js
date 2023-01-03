@@ -19,7 +19,8 @@ import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
 import { timeText } from "../HikeData";
-const dayjs = require('dayjs')
+import { HikeMap } from "../Maps/HikeMap";
+const dayjs = require("dayjs");
 
 function HikeListTable(props) {
 	const handleShowEditForm = (hike) => {
@@ -35,8 +36,12 @@ function HikeListTable(props) {
 				getUserHikeRecord={props.getUserHikeRecord}
 				setUserHikeRecord={props.setUserHikeRecord}
 				userRecord={props.userHikeRecord}
-				thisHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID == hike.hikeID }
-				otherHikeIsStarted={props.userHikeRecord && props.userHikeRecord.hikeID != hike.hikeID }
+				thisHikeIsStarted={
+					props.userHikeRecord && props.userHikeRecord.hikeID == hike.hikeID
+				}
+				otherHikeIsStarted={
+					props.userHikeRecord && props.userHikeRecord.hikeID != hike.hikeID
+				}
 				setHikes={props.setHikes}
 				handleEditForm={handleShowEditForm}
 			/>
@@ -45,18 +50,27 @@ function HikeListTable(props) {
 
 	return (
 		<Row>
-			{!props.suggested &&
+			{!props.suggested && (
 				<Col lg={3} className="d-none d-xl-block">
 					{RoleManagement.isLocalGuide(props.user) ? (
 						<Row className="mb-1">{props.insertButton}</Row>
 					) : (
 						false
 					)}
-					{props.user ? <Row>
-						<Button className="mb-3" onClick={() => {
-							props.applyPreferences();
-						}}>I'm feeling adventurous!</Button>
-					</Row> : false}
+					{props.user ? (
+						<Row>
+							<Button
+								className="mb-3"
+								onClick={() => {
+									props.applyPreferences();
+								}}
+							>
+								I'm feeling adventurous!
+							</Button>
+						</Row>
+					) : (
+						false
+					)}
 					<Row>
 						<Card className="p-2">
 							<h3>Filters</h3>
@@ -83,11 +97,37 @@ function HikeListTable(props) {
 						</Card>
 					</Row>
 				</Col>
-			}
+			)}
 
 			<Col className="mb-5">
-				Your hike in progress / Let's start a new hike!
-			<hr/>
+				<Card>
+					<Card.Body>
+						<Card.Title>Hike title</Card.Title>
+						{/* <HikeMap/> */}
+						{/* <HikeStats/> */}
+						<Container>
+							<Row>
+								<Col>
+									<Row className="text-muted">Last reference point tracked</Row>
+									<Row>Point</Row>
+								</Col>
+								<Col xs="2">
+									<Row className="text-muted">Start time</Row>
+									<Row>00:00</Row>
+								</Col>
+							</Row>
+						</Container>
+					</Card.Body>
+					<Card.Footer className="text-end">
+						<Button size="sm" className="me-2" variant="danger">
+							Terminate hike
+						</Button>
+						<Button size="sm" variant="success">
+							Track point
+						</Button>
+					</Card.Footer>
+				</Card>
+				<hr />
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -101,7 +141,11 @@ function HikeListItem(props) {
 	const [customDateTime, setCustomDateTime] = useState(dayjs());
 	const handleStartHike = async () => {
 		// setShowHikeModal(false);
-		await HikeRecordsAPI.addNewRecord({ userID: props.user.userID, hikeID: props.hike.hikeID, startDate: dayjs().format("YYYY-MM-DD HH:mm:ss") })
+		await HikeRecordsAPI.addNewRecord({
+			userID: props.user.userID,
+			hikeID: props.hike.hikeID,
+			startDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+		})
 			.then(() => {
 				props.getUserHikeRecord();
 				setCustomDateTime(dayjs());
@@ -141,21 +185,24 @@ function HikeListItem(props) {
 
 	return (
 		<>
-			{<HikeModal
-				show={showHikeModal}
-				hike={props.hike}
-				user={props.user}
-				userRecord={props.userRecord}
-				thisHikeIsStarted = {props.thisHikeIsStarted}
-				otherHikeIsStarted = {props.otherHikeIsStarted}
-				customDateTime={customDateTime}
-				setCustomDateTime={setCustomDateTime}
-				handleStartHike={handleStartHike}
-				handleStopHike={handleStopHike}
-				onClose={() => handleCloseHikeModal()}
-				onDelete={() => handleDeleteHike(props.hike)}
-				onEdit={() => props.handleEditForm(props.hike)}
-				onStart={() => { }} />}
+			{
+				<HikeModal
+					show={showHikeModal}
+					hike={props.hike}
+					user={props.user}
+					userRecord={props.userRecord}
+					thisHikeIsStarted={props.thisHikeIsStarted}
+					otherHikeIsStarted={props.otherHikeIsStarted}
+					customDateTime={customDateTime}
+					setCustomDateTime={setCustomDateTime}
+					handleStartHike={handleStartHike}
+					handleStopHike={handleStopHike}
+					onClose={() => handleCloseHikeModal()}
+					onDelete={() => handleDeleteHike(props.hike)}
+					onEdit={() => props.handleEditForm(props.hike)}
+					onStart={() => {}}
+				/>
+			}
 
 			<Col className="mt-3">
 				<Card>
@@ -163,7 +210,9 @@ function HikeListItem(props) {
 						<Card.Title>
 							<Row className="top-row">
 								<Col xs={8} sm={9}>
-									{props.hike.title.length > 25 ? props.hike.title.trim().slice(0, 24).concat("...") : props.hike.title}
+									{props.hike.title.length > 25
+										? props.hike.title.trim().slice(0, 24).concat("...")
+										: props.hike.title}
 								</Col>
 								<Col className="text-end">
 									<Button
@@ -177,30 +226,37 @@ function HikeListItem(props) {
 							</Row>
 						</Card.Title>
 						<Container>
-							<Row>
-								<Col>
-									<FontAwesomeIcon icon={faPersonWalking} />{" "}
-									{(props.hike.length / 1000).toFixed(2)}
-									{" Km"}
-								</Col>
-								<Col>
-									<FontAwesomeIcon icon={faMountain} /> {props.hike.ascent}
-									{" m"}
-								</Col>
-							</Row>
-							<Row className="bottom-row">
-								<Col>
-									<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
-								</Col>
-								<Col>
-									<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
-								</Col>
-							</Row>
+							<HikeStats hike={props.hike}/>
 						</Container>
 					</Card.Body>
-					{/* <Card.Footer className="text-muted">{`suggested/show date of last play?`}</Card.Footer> */}
 				</Card>
 			</Col>
+		</>
+	);
+}
+
+function HikeStats(props) {
+	return (
+		<>
+			<Row>
+				<Col>
+					<FontAwesomeIcon icon={faPersonWalking} />{" "}
+					{(props.hike.length / 1000).toFixed(2)}
+					{" Km"}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faMountain} /> {props.hike.ascent}
+					{" m"}
+				</Col>
+			</Row>
+			<Row className="bottom-row">
+				<Col>
+					<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
+				</Col>
+				<Col>
+					<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
+				</Col>
+			</Row>
 		</>
 	);
 }
