@@ -140,7 +140,8 @@ export function HikeModal(props) {
 function InfoTab(props) {
 	let hike = props.hike;
 	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
-	// console.log(props.userRecord);
+	let selectCustomDateTime = function(newValue){props.setCustomDateTime(newValue)}
+	let render=function(params){return(<TextField {...params} />)}
 	return (
 		<Container>
 			<img
@@ -204,11 +205,9 @@ function InfoTab(props) {
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DateTimePicker
 								label="Manual Clock"
-								renderInput={function(params){return(<TextField {...params} />)}}
+								renderInput={render}
 								value={props.customDateTime}
-								onChange={function(newValue){
-									props.setCustomDateTime(newValue);
-								}}
+								onChange={selectCustomDateTime}
 								minDateTime={minDateTime}
 							/>
 						</LocalizationProvider>
@@ -359,7 +358,8 @@ function ReferencePointForm(props) {
 		HikeAPI.addReferencePoint(referencePoint, props.hike.hikeID);
 		props.onPointDeselect();
 	};
-
+	let selectName = function(ev){setName(ev.target.value)}
+	let selectDescription = function(ev){setDescription(ev.target.value)}
 	return (
 		<>
 			<Row className="mt-3">
@@ -371,7 +371,7 @@ function ReferencePointForm(props) {
 						<Form.Control
 							placeholder="Enter a name"
 							value={name}
-							onChange={function(ev){setName(ev.target.value)}}
+							onChange={selectName}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -380,7 +380,7 @@ function ReferencePointForm(props) {
 							as="textarea"
 							placeholder="Enter a description"
 							value={description}
-							onChange={function(ev){setDescription(ev.target.value)}}
+							onChange={selectDescription}
 						/>
 					</Form.Group>
 					<span className="d-flex justify-content-end mt-3">

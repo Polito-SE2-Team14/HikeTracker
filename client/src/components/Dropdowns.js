@@ -21,11 +21,14 @@ export function MunicipalityDropdown(props){
 					disabled={props.disabled}
 				/>
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{municipalities.map(function(m,i){return(
-						<Dropdown.Item key={i} href="#" onClick={function(ev){props.setMunicipality(m.name)}}>
+					{municipalities.map(function(m,i){
+						let selectMunicipality=function(ev){props.setMunicipality(m.name)}
+						return(
+						<Dropdown.Item key={i} href="#" onClick={selectMunicipality}>
 							{m.name}
 						</Dropdown.Item>)
-					})}
+					}
+					)}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -48,11 +51,15 @@ export function ProvinceDropdown(props){
 						disabled={props.disabled}
 					/>
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{provinces.map(function(p,i){return(
-						<Dropdown.Item key={i} href="#" onClick={function(ev){props.setProvince(p.name)}}>
-							{p.name}
-						</Dropdown.Item>
-					)})}
+					{provinces.map(function(p,i){
+						let selectProvince=function(ev){props.setProvince(p.name)}
+						return(
+							<Dropdown.Item key={i} href="#" onClick={selectProvince}>
+								{p.name}
+							</Dropdown.Item>
+							)
+						}
+					)}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -74,11 +81,14 @@ export function CountryDropdown(props){
 				<Dropdown.Toggle style={{backgroundColor: "white", color: "grey"}}/>
 
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{allCountries.map(function(c,i){return(
-						<Dropdown.Item key={i} href="#" onClick={function(ev){props.setCountry(c)}}>
+					{allCountries.map(function(c,i){
+						let selectCountry=function(ev){props.setCountry(c)}
+						return(
+						<Dropdown.Item key={i} href="#" onClick={selectCountry}>
 							{c}
 						</Dropdown.Item>
-					)})}
+						)
+					})}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -94,7 +104,7 @@ export function CountryDropdown(props){
 const CustomMenu = React.forwardRef(
 	function ({ children, style, className, 'aria-labelledby': labeledBy }, ref){
 		const [value, setValue] = useState('');
-
+		let menuOnChange=function(e){setValue(e.target.value)}
 			return (
 			<div
 				ref={ref}
@@ -106,7 +116,7 @@ const CustomMenu = React.forwardRef(
 					autoFocus
 					className="mx-3 my-2 w-auto"
 					placeholder="Type to filter..."
-					onChange={function(e){setValue(e.target.value)}}
+					onChange={menuOnChange}
 					value={value}
 				/>
 				<ul className="list-unstyled">

@@ -44,6 +44,7 @@ export function HikeEditForm(props) {
 		setHike(newHike);
 	};
 
+	let setEndPointsTrue=function(){setEditPoints(true)}
 	return (
 		<Modal show={props.show} onHide={onHide}>
 			<Modal.Header closeButton>
@@ -51,7 +52,7 @@ export function HikeEditForm(props) {
 			</Modal.Header>
 			<Modal.Body>
 				{!editPoints ? (
-					<HikeForm hike={hike} goToPoints={function(){setEditPoints(true)}} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
+					<HikeForm hike={hike} goToPoints={setEndPointsTrue} onSubmit={onSubmit} onHide={onHide} newHike={props.newHike} />
 				) : (
 					<EditPointsForm hike={hike} onSubmit={onSubmit} onHide={onHide} user={props.user} />
 				)}
@@ -132,7 +133,7 @@ function HikeForm(props) {
 					...hike,
 					...h
 				})
-				.catch((e) => {
+				.catch(function(e){
 					// TODO(antonio): error handling
 					console.error(e);
 				})
@@ -142,6 +143,14 @@ function HikeForm(props) {
 		await props.onSubmit(hike);
 		props.goToPoints();
 	};
+
+	let selectFile=function(ev){setUseFile(ev.target.checked);	}
+	let selectTitle=function(ev){setTitle(ev.target.value)}
+	let selectLength = function(ev){setLength(ev.target.value)}
+	let selectAscent = function(ev){setAscent(ev.target.value)}
+	let selectExpectedTime = function(ev){setExpectedTime(ev.target.value)}
+	let selectDifficulty = function(ev){setDifficulty(ev.target.value)}
+	let selectDescription = function(ev){setDescription(ev.target.value)}
 
 	return (
 		<Form onSubmit={handleSubmit}>
@@ -153,9 +162,7 @@ function HikeForm(props) {
 						id="file_switch"
 						size="xl"
 						checked={useFile}
-						onChange={function(ev){
-							setUseFile(ev.target.checked);
-						}}
+						onChange={selectFile}
 					></Form.Check>
 				</Form.Group>
 			}
@@ -168,7 +175,7 @@ function HikeForm(props) {
 					value={title}
 					required={true}
 
-					onChange={function(ev){setTitle(ev.target.value)}}
+					onChange={selectTitle}
 				/>
 			</Form.Group>
 
@@ -259,7 +266,7 @@ function HikeForm(props) {
 										props.hike ? props.hike.length : "Enter hike length"
 									}
 									value={length}
-									onChange={function(ev){setLength(ev.target.value)}}
+									onChange={selectLength}
 								/>
 							</Form.Group>
 						</Col>
@@ -273,7 +280,7 @@ function HikeForm(props) {
 										props.hike ? props.hike.ascent : "Enter hike ascent"
 									}
 									value={ascent}
-									onChange={function(ev){setAscent(ev.target.value)}}
+									onChange={selectAscent}
 								/>
 							</Form.Group>
 						</Col>
@@ -289,7 +296,7 @@ function HikeForm(props) {
 									props.hike ? props.hike.expectedTime : "Enter expected time"
 								}
 								value={expectedTime}
-								onChange={function(ev){setExpectedTime(ev.target.value)}}
+								onChange={selectExpectedTime}
 								aria-describedby="calculate"
 							/>
 							<Button
@@ -317,7 +324,7 @@ function HikeForm(props) {
 						defaultChecked={
 							props.hike ? d === props.hike.difficulty : d === "Tourist"
 						}
-						onChange={function(ev){setDifficulty(ev.target.value)}}
+						onChange={selectDifficulty}
 					/>
 				))}
 			</Form.Group>
@@ -330,7 +337,7 @@ function HikeForm(props) {
 						props.hike ? props.hike.description : "Enter hike description"
 					}
 					value={description}
-					onChange={function(ev){setDescription(ev.target.value)}}
+					onChange={selectDescription}
 				/>
 			</Form.Group>
 
@@ -534,6 +541,11 @@ function EditPointsForm(props) {
 		getPoints();
 	}, []);
 
+	let selectMsgFalse=function(){props.setMsg(false)}
+	let selectStart=function(ev){setStart(startPoints[ev.value])}
+	let selectEnd = function(ev){setEnd(endPoints[ev.value])}
+	let selectHandle = function(ev){handleAdd(ev.value)}
+	
 	return (
 		<Form>
 			<Row>
@@ -547,7 +559,7 @@ function EditPointsForm(props) {
 					}}
 				/>
 			</Row>
-			{msg && <Alert variant='danger' onClose={function(){props.setMsg(false)}} dismissible>{msg}</Alert>}
+			{msg && <Alert variant='danger' onClose={selectMsgFalse} dismissible>{msg}</Alert>}
 			<Row>
 				<Form.Group controlId="formStartPoint" className="mb-3">
 					<Form.Label>Start Point</Form.Label>
@@ -562,7 +574,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPoints.map((p)=>p.options)} onChange={function(ev){setStart(startPoints[ev.value])}} />
+					<Select options={startPoints.map((p)=>p.options)} onChange={selectStart} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -579,15 +591,16 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={endPoints.map(p => p.options)} onChange={function(ev){setEnd(endPoints[ev.value])}} />
+					<Select options={endPoints.map(p => p.options)} onChange={selectEnd} />
 				</Form.Group>
 			</Row>
 			<Form.Group controlId="formHuts" className="mb-3">
 				<Form.Label>Huts</Form.Label>
-				<Select options={closeHuts.map(p => p.options)} onChange={function(ev){handleAdd(ev.value)}} />
+				<Select options={closeHuts.map(p => p.options)} onChange={selectHandle} />
 				<div>
-					{linkedHuts.map((p, i) =>
-						<Row key={i}>
+					{linkedHuts.map((p, i) =>{
+						let remove=function(){handleRemove(p.options.value)}
+						return(<Row key={i}>
 							<Col>
 								{p.options.label}
 							</Col>
@@ -595,12 +608,13 @@ function EditPointsForm(props) {
 								<Button
 									size="sm"
 									variant="delete"
-									onClick={function(){handleRemove(p.options.value)}}
+									onClick={remove}
 								>
 									X
 								</Button>
 							</Col>
-						</Row>
+						</Row>)
+					}
 					)}
 				</div>
 			</Form.Group>

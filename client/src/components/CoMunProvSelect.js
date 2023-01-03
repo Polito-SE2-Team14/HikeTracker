@@ -22,9 +22,10 @@ export function MunicipalitySelect(props) {
 
 	let selectedMun = municipalitiyOptions.filter(function(c){return c.label == props.municipality});
 
+	let selectMunicipality=function(ev){props.setMunicipality(ev.value)}
 	return (
 		<>
-			<Select value={selectedMun.length > 0 ? selectedMun[0] : ""} isDisabled={props.disabled} options={municipalitiyOptions} onChange={function(ev){props.setMunicipality(ev.value)}} />
+			<Select value={selectedMun.length > 0 ? selectedMun[0] : ""} isDisabled={props.disabled} options={municipalitiyOptions} onChange={selectMunicipality} />
 		</>)
 }
 export function ProvinceSelect(props) {
@@ -38,10 +39,11 @@ export function ProvinceSelect(props) {
 	});
 
 	let selectedProvince = provinceOptions.filter(function(c){return c.label == props.province});
+	let selectProvince=function(ev){props.setProvince(ev.value)}
 
 	return (
 		<>
-			<Select value={selectedProvince.length > 0 ? selectedProvince[0] : ""} isDisabled={props.disabled} options={provinceOptions} onChange={function(ev){props.setProvince(ev.value)}} />
+			<Select value={selectedProvince.length > 0 ? selectedProvince[0] : ""} isDisabled={props.disabled} options={provinceOptions} onChange={selectProvince} />
 		</>)
 }
 
@@ -56,8 +58,9 @@ export function CountrySelect(props) {
 	});
 
 	let selectedCountry = countryOptions.filter(function(c){return c.label == props.country});
+	let selectCountry = function(ev){props.setCountry(ev.value)}
 
 	return (
-		<Select value={selectedCountry.length > 0 ? selectedCountry[0] : ""} options={countryOptions} onChange={function(ev){props.setCountry(ev.value)}} />
+		<Select value={selectedCountry.length > 0 ? selectedCountry[0] : ""} options={countryOptions} onChange={selectCountry} />
 	)
 }
