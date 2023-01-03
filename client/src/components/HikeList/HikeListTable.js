@@ -1,6 +1,7 @@
 import { Button, Card, Row, Col, Container, Form } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HikeAPI from "../../api/HikeAPI";
+import PointAPI from "../../api/PointAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,6 +24,10 @@ import { HikeMap } from "../Maps/HikeMap";
 const dayjs = require("dayjs");
 
 function HikeListTable(props) {
+	const [hikeInProgress, setHikeInProgress] = useState(undefined);
+	const [trackInProgress, setTrackInProgress] = useState(undefined);
+	const [markers, setMarkers] = useState({});
+
 	const handleShowEditForm = (hike) => {
 		props.setSelectedHike(hike);
 		props.showHikeForm();
@@ -47,6 +52,49 @@ function HikeListTable(props) {
 			/>
 		</Col>
 	));
+
+	useEffect(() => {
+		if (!props.userHikeRecord) {
+			setHikeInProgress(undefined);
+			return;
+		}
+
+		HikeAPI.getHike(props.userHikeRecord.hikeID).then((hike) => {
+			setHikeInProgress(hike);
+			getMarkers(hike);
+		});
+
+		HikeAPI.getHikeTrack(props.userHikeRecord.hikeID).then((track) => {
+			setTrackInProgress(track);
+		});
+	}, [props.userHikeRecord]);
+
+	let getMarkers = async (hike) => {
+		let start = await PointAPI.getPoint(hike.startPointID);
+		let end = await PointAPI.getPoint(hike.endPointID);
+
+		let referencePoints = await HikeAPI.getHikePoints(hike.hikeID);
+		let linkedHuts = await HikeAPI.getLinkedHuts(hike.hikeID);
+		let huts = await HikeAPI.getCloseHuts(hike.hikeID)
+			.then(h => h.filter(p => linkedHuts.includes(p.pointID)));
+
+		setMarkers({
+			start: start ? {
+				pointID: start.pointID,
+				name: start.name,
+				latitude: start.lat,
+				longitude: start.lon
+			} : null,
+			end: end ? {
+				pointID: end.pointID,
+				name: end.name,
+				latitude: end.lat,
+				longitude: end.lon
+			} : null,
+			referencePoints: referencePoints,
+			linkedHuts: huts
+		});
+	};
 
 	return (
 		<Row>
@@ -100,34 +148,38 @@ function HikeListTable(props) {
 			)}
 
 			<Col className="mb-5">
-				<Card>
-					<Card.Body>
-						<Card.Title>Hike title</Card.Title>
-						{/* <HikeMap/> */}
-						{/* <HikeStats/> */}
-						<Container>
-							<Row>
-								<Col>
-									<Row className="text-muted">Last reference point tracked</Row>
-									<Row>Point</Row>
-								</Col>
-								<Col xs="2">
-									<Row className="text-muted">Start time</Row>
-									<Row>00:00</Row>
-								</Col>
-							</Row>
-						</Container>
-					</Card.Body>
-					<Card.Footer className="text-end">
-						<Button size="sm" className="me-2" variant="danger">
-							Terminate hike
-						</Button>
-						<Button size="sm" variant="success">
-							Track point
-						</Button>
-					</Card.Footer>
-				</Card>
-				<hr />
+				{hikeInProgress ? (
+					<>
+						<Card className="mt-2">
+							<Card.Body>
+								<Card.Title>{hikeInProgress.title}</Card.Title>
+								<HikeStats hike={hikeInProgress} />
+								<Container className="mt-2">
+									<HikeMap
+										track={trackInProgress}
+										markers={{}}
+										user={props.user}
+									/>
+									<Row className="text-muted mt-1">Start time</Row>
+									<Row>{props.userHikeRecord.startDate}</Row>
+								</Container>
+							</Card.Body>
+							<Card.Footer>
+								<Row>
+									<Col>Hike in progress</Col>
+									<Col className="text-end">
+										<Button size="sm" variant="danger" onClick={() => {}}>
+											Terminate hike
+										</Button>
+									</Col>
+								</Row>
+							</Card.Footer>
+						</Card>
+						<hr />
+					</>
+				) : (
+					false
+				)}
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
 				</Row>
@@ -226,7 +278,7 @@ function HikeListItem(props) {
 							</Row>
 						</Card.Title>
 						<Container>
-							<HikeStats hike={props.hike}/>
+							<HikeStats hike={props.hike} />
 						</Container>
 					</Card.Body>
 				</Card>

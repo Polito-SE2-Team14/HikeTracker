@@ -10,7 +10,6 @@ exports.getRecords = async (userID) => {
 		const sql = "SELECT * FROM USERHIKERECORDS WHERE userID = ?";
 		db.all(sql, [userID], function (err, rows) {
             if (err) reject(err);
-            console.log(rows)
 			resolve(rows);
 		});
 	});
@@ -20,8 +19,7 @@ exports.getRecordWithStatusOpen = async (userID) => {
     return new Promise((resolve, reject) => {
 		const sql = "SELECT * FROM USERHIKERECORDS WHERE userID = ? AND status = 'open' ";
 		db.get(sql, [userID], function (err, row) {
-            if (err) reject(err);
-            console.log(row)
+			if (err) reject(err);
 			resolve(row);
 		});
 	});

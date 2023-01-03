@@ -18,6 +18,9 @@ const getHikeRecordsForUser = async (userID) => {
 const getHikeRecordForUserWithStatusOpen = async (userID) => {
 	try {
 		let response = await REST.GET(api + "/" + userID + "/status/open");
+		if(response.status === 204){
+			return undefined;
+		}
 		let returnedJson = await response.json();
 
 		return returnedJson;
