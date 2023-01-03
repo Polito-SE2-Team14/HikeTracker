@@ -171,14 +171,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxTime")
 		throw Error("Invalid maxTime")
 	}
-	// if (isNullOrWrongType(userStats.totalTime, "number")) {
-	// 	console.error("Invalid totalTime")
-	// 	throw Error("Invalid totalTime")
-	// // }
-	// if (isNullOrWrongType(userStats.averageTime, "number")) {
-	// 	console.error("Invalid averageTime")
-	// 	throw Error("Invalid averageTime")
-	// }
 	if (isNullOrWrongType(userStats.minDistance, "number")) {
 		console.error("Invalid minDistance")
 		throw Error("Invalid minDistance")
@@ -187,14 +179,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxDistance")
 		throw Error("Invalid maxDistance")
 	}
-	// if (isNullOrWrongType(userStats.totalDistance, "number")) {
-	// 	console.error("Invalid totalDistance")
-	// 	throw Error("Invalid totalDistance")
-	// }
-	// if (isNullOrWrongType(userStats.averageDistance, "number")) {
-	// 	console.error("Invalid averageDistance")
-	// 	throw Error("Invalid averageDistance")
-	// }
 	if (isNullOrWrongType(userStats.minAscent, "number")) {
 		console.error("Invalid minAscent")
 		throw Error("Invalid minAscent")
@@ -203,10 +187,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxAscent")
 		throw Error("Invalid maxAscent")
 	}
-	// if (isNullOrWrongType(userStats.averageAscent, "number")) {
-	// 	console.error("Invalid averageAscent")
-	// 	throw Error("Invalid averageAscent")
-	// }
 
 	let addedStats
 	await userDAO.addUserStats(userStats)

@@ -39,7 +39,7 @@ export function ParkingLotFilters(props) {
 		});
 	}, [area, showAreaMap, country, province, country, addressName, carInterval]);
 
-	function clearFilters() {
+	let clearFilters = function() {
 		props.setFilters({ ...props.filters, name: "" });
 		setArea({});
 		setAddressName("")
@@ -50,6 +50,11 @@ export function ParkingLotFilters(props) {
 		setCarInterval([MIN_SPACE_NUMBER, MAX_SPACE_NUMBER]);
 	}
 
+
+	let showAreaMapTrue = function(){setShowAreaMap(false)}
+	let showAreaMapFalse = function(){setShowAreaMap(true)}
+	let selectArea = function(area){setArea(area)}
+	let selectAddressName = function(ev){setAddressName(ev.target.value)}
 	return (
 		<Container>
 			<Form>
@@ -62,11 +67,11 @@ export function ParkingLotFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={function(){setShowAreaMap(false)}}>
+								<Button size="sm" onClick={showAreaMapFalse}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={function(){setShowAreaMap(true)}}>
+								<Button size="sm" onClick={showAreaMapTrue}>
 									Show map
 								</Button>
 							)}
@@ -75,10 +80,8 @@ export function ParkingLotFilters(props) {
 					{showAreaMap ? (
 						<>
 							<AreaSelectMap
-							points={props.lots}
-								onSetArea={function(area){
-									setArea(area);
-								}}
+								points={props.lots}
+								onSetArea={selectArea}
 							/>
 						</>
 					) : (
@@ -92,7 +95,7 @@ export function ParkingLotFilters(props) {
 						type="search"
 						placeholder="Insert address"
 						value={addressName}
-						onChange={function(ev){setAddressName(ev.target.value)}}
+						onChange={selectAddressName}
 					/>
 				</Form.Group>
 				<hr />

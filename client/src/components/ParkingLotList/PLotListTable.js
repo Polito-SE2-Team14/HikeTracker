@@ -20,6 +20,12 @@ function PLotListTable(props) {
 		</div>
 	));
 
+	let selectFilters = function(ev){
+		props.setFilters({
+			...props.filters,
+			name: ev.target.value.trim(),
+			})
+		}
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
@@ -38,13 +44,7 @@ function PLotListTable(props) {
 									type="search"
 									placeholder="Search"
 									value={props.filters.name}
-									onChange={function(ev){
-										props.setFilters({
-											...props.filters,
-											name: ev.target.value.trim(),
-											})
-										}
-									}
+									onChange={selectFilters}
 								/>
 							</Row>
 							<Row className="mt-4">
@@ -71,13 +71,13 @@ function PLotListTable(props) {
 function PLotListItem(props) {
 	const [showModal, setShowModal] = useState(false);
 
-	const handleShowModal = function(){
+	let handleShowModal = function(){
 		setShowModal(true);
 	};
-	const handleHideModal = function(){
+	let handleHideModal = function(){
 		setShowModal(false);
 	};
-	const handleDeletePLot = function(lot){
+	let handleDeletePLot = function(lot){
 		setShowModal(false);
 		ParkingLotAPI.deleteParkingLot(lot.pLotId)
 			.then(() => {
@@ -92,8 +92,8 @@ function PLotListItem(props) {
 			<PLotModal
 				lot={props.lot}
 				show={showModal}
-				onHide={function(){handleHideModal()}}
-				onDelete={function(){handleDeletePLot(props.lot)}}
+				onHide={handleHideModal()}
+				onDelete={handleDeletePLot(props.lot)}
 			/>
 			<Col className="mt-3">
 				<Card>

@@ -52,21 +52,23 @@ export function GpsTrackButton(props) {
 	);
 }
 export function CircleAreaForm(props) {
+	let selectRadius=function(ev){props.setRadius(ev.target.value)}
 	return (
 		<Slider
 			min={500}
 			max={10000}
 			step={500}
 			value={props.radius}
-			onChange={function(ev){props.setRadius(ev.target.value)}} />
+			onChange={selectRadius} />
 	);
 }
 export function SelectPositionButton(props) {
+	selectPositionTrue=function(){props.setSelectPosition(true)}
 	return (
 		<Button
 			variant="warning"
 			disabled={props.selectPosition}
-			onClick={function(){props.setSelectPosition(true)}}
+			onClick={selectPositionTrue}
 		>
 			{props.selectPosition ? (
 				"Select on map"

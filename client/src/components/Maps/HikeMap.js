@@ -25,7 +25,7 @@ export function HikeMap(props) {
 
 	const [selectedPosition, setSelectedPosition] = useState(undefined);
 
-	const handleAddInfo = function() {
+	let handleAddInfo = function() {
 		props.onPointSelect(selectedPosition);
 	};
 

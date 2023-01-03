@@ -40,7 +40,7 @@ export function HutFilters(props) {
 		});
 	}, [area, showAreaMap, country, province, country, addressName, bedInterval]);
 
-	function clearFilters() {
+	let clearFilters=function() {
 		props.setFilters({ ...props.filters, name: "" });
 		setArea({});
 		setAddressName("")

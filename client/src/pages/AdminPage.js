@@ -12,7 +12,7 @@ export function AdminPage() {
 	const [hutWorkers, setHutWorkers] = useState([]);
 	const [localGuides, setLocalGuides] = useState([]);
 
-	const getAllHutWorkers = async function (){
+	let getAllHutWorkers = async function (){
 		let users;
 		await UserAPI.getAllHutWorkers()
 			.then(u => {
@@ -23,7 +23,7 @@ export function AdminPage() {
 			.catch((error) => { console.log(error); })
 	};
 
-	const getAllLocalGuides = async function (){
+	let getAllLocalGuides = async function (){
 		let users;
 		await UserAPI.getAllLocalGuides()
 			.then(u => {

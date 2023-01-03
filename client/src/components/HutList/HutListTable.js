@@ -23,6 +23,13 @@ export function HutListTable(props) {
 		</Col>
 	));
 
+	let selectFilters=function(ev){
+		props.setFilters({
+			...props.filters,
+			name: ev.target.value.trim(),
+			})
+		}
+
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
@@ -41,13 +48,7 @@ export function HutListTable(props) {
 									type="search"
 									placeholder="Search"
 									value={props.filters.name}
-									onChange={function(ev){
-										props.setFilters({
-											...props.filters,
-											name: ev.target.value.trim(),
-											})
-										}
-									}
+									onChange={selectFilters}
 								/>
 							</Row>
 							<Row className="mt-4">
@@ -72,15 +73,15 @@ export function HutListTable(props) {
 function HutListItem(props) {
 	const [showHutModal, setShowHutModal] = useState(false);
 
-	const handleCloseHutModal = function() {
+	let handleCloseHutModal = function() {
 		setShowHutModal(false);
 	};
 
-	const handleShowHutModal = function() {
+	let handleShowHutModal = function() {
 		setShowHutModal(true);
 	};
 
-	const handleDeleteHut = async function() {
+	let handleDeleteHut = async function() {
 		await PointAPI.deleteHut(props.hut.pointID);
 		props.setHuts((old) => old.filter((h) => h.pointID != props.hut.pointID));
 		setShowHutModal(false);
@@ -92,8 +93,8 @@ function HutListItem(props) {
 				show={showHutModal}
 				hut={props.hut}
 				user={props.user}
-				onClose={function(){handleCloseHutModal()}}
-				onDelete={function(){handleDeleteHut()}}
+				onClose={handleCloseHutModal()}
+				onDelete={handleDeleteHut()}
 			/>
 
 			<Col className="mt-3">

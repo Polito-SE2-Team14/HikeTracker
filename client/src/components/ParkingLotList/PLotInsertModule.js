@@ -16,7 +16,7 @@ export function NewPLotForm(props) {
 	const [country, setCountry] = useState("");
 
 
-	const handleSubmit = function(event){
+	let handleSubmit = function(event){
 		event.preventDefault();
 		let newLot = {
 			name: lotName, municipality: municipality, province: province,
@@ -30,6 +30,17 @@ export function NewPLotForm(props) {
 
 		props.onHide();
 	}
+
+	let selectLotName = function(ev){setLotName(ev.target.value)}
+	let selectDescription = function(ev){setDescription(ev.target.value)}
+	let selectAltitude = function(ev){setAltitude(ev.target.value)}
+	let selectPoint = function(newPoint){
+		setLatitude(newPoint[0]);
+		setLongitude(newPoint[1]);
+	}
+	let selectAddress = function(ev){setAddress(ev.target.value)}
+	let selectCarspace = function(ev){setCarspace(ev.target.value)}
+
 	return (
 		<Modal show={props.show} onHide={props.onHide}>
 			<Modal.Header closeButton>
@@ -43,7 +54,7 @@ export function NewPLotForm(props) {
 							<Form.Control
 								type="text"
 								value={lotName}
-								onChange={function(ev){setLotName(ev.target.value)}}
+								onChange={selectLotName}
 								required={true}
 							/>
 						</Form.Group>
@@ -54,7 +65,7 @@ export function NewPLotForm(props) {
 							<Form.Control
 								type="text"
 								value={description}
-								onChange={function(ev){setDescription(ev.target.value)}}
+								onChange={selectDescription}
 								required={true} />
 						</Form.Group>
 					</Row>
@@ -65,7 +76,7 @@ export function NewPLotForm(props) {
 							<Form.Control
 								type="number"
 								value={altitude}
-								onChange={function(ev){setAltitude(ev.target.value)}}
+								onChange={selectAltitude}
 								required={true}
 							/>
 						</Form.Group>
@@ -74,10 +85,7 @@ export function NewPLotForm(props) {
 
 					<Row>
 						<PointSelectMap
-							onSetPoint={function(newPoint){
-								setLatitude(newPoint[0]);
-								setLongitude(newPoint[1]);
-							}}
+							onSetPoint={selectPoint}
 						/>
 					</Row>
 
@@ -126,7 +134,7 @@ export function NewPLotForm(props) {
 							<Form.Control
 								type="text"
 								value={address}
-								onChange={function(ev){setAddress(ev.target.value)}}
+								onChange={selectAddress}
 								required={true}
 							/>
 						</Form.Group>
@@ -137,7 +145,7 @@ export function NewPLotForm(props) {
 							<Form.Control
 								type="number"
 								value={carspace}
-								onChange={function(ev){setCarspace(ev.target.value)}}
+								onChange={selectCarspace}
 								required={true} />
 						</Form.Group>
 					</Row>

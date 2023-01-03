@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
 import Cropper from 'react-cropper';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 
 import "cropperjs/dist/cropper.css";
 
@@ -35,6 +35,8 @@ export function ImageForm(props) {
 
 	}, [cropper]);
 
+	let setCropperInstance=function(instance){setCropper(instance)}
+	
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Row>
@@ -54,7 +56,7 @@ export function ImageForm(props) {
 							zoomable={false}
 							minCropBoxHeight={10}
 							minCropBoxWidth={10}
-							onInitialized={instance => setCropper(instance)}
+							onInitialized={setCropperInstance}
 						/>
 					}
 					<Form.Control type="file" name="file" onChange={handleDrop} />

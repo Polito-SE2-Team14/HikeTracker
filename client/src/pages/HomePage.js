@@ -89,9 +89,10 @@ function NavCardList() {
 function NavCard(props) {
 	let navigate = useNavigate();
 
+	let navigateSlash = function(){navigate(`/${props.page}`)}
 	return (
 		<Card className="mb-3 mt-4">
-			<CardActionArea onClick={function(){navigate(`/${props.page}`)}}>
+			<CardActionArea onClick={navigateSlash}>
 				<CardMedia component="img" height="240" image={props.image} />
 				<CardContent>
 					<Typography gutterBottom align="center" variant="h4" component="div">

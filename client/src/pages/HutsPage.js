@@ -38,11 +38,11 @@ export function HutsPage(props) {
 		setShowFilterForm(true);
 	};
 
-	const handleCloseFilterModal = function(){
+	let handleCloseFilterModal = function(){
 		setShowFilterForm(false);
 	};
 
-	const handleSubmit = function(){
+	let handleSubmit = function(){
 		setModalVisible(true);
 	};
 
@@ -109,11 +109,12 @@ export function HutsPage(props) {
 	}, [huts.length]);
 
 	const insertButton = (
-		<Button variant="success" onClick={function(){handleSubmit()}}>
+		<Button variant="success" onClick={handleSubmit}>
 			<FontAwesomeIcon icon={faPlus} /> Register Hut
 		</Button>
 	);
 
+	let selectFilters = function(ev){setFilters({ ...filters, name: ev.target.value.trim() })}
 	return (
 		<>
 			{loading ? (
@@ -128,10 +129,7 @@ export function HutsPage(props) {
 									type="search"
 									placeholder="Search"
 									value={filters.name}
-									onChange={function(ev){
-										setFilters({ ...filters, name: ev.target.value.trim() })
-										}
-									}
+									onChange={selectFilters}
 								/>
 								<Button onClick={handleShowFilterModal}>
 									<FontAwesomeIcon icon={faFilter} />

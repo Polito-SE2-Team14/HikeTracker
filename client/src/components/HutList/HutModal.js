@@ -26,6 +26,7 @@ export function HutModal(props) {
 		getImage();
 	}, [props.hut.pointID]);
 
+	let toggleShowMap=function(){setShowMap(v => !v)}
 	return (
 		<Modal show={props.show} onHide={props.onClose}>
 			<Modal.Header closeButton>
@@ -38,7 +39,7 @@ export function HutModal(props) {
 						{props.hut.description ? props.hut.description : "None"}
 					</Col>
 					<Col className="text-end">
-						<Button variant="info" onClick={() => setShowMap(v => !v)}>
+						<Button variant="info" onClick={toggleShowMap}>
 							Show {showMap ? 'Image' : 'Map'}
 						</Button>
 					</Col>

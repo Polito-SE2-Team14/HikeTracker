@@ -35,7 +35,7 @@ function HikeListTable(props) {
 
 	const [customDateTime, setCustomDateTime] = useState(dayjs());
 
-	const handleStopHike = async function() {
+	let handleStopHike = async function() {
 		let record = props.userHikeRecord;
 		record.endDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
 		await HikeRecordsAPI.updateRecord(record)

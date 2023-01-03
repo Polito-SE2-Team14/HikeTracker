@@ -9,8 +9,6 @@ const crypto = require("crypto");
 const { user } = require("../Config/nodemailer.config");
 const dbManager = require("../database/DBManagerSingleton").getInstance()
 const db = dbManager.getDB();
-// const populationFunctions = require("../database/populationFunctions")
-
 
 describe('Hike Tests', () => {
 

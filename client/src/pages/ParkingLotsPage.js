@@ -51,15 +51,15 @@ export function ParkingLotsPage(props) {
 		setShowLotForm(false);
 	};
 
-	const handleShowFilterModal =function(){
+	let handleShowFilterModal =function(){
 		setShowFilterForm(true);
 	};
 
-	const handleCloseFilterModal =function(){
+	let handleCloseFilterModal =function(){
 		setShowFilterForm(false);
 	};
 
-	const addPlot = async function(newLot){
+	let addPlot = async function(newLot){
 		newLot.creatorID = props.user.userID;
 
 		await ParkingLotAPI.addParkingLot(newLot)
@@ -85,6 +85,8 @@ export function ParkingLotsPage(props) {
 			<FontAwesomeIcon icon={faPlus} /> Add new parking lot
 		</Button>
 	);
+	
+	let selectFilters = function(ev){setFilters({ ...filters, name: ev.target.value.trim() })}
 
 	return (
 		<>
@@ -100,10 +102,7 @@ export function ParkingLotsPage(props) {
 									type="search"
 									placeholder="Search"
 									value={filters.name}
-									onChange={function(ev){
-										setFilters({ ...filters, name: ev.target.value.trim() })
-										}
-									}
+									onChange={selectFilters}
 								/>
 								<Button onClick={handleShowFilterModal}>
 									<FontAwesomeIcon icon={faFilter} />

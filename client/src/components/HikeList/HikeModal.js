@@ -280,12 +280,12 @@ function MapTab(props) {
 		// eslint-disable-next-line
 	}, [show]);
 
-	const onPointSelect = function(coords){
+	let onPointSelect = function(coords){
 		setCoords(coords);
 		setShowForm(true);
 	};
 
-	const onPointDeselect =function(){
+	let onPointDeselect =function(){
 		getMarkers();
 		setShowForm(false);
 	};
@@ -355,7 +355,7 @@ function ReferencePointForm(props) {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 
-	const handleSubmit = function(ev){
+	let handleSubmit = function(ev){
 		ev.preventDefault();
 
 		let referencePoint = {
