@@ -97,7 +97,7 @@ export function HikesPage(props) {
 		return insertedHike;
 	};
 
-	const applyPreferences = async function(){
+	let applyPreferences = async function(){
 		let stats = await UserAPI.getUserStats();
 		let newFilters = {
 			title: "",

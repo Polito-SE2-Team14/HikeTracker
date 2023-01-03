@@ -8,7 +8,6 @@ import {
 	MunicipalitySelect,
 	ProvinceSelect,
 } from "../CoMunProvSelect";
-import { getStyleValue } from "@mui/system";
 
 const MIN_BED_NUMBER = 1;
 const MAX_BED_NUMBER = 50;

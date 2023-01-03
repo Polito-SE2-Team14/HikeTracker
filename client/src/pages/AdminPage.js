@@ -42,6 +42,7 @@ export function AdminPage() {
 		getAllLocalGuides();
 	}, [localGuides.length]);
 
+	let selectTabKey = function(k){setTabKey(k)}
 	return (
 		<>
 			{loading ? (
@@ -52,7 +53,7 @@ export function AdminPage() {
 					<Tabs
 						id="controlled-tab-example"
 						activeKey={tabKey}
-						onSelect={function(k){setTabKey(k)}}
+						onSelect={selectTabKey}
 						className="mb-3"
 					>
 						<Tab eventKey="hut-worker" title="HutWorkers">

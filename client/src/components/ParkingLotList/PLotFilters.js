@@ -161,6 +161,7 @@ export function ParkingLotFilters(props) {
 }
 
 function FormSlider(props) {
+	let selectValue = function(ev){props.setValue(ev.target.value)}
 	return (
 		<Slider
 			valueLabelDisplay="auto"
@@ -168,9 +169,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={function(ev){
-				props.setValue(ev.target.value);
-			}}
+			onChange={selectValue}
 		/>
 	);
 }
