@@ -57,6 +57,8 @@ class DBManager {
             db.run("DELETE FROM USER_STATS WHERE 1=1;")
             db.run("DELETE FROM HIKEREFERENCEPOINT WHERE 1=1;")
             db.run("DELETE FROM HIKELINKHUT WHERE 1=1;")
+            db.run("DELETE FROM USERHIKERECORDS WHERE 1=1;")
+
 
             resolve();
         }).then(async () => {

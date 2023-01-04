@@ -1,4 +1,5 @@
 const hikeRecordsDAO = require('../DAO/hikeRecordsDAO')
+const dayjs = require("dayjs")
 
 
 //get all the records
@@ -14,6 +15,15 @@ exports.getRecordByStatusOpen = async (userID) => {
 
 //add a new record
 exports.addNewRecord = async (record) => {
+
+    if (typeof record.userID !== "number")
+        throw new Error("invalid userID");
+    if (typeof record.hikeID !== "number")
+        throw new Error("invalid hikeID");
+     if (!dayjs(record.startDate).isValid())
+        throw new Error("invalid date");
+
+
     record.status = "open"
     record.endDate = null
     await hikeRecordsDAO.addNewRecord(record)
