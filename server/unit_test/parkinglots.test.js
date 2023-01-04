@@ -284,7 +284,7 @@ describe('Parking Lot Tests', () => {
 			const plot1 = await parkingLotController.addParkingLot(newParkingLots[1])
 
 			const plots = await parkingLotController.getAllParkingLots()
-ì
+
 			expect(plot0.pointID).toBe(plots[0].pLotId)
 			expect(newParkingLots[0].name).toBe(plots[0].name)
 			expect(newParkingLots[0].carspace).toBe(plots[0].carspace)
