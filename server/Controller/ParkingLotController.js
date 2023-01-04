@@ -22,7 +22,6 @@ exports.parkingLotExists = async (pLotId) => {
 	return exists;
 }
 
-//TODO test this function
 exports.addParkingLot = async (newPLot) => {
 	let { name, altitude, latitude, longitude, municipality, province, address,
 		description, carspace, creatorID, country } = newPLot
