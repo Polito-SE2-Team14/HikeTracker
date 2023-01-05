@@ -37,7 +37,7 @@ exports.register = async (newUser, verified, approved) => {
 		approved = true;
 	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
-		.catch(err => { console.error(err); throw err });
+		.catch(err => { throw err });
 
 
 	//EMAIL VERIFICATION
@@ -48,7 +48,6 @@ exports.register = async (newUser, verified, approved) => {
 
 }
 
-//TODO test this function
 exports.sendVerificationEmail = async (token, userEmail) => {
 	//EMAIL VERIFICATION
 
@@ -63,7 +62,7 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 	});
 
 	// send mail with defined transport object
-	let info = await transporter.sendMail({
+	await transporter.sendMail({
 		from: nodemailerConfig.user, // sender address
 		to: userEmail, // list of receivers
 		subject: "HIKEfive Verification Email", // Subject line
@@ -127,7 +126,6 @@ exports.unApprove = async (userID) => {
 	}
 }
 
-//TODO test this function
 exports.resendVerificationEmail = async (token) => {
 	try {
 		let user = await userDAO.getUserByToken(token);

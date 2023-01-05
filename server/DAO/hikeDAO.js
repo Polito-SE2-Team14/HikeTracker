@@ -143,7 +143,7 @@ exports.getCloseHutsForHike = function (hikeID) {
 }
 
 exports.linkHutToHike = function (hutID, hikeID) {
-	return new Promise(function(resolve, reject){
+	return new Promise(function (resolve, reject) {
 		db.all("SELECT * FROM POINT WHERE pointID=? AND pointType='hut'", [hutID], function (err, rows) {
 			if (err) {
 				console.error(err);
@@ -385,18 +385,15 @@ function newTrack(hikeId, track) {
 }
 
 function deleteTrack(hikeId) {
-	try {
-		let file = checkPath(`../database/tracks/_${hikeId}_.trk`);
+	let file = checkPath(`../database/tracks/_${hikeId}_.trk`);
 
-		if (existsSync(file))
-			unlink(file, err => {
-				if (err) throw err;
-			});
-		else throw Error('wrong path');
-	}
-	catch (error) {
-		throw error
-	}
+	if (existsSync(file))
+		unlink(file, err => {
+			if (err) throw err;
+		});
+	else throw Error('wrong path');
+
+
 }
 
 function checkPath(relativePath) {

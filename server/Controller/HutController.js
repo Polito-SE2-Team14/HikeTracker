@@ -10,13 +10,10 @@ exports.getHuts = async () => {
 
 //TODO test this function
 exports.getHutImage = async (hikeID) => {
-	try {
-		const image = hutDAO.getHutImage(hikeID);
-		return { image: image };
-	}
-	catch (err) {
-		throw err
-	}
+	const image = hutDAO.getHutImage(hikeID);
+	return { image: image };
+
+
 }
 
 exports.createHut = async (hut) => {
@@ -71,12 +68,8 @@ exports.createHut = async (hut) => {
 }
 
 exports.newHutImage = async (hutID, image) => {
-	try {
-		await hutDAO.newImage(hutID, image);
-	}
-	catch (e) {
-		throw e;
-	}
+	await hutDAO.newImage(hutID, image);
+
 };
 
 exports.updateHut = async (hut) => {

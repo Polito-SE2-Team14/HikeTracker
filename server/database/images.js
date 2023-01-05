@@ -6,7 +6,7 @@ exports.getImage = function (id, type) {
 
 	if (file)
 		try {
-			return readFileSync(file, {encoding: 'binary'});
+			return readFileSync(file, { encoding: 'binary' });
 		} catch (err) {
 			throw Error(err)
 		}
@@ -22,23 +22,21 @@ exports.newImage = async (id, type, image) => {
 	const file = checkPath(`./images/${type}s/_${id}_.img`);
 
 	if (file)
-		writeFileSync(file, image, {encoding: 'binary'});
+		writeFileSync(file, image, { encoding: 'binary' });
 	else throw Error('wrong path');
 }
 
 exports.deleteImage = (id, type) => {
-	try {
-		let file = checkPath(`./images/${type}s/_${id}_.img`);
 
-		if (existsSync(file))
-			unlink(file, err => {
-				if (err) throw err;
-			});
-		else throw Error('wrong path');
-	}
-	catch (error) {
-		throw error
-	}
+	let file = checkPath(`./images/${type}s/_${id}_.img`);
+
+	if (existsSync(file))
+		unlink(file, err => {
+			if (err) throw err;
+		});
+	else throw Error('wrong path');
+
+
 }
 
 function checkPath(relativePath) {

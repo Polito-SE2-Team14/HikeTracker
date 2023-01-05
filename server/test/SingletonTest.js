@@ -4,7 +4,7 @@ class SingletonTest {
 
     static getInstance() {
         if (this.#instance == null) {
-            const app = require('../server')
+            require('../server')
             this.#instance = true
         }
     }

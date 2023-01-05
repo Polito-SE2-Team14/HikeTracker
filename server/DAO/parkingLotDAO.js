@@ -76,15 +76,7 @@ exports.addParkingLot = (pointID, carspace) => {
 			function (err) {
 				if (err)
 					reject(err);
-				resolve(
-					// {
-					// 	pLotId: this.lastID,
-					// 	name: newPLot.name,
-					// 	carspace: newPLot.carspace,
-					// 	municipality: newPLot.municipality,
-					// 	province: newPLot.province
-					// }
-				);
+				resolve();
 			})
 	});
 };

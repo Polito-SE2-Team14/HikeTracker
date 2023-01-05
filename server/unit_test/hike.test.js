@@ -622,7 +622,7 @@ describe('Hike Tests', () => {
 
 		test("Invalid hutID to valid hikeID", async () => {
 			let caughtError;
-			let newLink = await hikeController.linkHutToHike("hut1", 1)
+			await hikeController.linkHutToHike("hut1", 1)
 				.catch(err => caughtError = err);
 
 			expect(caughtError).not.toBe(undefined);
@@ -630,7 +630,7 @@ describe('Hike Tests', () => {
 
 		test("Valid hutID to invalid hikeID", async () => {
 			let caughtError;
-			let newLink = await hikeController.linkHutToHike(1, "hike1")
+			await hikeController.linkHutToHike(1, "hike1")
 				.catch(err => caughtError = err);
 
 			expect(caughtError).not.toBe(undefined);

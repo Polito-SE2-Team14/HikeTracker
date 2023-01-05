@@ -88,12 +88,8 @@ exports.addHike = async (hike) => {
 }
 
 exports.newHikeImage = async (hikeID, image) => {
-	try {
-		await hikeDAO.newImage(hikeID, image);
-	}
-	catch (e) {
-		throw e;
-	}
+	await hikeDAO.newImage(hikeID, image);
+
 };
 
 exports.addReferencePoint = async (hikeID, referencePoint) => {
@@ -143,24 +139,16 @@ exports.deleteHike = async (hikeID) => {
 
 //TODO test this function
 exports.getHikeTrack = async (hikeID) => {
-	try {
-		const track = hikeDAO.getHikeTrack(hikeID)
-		return track
-	}
-	catch (err) {
-		throw err
-	}
+	const track = hikeDAO.getHikeTrack(hikeID)
+	return track
+
 }
 
 //TODO test this function
 exports.getHikeImage = async (hikeID) => {
-	try {
-		const image = hikeDAO.getHikeImage(hikeID);
-		return { image: image };
-	}
-	catch (err) {
-		throw err
-	}
+	const image = hikeDAO.getHikeImage(hikeID);
+	return { image: image };
+
 }
 
 exports.setStart = async (hikeID, startPointID) => {

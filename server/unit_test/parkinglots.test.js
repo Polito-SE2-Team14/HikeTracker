@@ -280,7 +280,7 @@ describe('Parking Lot Tests', () => {
 			}
 			];
 
-			const plot0 = await (await parkingLotController.addParkingLot(newParkingLots[0]))
+			const plot0 = await parkingLotController.addParkingLot(newParkingLots[0])
 			const plot1 = await parkingLotController.addParkingLot(newParkingLots[1])
 
 			const plots = await parkingLotController.getAllParkingLots()
@@ -346,6 +346,9 @@ describe('Parking Lot Tests', () => {
 			};
 
 			const newPlot = await parkingLotController.addParkingLot(newParkingLot)
+
+			const exists = await parkingLotController.parkingLotExists(newPlot.pointID);
+			expect(exists).toBe(true)
 
 			const plot = await parkingLotController.getParkingLotById(newPlot.pointID)
 			expect(newParkingLot.carspace).toBe(plot.carspace)

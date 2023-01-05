@@ -100,7 +100,11 @@ describe("HikeRecords test suite", () => {
                 hikeID: 1,
                 startDate: "invalid",
             }
+            let newErr;
+            await hikeRecordsController.addNewRecord(toBeInsertedRecord)
+                .catch(err => newErr = err);
 
+            expect(newErr).not.toBeUndefined()
         })
 
     })

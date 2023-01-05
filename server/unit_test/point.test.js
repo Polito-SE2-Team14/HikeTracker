@@ -32,7 +32,7 @@ describe('Points Tests', () => {
                 })
                 .catch(err => { console.error(err); throw err; });
 
-            points = [
+            const points = [
                 {
                     name: "name1", description: "description1", latitude: 1, longitude: 1, altitude: 1,
                     municipality: "mun1", province: "pro1", country: "cou1", address: "add1", type: "hut", creatorID: creatorUser.userID
@@ -95,12 +95,12 @@ describe('Points Tests', () => {
                 })
                 .catch(err => { console.error(err); throw err; });
 
-            point=
+            const point=
             {
                 name: "name1", description: "description1", latitude: 1, longitude: 1, altitude: 1,
                 municipality: "mun1", province: "pro1", country: "cou1", address: "add1", type: "hut", creatorID: creatorUser.userID
             }
-            const id = await pointDAO.createPoint(points[0])
+            const id = await pointDAO.createPoint(point)
 
             const pointObtained = await pointController.getPoint(id)
 
@@ -118,10 +118,6 @@ describe('Points Tests', () => {
             expect(pointObtained.creatorName).toBe(creatorUser.name)
             expect(pointObtained.creatorSurname).toBe(creatorUser.surname)
         })
-    })
-
-    describe("Get points of an hike", () => {
-
     })
 
 
