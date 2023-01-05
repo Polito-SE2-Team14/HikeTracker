@@ -1,3 +1,4 @@
+var Jimp = require('jimp');
 const path = require('path');
 const { writeFileSync, unlink, readFileSync, existsSync } = require("fs");
 
@@ -48,3 +49,18 @@ function checkPath(relativePath) {
 	}
 	else return resolvedPath;
 }
+
+
+exports.readResizeCropSave = async (sourcePath, destPath) => {
+	try {
+		const image = await Jimp.read(sourcePath)
+
+		image._exif.imageSize.width < image._exif.imageSize.height ?
+			image.resize(800, Jimp.AUTO) : image.resize(Jimp.AUTO, 600)
+		image.crop(0, 0, 800, 600).write(destPath);
+	} catch (error) {
+		console.log(error.message)
+	}
+
+}
+

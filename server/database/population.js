@@ -8,6 +8,7 @@ const DBManager = require("../database/DBManager");
 /** @type {DBManager} */
 const dbManager = Singleton.getInstance();
 
+const images = require('./images')
 const HikeDAO = require('../DAO/hikeDAO');
 const userDAO = require("../DAO/UserDAO")
 const pointsDAO = require("../DAO/pointsDAO")
@@ -19,7 +20,6 @@ function hikesCreation() {
 
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/hikes.json"));
 	const hikes = JSON.parse(jsonString).hikes;
-
 	return hikes.map(h => {
 		let gpx = new gpxParser();
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
@@ -31,6 +31,7 @@ function hikesCreation() {
 		h.track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 		h.description = "A description";
 		//console.log(i++, "- Hike added")
+
 		return HikeDAO.addHike(h);
 	});
 }
@@ -40,42 +41,42 @@ async function usersCreation() {
 	const jsonString = readFileSync(path.join(__dirname, "./dbFiles/user.json"));
 	const users = JSON.parse(jsonString).users;
 
-	let toReturn=[];
-	for (let i=0; i<users.length; i++){
+	let toReturn = [];
+	for (let i = 0; i < users.length; i++) {
 		let user = await userDAO.Register(users[i], crypto.randomBytes(20).toString('hex'), 1, 1)
 		toReturn.push(user);
 	}
 	return toReturn;
 }
 
-function userStatsCreation(){
+function userStatsCreation() {
 	let db = dbManager.getDB()
 	const jsonStatsString = readFileSync(path.join(__dirname, "./dbFiles/userStats.json"));
 	const usersStats = JSON.parse(jsonStatsString).stats;
 
-	let commands=[];
-	usersStats.map((us)=>{
-		let sqlInsert=`INSERT INTO USER_STATS (`;
-		let sqlValues=` VALUES (`;
-		
-		Object.entries(us).forEach(([key,value]) => {
-				sqlInsert+=`${key}, `;
-				if(typeof value == 'string' || value instanceof String){
-					sqlValues+=`"${value}", `;
-				}else{
-					sqlValues+=`${value}, `;
-				}
+	let commands = [];
+	usersStats.map((us) => {
+		let sqlInsert = `INSERT INTO USER_STATS (`;
+		let sqlValues = ` VALUES (`;
+
+		Object.entries(us).forEach(([key, value]) => {
+			sqlInsert += `${key}, `;
+			if (typeof value == 'string' || value instanceof String) {
+				sqlValues += `"${value}", `;
+			} else {
+				sqlValues += `${value}, `;
+			}
 		});
-	
-		sqlInsert=sqlInsert.substring(0,sqlInsert.length-2);
-		sqlInsert+=")"
-		sqlValues=sqlValues.substring(0,sqlValues.length-2);
-		sqlValues+=");";
-		sqlInsert+=sqlValues;
+
+		sqlInsert = sqlInsert.substring(0, sqlInsert.length - 2);
+		sqlInsert += ")"
+		sqlValues = sqlValues.substring(0, sqlValues.length - 2);
+		sqlValues += ");";
+		sqlInsert += sqlValues;
 		commands.push(sqlInsert);
 	})
 
-	return commands.map(sql => createDropTables(db,sql));
+	return commands.map(sql => createDropTables(db, sql));
 }
 
 function pointsCreation() {
@@ -88,10 +89,13 @@ function pointsCreation() {
 		//console.log(p.pointID, "- Point added")
 		if (p.type === "generic")
 			return pointsDAO.createPoint(p)
+
 		else if (p.type === "hut")
 			return hutController.createHut(p)
+
 		else if (p.type === "parkinglot")
 			return parkingLotController.addParkingLot(p)
+
 		else console.log(p)
 	})
 }
@@ -111,7 +115,7 @@ function tablesDropping() {
 		`DROP TABLE IF EXISTS USER;`,
 		`DROP TABLE IF EXISTS USERHIKERECORDS`
 	]
-	return commands.map(sql => createDropTables(db,sql))
+	return commands.map(sql => createDropTables(db, sql))
 
 }
 
@@ -132,16 +136,31 @@ function tablesCreations() {
 		//` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
 		//` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
 	]
-	return commands.map(sql => createDropTables(db,sql))
+	return commands.map(sql => createDropTables(db, sql))
 
 }
 
-function createDropTables(db,sql) {
+function createDropTables(db, sql) {
 	return new Promise((resolve, reject) => {
 		db.run(sql, err => {
 			if (err) { console.error(sql, err); reject(err); }
 			else resolve();
 		})
+	})
+}
+
+async function hikeImagePopulation() {
+	const hikes = await HikeDAO.getAllHikes()
+	return hikes.map(h => {
+		return images.readResizeCropSave("../Images/hikes/" + h.hikeID + ".jpg", "./database/images/hikes/_" + h.hikeID + "_.jpg");
+	})
+}
+
+async function hutImagePopulation() {
+	let huts = await pointsDAO.getAllPoints()
+	huts = huts.filter(h => h.pointType === "hut")
+	return huts.map(h => {
+		return images.readResizeCropSave("../Images/huts/" + h.pointID + ".jpg", "./database/images/huts/_" + h.pointID + "_.jpg");
 	})
 }
 
@@ -165,8 +184,13 @@ Promise.all(tablesDropping())
 			}).then(() => {
 				Promise.all(userStatsCreation())
 					.catch((err) => { console.error("Points", err) })
-			})
-			.then(() => {
+			}).then(() => {
+				Promise.all(hikeImagePopulation())
+					.catch((err) => { console.error("Hike images", err) })
+			}).then(() => {
+				Promise.all(hutImagePopulation())
+					.catch((err) => { console.error("Hut images", err) })
+			}).then(() => {
 				console.log("Finish")
 			})
 	})
