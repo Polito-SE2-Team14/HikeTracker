@@ -4,6 +4,7 @@
 ## About the project
 "HIKEfive!" is a hike tracker web-app, realized with react and node.js.
 It is built to run on PCs and mobile devices, allowing you to browse, plan and track hikes from everywhere.
+You can find more details in the directory **documentation**
 
 ## How to run it
 ### From the repository

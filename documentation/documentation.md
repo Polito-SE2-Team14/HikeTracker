@@ -1,5 +1,10 @@
 # HikeFIVE!
 
+1. [Completed Stories](#completed-stories)
+2. [Features](#features)
+3. [Used technologies](#used-technologies)
+4. [Testing](#testing)
+
 ## Completed Stories
 
 ### HT-1
