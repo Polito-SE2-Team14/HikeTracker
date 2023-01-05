@@ -24,14 +24,11 @@ function hikesCreation() {
 		let gpx = new gpxParser();
 		let data = readFileSync(path.join(__dirname, `../../Tracks/${h.title}.gpx`), 'utf8');
 		gpx.parse(data);
-
 		h.length = Math.round(gpx.tracks[0].distance.total);
 		h.ascent = gpx.tracks[0].elevation.pos ? Math.round(gpx.tracks[0].elevation.pos) : 0;
 		h.expectedTime = Math.round((12.09 * h.length + 98.4 * h.ascent) / 1000);
 		h.track = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
 		h.description = "A description";
-		//console.log(i++, "- Hike added")
-
 		return HikeDAO.addHike(h);
 	});
 }
@@ -86,7 +83,6 @@ function pointsCreation() {
 	const points = JSON.parse(jsonString).points;
 
 	return points.map(p => {
-		//console.log(p.pointID, "- Point added")
 		if (p.type === "generic")
 			return pointsDAO.createPoint(p)
 
@@ -132,9 +128,6 @@ function tablesCreations() {
 		` CREATE TABLE HIKE(hikeID INTEGER PRIMARY KEY,title TEXT,length INTEGER,expectedTime INTEGER,ascent INTEGER,difficulty TEXT,startPointID INTEGER,endPointID INTEGER,description TEXT,municipality TEXT,province TEXT,country TEXT,creatorID INTEGER	);`,
 		` CREATE TABLE USER_STATS (userID INTEGER PRIMARY KEY, completedHikes INTEGER, favouriteDifficulty TEXT, minTime INTEGER, maxTime INTEGER, totalTime INTEGER, averageTime INTEGER, minDistance INTEGER, maxDistance INTEGER, totalDistance INTEGER, averageDistance INTEGER, favouriteCountry TEXT, favouriteProvince TEXT, minAscent INTEGER, maxAscent INTEGER, averageAscent INTEGER);`,
 		` CREATE TABLE USERHIKERECORDS (userID INTEGER NOT NULL, hikeID INTEGER NOT NULL, startDate TEXT NOT NULL, endDate TEXT, status TEXT, PRIMARY KEY(userID, hikeID, startDate))`
-		//` CREATE TABLE HIKEGROUP(groupID INTEGER NOT NULL,hikeID INTEGER NOT NULL,leaderID INTEGER NOT NULL,PRIMARY KEY(groupID, hikeID));`,
-		//` CREATE TABLE HIKEGROUPMEMBER(	groupID INTEGER NOT NULL,userID INTEGER NOT NULL,confirmed INTEGER NOT NULL,completed INTEGER NOT NULL,	PRIMARY KEY(groupID, userID));`,
-		//` CREATE TABLE HUTWORKER(userID INTEGER PRIMARY KEY,hutID INTEGER NOT NULL,	confirmed INTEGER NOT NULL);`
 	]
 	return commands.map(sql => createDropTables(db, sql))
 
@@ -151,17 +144,17 @@ function createDropTables(db, sql) {
 
 async function hikeImagePopulation() {
 	const hikes = await HikeDAO.getAllHikes()
-	return hikes.map(h => {
-		return images.readResizeCropSave("../Images/hikes/" + h.hikeID + ".jpg", "./database/images/hikes/_" + h.hikeID + "_.jpg");
-	})
+	for (let i = 0; i < hikes.length; i++) {
+		await images.readResizeCropSave(`../Images/hikes/${hikes[i].hikeID}.jpg`, `./database/images/hikes/_${hikes[i].hikeID}_.jpg`)
+	}
 }
 
 async function hutImagePopulation() {
 	let huts = await pointsDAO.getAllPoints()
 	huts = huts.filter(h => h.pointType === "hut")
-	return huts.map(h => {
-		return images.readResizeCropSave("../Images/huts/" + h.pointID + ".jpg", "./database/images/huts/_" + h.pointID + "_.jpg");
-	})
+	for (let i = 0; i < huts.length; i++) {
+		await images.readResizeCropSave(`../Images/huts/${huts[i].pointID}.jpg`, `./database/images/huts/_${huts[i].pointID}_.jpg`);
+	}
 }
 
 console.log("Start")
@@ -184,12 +177,10 @@ Promise.all(tablesDropping())
 			}).then(() => {
 				Promise.all(userStatsCreation())
 					.catch((err) => { console.error("Points", err) })
-			}).then(() => {
-				Promise.all(hikeImagePopulation())
-					.catch((err) => { console.error("Hike images", err) })
-			}).then(() => {
-				Promise.all(hutImagePopulation())
-					.catch((err) => { console.error("Hut images", err) })
+			}).then(async () => {
+				await hikeImagePopulation()
+			}).then(async () => {
+				await hutImagePopulation()
 			}).then(() => {
 				console.log("Finish")
 			})
