@@ -126,6 +126,7 @@ We used the following libraries
 - express validator
 - morgan
 - passport
+- jimp
 
 ## Testing
 

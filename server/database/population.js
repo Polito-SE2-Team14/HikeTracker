@@ -145,7 +145,7 @@ function createDropTables(db, sql) {
 async function hikeImagePopulation() {
 	const hikes = await HikeDAO.getAllHikes()
 	for (let i = 0; i < hikes.length; i++) {
-		await images.readResizeCropSave(`../Images/hikes/${hikes[i].hikeID}.jpg`, `./database/images/hikes/_${hikes[i].hikeID}_.jpg`)
+		await images.readResizeCropSave(`../Images/hikes/${hikes[i].hikeID}.jpg`, hikes[i].hikeID, "hike")
 	}
 }
 
@@ -153,7 +153,7 @@ async function hutImagePopulation() {
 	let huts = await pointsDAO.getAllPoints()
 	huts = huts.filter(h => h.pointType === "hut")
 	for (let i = 0; i < huts.length; i++) {
-		await images.readResizeCropSave(`../Images/huts/${huts[i].pointID}.jpg`, `./database/images/huts/_${huts[i].pointID}_.jpg`);
+		await images.readResizeCropSave(`../Images/huts/${huts[i].pointID}.jpg`, huts[i].pointID, "hut");
 	}
 }
 

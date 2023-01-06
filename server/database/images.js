@@ -51,13 +51,16 @@ function checkPath(relativePath) {
 }
 
 
-exports.readResizeCropSave = async (sourcePath, destPath) => {
+exports.readResizeCropSave = async (sourcePath, id, type) => {
 	try {
 		const image = await Jimp.read(sourcePath)
 
 		image._exif.imageSize.width < image._exif.imageSize.height ?
 			image.resize(800, Jimp.AUTO) : image.resize(Jimp.AUTO, 600)
-		image.crop(0, 0, 800, 600).write(destPath);
+		image.crop(0, 0, 800, 600).getBase64(Jimp.AUTO, (err, res) => {
+			if (!err)
+				this.newImage(id, type, res)
+		});
 	} catch (error) {
 		console.log(error.message)
 	}

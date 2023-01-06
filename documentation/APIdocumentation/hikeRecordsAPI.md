@@ -1,3 +1,10 @@
+# Hike Records APIs
+
+- [Hike Records APIs](#hike-records-apis)
+    - [GET /hikeRecords/:userID](#get-hikerecordsuserid)
+    - [POST /hikeRecords](#post-hikerecords)
+    - [PUT /hikeRecords](#put-hikerecords)
+
 ### GET /hikeRecords/:userID
 
 - **Return an array containing all hike records of the chosen userID**.
