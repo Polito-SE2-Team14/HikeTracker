@@ -43,7 +43,6 @@ describe("HikeRecords test suite", () => {
                 municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: creatorUser.userID
             }
             await hikeController.addHike(hike)
-                .catch(err => newErr = err)
 
             let startDate = dayjs().format()
             let toBeInsertedRecord = {
@@ -137,7 +136,6 @@ describe("HikeRecords test suite", () => {
                 municipality: "Torino", province: "Torino", track: [[10, 10], [11, 11]], creatorID: creatorUser.userID
             }
             await hikeController.addHike(hike)
-                .catch(err => newErr = err)
 
             let startDate = dayjs('2018-04-13 19:18').format()
             let endDate = dayjs('2018-04-14 19:18').format()

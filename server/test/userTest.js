@@ -21,32 +21,24 @@ afterEach('clearing DB', async () => await dbManager.clearDb());
 
 describe('User test suite', () => {
 	describe('Register new user', async () => {
-		// it('POST /users', async () => {
-		// 	const user = {
-		// 		name: 'Mario',
-		// 		surname: 'Rossi',
-		// 		email: 'mario.rossi@ex.com',
-		// 		phoneNumber: '0123456789',
-		// 		type: 'hiker',
-		// 		password: crypto.randomBytes(16).toString("hex")
-		// 	};
-
-		// 	let response = await userAPICall.addNewUser(user);
-
-		// 	assert.equal(response.status, 201, response.status);
-
-		// 	user.type = 'localGuide';
-
-		// 	response = await userAPICall.addNewUser(user);
-
-		// 	assert.equal(response.status, 201, response.status);
-
-		// 	user.type = 'hutWorker';
-
-		// 	response = await userAPICall.addNewUser(user);
-
-		// 	assert.equal(response.status, 201, response.status);
-		// });
+		/* it('POST /users', async () => {
+			const user = {
+				name: 'Mario',
+				surname: 'Rossi',
+				email: 'mario.rossi@ex.com',
+				phoneNumber: '0123456789',
+				type: 'hiker',
+				password: crypto.randomBytes(16).toString("hex")
+			};
+			let response = await userAPICall.addNewUser(user);
+			assert.equal(response.status, 201, response.status);
+			user.type = 'localGuide';
+			response = await userAPICall.addNewUser(user);
+			assert.equal(response.status, 201, response.status);
+			user.type = 'hutWorker';
+			response = await userAPICall.addNewUser(user);
+			assert.equal(response.status, 201, response.status);
+		}); */
 
 		it('POST /users existing', async () => {
 			await dbManager.addUsers();

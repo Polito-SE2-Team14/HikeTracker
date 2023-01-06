@@ -4,7 +4,22 @@
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 ```
-    
+[
+    {
+        "userID": 1,
+        "hikeID": 1,
+        "startDate": "2022-10-10",
+        "endDate": "2022-10-14",
+        "status": "completed"
+    },
+    {
+        "userID": 1,
+        "hikeID": 3,
+        "startDate": "2022-10-13",
+        "endDate": null,
+        "status": "open"
+    }
+]
 ```
 
 - **Permissions allowed**: everyone
@@ -12,24 +27,30 @@
 
 ### POST /hikeRecords
 
-- **Description**.
-- **Request body**: empty.
-- **Response**: `200 OK` (success); body: 
+- **Insert a new record, with open status and null endDate**.
+- **Request body**: 
 ```
-    
+{
+    "userID": 1,
+    "hikeID": 3,
+    "startDate": "2022-10-13" 
+}    
 ```
-
+- **Response**: `200 OK` (success);
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### PUT /hikeRecords
-
-- **Descriprion**
-- **Request body**: empty.
-- **Response**: `200 OK` (success); body: 
+- **Update the selected record, with the endDate that was sent and completed status**
+- **Request body**:
 ```
-    
+    {
+    "userID": 1,
+    "hikeID": 1,
+    "startDate": "2022-10-10",
+    "endDate": "2022-10-14" 
+}
 ```
-
+- **Response**: `200 OK` (success);  
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
