@@ -43,11 +43,6 @@ function WelcomePhrase(props) {
 		component = (
 			<div className="mt-4">
 				Welcome <span className="fw-bold"> {props.user.name.toUpperCase()} </span>
-				{!RoleManagement.isHiker(props.user) ? (
-					<div>if logged in start a new hike / continue the one started</div>
-				) : (
-					false
-				)}
 			</div>
 		);
 	} else {
