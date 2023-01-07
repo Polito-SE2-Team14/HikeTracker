@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Badge, Tabs, Tab, ListGroup } from "react-bootstrap";
+import { Container, Row, Badge, Tabs, Tab } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import UserAPI from "../api/UserAPI";
 import RoleManagement from "../class/RoleManagement";
@@ -7,7 +7,7 @@ import RoleManagement from "../class/RoleManagement";
 import "../styles/UserPage.css";
 import { UserDashboard } from "../components/Profile/UserDashboard";
 import { PreferenceForm } from "../components/Profile/PreferenceForm";
-import HikeRecordsAPI from "../api/HikeRecordsAPI";
+import { CompletedHikesList } from "../components/Profile/CompletedHikesList";
 
 export function UserPage(props) {
 	const [stats, setStats] = useState({});
@@ -76,18 +76,6 @@ export function UserPage(props) {
 	) : (
 		<Navigate to="/" />
 	);
-}
-
-function CompletedHikesList(props) {
-	//let [recordList, setRecordList] = useState([]);
-
-	useEffect(() => {
-		HikeRecordsAPI.getHikeRecordsForUser(props.user.userID).then((list) => {
-			console.log(list);
-		})});
-
-	
-
 }
 
 function UserBadges(props) {

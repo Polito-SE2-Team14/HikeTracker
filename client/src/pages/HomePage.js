@@ -11,8 +11,7 @@ import RoleManagement from "../class/RoleManagement";
 export function HomePage(props) {
 	return (
 		<Container className="text-center">
-			<img src="https://i.imgur.com/y0VsjPw.png" width="180px" className="mt-3"/><br/>
-			very temp logo
+			<img src="https://imgur.com/XwZ0qCf.png" width="280px" className="mt-3"/><br/>
 			<CatchPhrase />
 			<WelcomePhrase user={props.user} />
 			<NavCardList />
