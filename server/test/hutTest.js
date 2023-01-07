@@ -62,15 +62,15 @@ describe('Hut test suite', async () => {
 				creatorID: 6
 			};
 
-			// const expectedData = {
-			// 	pointID: 1,
-			// 	name: hut.name,
-			// 	latitude: hut.latitude,
-			// 	longitude: hut.longitude,
-			// 	address: hut.address,
-			// 	bedspace: hut.bedspace,
-			// 	creatorID: hut.creatorID
-			// };
+			/* const expectedData = {
+				pointID: 1,
+				name: hut.name,
+				latitude: hut.latitude,
+				longitude: hut.longitude,
+				address: hut.address,
+				bedspace: hut.bedspace,
+				creatorID: hut.creatorID
+			}; */
 
 	        let response = await hutAPICall.addHutCall(hut);
 			//let data = await response.data;

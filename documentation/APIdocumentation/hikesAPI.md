@@ -1,5 +1,26 @@
-## GET
+# Hikes APIs
+- [Hikes APIs](#hikes-apis)
+  - [GET](#get)
+    - [GET /hikes](#get-hikes)
+    - [GET /hikes/:hikeID](#get-hikeshikeid)
+    - [GET /hikes/:hikeID/track](#get-hikeshikeidtrack)
+    - [GET /hikes/:hikeID/image](#get-hikeshikeidimage)
+    - [GET /hikes/:hikeID/huts](#get-hikeshikeidhuts)
+    - [GET /hikes/:hikeID/referencePoints](#get-hikeshikeidreferencepoints)
+    - [GET /hikes/:hikeID/linkedHuts](#get-hikeshikeidlinkedhuts)
+  - [POST](#post)
+    - [POST /hikes](#post-hikes)
+    - [POST /hikes/:hikeID/image](#post-hikeshikeidimage)
+    - [POST /hikes/:hikeID/huts/:hutID](#post-hikeshikeidhutshutid)
+    - [POST /hikes/referencePoints](#post-hikesreferencepoints)
+    - [POST /hikes/start](#post-hikesstart)
+    - [POST /hikes/end](#post-hikesend)
+  - [PUT](#put)
+    - [PUT /hikes](#put-hikes)
+  - [DELETE](#delete)
+    - [DELETE /hikes/:hikeID](#delete-hikeshikeid)
 
+## GET
 ### GET /hikes
 
 - **Return an array containing all hikes**.
@@ -69,6 +90,19 @@
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
+### GET /hikes/:hikeID/image
+
+- **Description**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: 
+
+```
+    
+```
+
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
+
 ### GET /hikes/:hikeID/huts
 
 - **Description**.
@@ -82,7 +116,7 @@
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
-### GET /hikes/referencePoints
+### GET /hikes/:hikeID/referencePoints
 
 - **Description**.
 - **Request body**: empty.
@@ -130,6 +164,19 @@
 - **Permissions allowed**:  Hiker
 - **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
 
+### POST /hikes/:hikeID/image
+
+- **Description**.
+- **Request body**: empty.
+- **Response**: `200 OK` (success); body: 
+
+```
+    
+```
+
+- **Permissions allowed**: everyone
+- **Error responses**: `500 Internal Server Error` (generic error).
+  
 ### POST /hikes/:hikeID/huts/:hutID
 
 - **Description**.
@@ -210,23 +257,6 @@
 - **Response body**: none.
 - **Permissions allowed**:  Hiker
 - **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
-
-### PUT /hikes/hut
-- **Add a hut as a reference point to an hike.**
-- **Request header** has a line: `Content-Type: application/json`.
-- **Request body**: a JSON object containing hikeID and hutID.
- Example of Request body
-```
-    {
-        "hikeID": 1
-        "hutID": 2
-    }
-```
-- **Response header**:  `201 Created` (success). 
-- **Response body**: none.
-- **Permissions allowed**:  Hiker
-- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
-
 
 ## DELETE
 ### DELETE /hikes/:hikeID

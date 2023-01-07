@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router()
 const { check, validationResult, param } = require('express-validator');
-const { resolveContent } = require('nodemailer/lib/shared');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const userController = require("../Controller/UserController")
@@ -45,80 +44,6 @@ const isAdmin = (req, res, next) => {
 	return res.status(401).json({ error: 'Not authorized 2' });
 }
 
-router.post('',
-	check(["name", "surname", "password"]).not().isEmpty().trim().escape(),
-	check('email').isEmail().normalizeEmail({gmail_remove_dots:false}),
-	check("phoneNumber").not().isEmpty().isInt(),
-	check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
-	async (req, res) => {
-
-		if (!validationResult(req).isEmpty())
-			return res.status(422).end()
-
-		await userController.register(req.body, 0, 0)
-			.then(() => res.status(201).end())
-			.catch(err => {
-				if (err === "user exists")
-					return errorResponse("user already exists", 422, res)
-				else errorResponse(err, 505, res)
-			})
-	}
-);
-
-router.put('/verify/:token',
-	param("token").not().isEmpty().trim().escape(),
-	async (req, res) => {
-		if (!validationResult(req).isEmpty())
-			return res.status(422).end()
-
-		await userController.verify(req.params.token)
-			.then(() => res.status(201).end())
-			.catch(err => {
-				if (err === "Token is wrong")
-					return res.status(401).send({ "error": "Token is wrong" })
-				else res.status(505).send(err)
-			})
-	}
-);
-
-router.post('/send-verification/:token',
-	param("token").not().isEmpty().trim().escape(),
-	async (req, res) => {
-		if (!validationResult(req).isEmpty())
-			return res.status(422).end()
-
-		await userController.resendVerificationEmail(req.params.token)
-			.then(() => res.status(201).end())
-			.catch(err => {
-				if (err === "Token is wrong")
-					return res.status(401).send({ "error": "Token is wrong" })
-				else res.status(505).send(err)
-			})
-	}
-);
-
-router.put('/current',
-	async (req, res) => {
-		if (req.isAuthenticated()) {
-			await userController.updateUser(req.user.id, req.body)
-				.then((user) => {
-					res.status(201).json(user);
-				})
-				.catch((err) => {
-					return errorResponse(err, 500, res);
-				})
-		} else {
-			res.status(401).json({ error: 'Not authenticated' });
-		}
-	}
-);
-
-router.post('/login', passport.authenticate('local'),
-	async (req, res) => {
-		res.status(201).json(req.user);
-	}
-);
-
 
 
 router.get('/current',
@@ -135,40 +60,10 @@ router.get('/current/stats',
 	async (req, res) => {
 		if (req.isAuthenticated()) {
 			await userController.getUserStats(req.user.userID)
-				.then((stats)=>{
+				.then((stats) => {
 					return res.status(200).json(stats);
-				}).catch((err)=>{
-					return errorResponse(err,500,res)
-				});
-		}
-		else
-			res.status(401).json({ error: 'Not authenticated' });
-	}
-);
-
-router.post('/current/stats',
-	async (req, res) => {
-		if (req.isAuthenticated()) {
-			await userController.addUserStats(req.body.newStats)
-				.then((stats)=>{
-					return res.status(200).json(stats);
-				}).catch((err)=>{
-					return errorResponse(err,500,res)
-				});
-		}
-		else
-			res.status(401).json({ error: 'Not authenticated' });
-	}
-);
-
-router.put('/current/stats',
-	async (req, res) => {
-		if (req.isAuthenticated()) {
-			await userController.updateUserStats(req.user.userID, req.body.newStats)
-				.then((stats)=>{
-					return res.status(200).json(stats);
-				}).catch((err)=>{
-					return errorResponse(err,500,res)
+				}).catch((err) => {
+					return errorResponse(err, 500, res)
 				});
 		}
 		else
@@ -202,6 +97,83 @@ router.get('/localguides/all', isAdmin, isLoggedIn,
 	}
 );
 
+router.post('',
+	check(["name", "surname", "password"]).not().isEmpty().trim().escape(),
+	check('email').isEmail().normalizeEmail({ gmail_remove_dots: false }),
+	check("phoneNumber").not().isEmpty().isInt(),
+	check("type").not().isEmpty().trim().escape().matches("(hiker|localGuide|hutWorker)"),
+	async (req, res) => {
+
+		if (!validationResult(req).isEmpty())
+			return res.status(422).end()
+
+		await userController.register(req.body, 0, 0)
+			.then(() => res.status(201).end())
+			.catch(err => {
+				if (err === "user exists")
+					return errorResponse("user already exists", 422, res)
+				else errorResponse(err, 505, res)
+			})
+	}
+);
+
+
+
+
+router.post('/login', passport.authenticate('local'),
+async (req, res) => {
+	res.status(201).json(req.user);
+}
+);
+
+router.post('/send-verification/:token',
+	param("token").not().isEmpty().trim().escape(),
+	async (req, res) => {
+		if (!validationResult(req).isEmpty())
+			return res.status(422).end()
+
+		await userController.resendVerificationEmail(req.params.token)
+			.then(() => res.status(201).end())
+			.catch(err => {
+				if (err === "Token is wrong")
+					return res.status(401).send({ "error": "Token is wrong" })
+				else res.status(505).send(err)
+			})
+	}
+);
+
+
+router.post('/current/stats',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.addUserStats(req.body.newStats)
+				.then((stats) => {
+					return res.status(200).json(stats);
+				}).catch((err) => {
+					return errorResponse(err, 500, res)
+				});
+		}
+		else
+			res.status(401).json({ error: 'Not authenticated' });
+	}
+);
+
+router.put('/current/stats',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.updateUserStats(req.user.userID, req.body.newStats)
+				.then((stats) => {
+					return res.status(200).json(stats);
+				}).catch((err) => {
+					return errorResponse(err, 500, res)
+				});
+		}
+		else
+			res.status(401).json({ error: 'Not authenticated' });
+	}
+);
+
+
 router.put('/approve/:userID', isLoggedIn, isAdmin,
 	param("userID").isInt().not().isEmpty(),
 	async (req, res) => {
@@ -229,6 +201,38 @@ router.put('/unapprove/:userID', isLoggedIn, isAdmin,
 			.catch((err) => {
 				return errorResponse(err, 500, res)
 			});
+	}
+);
+
+router.put('/current',
+	async (req, res) => {
+		if (req.isAuthenticated()) {
+			await userController.updateUser(req.user.id, req.body)
+				.then((user) => {
+					res.status(201).json(user);
+				})
+				.catch((err) => {
+					return errorResponse(err, 500, res);
+				})
+		} else {
+			res.status(401).json({ error: 'Not authenticated' });
+		}
+	}
+);
+
+router.put('/verify/:token',
+	param("token").not().isEmpty().trim().escape(),
+	async (req, res) => {
+		if (!validationResult(req).isEmpty())
+			return res.status(422).end()
+
+		await userController.verify(req.params.token)
+			.then(() => res.status(201).end())
+			.catch(err => {
+				if (err === "Token is wrong")
+					return res.status(401).send({ "error": "Token is wrong" })
+				else res.status(505).send(err)
+			})
 	}
 );
 

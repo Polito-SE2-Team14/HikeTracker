@@ -94,7 +94,7 @@ function HutListItem(props) {
 				hut={props.hut}
 				user={props.user}
 				onClose={handleCloseHutModal}
-				onDelete={handleDeleteHut()}
+				onDelete={handleDeleteHut}
 			/>
 
 			<Col className="mt-3">

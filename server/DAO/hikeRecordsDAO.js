@@ -37,7 +37,7 @@ exports.addNewRecord = async (record) => {
 }
 
 exports.editRecord = async (record) => {
-    const {userID, hikeID, status, startDate, endDate} = record
+	const { userID, hikeID, status, startDate, endDate } = record
     return new Promise((resolve, reject) => {
         const sql = `UPDATE USERHIKERECORDS
                     SET status=?, endDate = ?

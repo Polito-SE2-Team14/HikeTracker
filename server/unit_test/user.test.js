@@ -216,187 +216,173 @@ describe('User Tests', () => {
 		test('Wrong Password', async () => {
 			let user = newUsers[3];
 			let loginedUser;
-			let error;
 
 			await userController.login(user.email, 'jacksparrowWrong').then(u => {
 				loginedUser = u;
-			}).catch(err => error = err);
 
-			expect(loginedUser).toBe(false)
-		});
-
-
-	})
-	describe("get user", () => {
-
-		test('Correct User ID', async () => {
-			let newUser = newUsers[3];
-			let addedUser;
-			await userController.register(newUser, 1, 1)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
-
-
-			let gottenUser;
-
-			await userController.getUser(addedUser.userID).then(u => {
-				gottenUser = u;
-			});
-			expect(addedUser.userID).toBe(gottenUser.userID);
-			expect(gottenUser.userID).not.toBe(null);
-			expect(gottenUser.userID).not.toBe(undefined);
-		});
-
-	})
-	describe("verify", () => {
-
-		test("verification of a User by Token", async () => {
-			let newUser = newUsers[3];
-			let addedUser;
-			let gottenUser;
-			await userController.register(newUser, 0, 1)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
-
-			await userController.verify(addedUser.token);
-
-			await userController.getUser(addedUser.userID).then(u => {
-				gottenUser = u;
+				expect(loginedUser).toBe(false)
 			});
 
-			expect(addedUser.verified).toBe(0);
-			expect(gottenUser.verified).toBe(1);
 
 		})
-	})
+		describe("get user", () => {
 
-	describe("get all users", () => {
+			test('Correct User ID', async () => {
+				let newUser = newUsers[3];
+				let addedUser;
+				await userController.register(newUser, 1, 1)
+					.then(u => {
+						addedUser = u;
+					})
+					.catch(err => { console.error(err); throw err; });
 
-		test("get all localGuides", async () => {
-			let newUser = newUsers[2];
-			let addedUser;
-			await userController.register(newUser, 1, 0)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
 
-			let newUser2 = newUsers[3];
-			let addedUser2;
-			await userController.register(newUser2, 1, 0)
-				.then(u => {
-					addedUser2 = u;
-				})
-				.catch(err => { console.error(err); throw err; });
+				let gottenUser;
 
-			let allusers;
-			await userController.getAllLocalGuides(false).then(u => {
-				allusers = u;
+				await userController.getUser(addedUser.userID).then(u => {
+					gottenUser = u;
+				});
+				expect(addedUser.userID).toBe(gottenUser.userID);
+				expect(gottenUser.userID).not.toBe(null);
+				expect(gottenUser.userID).not.toBe(undefined);
 			});
 
-			expect(allusers.length).toBe(2);
+		})
+		describe("verify", () => {
 
+			test("verification of a User by Token", async () => {
+				let newUser = newUsers[3];
+				let addedUser;
+				let gottenUser;
+				await userController.register(newUser, 0, 1)
+					.then(u => {
+						addedUser = u;
+					})
+					.catch(err => { console.error(err); throw err; });
+
+				await userController.verify(addedUser.token);
+
+				await userController.getUser(addedUser.userID).then(u => {
+					gottenUser = u;
+				});
+
+				expect(addedUser.verified).toBe(0);
+				expect(gottenUser.verified).toBe(1);
+
+			})
 		})
 
-		test("get all hutworkers", async () => {
-			let newUser = newUsers[1];
-			let addedUser;
-			await userController.register(newUser, 1, 0)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
+		describe("get all users", () => {
 
-			let allusers;
-			await userController.getAllHutWorkes(false).then(u => {
-				allusers = u;
-			});
+			test("get all localGuides", async () => {
+				let newUser = newUsers[2];
+				await userController.register(newUser, 1, 0)
+					.catch(err => { console.error(err); throw err; });
 
-			expect(allusers.length).toBe(1);
+				let newUser2 = newUsers[3];
+				await userController.register(newUser2, 1, 0)
+					.catch(err => { console.error(err); throw err; });
 
+				let allusers;
+				await userController.getAllLocalGuides(false).then(u => {
+					allusers = u;
+				});
+
+				expect(allusers.length).toBe(2);
+
+			})
+
+			test("get all hutworkers", async () => {
+				let newUser = newUsers[1];
+				await userController.register(newUser, 1, 0)
+					.catch(err => { console.error(err); throw err; });
+
+				let allusers;
+				await userController.getAllHutWorkes(false).then(u => {
+					allusers = u;
+				});
+
+				expect(allusers.length).toBe(1);
+
+			})
 		})
+
+		describe("approving", () => {
+
+			test("approving a user", async () => {
+				let newUser = newUsers[1];
+				let addedUser;
+				let gottenUser;
+				await userController.register(newUser, 1, 0)
+					.then(u => {
+						addedUser = u;
+					})
+					.catch(err => { console.error(err); throw err; });
+
+				await userController.approve(addedUser.userID);
+
+				await userController.getUser(addedUser.userID)
+					.then(u => gottenUser = u);
+
+
+
+				expect(addedUser.approved).toBe(0);
+				expect(gottenUser.approved).toBe(1);
+
+			})
+
+			test("unApproving a user", async () => {
+				let newUser = newUsers[0];
+				let addedUser;
+				let gottenUser;
+				await userController.register(newUser, 1, 1)
+					.then(u => {
+						addedUser = u;
+					})
+					.catch(err => { console.error(err); throw err; });
+
+				await userController.unApprove(addedUser.userID);
+
+				await userController.getUser(addedUser.userID).then(u => {
+					gottenUser = u;
+				});
+
+				expect(addedUser.approved).toBe(true);
+				expect(gottenUser.approved).toBe(0);
+			})
+		})
+
+		describe("setting profile", () => {
+			test("test on set profile", async () => {
+
+				let newUser = newUsers[0];
+				await userController.register(newUser, 1, 1)
+					.then(u => {
+					})
+					.catch(err => { console.error(err); throw err; });
+
+
+				const userStats = {
+					userID: 1, completedHikes: 1,
+					favouriteDifficulty: "Tourist", minTime: 100,
+					maxTime: 200, totalTime: 1000, averageTime: 100,
+					minDistance: 200, maxDistance: 300, totalDistance: 3000, averageDistance: 100,
+					favouriteCountry: "Italy", favouriteProvince: "Turin",
+					minAscent: 100, maxAscent: 200, averageAscent: 1000
+				}
+
+				await userController.addUserStats(userStats)
+					.catch(err => { console.error(err); throw err })
+
+				let addedStats
+				await userController.getUserStats(1)
+					.then(s => addedStats = s)
+					.catch(err => { console.error(err); throw err })
+
+				expect(userStats).toEqual(addedStats)
+
+			})
+		})
+
 	})
-
-	describe("approving", () => {
-
-		test("approving a user", async () => {
-			let newUser = newUsers[1];
-			let addedUser;
-			let gottenUser;
-			await userController.register(newUser, 1, 0)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
-
-			await userController.approve(addedUser.userID);
-
-			await userController.getUser(addedUser.userID)
-				.then(u => gottenUser = u);
-
-
-
-			expect(addedUser.approved).toBe(0);
-			expect(gottenUser.approved).toBe(1);
-
-		})
-
-		test("unApproving a user", async () => {
-			let newUser = newUsers[0];
-			let addedUser;
-			let gottenUser;
-			await userController.register(newUser, 1, 1)
-				.then(u => {
-					addedUser = u;
-				})
-				.catch(err => { console.error(err); throw err; });
-
-			await userController.unApprove(addedUser.userID);
-
-			await userController.getUser(addedUser.userID).then(u => {
-				gottenUser = u;
-			});
-
-			expect(addedUser.approved).toBe(true);
-			expect(gottenUser.approved).toBe(0);
-		})
-	})
-
-	describe("setting profile", () => {
-		test("test on set profile", async () => {
-
-			let newUser = newUsers[0];
-			await userController.register(newUser, 1, 1)
-				.then(u => {
-				})
-				.catch(err => { console.error(err); throw err; });
-
-
-			const userStats = {
-				userID: 1, completedHikes: 1,
-				favouriteDifficulty: "Tourist", minTime: 100,
-				maxTime: 200, totalTime: 1000, averageTime: 100,
-				minDistance: 200, maxDistance: 300, totalDistance: 3000, averageDistance: 100,
-				favouriteCountry: "Italy", favouriteProvince: "Turin",
-				minAscent: 100, maxAscent: 200, averageAscent: 1000
-			}
-
-			await userController.addUserStats(userStats)
-				.catch(err => { console.error(err); throw err })
-
-			let addedStats
-			await userController.getUserStats(1)
-				.then(s => addedStats = s)
-				.catch(err => { console.error(err); throw err })
-
-			expect(userStats).toEqual(addedStats)
-
-		})
-	})
-
-
 })
