@@ -6,7 +6,6 @@
     - [DELETE /parkinglots/:pLotId](#delete-parkinglotsplotid)
 
 ### GET /parkinglots
-
 - **It retrieves an array of all the plots**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
@@ -46,7 +45,6 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### POST /parkinglots
-
 - **It creates a new parkingLot in database**.
 - **Request body**: 
 ```
@@ -70,7 +68,6 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### DELETE /parkinglots/:pLotId
-
 - **It deletes a parkinglot identified by the given pLotId**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); 

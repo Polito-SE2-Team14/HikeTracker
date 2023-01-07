@@ -9,7 +9,7 @@
 
 ### GET /huts
 
-- **Description**.
+- **It returns all the huts**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 ```
@@ -61,7 +61,7 @@
 
 ### POST /huts
 
-- **Description**.
+- **It creates a new hut**.
 - **Request body**: 
 ```
 {
@@ -88,7 +88,7 @@
 
 ### POST /huts/:hutID/image
 
-- **Description**.
+- **Add a new image to the selected hut**.
 - **Request body**: 
 ```
 {

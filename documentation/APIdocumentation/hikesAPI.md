@@ -23,7 +23,6 @@
 
 ## GET
 ### GET /hikes
-
 - **Return an array containing all hikes**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: An array of hikes, each describing hikeID, title, lenght, expectedTime, ascent, difficulty, description, startPointID, endPointID and referencePointIDs
@@ -53,6 +52,7 @@
 
 
 ### GET /hikes/:hikeID
+- **Return the requested hike**
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
@@ -76,8 +76,7 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### GET /hikes/:hikeID/track
-
-- **Description**.
+- **Return the array of points of the track of the chosen hike**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 
@@ -102,8 +101,7 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### GET /hikes/:hikeID/image
-
-- **Description**.
+- **Return the picture (in base64) of the chosen hike**.
 - **Request body**: empty
 - **Response**: `200 OK` (success); body: 
 ```
@@ -116,8 +114,7 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### GET /hikes/:hikeID/huts
-
-- **Description**.
+- **Return an array of the close huts (under 5km) to a given hike**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 ```
@@ -162,34 +159,33 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### GET /hikes/:hikeID/referencePoints
-
-- **Description**.
+- **Return the array of the referencePoints of the chosen hike**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 
 ```
-{
-    "referencePointID": 1,
-    "creatorName": "Pippo",
-    "creatorSurname": "Franco",
-    "creatorID": 3,
-    "name": "Picco rosa",
-    "description": "Mountain peak",
-    "municipality": "Collegno",
-    "province": "Turin",
-    "country": "Italy",
-    "longitude": 123,
-    "latitude": 456,
-    "altitude": 100
-}
+    [
+        {
+        "referencePointID": 1,
+        "creatorName": "Pippo",
+        "creatorSurname": "Franco",
+        "creatorID": 3,
+        "name": "Picco rosa",
+        "description": "Mountain peak",
+        "municipality": "Collegno",
+        "province": "Turin",
+        "country": "Italy",
+        "longitude": 123,
+        "latitude": 456,
+        "altitude": 100
+        }, ...
+    ]
 ```
-
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### GET /hikes/:hikeID/linkedHuts
-
-- **Description**.
+- **Return the array of the huts linked to the chosen hike**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
 ```
@@ -223,8 +219,7 @@
 - **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
 
 ### POST /hikes/:hikeID/image
-
-- **Description**.
+- **It sends the image of the chosen hike**.
 - **Request body**: empty.
 ```
 {
@@ -236,7 +231,6 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
   
 ### POST /hikes/:hikeID/huts/:hutID
-
 - **Description**.
 - **Request body**: 
 ```
@@ -250,7 +244,6 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### POST /hikes/referencePoints
-
 - **Description**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
@@ -307,7 +300,6 @@
 - **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
 
 ## PUT
-
 ### PUT /hikes
 - **Modify an Hike.**
 - **Request header** has a line: `Content-Type: application/json`.

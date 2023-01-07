@@ -5,7 +5,6 @@
     - [DELETE /points/:pointID](#delete-pointspointid)
 
 ### GET /points
-
 - **Return an array containing all points**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: An array of points, each describing pointID, name, latitude, longitude, address, pointType and other values
@@ -41,7 +40,6 @@
 - **Error responses**: `500 Internal Server Error` (generic error).
 
 ### DELETE /points/:pointID
-
 - **Delete**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: empty
