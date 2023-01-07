@@ -1,59 +1,72 @@
 import { useEffect, useState } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { Loading } from "../Loading";
+import { HikeMap } from "../Maps/HikeMap";
 
 export function CompletedHikesList(props) {
 	let [hikeRecordList, setHikeRecordList] = useState([]);
 	let [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		HikeRecordsAPI.getHikeRecordsForUser(props.user.userID).then((list) => {
-			let recordMap = new Map();
-			let tempRecordList = new Array();
+	async function getCompletedHikes() {
+		let completedHikesList = await HikeRecordsAPI.getHikeRecordsForUser(
+			props.user.userID
+		);
 
-			list.forEach((record) => {
-				if (recordMap.has(record.hikeID)) {
-					let oldValue = recordMap.get(record.hikeID);
+		let recordMap = new Map();
+		let tempRecordList = new Array();
 
-					recordMap.set(
-						record.hikeID,
-						oldValue.concat({ start: record.startDate, end: record.endDate })
-					);
-				} else {
-					recordMap.set(record.hikeID, [
-						{ start: record.startDate, end: record.endDate },
-					]);
-				}
-			});
+		completedHikesList.forEach((record) => {
+			if (recordMap.has(record.hikeID)) {
+				let oldValue = recordMap.get(record.hikeID);
 
-			recordMap.forEach((dates, hikeID) => {
-				HikeAPI.getHike(hikeID).then((hike) => {
-					tempRecordList.push({ ...hike, dates: dates });
-				});
-			});
-
-			setHikeRecordList(tempRecordList);
-			setLoading(false);
+				recordMap.set(
+					record.hikeID,
+					oldValue.concat({ start: record.startDate, end: record.endDate })
+				);
+			} else {
+				recordMap.set(record.hikeID, [
+					{ start: record.startDate, end: record.endDate },
+				]);
+			}
 		});
+
+		for (const [hikeID, dates] of recordMap) {
+			let hike = await HikeAPI.getHike(hikeID);
+			let track = await HikeAPI.getHikeTrack(hikeID);
+			tempRecordList.push({ ...hike, track: track, dates: dates });
+		}
+
+		setHikeRecordList(tempRecordList);
+		setLoading(false);
+	}
+
+	useEffect(() => {
+		getCompletedHikes();
 	}, []);
 
 	return loading ? (
 		<Loading />
 	) : (
-		<ListGroup variant="flush">
+		<ListGroup variant="flush" className="mt-2">
 			{hikeRecordList.map((hikeRecord) => (
-				<ListGroup.Item key={hikeRecord.hikeID}>aaa</ListGroup.Item>
+				<ListGroup.Item key={hikeRecord.hikeID}>
+					<h3>{hikeRecord.title}</h3>
+					<Row>
+						<Col xs={3}>
+						<HikeMap height="280px" track={hikeRecord.track} markers={{}} user={props.user}/>
+						</Col>
+						<Col>
+						less go baby <br/>
+						remember responsiveness <br/>
+						all the stats available <br/>
+						start time and duration of each time <br/>
+						Completed times = {hikeRecord.dates.length}
+						</Col>
+					</Row>
+				</ListGroup.Item>
 			))}
 		</ListGroup>
 	);
-
-	// map list to dict of unique id - array of start/end
-
-	// get info of all hikeID present
-
-	// display map along with basic info
-
-	// display array of start end somehow
 }
