@@ -6,7 +6,6 @@ const api = "/hikes";
  * Returns all hikes in the database
  * @returns {Hike[]} Array of all hikes
  */
-//TODO(antonio): remember to pass also start and end point
 const getAllHikes = async () => {
 	try {
 		let response = await REST.GET(api);
@@ -133,8 +132,6 @@ const newHike = async (hike) => {
  * @returns {boolean} Success of the operation
  */
 const editHike = async (hike) => {
-	// TODO(antonio): client-side validation
-
 	let { hikeID, title, length, eta, ascent,
 		difficulty, description, municipality, province } = hike
 

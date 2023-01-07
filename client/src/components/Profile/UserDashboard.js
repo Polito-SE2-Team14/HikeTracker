@@ -31,7 +31,7 @@ export function UserDashboard(props) {
 			</Row>
 			{RoleManagement.isHiker(props.user) ? (
 				<Row className="d-flex justify-content-center stats mb-5">
-					{props.showStats && props.stats != false ? (
+					{props.showStats && props.stats ? (
 						<>
 							<Row className="mt-2">
 								<h2>Stats</h2>

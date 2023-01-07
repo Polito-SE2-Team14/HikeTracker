@@ -46,8 +46,8 @@ function HikeListTable(props) {
 			.catch((err) => console.log(err));
 	};
 
-	let shownHikes = props.shownHikes.map((hike, i) => (
-		<Col key={i}>
+	let shownHikes = props.shownHikes.map((hike) => (
+		<Col key={hike.hikeID}>
 			<HikeListItem
 				user={props.user}
 				hike={hike}
@@ -257,7 +257,7 @@ function HikeListItem(props) {
 					setCustomDateTime={props.setCustomDateTime}
 					handleStartHike={handleStartHike}
 					handleStopHike={props.handleStopHike}
-					onClose={() => handleCloseHikeModal()}
+					onClose={handleCloseHikeModal}
 					onDelete={() => handleDeleteHike(props.hike)}
 					onEdit={() => props.handleEditForm(props.hike)}
 				/>

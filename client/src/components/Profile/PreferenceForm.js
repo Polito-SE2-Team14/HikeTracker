@@ -71,7 +71,7 @@ export function PreferenceForm(props) {
 		};
 
 		console.log(props.stats);
-		if (props.stats == false) {
+		if (!props.stats) {
 			UserAPI.addUserStats(stats);
 		} else {
 			UserAPI.setUserStats(stats);

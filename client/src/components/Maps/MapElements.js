@@ -109,13 +109,13 @@ export function PointMarker(props) {
  * @param {Hike[]} hikes - list of hikes
  */
 export function HikesInfoMarkers(props) {
-	return props.hikes.map((hike, i) =>
+	return props.hikes.map((hike) =>
 		hike.startPoint ? (
-			<Marker key={i} position={getLatLon(hike.startPoint)} icon={redIcon}>
+			<Marker key={hike.hikeID} position={getLatLon(hike.startPoint)} icon={redIcon}>
 				<HikePopup hike={hike} />
 			</Marker>
 		) : (
-			<Marker key={i} position={hike.track[0]} icon={redIcon}>
+			<Marker key={hike.hikeID} position={hike.track[0]} icon={redIcon}>
 				<HikePopup hike={hike} />
 			</Marker>
 		)
@@ -127,7 +127,7 @@ export function HikesInfoMarkers(props) {
  * @param {Point[]} point - Point list
  */
 export function HikesPointMarkers(props) {
-	return props.points.map((point, i) => <PointMarker key={i} point={point} />);
+	return props.points.map((point) => <PointMarker key={point.pointID} point={point} />);
 }
 
 /**

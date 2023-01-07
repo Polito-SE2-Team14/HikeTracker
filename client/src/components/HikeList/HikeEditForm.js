@@ -10,15 +10,11 @@ import { faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
-// import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
-
 
 //New Select
 import Select from 'react-select'
 import { ImageForm } from "../ImageForm";
 
-// TODO(antonio): edit points, how??
-// TODO(antonio): proper documentation
 export function HikeEditForm(props) {
 	const [editPoints, setEditPoints] = useState(false);
 	const [hike, setHike] = useState(props.hike);
@@ -83,7 +79,6 @@ export function HikeEditForm(props) {
 	);
 }
 
-//TODO(antonio): proper documentation
 function HikeForm(props) {
 	let [title, setTitle] = useState(props.hike ? props.hike.title : "");
 	let [length, setLength] = useState(props.hike ? props.hike.length : 0);
@@ -119,7 +114,6 @@ function HikeForm(props) {
 	let handleSubmit = async (event) => {
 		event.preventDefault();
 
-		// TODO(antonio): validation and error on new hike/edit hike
 		let hike = {
 			hikeID: props.hike ? props.hike.hikeID : null,
 			title: title,
@@ -140,7 +134,6 @@ function HikeForm(props) {
 			// 		description: description, municipality: municipality, province: province
 			// 	}
 			// ).catch((e) => {
-			// 	// TODO(antonio): error handling
 			// 	console.error(e);
 			// });
 		} else {
@@ -156,7 +149,6 @@ function HikeForm(props) {
 					...h
 				})
 				.catch(function(e){
-					// TODO(antonio): error handling
 					console.error(e);
 				})
 
