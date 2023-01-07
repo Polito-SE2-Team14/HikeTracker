@@ -153,7 +153,7 @@ async function hutImagePopulation() {
 	let huts = await pointsDAO.getAllPoints()
 	huts = huts.filter(h => h.pointType === "hut")
 	for (let i = 0; i < huts.length; i++) {
-		await images.readResizeCropSave(`../Images/huts/${huts[i].pointID}.jpg`, huts[i].pointID, "hut");
+		await images.readResizeCropSave(`../Images/huts/${i+1}.jpg`, huts[i].pointID, "hut");
 	}
 }
 
