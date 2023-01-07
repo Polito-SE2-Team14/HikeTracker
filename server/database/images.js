@@ -9,6 +9,7 @@ exports.getImage = function (id, type) {
 		try {
 			return readFileSync(file, { encoding: 'binary' });
 		} catch (err) {
+			console.log(id, type)
 			throw Error(err)
 		}
 }
@@ -52,17 +53,20 @@ function checkPath(relativePath) {
 
 exports.readResizeCropSave = async (sourcePath, id, type) => {
 	let src = path.resolve(__dirname + '/../' + sourcePath);
+
+
 	try {
 		const image = await Jimp.read(src)
 
-		image._exif.imageSize.width < image._exif.imageSize.height ?
-			image.resize(800, Jimp.AUTO) : image.resize(Jimp.AUTO, 600)
-		image.crop(0, 0, 800, 600).getBase64(Jimp.AUTO, (err, res) => {
-			if (!err)
-				this.newImage(id, type, res)
-		});
+		if (image._exif.imageSize.width < image._exif.imageSize.height)
+			image.resize(800, Jimp.AUTO)
+		else image.resize(Jimp.AUTO, 600)
+
+		await image.crop(0, 0, 800, 600).getBase64Async(Jimp.MIME_JPEG)
+			.then(res => this.newImage(id, type, res)) 
 	} catch (error) {
-		console.log(error.message)
+		console.log(sourcePath, error.message)
 	}
+
 
 }
