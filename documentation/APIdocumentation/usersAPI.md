@@ -20,10 +20,23 @@
 
 - **Verify authentication**
 - **Request header** has a line: `Content-Type: application/json`.
-- **Request body**: 
+- **Request body**: empty 
 - **Response header**:  `201 Created` (success). 
-- **Response body**: none.
-- **Permissions allowed**:  everyone
+- **Response body**: 
+```
+{
+    "userID": 3,
+    "name": "Barbara",
+    "surname": "Ann",
+    "email": "barbara.ann@email.com",
+    "phoneNumber": "34567890112",
+    "type": "localGuide",
+    "token": "a23a63faef69b0a8f63003c0a44de1afa492fe60",
+    "verified": 1,
+    "approved": 1
+}
+```
+- **Permissions allowed**:  logged user
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
 ### GET /users/current/stats
@@ -42,7 +55,35 @@
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: 
 - **Response header**:  `201 Created` (success). 
-- **Response body**: none.
+- **Response body**: 
+```
+{
+    [
+        {
+            "userID": 5,
+            "name": "Cristian",
+            "surname": "Verdi",
+            "email": "cristian.verdi@email.com",
+            "phoneNumber": "56789011234",
+            "type": "hutWorker",
+            "token": "f73d79a4788b1206393fe5de541827e1b03f0ab6",
+            "verified": 1,
+            "approved": 1
+        },
+        {
+            "userID": 16,
+            "name": "Elizabeth",
+            "surname": "Lewis",
+            "email": "elizabeth.lewis@email.com",
+            "phoneNumber": "76543211098",
+            "type": "hutWorker",
+            "token": "dd5ccc80ab763b85cfcbe3115e0bb44a16a3cebc",
+            "verified": 1,
+            "approved": 1
+        },...
+    ]
+}
+```
 - **Permissions allowed**:  everyone
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
@@ -52,7 +93,35 @@
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: 
 - **Response header**:  `201 Created` (success). 
-- **Response body**: none.
+- **Response body**: 
+```
+{
+    [
+        {
+            "userID": 3,
+            "name": "Barbara",
+            "surname": "Ann",
+            "email": "barbara.ann@email.com",
+            "phoneNumber": "34567890112",
+            "type": "localGuide",
+            "token": "a23a63faef69b0a8f63003c0a44de1afa492fe60",
+            "verified": 1,
+            "approved": 1
+        },
+        {
+            "userID": 10,
+            "name": "Andrew",
+            "surname": "Miller",
+            "email": "andrew.miller@email.com",
+            "phoneNumber": "01123456789",
+            "type": "localGuide",
+            "token": "5a0831259c46d8a58939eb9dba8bdd7da62bff46",
+            "verified": 1,
+            "approved": 1
+        },...
+    ]
+}
+```
 - **Permissions allowed**:  everyone
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
@@ -82,8 +151,27 @@
 - **Login**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: 
+```
+{
+   "username": "barbara.ann@email.com",
+   "password": "password"
+}
+```
 - **Response header**:  `201 Created` (success). 
-- **Response body**: none.
+- **Response body**: 
+```
+{
+    "userID": 3,
+    "name": "Barbara",
+    "surname": "Ann",
+    "email": "barbara.ann@email.com",
+    "phoneNumber": "34567890112",
+    "type": "localGuide",
+    "token": "a23a63faef69b0a8f63003c0a44de1afa492fe60",
+    "verified": 1,
+    "approved": 1
+}
+```
 - **Permissions allowed**:  everyone
 - **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 
@@ -160,9 +248,9 @@
 ### DELETE /current
 - **Logout**
 - **Request header** has a line: `Content-Type: application/json`.
-- **Request body**: 
+- **Request body**: empty
 - **Response header**:  `201 Created` (success). 
 - **Response body**: none.
-- **Permissions allowed**:  everyone
-- **Error responses**: `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
+- **Permissions allowed**:  logged user
+- **Error responses**: `401 Unauthorized` (not authenticated), `422 Unprocessable Entity` (validation of request body failed), `505 Internal Server Error` (generic error).
 

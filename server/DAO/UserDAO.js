@@ -317,22 +317,7 @@ exports.updateUserStats = (userID, newUserStats) => {
 			} else if (row == null || row == undefined) {
 				reject({ error: "User not found" });
 			} else {
-				/* let sqlUpdate=`UPDATE USER_STATS SET `;
 				
-				Object.entries(newUserStats).forEach(([key,value]) => {
-					if(key!="userID"){
-						sqlUpdate+=`${key} = `;
-						if(typeof value == 'string' || value instanceof String){
-							sqlUpdate+=`"${value}", `;
-						}else{
-							sqlUpdate+=`${value}, `;
-						}
-					}
-				});
-
-				sqlUpdate=sqlUpdate.substring(0,sqlUpdate.length-2);
-				sqlUpdate+=`) WHERE userID = ${userID};`; */
-
 				let sqlUpdate =
 					`UPDATE USER_STATS SET 
 				COMPLETEDHIKES = ?,FAVOURITEDIFFICULTY = ?,MINTIME = ?,

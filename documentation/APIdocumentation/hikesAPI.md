@@ -19,6 +19,7 @@
     - [PUT /hikes](#put-hikes)
   - [DELETE](#delete)
     - [DELETE /hikes/:hikeID](#delete-hikeshikeid)
+    - [DELETE /hikes/:huts/:hutID](#delete-hikeshutshutid)
 
 ## GET
 ### GET /hikes
@@ -28,29 +29,26 @@
 - **Response**: `200 OK` (success); body: An array of hikes, each describing hikeID, title, lenght, expectedTime, ascent, difficulty, description, startPointID, endPointID and referencePointIDs
 
 ```
+[
     {
-        [
-            {
-                "hikeID": 1,
-                "title": "hike#1",
-                "lenght": 7,
-                "expectedTime": 30,
-                "ascent": 100,
-                "difficulty": "Tourist",
-                "description": "firstDescription"
-            },
-            {
-                "hikeID": 2,
-                "title": "hike#2",
-                "lenght": 2,
-                "expectedTime": 45,
-                "ascent": 123,
-                "difficulty": "Hiker",
-                "description": "secondDescription" 
-            },
-            ... 
-            ]
-    }
+        "hikeID": 1,
+        "title": "hike#1",
+        "lenght": 7,
+        "expectedTime": 30,
+        "ascent": 100,
+        "difficulty": "Tourist",
+        "description": "firstDescription"
+    },
+    {
+        "hikeID": 2,
+        "title": "hike#2",
+        "lenght": 2,
+        "expectedTime": 45,
+        "ascent": 123,
+        "difficulty": "Hiker",
+        "description": "secondDescription" 
+    },... 
+]
 ```
 
 
@@ -63,15 +61,15 @@
 - **Response**: `200 OK` (success); body: The selected hikes, describing hikeID, title, lenght, expectedTime, ascent, difficulty, description, startPointID, endPointID and referencePointIDs
 
 ```
-        {
-                "hikeID": 1,
-                "title": "hike#1",
-                "lenght": 7,
-                "expectedTime": 30,
-                "ascent": 100,
-                "difficulty": "Tourist",
-                "description": "firstDescription"
-        }
+{
+    "hikeID": 1,
+    "title": "hike#1",
+    "lenght": 7,
+    "expectedTime": 30,
+    "ascent": 100,
+    "difficulty": "Tourist",
+    "description": "firstDescription"
+}
 ```
 
 - **Permissions allowed**: everyone
@@ -84,7 +82,20 @@
 - **Response**: `200 OK` (success); body: 
 
 ```
-    
+[
+    [
+        45.95929,
+        8.44804
+    ],
+    [
+        45.95929,
+        8.44804
+    ],
+    [
+        45.95927,
+        8.44812
+    ],...
+]
 ```
 
 - **Permissions allowed**: everyone
@@ -93,11 +104,12 @@
 ### GET /hikes/:hikeID/image
 
 - **Description**.
-- **Request body**: empty.
+- **Request body**: empty
 - **Response**: `200 OK` (success); body: 
-
 ```
-    
+{
+    "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEB..."
+}
 ```
 
 - **Permissions allowed**: everyone
@@ -108,11 +120,44 @@
 - **Description**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
-
 ```
-    
+[
+    {
+        "pointID": 1,
+        "name": "Al Sap",
+        "description": "Very nice hut",
+        "altitude": 100,
+        "latitude": 123,
+        "longitude": 456,
+        "address": "Via Trieste 1",
+        "municipality": "Turin",
+        "province": "Turin",
+        "country": "Italy",
+        "bedspace": 100,
+        "phoneNumber": "1234567890", 
+        "website": "www.alsap.com",
+        "email": "alsap@mail.com",
+        "creatorID" 3:
+    },
+    {
+        "pointID": 2,
+        "name": "EnjoyHut",
+        "description": "Not a very nice hut",
+        "altitude": 100,
+        "latitude": 123,
+        "longitude": 456,
+        "address": "Via Trieste 2",
+        "municipality": "Turin",
+        "province": "Turin",
+        "country": "Italy",
+        "bedspace": 100,
+        "phoneNumber": "1234567891", 
+        "website": "www.EnjoyHut.com",
+        "email": "EnjoyHut@mail.com",
+        "creatorID" 3:
+    }, ...
+]
 ```
-
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
@@ -123,7 +168,20 @@
 - **Response**: `200 OK` (success); body: 
 
 ```
-    
+{
+    "referencePointID": 1,
+    "creatorName": "Pippo",
+    "creatorSurname": "Franco",
+    "creatorID": 3,
+    "name": "Picco rosa",
+    "description": "Mountain peak",
+    "municipality": "Collegno",
+    "province": "Turin",
+    "country": "Italy",
+    "longitude": 123,
+    "latitude": 456,
+    "altitude": 100
+}
 ```
 
 - **Permissions allowed**: everyone
@@ -134,11 +192,13 @@
 - **Description**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
-
 ```
-    
+[
+    1,
+    3,
+    4,...
+]
 ```
-
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
@@ -147,17 +207,15 @@
 - **Creates a new Hike with an empty array of referencePointIDs and null startPointID and endPointID.**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: a JSON object containing title, lenght, expectedTime, ascent, difficulty, description.
- Example of Request body
-
 ```
-    {
-        "title": "hike#3",
-        "lenght": 3,
-        "expectedTime": 60,
-        "ascent": 514,
-        "difficulty": "Professional Hiker",
-        "description": "thirdDescription"
-    }
+{
+    "title": "hike#3",
+    "lenght": 3,
+    "expectedTime": 60,
+    "ascent": 514,
+    "difficulty": "Professional Hiker",
+    "description": "thirdDescription"
+}
 ```
 - **Response header**:  `201 Created` (success). 
 - **Response body**: none.
@@ -168,25 +226,26 @@
 
 - **Description**.
 - **Request body**: empty.
-- **Response**: `200 OK` (success); body: 
-
 ```
-    
+{
+    "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEB..."
+}    
 ```
-
+- **Response**: `200 OK` (success);
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
   
 ### POST /hikes/:hikeID/huts/:hutID
 
 - **Description**.
-- **Request body**: empty.
+- **Request body**: 
+```
+{
+    "hikeID": 1,
+    "hutID: 3
+}
+```
 - **Response**: `200 OK` (success); body: 
-
-```
-    
-```
-
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
@@ -195,11 +254,23 @@
 - **Description**.
 - **Request body**: empty.
 - **Response**: `200 OK` (success); body: 
-
 ```
-    
+{
+    "hikeID": 1,
+    "referencePoint":
+        {
+            "creatorID": 3,
+            "name": "Picco rosa",
+            "description": "Mountain peak",
+            "municipality": "Collegno",
+            "province": "Turin",
+            "country": "Italy",
+            "longitude": 123,
+            "latitude": 456,
+            "altitude": 100,
+        }
+} 
 ```
-
 - **Permissions allowed**: everyone
 - **Error responses**: `500 Internal Server Error` (generic error).
 
@@ -241,8 +312,6 @@
 - **Modify an Hike.**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: a JSON object containing title, lenght, expectedTime, ascent, difficulty, description.
- Example of Request body
-
 ```
     {
         "title": "hike#3",
@@ -251,6 +320,9 @@
         "ascent": 514,
         "difficulty": "Professional Hiker",
         "description": "thirdDescription"
+        "municipality": "Moncalieri",
+        "province": "Turin",
+        "country": "Italy"
     }
 ```
 - **Response header**:  `201 Created` (success). 
@@ -261,6 +333,15 @@
 ## DELETE
 ### DELETE /hikes/:hikeID
 - **Delete the selected Hike.**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: empty
+- **Response header**:  `201 Created` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Hiker
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
+### DELETE /hikes/:huts/:hutID
+- **Delete the hut linked to the Hike.**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: empty
 - **Response header**:  `201 Created` (success). 

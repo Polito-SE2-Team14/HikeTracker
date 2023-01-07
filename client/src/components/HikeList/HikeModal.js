@@ -25,7 +25,6 @@ import {
 	faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { HikeMap } from "../Maps/HikeMap";
-import { Loading } from "../Loading";
 
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
@@ -145,7 +144,6 @@ function InfoTab(props) {
 	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
 	let selectCustomDateTime = function(newValue){props.setCustomDateTime(newValue)}
 	let render=function(params){return(<TextField {...params} />)}
-	// console.log(props.userRecord);
 
 	useEffect(() => {
 		const getImage = async () => {

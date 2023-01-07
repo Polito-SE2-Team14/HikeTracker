@@ -62,21 +62,10 @@ describe('Hut test suite', async () => {
 				creatorID: 6
 			};
 
-			/* const expectedData = {
-				pointID: 1,
-				name: hut.name,
-				latitude: hut.latitude,
-				longitude: hut.longitude,
-				address: hut.address,
-				bedspace: hut.bedspace,
-				creatorID: hut.creatorID
-			}; */
-
+			
 	        let response = await hutAPICall.addHutCall(hut);
-			//let data = await response.data;
 
 	        assert.equal(response.status, 204, response.status);
-			//assert.deepEqual(data, expectedData);
 		});
 
 		it("POST /huts missing body", async () => {
@@ -365,28 +354,28 @@ describe('Hut test suite', async () => {
 			assert.equal(response.status, 422, response.status);
 	    });
 
-	    // it("POST /huts wrong email", async () => {
-		// 	const hut = {
-		// 		name: 'hut',
-		// 		description: 'hut',
-		// 		altitude: 100,
-		// 		latitude: 45.95233,
-		// 		longitude: 8.4457,
-		// 		address: 'address',
-		// 		municipality: 'Collegno',
-		// 		province: 'Turin',
-		// 		country: 'Italy',
-		// 		bedspace: 50,
-		// 		phoneNumber: '123456789',
-		// 		website: 'www.website.com',
-		// 		email: null,
-		// 		creatorID: 6
-		// 	};
+	    /* it("POST /huts wrong email", async () => {
+			const hut = {
+				name: 'hut',
+				description: 'hut',
+				altitude: 100,
+				latitude: 45.95233,
+				longitude: 8.4457,
+				address: 'address',
+				municipality: 'Collegno',
+				province: 'Turin',
+				country: 'Italy',
+				bedspace: 50,
+				phoneNumber: '123456789',
+				website: 'www.website.com',
+				email: null,
+				creatorID: 6
+			};
 
-		// 	const response = await hutAPICall.addHutCall(hut);
+			const response = await hutAPICall.addHutCall(hut);
 
-		// 	assert.equal(response.status, 422, response.status);
-	    // });
+			assert.equal(response.status, 422, response.status);
+	    }); */
 
 	    it("POST /huts wrong creatorID", async () => {
 			const hut = {
@@ -675,27 +664,27 @@ describe('Hut test suite', async () => {
 			assert.equal(response.status, 422, response.status);
 	    });
 
-	    // it("POST /huts missing email", async () => {
-		// 	const hut = {
-		// 		name: 'hut',
-		// 		description: 'hut',
-		// 		altitude: 100,
-		// 		latitude: 45.95233,
-		// 		longitude: 8.4457,
-		// 		address: 'address',
-		// 		municipality: 'Collegno',
-		// 		province: 'Turin',
-		// 		country: 'Italy',
-		// 		bedspace: 50,
-		// 		phoneNumber: '123456789',
-		// 		website: 'www.website.com',
-		// 		creatorID: 6
-		// 	};
+	    /* it("POST /huts missing email", async () => {
+			const hut = {
+				name: 'hut',
+				description: 'hut',
+				altitude: 100,
+				latitude: 45.95233,
+				longitude: 8.4457,
+				address: 'address',
+				municipality: 'Collegno',
+				province: 'Turin',
+				country: 'Italy',
+				bedspace: 50,
+				phoneNumber: '123456789',
+				website: 'www.website.com',
+				creatorID: 6
+			};
 
-		// 	const response = await hutAPICall.addHutCall(hut);
+			const response = await hutAPICall.addHutCall(hut);
 
-		// 	assert.equal(response.status, 422, response.status);
-	    // });
+			assert.equal(response.status, 422, response.status);
+	    }); */
 
 	    it("POST /huts missing creatorID", async () => {
 			const hut = {

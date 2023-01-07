@@ -182,8 +182,6 @@ exports.getHutsLinkedToHike = function (hikeID) {
 		db.all("SELECT hutID FROM HIKELINKHUT WHERE hikeID=?;", [hikeID], (err, rows) => {
 			if (err) {
 				reject(err)
-				// }else if(rows.length==0){
-				// 	reject({err: "No entry found"})
 			} else {
 				const hutIDs = rows.map(r => r.hutID);
 				resolve(hutIDs);

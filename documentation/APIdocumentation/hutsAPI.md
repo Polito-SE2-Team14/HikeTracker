@@ -91,7 +91,9 @@
 - **Description**.
 - **Request body**: 
 ```
-    
+{
+    "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEB..."
+}
 ```
 - **Response**: `200 OK` (success); 
 - **Permissions allowed**: everyone

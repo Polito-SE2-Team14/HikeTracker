@@ -126,13 +126,6 @@ exports.deleteHike = async (hikeID) => {
 	if (isNaN(hikeID))
 		throw Error("Type error with hikeID");
 
-	// let hike
-	// await this.getHike(hikeDAO)
-	// 	.then(h => hike = h)
-
-	// if (hike == null)
-	// 	throw Error("There is no hike with that ID")
-
 	await hikeDAO.deleteHike(hikeID)
 
 }
