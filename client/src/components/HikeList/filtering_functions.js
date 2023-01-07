@@ -1,7 +1,6 @@
 import { isInArea } from "../HikeData";
 
 function filterHike(hike, filters) {
-	//let to_return = true;
 
 	if (!hike.title.toLowerCase().includes(filters.title.toLowerCase())) {
 		return false;
@@ -37,12 +36,7 @@ function filterHike(hike, filters) {
 		return false;
 	}
 
-
-	if (hike.expectedTime > filters.expectedTime[1] || hike.expectedTime < filters.expectedTime[0]) {
-		return false;
-	}
-
-	return true;
+	return !(hike.expectedTime > filters.expectedTime[1] || hike.expectedTime < filters.expectedTime[0])
 }
 
 export async function filterAllHikes(hikes_list, filters) {

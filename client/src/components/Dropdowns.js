@@ -24,7 +24,7 @@ export function MunicipalityDropdown(props){
 					{municipalities.map(function(m,i){
 						let selectMunicipality=function(ev){props.setMunicipality(m.name)}
 						return(
-						<Dropdown.Item key={`${i} - ${m.name}`} href="#" onClick={selectMunicipality}>
+						<Dropdown.Item key={`${m.name}`} href="#" onClick={selectMunicipality}>
 							{m.name}
 						</Dropdown.Item>)
 					}
