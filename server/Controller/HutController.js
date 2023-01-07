@@ -8,6 +8,13 @@ exports.getHuts = async () => {
 	return huts;
 }
 
+//TODO test this function
+exports.getHutImage = async (hikeID) => {
+	const image = hutDAO.getHutImage(hikeID);
+	return { image: image };
+
+
+}
 
 exports.createHut = async (hut) => {
 
@@ -59,6 +66,11 @@ exports.createHut = async (hut) => {
 	}
 	return hutToBeReturned;
 }
+
+exports.newHutImage = async (hutID, image) => {
+	await hutDAO.newImage(hutID, image);
+
+};
 
 exports.updateHut = async (hut) => {
 

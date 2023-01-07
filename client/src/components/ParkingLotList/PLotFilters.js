@@ -39,7 +39,7 @@ export function ParkingLotFilters(props) {
 		});
 	}, [area, showAreaMap, country, province, country, addressName, carInterval]);
 
-	function clearFilters() {
+	let clearFilters = function() {
 		props.setFilters({ ...props.filters, name: "" });
 		setArea({});
 		setAddressName("")
@@ -50,6 +50,11 @@ export function ParkingLotFilters(props) {
 		setCarInterval([MIN_SPACE_NUMBER, MAX_SPACE_NUMBER]);
 	}
 
+
+	let showAreaMapTrue = function(){setShowAreaMap(true)}
+	let showAreaMapFalse = function(){setShowAreaMap(false)}
+	let selectArea = function(area){setArea(area)}
+	let selectAddressName = function(ev){setAddressName(ev.target.value)}
 	return (
 		<Container>
 			<Form>
@@ -62,11 +67,11 @@ export function ParkingLotFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+								<Button size="sm" onClick={showAreaMapFalse}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+								<Button size="sm" onClick={showAreaMapTrue}>
 									Show map
 								</Button>
 							)}
@@ -75,10 +80,8 @@ export function ParkingLotFilters(props) {
 					{showAreaMap ? (
 						<>
 							<AreaSelectMap
-							points={props.lots}
-								onSetArea={(area) => {
-									setArea(area);
-								}}
+								points={props.lots}
+								onSetArea={selectArea}
 							/>
 						</>
 					) : (
@@ -92,7 +95,7 @@ export function ParkingLotFilters(props) {
 						type="search"
 						placeholder="Insert address"
 						value={addressName}
-						onChange={(ev) => setAddressName(ev.target.value)}
+						onChange={selectAddressName}
 					/>
 				</Form.Group>
 				<hr />
@@ -158,6 +161,7 @@ export function ParkingLotFilters(props) {
 }
 
 function FormSlider(props) {
+	let selectValue = function(ev){props.setValue(ev.target.value)}
 	return (
 		<Slider
 			valueLabelDisplay="auto"
@@ -165,9 +169,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={(ev) => {
-				props.setValue(ev.target.value);
-			}}
+			onChange={selectValue}
 		/>
 	);
 }

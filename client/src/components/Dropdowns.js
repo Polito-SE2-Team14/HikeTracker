@@ -12,7 +12,7 @@ import allProvinces from '../JSONs/States.json';
 import allCountries from '../JSONs/Countries.json';
 
 export function MunicipalityDropdown(props){
-	let municipalities=allMunicipalities.filter(m=>m.country_name===props.country & m.state_name===props.province)
+	let municipalities=allMunicipalities.filter(function(m){return m.country_name===props.country & m.state_name===props.province})
 	return (
 		<InputGroup>
 			<Dropdown>
@@ -21,11 +21,14 @@ export function MunicipalityDropdown(props){
 					disabled={props.disabled}
 				/>
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{municipalities.map((m,i)=>(
-						<Dropdown.Item key={i} href="#" onClick={ev=>props.setMunicipality(m.name)}>
+					{municipalities.map(function(m,i){
+						let selectMunicipality=function(ev){props.setMunicipality(m.name)}
+						return(
+						<Dropdown.Item key={i} href="#" onClick={selectMunicipality}>
 							{m.name}
-						</Dropdown.Item>
-					))}
+						</Dropdown.Item>)
+					}
+					)}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -39,7 +42,7 @@ export function MunicipalityDropdown(props){
 	)
 }
 export function ProvinceDropdown(props){
-	let provinces=allProvinces.filter(p=>p.country_name===props.country)
+	let provinces=allProvinces.filter(function(p){return p.country_name===props.country})
 	return (
 		<InputGroup>
 			<Dropdown>
@@ -48,11 +51,15 @@ export function ProvinceDropdown(props){
 						disabled={props.disabled}
 					/>
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{provinces.map((p,i)=>(
-						<Dropdown.Item key={i} href="#" onClick={ev=>props.setProvince(p.name)}>
-							{p.name}
-						</Dropdown.Item>
-					))}
+					{provinces.map(function(p,i){
+						let selectProvince=function(ev){props.setProvince(p.name)}
+						return(
+							<Dropdown.Item key={i} href="#" onClick={selectProvince}>
+								{p.name}
+							</Dropdown.Item>
+							)
+						}
+					)}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -74,11 +81,14 @@ export function CountryDropdown(props){
 				<Dropdown.Toggle style={{backgroundColor: "white", color: "grey"}}/>
 
 				<Dropdown.Menu as={CustomMenu} style={{maxHeight: "300px", overflowY: "scroll"}}>
-					{allCountries.map((c,i)=>(
-						<Dropdown.Item key={i} href="#" onClick={ev=>props.setCountry(c)}>
+					{allCountries.map(function(c,i){
+						let selectCountry=function(ev){props.setCountry(c)}
+						return(
+						<Dropdown.Item key={i} href="#" onClick={selectCountry}>
 							{c}
 						</Dropdown.Item>
-					))}
+						)
+					})}
 				</Dropdown.Menu>
 			</Dropdown>
 			<Form.Control
@@ -92,9 +102,9 @@ export function CountryDropdown(props){
 }
 
 const CustomMenu = React.forwardRef(
-	({ children, style, className, 'aria-labelledby': labeledBy }, ref) => {
+	function ({ children, style, className, 'aria-labelledby': labeledBy }, ref){
 		const [value, setValue] = useState('');
-
+		let menuOnChange=function(e){setValue(e.target.value)}
 			return (
 			<div
 				ref={ref}
@@ -106,13 +116,14 @@ const CustomMenu = React.forwardRef(
 					autoFocus
 					className="mx-3 my-2 w-auto"
 					placeholder="Type to filter..."
-					onChange={(e) => setValue(e.target.value)}
+					onChange={menuOnChange}
 					value={value}
 				/>
 				<ul className="list-unstyled">
 				{React.Children.toArray(children).filter(
-					(child) =>
-						!value || child.props.children.toLowerCase().startsWith(value.toLowerCase()),
+					function(child){
+						return !value || child.props.children.toLowerCase().startsWith(value.toLowerCase())
+					}
 				)}
 				</ul>
 			</div>

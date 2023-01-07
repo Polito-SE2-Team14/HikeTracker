@@ -4,12 +4,12 @@ import { UserTableRow } from './UserTableRow';
 
 export function UserTable(props) {
 
-    const handleApproving = async (userID) => {
+    let handleApproving = async function(userID){
         await UserAPI.approveUser(userID);
         props.getAllUsers();
     }
 
-    const handleUnApproving = async (userID) => {
+    let handleUnApproving = async function(userID){
         await UserAPI.unApproveUser(userID);
         props.getAllUsers();
     }

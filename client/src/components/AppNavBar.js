@@ -50,7 +50,7 @@ export function AppNavBar(props) {
 		navigate("/");
 	};
 
-	let handlePageSelect = (page) => {
+	let handlePageSelect = function(page){
 		setShowSidebar(false);
 		navigate(page);
 	};
@@ -113,6 +113,24 @@ export function AppNavBar(props) {
 }
 
 function SideBar(props) {
+	
+	let selectEmpty=function(){
+		props.pageSelect("/")
+	}
+	let selectAdmin=function(){
+		props.pageSelect("/admin")
+	}
+	let selectHikes=function(){
+		props.pageSelect("/hikes")
+	}
+	let selectHuts=function(){
+		props.pageSelect("/huts")
+	}
+	let selectParkingLots=function(){
+		props.pageSelect("/parking-lots")
+	}
+
+
 	return (
 		<Offcanvas show={props.show} onHide={props.onHide}>
 			<Offcanvas.Header closeButton>
@@ -123,7 +141,7 @@ function SideBar(props) {
 			<Offcanvas.Body>
 				<ListGroup variant="flush">
 					{RoleManagement.isManager(props.user) ? (
-						<ListGroup.Item action onClick={() => props.pageSelect("/admin")}>
+						<ListGroup.Item action onClick={selectAdmin}>
 							<SideBarElement
 								icon={<FontAwesomeIcon icon={faClipboardList} />}
 								name="Admin Page"
@@ -131,20 +149,20 @@ function SideBar(props) {
 						</ListGroup.Item>
 					) : null}
 
-					<ListGroup.Item action onClick={() => props.pageSelect("/")}>
+					<ListGroup.Item action onClick={selectEmpty}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faCompass} />}
 							name="Home Page"
 						/>
 					</ListGroup.Item>
 
-					<ListGroup.Item action onClick={() => props.pageSelect("/hikes")}>
+					<ListGroup.Item action onClick={selectHikes}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faPersonHiking} />}
 							name="Hikes"
 						/>
 					</ListGroup.Item>
-					<ListGroup.Item action onClick={() => props.pageSelect("/huts")}>
+					<ListGroup.Item action onClick={selectHuts}>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faHouse} />}
 							name="Huts"
@@ -152,7 +170,7 @@ function SideBar(props) {
 					</ListGroup.Item>
 					<ListGroup.Item
 						action
-						onClick={() => props.pageSelect("/parking-lots")}
+						onClick={selectParkingLots}
 					>
 						<SideBarElement
 							icon={<FontAwesomeIcon icon={faCarSide} />}

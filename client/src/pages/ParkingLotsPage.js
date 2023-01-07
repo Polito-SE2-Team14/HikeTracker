@@ -30,7 +30,7 @@ export function ParkingLotsPage(props) {
 		carspace: [],
 	});
 
-	const getAllParkingLots = async () => {
+	const getAllParkingLots = async function (){
 		await ParkingLotAPI.getAllParkingLots()
 			.catch((err) => {
 				console.error(err);
@@ -43,23 +43,23 @@ export function ParkingLotsPage(props) {
 			});
 	};
 
-	const handleShowLotForm = () => {
+	const handleShowLotForm =function(){
 		setShowLotForm(true);
 	};
 
-	const handleHideLotForm = () => {
+	const handleHideLotForm =function(){
 		setShowLotForm(false);
 	};
 
-	const handleShowFilterModal = () => {
+	let handleShowFilterModal =function(){
 		setShowFilterForm(true);
 	};
 
-	const handleCloseFilterModal = () => {
+	let handleCloseFilterModal =function(){
 		setShowFilterForm(false);
 	};
 
-	const addPlot = async (newLot) => {
+	let addPlot = async function(newLot){
 		newLot.creatorID = props.user.userID;
 
 		await ParkingLotAPI.addParkingLot(newLot)
@@ -85,6 +85,8 @@ export function ParkingLotsPage(props) {
 			<FontAwesomeIcon icon={faPlus} /> Add new parking lot
 		</Button>
 	);
+	
+	let selectFilters = function(ev){setFilters({ ...filters, name: ev.target.value.trim() })}
 
 	return (
 		<>
@@ -100,9 +102,7 @@ export function ParkingLotsPage(props) {
 									type="search"
 									placeholder="Search"
 									value={filters.name}
-									onChange={(ev) =>
-										setFilters({ ...filters, name: ev.target.value.trim() })
-									}
+									onChange={selectFilters}
 								/>
 								<Button onClick={handleShowFilterModal}>
 									<FontAwesomeIcon icon={faFilter} />

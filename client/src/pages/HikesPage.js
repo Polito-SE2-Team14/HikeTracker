@@ -38,7 +38,7 @@ export function HikesPage(props) {
 	const [selectedHike, setSelectedHike] = useState(null);
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
-	const getAllHikes = async () => {
+	let getAllHikes = async function(){
 		let hikes;
 		await HikeAPI.getAllHikes()
 			.then((h) => {
@@ -52,7 +52,7 @@ export function HikesPage(props) {
 			});
 	};
 
-	const getUserHikeRecordWithStatusOpen = async () => {
+	let getUserHikeRecordWithStatusOpen = async function(){
 		if (props.user && props.user.userID) {
 			await HikeRecordsAPI.getHikeRecordForUserWithStatusOpen(props.user.userID)
 				.then((h) => {
@@ -64,20 +64,20 @@ export function HikesPage(props) {
 		}
 	};
 
-	const handleClose = () => {
+	let handleClose = function(){
 		setshowFilterForm(false);
 	};
 
-	const handleShowHikeForm = () => {
+	let handleShowHikeForm = function(){
 		setShowHikeForm(true);
 	};
 
-	const handleCloseHikeForm = () => {
+	let handleCloseHikeForm = function(){
 		setShowHikeForm(false);
 		setSelectedHike(null);
 	};
 
-	const newHike = async (hike) => {
+	let newHike = async function(hike){
 		let insertedHike;
 		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
@@ -97,7 +97,7 @@ export function HikesPage(props) {
 		return insertedHike;
 	};
 
-	const applyPreferences = async () => {
+	let applyPreferences = async function(){
 		let stats = await UserAPI.getUserStats();
 		let newFilters = {
 			title: "",
@@ -209,6 +209,10 @@ export function HikesPage(props) {
 		);
 	}
 
+	let selectFilters = function(ev){setFilters({ ...filters, title: ev.target.value.trim() })}
+	let showFilterFormTrue = function(){setshowFilterForm(true)}
+
+
 	return (
 		<>
 			{loading ? (
@@ -222,14 +226,10 @@ export function HikesPage(props) {
 								type="search"
 								placeholder="Search"
 								value={filters.title}
-								onChange={(ev) =>
-									setFilters({ ...filters, title: ev.target.value.trim() })
-								}
+								onChange={selectFilters}
 							/>
 							<Button
-								onClick={() => {
-									setshowFilterForm(true);
-								}}
+								onClick={showFilterFormTrue}
 							>
 								<FontAwesomeIcon icon={faFilter} />
 							</Button>

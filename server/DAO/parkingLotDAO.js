@@ -46,7 +46,7 @@ exports.getAllParkingLots = () => {
 
 exports.getParkingLotById = (id) => {
 	return new Promise((resolve, reject) => {
-		db.get(`SELECT * FROM PARKINGLOT WHERE pLotId=${id}`, (err, row) => {
+		db.get(`SELECT * FROM PARKINGLOT WHERE parkingLotId=${id}`, (err, row) => {
 			if (err)
 				reject(err);
 
@@ -76,15 +76,7 @@ exports.addParkingLot = (pointID, carspace) => {
 			function (err) {
 				if (err)
 					reject(err);
-				resolve(
-					// {
-					// 	pLotId: this.lastID,
-					// 	name: newPLot.name,
-					// 	carspace: newPLot.carspace,
-					// 	municipality: newPLot.municipality,
-					// 	province: newPLot.province
-					// }
-				);
+				resolve();
 			})
 	});
 };

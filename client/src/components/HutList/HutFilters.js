@@ -39,7 +39,7 @@ export function HutFilters(props) {
 		});
 	}, [area, showAreaMap, country, province, country, addressName, bedInterval]);
 
-	function clearFilters() {
+	let clearFilters=function() {
 		props.setFilters({ ...props.filters, name: "" });
 		setArea({});
 		setAddressName("")
@@ -49,6 +49,23 @@ export function HutFilters(props) {
 		setShowAreaMap(false);
 		setBedInterval([MIN_BED_NUMBER, MAX_BED_NUMBER]);
 	}
+
+	let changeAreaName=function(ev){
+		setAddressName(ev.target.value)
+	}
+
+	let showAreaMapTrue=function(ev){
+		setShowAreaMap(true)
+	}
+
+	let showAreaMapFalse=function(ev){
+		setShowAreaMap(false)
+	}
+
+	let setSelectedArea=function(area){
+		setArea(area);
+	}
+
 
 	return (
 		<Container>
@@ -62,11 +79,11 @@ export function HutFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+								<Button size="sm" onClick={showAreaMapFalse}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+								<Button size="sm" onClick={showAreaMapTrue}>
 									Show map
 								</Button>
 							)}
@@ -75,10 +92,8 @@ export function HutFilters(props) {
 					{showAreaMap ? (
 						<>
 							<AreaSelectMap
-							points={props.huts}
-								onSetArea={(area) => {
-									setArea(area);
-								}}
+								points={props.huts}
+								onSetArea={setSelectedArea}
 							/>
 						</>
 					) : (
@@ -92,7 +107,7 @@ export function HutFilters(props) {
 						type="search"
 						placeholder="Insert address"
 						value={addressName}
-						onChange={(ev) => setAddressName(ev.target.value)}
+						onChange={changeAreaName}
 					/>
 				</Form.Group>
 				<hr />
@@ -158,6 +173,9 @@ export function HutFilters(props) {
 }
 
 function FormSlider(props) {
+	let setValueOnChange=function(ev){
+		props.setValue(ev.target.value);
+	}
 	return (
 		<Slider
 			valueLabelDisplay="auto"
@@ -165,9 +183,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={(ev) => {
-				props.setValue(ev.target.value);
-			}}
+			onChange={setValueOnChange}
 		/>
 	);
 }

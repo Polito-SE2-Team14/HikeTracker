@@ -176,6 +176,31 @@ const deleteHike = async (hikeID) => {
 	}
 };
 
+const getImage = async (hikeID) => {
+	try {
+		let response = await REST.GET(`${api}/${hikeID}/image`);
+		let image = await response.json();
+
+		return image.image;
+	} catch (err) {
+		console.error(err);
+		throw err;
+	}
+};
+
+const addImage = async (hikeID, image) => {
+	let body = { image: image };
+
+	try {
+		await REST.UPDATE('POST', `${api}/${hikeID}/image`, body, true);
+
+		return true;
+	} catch (err) {
+		console.error(err);
+		throw err;
+	}
+};
+
 const addStartPoint = async (hikeID, pointID) => {
 	let body = {
 		hikeID: hikeID,
@@ -212,7 +237,7 @@ const addEndPoint = async (hikeID, pointID) => {
 };
 
 const addReferencePoint = async (point, hikeID) => {
-	const body =  {
+	const body = {
 		hikeID: hikeID,
 		referencePoint: {
 			name: point.name,
@@ -231,7 +256,7 @@ const addReferencePoint = async (point, hikeID) => {
 		await REST.UPDATE('POST', `${api}/referencePoints`, body, true);
 
 		return true;
-	} catch(e) {
+	} catch (e) {
 		console.error("Error in HikeAPI.js", e);
 		throw e;
 	}
@@ -329,6 +354,8 @@ const HikeAPI = {
 	deleteHike,
 	getHikeTrack,
 	addReferencePoint,
+	getImage,
+	addImage,
 	addStartPoint,
 	addEndPoint,
 	addHut,

@@ -28,8 +28,22 @@ class DBManager {
             db.get('SELECT COUNT(DISTINCT hikeID) as n FROM Hike', [], (err, row) => resolve(row.n))
         ).then(res => {
             db.run('DELETE FROM Hike');
-            for (let i = 1; i <= res; i++)
+            for (let i = 1; i <= res; i++){
                 unlink(path.resolve(__dirname + `/tracks/_${i}_.trk`), err => { });
+                unlink(path.resolve(__dirname + `/images/hikes/_${i}_.img`), err => { });
+            }
+        });
+    }
+
+    async deleteAllHuts() {
+        const db = this.#db;
+
+        return new Promise((resolve, reject) =>
+            db.get('SELECT COUNT(DISTINCT hutID) as n FROM Hut', [], (err, row) => resolve(row.n))
+        ).then(res => {
+            db.run('DELETE FROM Hut');
+            for (let i = 1; i <= res; i++)
+                unlink(path.resolve(__dirname + `/images/huts/_${i}_.img`), err => { });
         });
     }
 
@@ -39,14 +53,18 @@ class DBManager {
         return new Promise((resolve, reject) => {
             db.run("DELETE FROM USER WHERE 1=1;")
             db.run("DELETE FROM POINT WHERE 1=1;")
-            db.run("DELETE FROM HUT WHERE 1=1;")
             db.run("DELETE FROM PARKINGLOT WHERE 1=1;")
             db.run("DELETE FROM USER_STATS WHERE 1=1;")
             db.run("DELETE FROM HIKEREFERENCEPOINT WHERE 1=1;")
             db.run("DELETE FROM HIKELINKHUT WHERE 1=1;")
+            db.run("DELETE FROM USERHIKERECORDS WHERE 1=1;")
+
 
             resolve();
-        }).then(async () => await this.deleteAllHikes());
+        }).then(async () => {
+            await this.deleteAllHikes();
+            await this.deleteAllHuts();
+        });
     }
 
     // async restoreOriginalHikes() {

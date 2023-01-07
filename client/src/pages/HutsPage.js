@@ -34,23 +34,23 @@ export function HutsPage(props) {
 
 	const [modalFooterVisible, setModalFooterVisible] = useState(false);
 
-	const handleShowFilterModal = () => {
+	const handleShowFilterModal = function(){
 		setShowFilterForm(true);
 	};
 
-	const handleCloseFilterModal = () => {
+	let handleCloseFilterModal = function(){
 		setShowFilterForm(false);
 	};
 
-	const handleSubmit = () => {
+	let handleSubmit = function(){
 		setModalVisible(true);
 	};
 
-	const handleClose = () => {
+	const handleClose = function(){
 		setModalVisible(false);
 	};
 
-	const handleCreate = (givenHut) => {
+	const handleCreate = async function(givenHut){
 		let hut = {
 			name: givenHut.name,
 			description: givenHut.description,
@@ -68,20 +68,24 @@ export function HutsPage(props) {
 			email: givenHut.email,
 		};
 
-		PointAPI.createHut(hut)
-			.then(() => {
+		await PointAPI.createHut(hut)
+			.then((res) => {
 				setHuts([...huts, hut]);
 				setModalFooterVisible(false);
 				setModalVisible(false);
+
+				hut.pointID = res.pointID;
 			})
 			.catch((err) => {
 				console.error(err);
 				setModalFooterVisible(err);
 				setTimeout(() => setModalFooterVisible(false), 3000);
 			});
+
+		return hut.pointID;
 	};
 
-	const getAllHuts = async () => {
+	const getAllHuts = async function(){
 		await PointAPI.getAllHuts()
 			.catch((err) => {
 				console.error(err);
@@ -105,11 +109,12 @@ export function HutsPage(props) {
 	}, [huts.length]);
 
 	const insertButton = (
-		<Button variant="success" onClick={() => handleSubmit()}>
+		<Button variant="success" onClick={handleSubmit}>
 			<FontAwesomeIcon icon={faPlus} /> Register Hut
 		</Button>
 	);
 
+	let selectFilters = function(ev){setFilters({ ...filters, name: ev.target.value.trim() })}
 	return (
 		<>
 			{loading ? (
@@ -124,9 +129,7 @@ export function HutsPage(props) {
 									type="search"
 									placeholder="Search"
 									value={filters.name}
-									onChange={(ev) =>
-										setFilters({ ...filters, name: ev.target.value.trim() })
-									}
+									onChange={selectFilters}
 								/>
 								<Button onClick={handleShowFilterModal}>
 									<FontAwesomeIcon icon={faFilter} />

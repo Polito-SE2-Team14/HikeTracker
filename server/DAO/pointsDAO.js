@@ -6,7 +6,7 @@ const db = dbManager.getDB();
 
 exports.getAllPoints = () => new Promise((resolve, reject) => {
     const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
-                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname, description, altitude
                 FROM POINT P, USER U
                 WHERE U.userID = P.creatorID`;
 
@@ -18,7 +18,7 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
             return {
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
                 country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
-                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description, altitude: row.altitude
             }
         });
         resolve(points);
@@ -28,7 +28,7 @@ exports.getAllPoints = () => new Promise((resolve, reject) => {
 exports.getPoint = (pointID) => {
     return new Promise((resolve, reject) => {
         const sql = `SELECT pointID, P.name, latitude, longitude, province, municipality, country,
-                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname
+                address, pointType, creatorID, U.name AS creatorName,  U.surname AS creatorSurname, description, altitude
                 FROM POINT P, USER U
                 WHERE U.userID = P.creatorID 
                 AND pointID = ?`;
@@ -43,7 +43,7 @@ exports.getPoint = (pointID) => {
             else resolve({
                 pointID: row.pointID, name: row.name, latitude: row.latitude, province: row.province, municipality: row.municipality,
                 country: row.country, longitude: row.longitude, address: row.address, pointType: row.pointType, creatorID: row.creatorID,
-                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description
+                creatorName: row.creatorName, creatorSurname: row.creatorSurname, description: row.description, altitude: row.altitude
             });
         })
     });

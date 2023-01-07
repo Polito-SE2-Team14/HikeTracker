@@ -20,6 +20,12 @@ function PLotListTable(props) {
 		</div>
 	));
 
+	let selectFilters = function(ev){
+		props.setFilters({
+			...props.filters,
+			name: ev.target.value.trim(),
+			})
+		}
 	return (
 		<Row>
 			<Col lg={3} className="d-none d-xl-block">
@@ -38,12 +44,7 @@ function PLotListTable(props) {
 									type="search"
 									placeholder="Search"
 									value={props.filters.name}
-									onChange={(ev) =>
-										props.setFilters({
-											...props.filters,
-											name: ev.target.value.trim(),
-										})
-									}
+									onChange={selectFilters}
 								/>
 							</Row>
 							<Row className="mt-4">
@@ -70,18 +71,18 @@ function PLotListTable(props) {
 function PLotListItem(props) {
 	const [showModal, setShowModal] = useState(false);
 
-	const handleShowModal = () => {
+	let handleShowModal = function(){
 		setShowModal(true);
 	};
-	const handleHideModal = () => {
+	let handleHideModal = function(){
 		setShowModal(false);
 	};
-	const handleDeletePLot = (lot) => {
+	let handleDeletePLot = function(){
 		setShowModal(false);
-		ParkingLotAPI.deleteParkingLot(lot.pLotId)
+		ParkingLotAPI.deleteParkingLot(props.lot.pLotId)
 			.then(() => {
 				props.setLots((old) =>
-					old.filter((oldLot) => oldLot.pLotId !== lot.pLotId)
+					old.filter((oldLot) => oldLot.pLotId !== props.lot.pLotId)
 				);
 			})
 			.catch((err) => console.log(err));
@@ -91,8 +92,8 @@ function PLotListItem(props) {
 			<PLotModal
 				lot={props.lot}
 				show={showModal}
-				onHide={() => handleHideModal()}
-				onDelete={() => handleDeletePLot(props.lot)}
+				onHide={handleHideModal}
+				onDelete={handleDeletePLot}
 			/>
 			<Col className="mt-3">
 				<Card>

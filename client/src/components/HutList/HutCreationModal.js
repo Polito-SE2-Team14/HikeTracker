@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
 	Col,
 	Row,
@@ -10,15 +10,44 @@ import {
 import { PointSelectMap } from "../Maps/PointSelectMap";
 // import { CountryDropdown, MunicipalityDropdown, ProvinceDropdown } from "../Dropdowns"
 import { CountrySelect, MunicipalitySelect, ProvinceSelect } from "../CoMunProvSelect"
+import { ImageForm } from '../ImageForm';
+
+import PointAPI from "../../api/PointAPI";
 
 export function HutCreationModal(props) {
+	const [hutID, setHutID] = useState(null);
+	const [image, setImage] = useState(false);
+	const [show, setShow] = useState(false);
+
+	const handleCreate = useCallback(async hut => {
+		let newHut = await props.handleCreate(hut);
+
+		setHutID(newHut);
+	}, [props.show]);
+
+	useEffect(() => {
+		if (props.show && !image)
+			setShow(true);
+		else if (image) {
+			setShow(false);
+			setHutID(null);
+		}
+	}, [props.show, image]);
+
 	return (
-		<Modal show={props.show} onHide={props.onHide}>
+		<Modal show={show} onHide={props.onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>Hut Info</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				<HutCreationForm handleCreate={props.handleCreate} />
+				{!hutID ?
+					<HutCreationForm handleCreate={handleCreate} /> :
+					<ImageForm
+						id={hutID}
+						setImage={setImage}
+						API={PointAPI}
+					/>
+				}
 			</Modal.Body>
 			{props.footerVisible && (
 				<ModalFooter style={{ color: "red" }}>
@@ -43,7 +72,7 @@ function HutCreationForm(props) {
 	const [municipality, setMunicipality] = useState("");
 	const [bedspace, setBedspace] = useState(0);
 
-	const handleSubmit = (event) => {
+	const handleSubmit = function(event){
 		event.preventDefault();
 		props.handleCreate(
 			{
@@ -55,6 +84,20 @@ function HutCreationForm(props) {
 		);
 	};
 
+	let selectName=function(ev){setName(ev.target.value)}
+	let selectDescription=function(ev){setDescription(ev.target.value)}
+	let selectAltitude=function(ev){setAltitude(ev.target.value)}
+	let selectPoint=function(point){
+		setLatitude(point[0]);
+		setLongitude(point[1]);
+	}
+
+	let selectAddress =function(ev){setAddress(ev.target.value)}
+	let selectBedspace =function(ev){setBedspace(ev.target.value)}
+	let selectEmail =function(ev){setEmail(ev.target.value)}
+	let selectPhoneNumber =function(ev){setPhoneNumber(ev.target.value)}
+	let selectWebsite =function(ev){setWebsite(ev.target.value)}
+
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Row>
@@ -63,7 +106,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="text"
 						required={true}
-						onChange={(ev) => setName(ev.target.value)}
+						onChange={selectName}
 					/>
 				</Form.Group>
 			</Row>
@@ -73,7 +116,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="text"
 						required={true}
-						onChange={(ev) => setDescription(ev.target.value)}
+						onChange={selectDescription}
 					/>
 				</Form.Group>
 			</Row>
@@ -83,7 +126,7 @@ function HutCreationForm(props) {
 					<Form.Control
 						type="float"
 						required={true}
-						onChange={(ev) => setAltitude(ev.target.value)}
+						onChange={selectAltitude}
 					/>
 				</Form.Group>
 			</Row>
@@ -92,7 +135,7 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Latitude</Form.Label>
 						<Form.Control type="float" required={true}
-							onChange={(ev) => setLatitude(ev.target.value)}
+							onChange={function(ev){setLatitude(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col>
@@ -100,15 +143,12 @@ function HutCreationForm(props) {
 					<Form.Group className="mb-3">
 						<Form.Label>Longitude</Form.Label>
 						<Form.Control type="float" required={true}
-							onChange={(ev) => setLongitude(ev.target.value)}
+							onChange={function(ev){setLongitude(ev.target.value)}}
 						/>
 					</Form.Group>
 				</Col> */}
 				<PointSelectMap
-					onSetPoint={(point) => {
-						setLatitude(point[0]);
-						setLongitude(point[1]);
-					}}
+					onSetPoint={selectPoint}
 				/>
 			</Row>
 
@@ -147,7 +187,7 @@ function HutCreationForm(props) {
 				<Form.Control
 					type="text"
 					required={true}
-					onChange={(ev) => setAddress(ev.target.value)}
+					onChange={selectAddress}
 				/>
 			</Form.Group>
 			<Row>
@@ -157,7 +197,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="number"
 							required={true}
-							onChange={(ev) => setBedspace(ev.target.value)}
+							onChange={selectBedspace}
 						/>
 					</Form.Group>
 				</Col>
@@ -169,7 +209,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="email"
 							required={true}
-							onChange={(ev) => setEmail(ev.target.value)}
+							onChange={selectEmail}
 						/>
 					</Form.Group>
 				</Col>
@@ -181,7 +221,7 @@ function HutCreationForm(props) {
 						<Form.Control
 							type="number"
 							required={true}
-							onChange={(ev) => setPhoneNumber(ev.target.value)}
+							onChange={selectPhoneNumber}
 						/>
 					</Form.Group>
 				</Col>
@@ -190,7 +230,7 @@ function HutCreationForm(props) {
 						<Form.Label>Website (optional)</Form.Label>
 						<Form.Control
 							type="text"
-							onChange={(ev) => setWebsite(ev.target.value)}
+							onChange={selectWebsite}
 						/>
 					</Form.Group>
 				</Col>

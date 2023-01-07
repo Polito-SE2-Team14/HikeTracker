@@ -25,6 +25,7 @@ import {
 	faQuoteLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { HikeMap } from "../Maps/HikeMap";
+import { Loading } from "../Loading";
 
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
@@ -138,13 +139,28 @@ export function HikeModal(props) {
 }
 
 function InfoTab(props) {
+	const [image, setImage] = useState('');
+
 	let hike = props.hike;
 	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
+	let selectCustomDateTime = function(newValue){props.setCustomDateTime(newValue)}
+	let render=function(params){return(<TextField {...params} />)}
 	// console.log(props.userRecord);
+
+	useEffect(() => {
+		const getImage = async () => {
+			let newImage = await HikeAPI.getImage(props.hike.hikeID);
+
+			setImage(newImage);
+		};
+
+		getImage();
+	}, [props.hike.hikeID]);
+
 	return (
 		<Container>
 			<img
-				src="https://www.rei.com/dam/parrish_091412_0679_main_lg.jpg"
+				src={image}
 				className="img-fluid mt-4"
 				alt="..."
 			/>
@@ -199,16 +215,14 @@ function InfoTab(props) {
 			</Row>
 
 			{RoleManagement.isHiker(props.user) && props.thisHikeIsStarted &&
-				<Row className="text-center" style={{marginTop: '10px'}}>
+				<Row className="text-center" style={{ marginTop: '10px' }}>
 					<Col>
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
 							<DateTimePicker
 								label="Manual Clock"
-								renderInput={(params) => <TextField {...params} />}
+								renderInput={render}
 								value={props.customDateTime}
-								onChange={(newValue) => {
-									props.setCustomDateTime(newValue);
-								}}
+								onChange={selectCustomDateTime}
 								minDateTime={minDateTime}
 							/>
 						</LocalizationProvider>
@@ -266,12 +280,12 @@ function MapTab(props) {
 		// eslint-disable-next-line
 	}, [show]);
 
-	const onPointSelect = (coords) => {
+	let onPointSelect = function(coords){
 		setCoords(coords);
 		setShowForm(true);
 	};
 
-	const onPointDeselect = () => {
+	let onPointDeselect =function(){
 		getMarkers();
 		setShowForm(false);
 	};
@@ -341,7 +355,7 @@ function ReferencePointForm(props) {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 
-	const handleSubmit = (ev) => {
+	let handleSubmit = function(ev){
 		ev.preventDefault();
 
 		let referencePoint = {
@@ -359,7 +373,8 @@ function ReferencePointForm(props) {
 		HikeAPI.addReferencePoint(referencePoint, props.hike.hikeID);
 		props.onPointDeselect();
 	};
-
+	let selectName = function(ev){setName(ev.target.value)}
+	let selectDescription = function(ev){setDescription(ev.target.value)}
 	return (
 		<>
 			<Row className="mt-3">
@@ -371,7 +386,7 @@ function ReferencePointForm(props) {
 						<Form.Control
 							placeholder="Enter a name"
 							value={name}
-							onChange={(ev) => setName(ev.target.value)}
+							onChange={selectName}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -380,7 +395,7 @@ function ReferencePointForm(props) {
 							as="textarea"
 							placeholder="Enter a description"
 							value={description}
-							onChange={(ev) => setDescription(ev.target.value)}
+							onChange={selectDescription}
 						/>
 					</Form.Group>
 					<span className="d-flex justify-content-end mt-3">

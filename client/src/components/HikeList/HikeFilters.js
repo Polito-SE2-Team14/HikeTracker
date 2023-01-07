@@ -75,7 +75,7 @@ export function HikeFilters(props) {
 		timeInterval,
 	]);
 
-	function clearFilters() {
+	let clearFilters = function(){
 		props.setFilters({ ...props.filters, title: "" });
 		setArea({});
 		setCountry("");
@@ -90,6 +90,13 @@ export function HikeFilters(props) {
 		setTimeInterval([MIN_TIME_VALUE, MAX_TIME_VALUE]);
 	}
 
+	let setShowAreaMapTrue = function(){setShowAreaMap(true)}
+	let setShowAreaMapFalse = function(){setShowAreaMap(false)}
+	let selectArea = function(area){setArea(area)}
+	let selectBeginnerDifficulty=function(ev){setBeginnerDiff(ev.target.checked)}
+	let selectHikerDifficulty=function(ev){setHikerDiff(ev.target.checked)}
+	let selectProDifficulty = function(ev){setProDiff(ev.target.checked)}
+
 	return (
 		<Container>
 			<Form>
@@ -102,11 +109,11 @@ export function HikeFilters(props) {
 						</Col>
 						<Col className="text-end">
 							{showAreaMap ? (
-								<Button size="sm" onClick={() => setShowAreaMap(false)}>
+								<Button size="sm" onClick={setShowAreaMapFalse}>
 									Close
 								</Button>
 							) : (
-								<Button size="sm" onClick={() => setShowAreaMap(true)}>
+								<Button size="sm" onClick={setShowAreaMapTrue}>
 									Show map
 								</Button>
 							)}
@@ -116,9 +123,7 @@ export function HikeFilters(props) {
 						<>
 						<AreaSelectMap
 							hikes={props.hikes}
-							onSetArea={(area) => {
-								setArea(area);
-							}}
+							onSetArea={selectArea}
 						/>
 						<div className="text-muted mt-1">Distance is measured from starting point of the hike</div>
 						</>
@@ -155,27 +160,21 @@ export function HikeFilters(props) {
 							label="Tourist"
 							type="checkbox"
 							checked={beginnerDiff}
-							onChange={(ev) => {
-								setBeginnerDiff(ev.target.checked);
-							}}
+							onChange={selectBeginnerDifficulty}
 						/>
 						<Form.Check
 							inline
 							label="Hiker"
 							type="checkbox"
 							checked={hikerDiff}
-							onChange={(ev) => {
-								setHikerDiff(ev.target.checked);
-							}}
+							onChange={selectHikerDifficulty}
 						/>
 						<Form.Check
 							inline
 							label="Pro Hiker"
 							type="checkbox"
 							checked={proDiff}
-							onChange={(ev) => {
-								setProDiff(ev.target.checked);
-							}}
+							onChange={selectProDifficulty}
 						/>
 					</Form.Label>
 				</Form.Group>
@@ -239,6 +238,7 @@ export function HikeFilters(props) {
 }
 
 function FormSlider(props) {
+	let selectValue = function(ev){props.setValue(ev.target.value)}
 	return (
 		<Slider
 			valueLabelDisplay="auto"
@@ -246,9 +246,7 @@ function FormSlider(props) {
 			min={props.min}
 			max={props.max}
 			step={props.step ? props.step : 1}
-			onChange={(ev) => {
-				props.setValue(ev.target.value);
-			}}
+			onChange={selectValue}
 		/>
 	);
 }

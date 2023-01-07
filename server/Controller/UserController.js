@@ -37,7 +37,7 @@ exports.register = async (newUser, verified, approved) => {
 		approved = true;
 	}
 	const user = await userDAO.Register(newUser, token, verified, approved)
-		.catch(err => { console.error(err); throw err });
+		.catch(err => { throw err });
 
 
 	//EMAIL VERIFICATION
@@ -48,7 +48,6 @@ exports.register = async (newUser, verified, approved) => {
 
 }
 
-//TODO test this function
 exports.sendVerificationEmail = async (token, userEmail) => {
 	//EMAIL VERIFICATION
 
@@ -63,7 +62,7 @@ exports.sendVerificationEmail = async (token, userEmail) => {
 	});
 
 	// send mail with defined transport object
-	let info = await transporter.sendMail({
+	await transporter.sendMail({
 		from: nodemailerConfig.user, // sender address
 		to: userEmail, // list of receivers
 		subject: "HIKEfive Verification Email", // Subject line
@@ -127,7 +126,6 @@ exports.unApprove = async (userID) => {
 	}
 }
 
-//TODO test this function
 exports.resendVerificationEmail = async (token) => {
 	try {
 		let user = await userDAO.getUserByToken(token);
@@ -171,14 +169,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxTime")
 		throw Error("Invalid maxTime")
 	}
-	// if (isNullOrWrongType(userStats.totalTime, "number")) {
-	// 	console.error("Invalid totalTime")
-	// 	throw Error("Invalid totalTime")
-	// // }
-	// if (isNullOrWrongType(userStats.averageTime, "number")) {
-	// 	console.error("Invalid averageTime")
-	// 	throw Error("Invalid averageTime")
-	// }
 	if (isNullOrWrongType(userStats.minDistance, "number")) {
 		console.error("Invalid minDistance")
 		throw Error("Invalid minDistance")
@@ -187,14 +177,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxDistance")
 		throw Error("Invalid maxDistance")
 	}
-	// if (isNullOrWrongType(userStats.totalDistance, "number")) {
-	// 	console.error("Invalid totalDistance")
-	// 	throw Error("Invalid totalDistance")
-	// }
-	// if (isNullOrWrongType(userStats.averageDistance, "number")) {
-	// 	console.error("Invalid averageDistance")
-	// 	throw Error("Invalid averageDistance")
-	// }
 	if (isNullOrWrongType(userStats.minAscent, "number")) {
 		console.error("Invalid minAscent")
 		throw Error("Invalid minAscent")
@@ -203,10 +185,6 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid maxAscent")
 		throw Error("Invalid maxAscent")
 	}
-	// if (isNullOrWrongType(userStats.averageAscent, "number")) {
-	// 	console.error("Invalid averageAscent")
-	// 	throw Error("Invalid averageAscent")
-	// }
 
 	let addedStats
 	await userDAO.addUserStats(userStats)

@@ -47,7 +47,7 @@ function App() {
 		checkAuth();
 	}, [loggedIn]);
 
-	const handleLogin = async (credentials) => {
+	const handleLogin = async function (credentials){
 		try {
 			const currentUser = await userAPI.logIn(credentials);
 			console.log(currentUser);

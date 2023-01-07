@@ -74,9 +74,37 @@ const createHut = async (hut) => {
 	try {
 		console.log(hut);
 		let response = await REST.UPDATE("POST", `${hutsApi}`, hut);
+		let hutJson = await response.json();
+
 		if (!response.status) throw Error();
+		else return hutJson;
 	} catch (err) {
 		console.error("Error in PointAPI.js", err);
+		throw err;
+	}
+};
+
+const getImage = async (hutID) => {
+	try {
+		let response = await REST.GET(`${hutsApi}/${hutID}/image`);
+		let image = await response.json();
+
+		return image.image;
+	} catch (err) {
+		console.error(err);
+		throw err;
+	}
+};
+
+const addImage = async (hutID, image) => {
+	let body = { image: image };
+
+	try {
+		await REST.UPDATE('POST', `${hutsApi}/${hutID}/image`, body, true);
+
+		return true;
+	} catch (err) {
+		console.error(err);
 		throw err;
 	}
 };
@@ -91,5 +119,5 @@ const deleteHut = async (hutID) => {
 	}
 };
 
-const PointAPI = { getAllPoints, getPoint, getAllHuts, createHut, deleteHut };
+const PointAPI = { getAllPoints, getPoint, getAllHuts, createHut, getImage, addImage, deleteHut };
 export default PointAPI;

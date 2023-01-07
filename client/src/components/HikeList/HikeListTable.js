@@ -28,14 +28,14 @@ function HikeListTable(props) {
 	const [trackInProgress, setTrackInProgress] = useState(undefined);
 	const [markers, setMarkers] = useState({});
 
-	const handleShowEditForm = (hike) => {
+	let handleShowEditForm = (hike) => {
 		props.setSelectedHike(hike);
 		props.showHikeForm();
 	};
 
 	const [customDateTime, setCustomDateTime] = useState(dayjs());
 
-	const handleStopHike = async () => {
+	let handleStopHike = async function() {
 		let record = props.userHikeRecord;
 		record.endDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
 		await HikeRecordsAPI.updateRecord(record)
@@ -112,6 +112,14 @@ function HikeListTable(props) {
 		});
 	};
 
+	let selectFilters=function(ev){
+		props.setFilters({
+			...props.filters,
+			title: ev.target.value.trim(),
+		})
+	}
+	let applyPrefs=function(){props.applyPreferences()}
+	let stop = function(){handleStopHike()}
 	return (
 		<Row>
 			{!props.suggested && (
@@ -125,9 +133,7 @@ function HikeListTable(props) {
 						<Row>
 							<Button
 								className="mb-3"
-								onClick={() => {
-									props.applyPreferences();
-								}}
+								onClick={applyPrefs}
 							>
 								I'm feeling adventurous!
 							</Button>
@@ -144,12 +150,7 @@ function HikeListTable(props) {
 									type="search"
 									placeholder="Search"
 									value={props.filters.title}
-									onChange={(ev) =>
-										props.setFilters({
-											...props.filters,
-											title: ev.target.value.trim(),
-										})
-									}
+									onChange={selectFilters}
 								/>
 								<hr />
 								<HikeFilters
@@ -184,7 +185,7 @@ function HikeListTable(props) {
 								<Row>
 									<Col>Hike in progress</Col>
 									<Col className="text-end">
-										<Button size="sm" variant="danger" onClick={() => handleStopHike()}>
+										<Button size="sm" variant="danger" onClick={stop}>
 											Terminate hike
 										</Button>
 									</Col>
@@ -209,7 +210,7 @@ function HikeListTable(props) {
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
 
-	const handleStartHike = async () => {
+	let handleStartHike = async function (){
 		// setShowHikeModal(false);
 		await HikeRecordsAPI.addNewRecord({
 			userID: props.user.userID,

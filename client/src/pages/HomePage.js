@@ -22,7 +22,7 @@ export function HomePage(props) {
 
 function CatchPhrase() {
 	return (
-		<div style={{fontSize:"4rem"}}>
+		<div style={{ fontSize: "4rem" }}>
 			<Row>
 				<span>
 					Your <span className="fw-bold">BEST COMPANION</span> for
@@ -89,9 +89,10 @@ function NavCardList() {
 function NavCard(props) {
 	let navigate = useNavigate();
 
+	let navigateSlash = function(){navigate(`/${props.page}`)}
 	return (
 		<Card className="mb-3 mt-4">
-			<CardActionArea onClick={() => navigate(`/${props.page}`)}>
+			<CardActionArea onClick={navigateSlash}>
 				<CardMedia component="img" height="240" image={props.image} />
 				<CardContent>
 					<Typography gutterBottom align="center" variant="h4" component="div">

@@ -4,7 +4,6 @@ import { LocationMap } from "../Maps/LocationMap";
 import {
 	faXmark,
 	faTrashCan,
-	faBed,
 	faMap,
 	faCity,
 	faCar,

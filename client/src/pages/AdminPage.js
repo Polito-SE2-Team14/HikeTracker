@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -12,7 +12,7 @@ export function AdminPage() {
 	const [hutWorkers, setHutWorkers] = useState([]);
 	const [localGuides, setLocalGuides] = useState([]);
 
-	const getAllHutWorkers = async () => {
+	let getAllHutWorkers = async function (){
 		let users;
 		await UserAPI.getAllHutWorkers()
 			.then(u => {
@@ -23,7 +23,7 @@ export function AdminPage() {
 			.catch((error) => { console.log(error); })
 	};
 
-	const getAllLocalGuides = async () => {
+	let getAllLocalGuides = async function (){
 		let users;
 		await UserAPI.getAllLocalGuides()
 			.then(u => {
@@ -42,6 +42,7 @@ export function AdminPage() {
 		getAllLocalGuides();
 	}, [localGuides.length]);
 
+	let selectTabKey = function(k){setTabKey(k)}
 	return (
 		<>
 			{loading ? (
@@ -52,7 +53,7 @@ export function AdminPage() {
 					<Tabs
 						id="controlled-tab-example"
 						activeKey={tabKey}
-						onSelect={(k) => setTabKey(k)}
+						onSelect={selectTabKey}
 						className="mb-3"
 					>
 						<Tab eventKey="hut-worker" title="HutWorkers">
