@@ -84,7 +84,9 @@ function CompletedHikesList(props) {
 	useEffect(() => {
 		HikeRecordsAPI.getHikeRecordsForUser(props.user.userID).then((list) => {
 			console.log(list);
-		});
+		})});
+
+	
 
 	const [minDistance, setMinDistance] = useState(
 		props.stats.minDistance ? props.stats.minDistance : 0
@@ -312,6 +314,7 @@ function CompletedHikesList(props) {
 		</Modal>
 	);
 }
+
 
 function UserDashboard(props) {
 	// console.log(props.stats)
