@@ -53,7 +53,6 @@ function checkPath(relativePath) {
 
 exports.readResizeCropSave = async (sourcePath, id, type) => {
 	let src = path.resolve(__dirname + '/../' + sourcePath);
-
 	try {
 		const image = await Jimp.read(src)
 
