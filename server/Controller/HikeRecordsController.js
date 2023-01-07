@@ -5,7 +5,7 @@ const dayjs = require("dayjs")
 //get all the records
 exports.getRecords = async (userID) => {
 
-    if (typeof record.userID !== "number")
+    if (isNaN(userID))
         throw new Error("invalid userID");
 
     const records = await hikeRecordsDAO.getRecords(userID)
@@ -20,9 +20,9 @@ exports.getRecordByStatusOpen = async (userID) => {
 //add a new record
 exports.addNewRecord = async (record) => {
 
-    if (typeof record.userID !== "number")
+    if (isNaN(record.userID))
         throw new Error("invalid userID");
-    if (typeof record.hikeID !== "number")
+    if (isNaN(record.hikeID))
         throw new Error("invalid hikeID");
     if (!dayjs(record.startDate).isValid())
         throw new Error("invalid startDate");
@@ -36,9 +36,9 @@ exports.addNewRecord = async (record) => {
 //edit a record
 exports.editRecord = async (record) => {
 
-    if (typeof record.userID !== "number")
+    if (isNaN(record.userID))
         throw new Error("invalid userID");
-    if (typeof record.hikeID !== "number")
+    if (isNaN(record.hikeID))
         throw new Error("invalid hikeID");
     if (!dayjs(record.startDate).isValid())
         throw new Error("invalid startDate");
