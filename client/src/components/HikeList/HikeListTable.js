@@ -21,6 +21,10 @@ import RoleManagement from "../../class/RoleManagement";
 
 import { timeText } from "../HikeData";
 import { HikeMap } from "../Maps/HikeMap";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TextField } from "@mui/material";
 const dayjs = require("dayjs");
 
 function HikeListTable(props) {
@@ -34,10 +38,13 @@ function HikeListTable(props) {
 	};
 
 	const [customDateTime, setCustomDateTime] = useState(dayjs());
+	let selectCustomDateTime = function(newValue){setCustomDateTime(newValue)}
+	let render=function(params){return(<TextField {...params} />)}
+	let minDateTime = props.userRecord && props.userRecord.length > 0 ? dayjs(props.userRecord[0].startDate) : dayjs();
 
-	let handleStopHike = async function() {
+	let handleStopHike = async function () {
 		let record = props.userHikeRecord;
-		record.endDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
+		record.endDate = dayjs(customDateTime).format("YYYY-MM-DD HH:mm:ss");
 		await HikeRecordsAPI.updateRecord(record)
 			.then(() => {
 				props.setUserHikeRecord(undefined);
@@ -81,6 +88,7 @@ function HikeListTable(props) {
 		});
 
 		HikeAPI.getHikeTrack(props.userHikeRecord.hikeID).then((track) => {
+			console.log(track);
 			setTrackInProgress(track);
 		});
 	}, [props.userHikeRecord]);
@@ -112,14 +120,14 @@ function HikeListTable(props) {
 		});
 	};
 
-	let selectFilters=function(ev){
+	let selectFilters = function (ev) {
 		props.setFilters({
 			...props.filters,
 			title: ev.target.value.trim(),
 		})
 	}
-	let applyPrefs=function(){props.applyPreferences()}
-	let stop = function(){handleStopHike()}
+	let applyPrefs = function () { props.applyPreferences() }
+	let stop = function () { handleStopHike() }
 	return (
 		<Row>
 			{!props.suggested && (
@@ -179,6 +187,21 @@ function HikeListTable(props) {
 									/>
 									<Row className="text-muted mt-1">Start time</Row>
 									<Row>{props.userHikeRecord.startDate}</Row>
+									{RoleManagement.isHiker(props.user) && props.userHikeRecord && props.userHikeRecord.hikeID == hikeInProgress.hikeID &&
+										<Row className="text-center" style={{ marginTop: '10px' }}>
+											<Col>
+												<LocalizationProvider dateAdapter={AdapterDayjs}>
+													<DateTimePicker
+														label="Manual Clock"
+														renderInput={render}
+														value={customDateTime}
+														onChange={selectCustomDateTime}
+														minDateTime={minDateTime}
+													/>
+												</LocalizationProvider>
+											</Col>
+										</Row>
+									}
 								</Container>
 							</Card.Body>
 							<Card.Footer>
@@ -192,12 +215,12 @@ function HikeListTable(props) {
 								</Row>
 							</Card.Footer>
 						</Card>
-						
+
 					</>
 				) : <Row className="text-center mt-5">
 					<Col>
-					Choose your next adventure and hit the Start button!</Col>
-					</Row>}
+						Choose your next adventure and hit the Start button!</Col>
+				</Row>}
 				<hr />
 				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
 					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
@@ -210,8 +233,7 @@ function HikeListTable(props) {
 function HikeListItem(props) {
 	const [showHikeModal, setShowHikeModal] = useState(false);
 
-	let handleStartHike = async function (){
-		// setShowHikeModal(false);
+	let handleStartHike = async function () {
 		await HikeRecordsAPI.addNewRecord({
 			userID: props.user.userID,
 			hikeID: props.hike.hikeID,
