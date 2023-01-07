@@ -5,10 +5,6 @@ import PointAPI from "../../api/PointAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faMountain,
-	faPersonWalking,
-	faFlag,
-	faClock,
 	faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -19,12 +15,12 @@ import { HikeFilters } from "./HikeFilters";
 import "../../styles/HikeListTable.css";
 import RoleManagement from "../../class/RoleManagement";
 
-import { timeText } from "../HikeData";
 import { HikeMap } from "../Maps/HikeMap";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TextField } from "@mui/material";
+import { HikeStats } from "./HikeStats";
 const dayjs = require("dayjs");
 
 function HikeListTable(props) {
@@ -312,32 +308,6 @@ function HikeListItem(props) {
 					</Card.Body>
 				</Card>
 			</Col>
-		</>
-	);
-}
-
-function HikeStats(props) {
-	return (
-		<>
-			<Row>
-				<Col>
-					<FontAwesomeIcon icon={faPersonWalking} />{" "}
-					{(props.hike.length / 1000).toFixed(2)}
-					{" Km"}
-				</Col>
-				<Col>
-					<FontAwesomeIcon icon={faMountain} /> {props.hike.ascent}
-					{" m"}
-				</Col>
-			</Row>
-			<Row className="bottom-row">
-				<Col>
-					<FontAwesomeIcon icon={faFlag} /> {props.hike.difficulty}
-				</Col>
-				<Col>
-					<FontAwesomeIcon icon={faClock} /> {timeText(props.hike.expectedTime)}
-				</Col>
-			</Row>
 		</>
 	);
 }

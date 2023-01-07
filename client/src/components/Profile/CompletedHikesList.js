@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMountain, faPersonWalking, faFlag, faClock, faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
 import { Loading } from "../Loading";
 import { HikeMap } from "../Maps/HikeMap";
+
+import { timeText } from "../HikeData";
 
 export function CompletedHikesList(props) {
 	let [hikeRecordList, setHikeRecordList] = useState([]);
@@ -49,20 +53,53 @@ export function CompletedHikesList(props) {
 	return loading ? (
 		<Loading />
 	) : (
+		<HikeInfoList user={props.user} hikeRecordList={hikeRecordList} />
+	);
+}
+
+function HikeInfoList(props) {
+	return props.hikeRecordList.length === 0 ? (
+		<Row className="text-secondary mt-5">
+			No activity recorded: take your mountain boots and go somewhere!{" "}
+		</Row>
+	) : (
 		<ListGroup variant="flush" className="mt-2">
-			{hikeRecordList.map((hikeRecord) => (
+			{props.hikeRecordList.map((hikeRecord) => (
 				<ListGroup.Item key={hikeRecord.hikeID}>
 					<h3>{hikeRecord.title}</h3>
 					<Row>
-						<Col xs={3}>
-						<HikeMap height="280px" track={hikeRecord.track} markers={{}} user={props.user}/>
+						<Col md={12} lg={6}>
+							<HikeMap
+								track={hikeRecord.track}
+								markers={{}}
+								user={props.user}
+							/>
+							<span className="text-muted">{`${hikeRecord.municipality} (${hikeRecord.province}, ${hikeRecord.country})`}</span>
 						</Col>
 						<Col>
-						less go baby <br/>
-						remember responsiveness <br/>
-						all the stats available <br/>
-						start time and duration of each time <br/>
-						Completed times = {hikeRecord.dates.length}
+							<Row className="mt-3">
+								<Col>
+									<FontAwesomeIcon icon={faPersonWalking} />{" Distance: "}
+									{(hikeRecord.length / 1000).toFixed(2)}
+									{" Km"}
+								</Col>
+								<Col>
+									<FontAwesomeIcon icon={faMountain} /> Ascent: {hikeRecord.ascent}
+									{" m"}
+								</Col>
+							</Row>
+							<Row>
+								<Col>
+									<FontAwesomeIcon icon={faFlag} /> Difficulty: {hikeRecord.difficulty}
+								</Col>
+								<Col>
+									<FontAwesomeIcon icon={faClock} /> Expected time: {timeText(hikeRecord.expectedTime)}
+								</Col>
+							</Row>
+							<hr />
+							<FontAwesomeIcon icon={faFlagCheckered} /> Completed {hikeRecord.dates.length} time(s)
+							<br/> - Start time: duration
+							<br/> - Start time: duration
 						</Col>
 					</Row>
 				</ListGroup.Item>
