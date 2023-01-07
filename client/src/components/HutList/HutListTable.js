@@ -17,8 +17,8 @@ import RoleManagement from "../../class/RoleManagement";
 import "../../styles/HutListTable.css"
 
 export function HutListTable(props) {
-	let shownHuts = props.shownHuts.map((hut, i) => (
-		<Col key={i}>
+	let shownHuts = props.shownHuts.map((hut) => (
+		<Col key={hut.pointID}>
 			<HutListItem user={props.user} hut={hut} setHuts={props.setHuts} />
 		</Col>
 	));

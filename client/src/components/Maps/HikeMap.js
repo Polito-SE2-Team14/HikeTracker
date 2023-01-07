@@ -1,6 +1,6 @@
 import {
 	MapContainer,
-	TileLayer, useMapEvents
+	TileLayer
 } from "react-leaflet";
 import { PointMarker, HikePath, TrackMarker } from "./MapElements";
 import { useMemo, useState } from "react";
@@ -54,13 +54,13 @@ export function HikeMap(props) {
 						<TrackMarker position={track[track.length - 1]} />
 					)}
 					{props.markers.referencePoints && props.markers.referencePoints.length > 0
-						? props.markers.referencePoints.map((p, i) => (
-							<PointMarker key={i} point={p} />
+						? props.markers.referencePoints.map((p) => (
+							<PointMarker key={p.pointID} point={p} />
 						))
 						: false}
 					{props.markers.linkedHuts && props.markers.linkedHuts.length > 0
-						&& props.markers.linkedHuts.map((p, i) => (
-							<PointMarker key={i} point={p} />
+						&& props.markers.linkedHuts.map((p) => (
+							<PointMarker key={p.pointID} point={p} />
 						))}
 					<HikePath
 						positions={track}

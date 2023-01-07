@@ -201,14 +201,6 @@ export function HikesPage(props) {
 		updateFilters();
 	}, [filters, hikes]);
 
-	function InsertHikeButton() {
-		return (
-			<Button variant="success" onClick={handleShowHikeForm}>
-				<FontAwesomeIcon icon={faPlus} /> Insert Hike
-			</Button>
-		);
-	}
-
 	let selectFilters = function(ev){setFilters({ ...filters, title: ev.target.value.trim() })}
 	let showFilterFormTrue = function(){setshowFilterForm(true)}
 
@@ -280,7 +272,7 @@ export function HikesPage(props) {
 						setFilters={setFilters}
 						selectedHike={selectedHike}
 						setSelectedHike={setSelectedHike}
-						insertButton={<InsertHikeButton />}
+						insertButton={<InsertHikeButton handleShowHikeForm={handleShowHikeForm}/>}
 						showHikeForm={handleShowHikeForm}
 						user={props.user}
 						applyPreferences={applyPreferences}
@@ -288,5 +280,13 @@ export function HikesPage(props) {
 				</Container>
 			)}
 		</>
+	);
+}
+
+function InsertHikeButton(props) {
+	return (
+		<Button variant="success" onClick={props.handleShowHikeForm}>
+			<FontAwesomeIcon icon={faPlus} /> Insert Hike
+		</Button>
 	);
 }
