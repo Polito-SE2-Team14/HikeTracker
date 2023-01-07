@@ -1,4 +1,4 @@
-var Jimp = require('jimp');
+const Jimp = require('jimp');
 const path = require('path');
 const { writeFileSync, unlink, readFileSync, existsSync } = require("fs");
 
