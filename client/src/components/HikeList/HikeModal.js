@@ -319,14 +319,14 @@ function MapTab(props) {
 					<ListGroup variant="flush">
 						<h5>Reference points</h5>
 						{props.markers.referencePoints.map((p, i) => {
-							return <ReferencePointInfo key={i} point={p} />;
+							return <ReferencePointInfo key={p.name} point={p} />;
 						})}
 					</ListGroup>
 				</Col>
 				<Col>
 					<h5>Huts</h5>
 					{props.markers.linkedHuts.map((p, i) => {
-						return <ReferencePointInfo key={i} point={p} />;
+						return <ReferencePointInfo key={p.name} point={p} />;
 					})}
 				</Col>
 			</Row>

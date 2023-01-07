@@ -11,7 +11,6 @@ exports.getImage = function (id, type) {
 		} catch (err) {
 			throw Error(err)
 		}
-	return [];
 }
 
 /**

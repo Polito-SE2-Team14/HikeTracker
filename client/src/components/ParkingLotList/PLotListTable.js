@@ -15,7 +15,7 @@ import { EmptySearch } from "../EmptySearch";
 
 function PLotListTable(props) {
 	let shownParkingLots = props.shownParkingLots.map((lot, i) => (
-		<div key={i}>
+		<div key={lot.name}>
 			<PLotListItem lot={lot} setLots={props.setLots} />
 		</div>
 	));

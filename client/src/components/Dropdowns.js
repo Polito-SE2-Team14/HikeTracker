@@ -54,7 +54,7 @@ export function ProvinceDropdown(props){
 					{provinces.map(function(p,i){
 						let selectProvince=function(ev){props.setProvince(p.name)}
 						return(
-							<Dropdown.Item key={i} href="#" onClick={selectProvince}>
+							<Dropdown.Item key={p.name} href="#" onClick={selectProvince}>
 								{p.name}
 							</Dropdown.Item>
 							)
@@ -84,7 +84,7 @@ export function CountryDropdown(props){
 					{allCountries.map(function(c,i){
 						let selectCountry=function(ev){props.setCountry(c)}
 						return(
-						<Dropdown.Item key={i} href="#" onClick={selectCountry}>
+						<Dropdown.Item key={c} href="#" onClick={selectCountry}>
 							{c}
 						</Dropdown.Item>
 						)
