@@ -22,6 +22,8 @@ export function CompletedHikesList(props) {
 
 			setRecordMap(tempRecordMap);
 			console.log(tempRecordMap);
+
+			
 		});
 	}, []);
 	
