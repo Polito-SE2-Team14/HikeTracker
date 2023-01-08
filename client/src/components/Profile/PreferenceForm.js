@@ -18,9 +18,13 @@ import UserAPI from "../../api/UserAPI";
 import { CountrySelect, ProvinceSelect } from "../CoMunProvSelect";
 
 export function PreferenceForm(props) {
-	const [completedHikes, setCompletedHikes] = useState(
+
+	console.log(props.stats)
+
+	/* const [completedHikes, setCompletedHikes] = useState(
 		props.stats.completedHikes ? props.stats.completedHikes : 0
-	);
+	); */
+
 	const [favouriteDifficulty, setFavoriteDifficulty] = useState(
 		props.stats.favouriteDifficulty ? props.stats.favouriteDifficulty : ""
 	);
@@ -53,12 +57,15 @@ export function PreferenceForm(props) {
 		props.stats.maxTime ? props.stats.maxTime : 0
 	);
 
+	console.log("maxTime", maxTime)
+
+
 	const handleSubmit = (ev) => {
 		ev.preventDefault();
 
 		let stats = {
 			userID: props.user.userID,
-			completedHikes: completedHikes,
+			//completedHikes: completedHikes,
 			favouriteDifficulty: favouriteDifficulty,
 			favouriteCountry: favouriteCountry,
 			favouriteProvince: favouriteProvince,
@@ -87,13 +94,13 @@ export function PreferenceForm(props) {
 				<Form>
 					<Form.Group>
 						<Row>
-							<Col>
+							{/* <Col>
 								<Form.Label>Completed Hikes</Form.Label>
 								<Form.Control
 									type="number"
 									value={completedHikes}
 									onChange={(ev) => setCompletedHikes(ev.target.value)} />
-							</Col>
+							</Col> */}
 							<Col
 								xs={2}
 								className="d-flex align-items-center justify-content-center"

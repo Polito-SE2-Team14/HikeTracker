@@ -158,10 +158,10 @@ exports.addUserStats = async (userStats) => {
 		console.error("Invalid userID")
 		throw Error("Invalid userID")
 	}
-	if (isNullOrWrongType(userStats.completedHikes, "number")) {
+	/* if (isNullOrWrongType(userStats.completedHikes, "number")) {
 		console.error("Invalid completedHikes")
 		throw Error("Invalid completedHikes")
-	}
+	} */
 	if (isNullOrWrongType(userStats.minTime, "number")) {
 		console.error("Invalid minTime")
 		throw Error("Invalid minTime")

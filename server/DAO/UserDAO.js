@@ -319,13 +319,15 @@ exports.updateUserStats = (userID, newUserStats) => {
 				
 				let sqlUpdate =
 					`UPDATE USER_STATS SET 
-				COMPLETEDHIKES = ?,FAVOURITEDIFFICULTY = ?,MINTIME = ?,
+				FAVOURITEDIFFICULTY = ?,MINTIME = ?,
 				MAXTIME = ?,TOTALTIME = ?,AVERAGETIME = ?,
 				MINDISTANCE = ?,MAXDISTANCE = ?,TOTALDISTANCE = ?,
 				AVERAGEDISTANCE = ?,FAVOURITECOUNTRY = ?,FAVOURITEPROVINCE = ?,
 				MINASCENT = ?,	MAXASCENT = ?,	AVERAGEASCENT = ?
 				WHERE userID = ?`
-				db.run(sqlUpdate, [newUserStats.completedHikes, newUserStats.favouriteDifficulty,
+				db.run(sqlUpdate, [
+					//newUserStats.completedHikes,
+					newUserStats.favouriteDifficulty,
 				newUserStats.minDistance, newUserStats.maxDistance, newUserStats.totalTime,
 				newUserStats.averageTime, newUserStats.minDistance, newUserStats.maxDistance,
 				newUserStats.totalDistance, newUserStats.averageDistance, newUserStats.favouriteCountry,

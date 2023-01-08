@@ -68,13 +68,15 @@ export function HutsPage(props) {
 			email: givenHut.email,
 		};
 
-		await PointAPI.createHut(hut)
+		hut.pointID = await PointAPI.createHut(hut)
 			.then((res) => {
-				hut.pointID = res.pointID;
+				//hut.pointID = res.pointID;
 
 				setHuts(old => [...old, hut]);
 				setModalFooterVisible(false);
 				setModalVisible(false);
+
+				return res.pointID;
 			})
 			.catch((err) => {
 				console.error(err);
