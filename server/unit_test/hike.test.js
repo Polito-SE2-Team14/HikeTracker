@@ -46,6 +46,8 @@ describe('Hike Tests', () => {
 			await hikeController.addHike(hike)
 				.catch(err => newErr = err)
 
+			expect(newErr).toBeUndefined()
+
 			let createdHike
 			await hikeController.getAllHikes()
 				.then(h => createdHike = h[0])
@@ -410,13 +412,14 @@ describe('Hike Tests', () => {
 			await hikeController.deleteHike(12)
 				.catch(err => newErr = err);
 
+			expect(newErr).not.toBeUndefined()
+
 			let hikes = await getHikes();
 
 			expect(hikes.length).toBe(1);
 		});
 
 		test('Delete existing hike', async () => {
-			let newErr;
 
 			let addedHike = await newHikeForTest();
 			await newHikeForTest(addedHike.creatorID);
@@ -424,9 +427,10 @@ describe('Hike Tests', () => {
 			await hikeController.deleteHike(addedHike.hikeID)
 				.catch(err => newErr = err);
 
+			expect(newErr).not.toBeUndefined()
+
 			let hikes = await getHikes();
 
-			// expect(newErr).toBeUndefined();
 			expect(hikes.length).toBe(1);
 		});
 	});
@@ -714,6 +718,9 @@ async function newHikeForTest(userID = null) {
 
 	let addedHike = await hikeController.addHike(newHike)
 		.catch(err => newErr = err)
+
+	expect(newErr).toBeUndefined()
+
 
 	let hikeComplete = await hikeController.getHike(addedHike.hikeID);
 

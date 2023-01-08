@@ -29,7 +29,7 @@ import { HikeMap } from "../Maps/HikeMap";
 import HikeAPI from "../../api/HikeAPI";
 import PointAPI from "../../api/PointAPI";
 import RoleManagement from "../../class/RoleManagement";
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 // import DateTimePicker from 'react-datetime-picker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'

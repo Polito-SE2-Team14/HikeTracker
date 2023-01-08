@@ -13,7 +13,6 @@ exports.getParkingLotById = async (id) => {
 	return parkingLot;
 }
 
-//TODO test this function
 exports.parkingLotExists = async (pLotId) => {
 	const exists = await pLotDAO.parkingLotExists(pLotId)
 

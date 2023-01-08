@@ -1,14 +1,12 @@
 const pointsDAO = require("../DAO/pointsDAO");
 const hutDAO = require("../DAO/hutDAO")
 
-//TODO test this function
 exports.getHuts = async () => {
 	const huts = await hutDAO.getHuts()
 
 	return huts;
 }
 
-//TODO test this function
 exports.getHutImage = async (hikeID) => {
 	const image = hutDAO.getHutImage(hikeID);
 	return { image: image };
@@ -98,7 +96,6 @@ exports.updateHut = async (hut) => {
 	await hutDAO.updateHut(hut)
 }
 
-//TODO test this function
 exports.deleteHut = async (pointID) => {
 	await hutDAO.deleteHut(pointID)
 
