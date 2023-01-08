@@ -329,25 +329,6 @@ describe('Hike Tests', () => {
 			expect(newErr).not.toBe(undefined)
 			expect(newHike).toBeUndefined();
 		})
-
-		// test("Invalid track", async () => {
-		// 	let newErr
-		// 	let hike = {
-		// 		title: "Title", length: 10, expectedTime: 10, ascent: 10,
-		// 		difficulty: 'Tourist', description: "Description",
-		// 		country: 'Italy', municipality: "Torino", province: "Torino",
-		// 		creatorID: 4,
-		//		track: 'invalid'
-		// 	}
-		// 	await hikeController.addHike(hike)
-		// 		.catch(err => newErr = err)
-
-		// 	let newHike = await getHike(1);
-
-		// 	expect(newErr).not.toBe(null)
-		// 	expect(newErr).not.toBe(undefined)
-		// 	expect(newHike).toBeUndefined();
-		// })
 	})
 
 	describe("Getting hikes", () => {
@@ -712,7 +693,7 @@ async function newHikeForTest(userID = null) {
 	let addedUserID;
 	if (userID == null) {
 		await userController.register({
-			name: generateString(5), surname: generateString(5), email: generateString(8) + '@ex.com', phoneNumber: '2222222222',
+			name: crypto.randomBytes(5).toString("hex"), surname: crypto.randomBytes(5).toString("hex"), email: crypto.randomBytes(8).toString("hex") + '@ex.com', phoneNumber: '2222222222',
 			type: "localGuide", password: crypto.randomBytes(16).toString("hex")
 		}, 1, 1)
 			.then(u => {
@@ -726,8 +707,8 @@ async function newHikeForTest(userID = null) {
 	}
 
 	let newHike = {
-		title: generateString(5), length: 10, expectedTime: 10, ascent: 10,
-		difficulty: 'Tourist', description: generateString(25),
+		title: crypto.randomBytes(5).toString("hex"), length: 10, expectedTime: 10, ascent: 10,
+		difficulty: 'Tourist', description: crypto.randomBytes(25).toString("hex"),
 		country: 'Italy', municipality: "Torino", province: "Torino",
 		track: [[10, 10], [11, 11]],
 		creatorID: addedUserID
@@ -739,15 +720,4 @@ async function newHikeForTest(userID = null) {
 	let hikeComplete = await hikeController.getHike(addedHike.hikeID);
 
 	return hikeComplete;
-}
-
-
-function generateString(length) {
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	let result = '';
-	const charactersLength = characters.length;
-	for (let i = 0; i < length; i++) {
-		result += characters.charAt(Math.floor(Math.random() * charactersLength));
-	}
-	return result;
 }
