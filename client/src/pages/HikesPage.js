@@ -38,7 +38,7 @@ export function HikesPage(props) {
 	const [selectedHike, setSelectedHike] = useState(null);
 	const [showHikeForm, setShowHikeForm] = useState(false);
 
-	let getAllHikes = async function(){
+	let getAllHikes = async function () {
 		let hikes;
 		await HikeAPI.getAllHikes()
 			.then((h) => {
@@ -52,7 +52,7 @@ export function HikesPage(props) {
 			});
 	};
 
-	let getUserHikeRecordWithStatusOpen = async function(){
+	let getUserHikeRecordWithStatusOpen = async function () {
 		if (props.user && props.user.userID) {
 			await HikeRecordsAPI.getHikeRecordForUserWithStatusOpen(props.user.userID)
 				.then((h) => {
@@ -64,20 +64,20 @@ export function HikesPage(props) {
 		}
 	};
 
-	let handleClose = function(){
+	let handleClose = function () {
 		setshowFilterForm(false);
 	};
 
-	let handleShowHikeForm = function(){
+	let handleShowHikeForm = function () {
 		setShowHikeForm(true);
 	};
 
-	let handleCloseHikeForm = function(){
+	let handleCloseHikeForm = function () {
 		setShowHikeForm(false);
 		setSelectedHike(null);
 	};
 
-	let newHike = async function(hike){
+	let newHike = async function (hike) {
 		let insertedHike;
 		hike.creatorID = props.user.userID;
 		await HikeAPI.newHike(hike)
@@ -97,7 +97,7 @@ export function HikesPage(props) {
 		return insertedHike;
 	};
 
-	let applyPreferences = async function(){
+	let applyPreferences = async function () {
 		let stats = await UserAPI.getUserStats();
 		let newFilters = {
 			title: "",
@@ -116,6 +116,18 @@ export function HikesPage(props) {
 			.then((h) => {
 				if (stats) {
 					hikes = h;
+
+/* 					hikes.filter((hike) => {
+						return hike.difficulty === stats.favouriteDifficulty &&
+							hike.country === stats.favouriteCountry &&
+							hike.province === stats.favouriteProvince &&
+							hike.expectedTime >= stats.minTime &&
+							hike.expectedTime <= stats.maxtime &&
+							hike.ascent >= stats.minAscent &&
+							hike.ascent <= stats.maxAscent &&
+							hike.length >= stats.minDistance &&
+							hike.length <= stats.maxDistance
+					}); */
 
 					let suggested = hikes.filter(
 						(hike) => hike.difficulty === stats.favouriteDifficulty
@@ -201,9 +213,12 @@ export function HikesPage(props) {
 		updateFilters();
 	}, [filters, hikes]);
 
-	let selectFilters = function(ev){setFilters({ ...filters, title: ev.target.value.trim() })}
-	let showFilterFormTrue = function(){setshowFilterForm(true)}
-
+	let selectFilters = function (ev) {
+		setFilters({ ...filters, title: ev.target.value.trim() });
+	};
+	let showFilterFormTrue = function () {
+		setshowFilterForm(true);
+	};
 
 	return (
 		<>
@@ -220,9 +235,7 @@ export function HikesPage(props) {
 								value={filters.title}
 								onChange={selectFilters}
 							/>
-							<Button
-								onClick={showFilterFormTrue}
-							>
+							<Button onClick={showFilterFormTrue}>
 								<FontAwesomeIcon icon={faFilter} />
 							</Button>
 						</Col>
@@ -272,7 +285,9 @@ export function HikesPage(props) {
 						setFilters={setFilters}
 						selectedHike={selectedHike}
 						setSelectedHike={setSelectedHike}
-						insertButton={<InsertHikeButton handleShowHikeForm={handleShowHikeForm}/>}
+						insertButton={
+							<InsertHikeButton handleShowHikeForm={handleShowHikeForm} />
+						}
 						showHikeForm={handleShowHikeForm}
 						user={props.user}
 						applyPreferences={applyPreferences}
