@@ -687,7 +687,7 @@ function newHike(hikeId) {
 
 
 async function newHikeForTest(userID = null) {
-	let user;
+	let user, newErr;
 	let addedUserID;
 	if (userID == null) {
 		await userController.register({
