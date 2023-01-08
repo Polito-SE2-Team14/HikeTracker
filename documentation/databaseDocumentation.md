@@ -111,4 +111,3 @@ status: open/completed
 
 
 Key: hikeID, hutID
-
