@@ -43,7 +43,24 @@ export function HikeEditForm(props) {
 		setHike(newHike);
 	};
 
-	let setEndPointsTrue=function(){setEditPoints(true)}
+	const ternary = (value) => {
+		return value ? (
+			<EditPointsForm
+				hike={hike}
+				onSubmit={onSubmit}
+				onHide={onHide}
+				user={props.user}
+			/>
+		) : (
+			<ImageForm
+				id={hike.hikeID}
+				setImage={setImage}
+				API={HikeAPI}
+			/>
+		)
+	}
+
+	let setEndPointsTrue = function () { setEditPoints(true) }
 	return (
 		<Modal show={props.show} onHide={onHide}>
 			<Modal.Header closeButton>
@@ -58,22 +75,7 @@ export function HikeEditForm(props) {
 						onHide={onHide}
 						newHike={props.newHike}
 					/>
-				) : (
-					image ? (
-						<EditPointsForm
-							hike={hike}
-							onSubmit={onSubmit}
-							onHide={onHide}
-							user={props.user}
-						/>
-					) : (
-						<ImageForm
-							id={hike.hikeID}
-							setImage={setImage}
-							API={HikeAPI}
-						/>
-					)
-				)}
+				) : ternary(image)}
 			</Modal.Body>
 		</Modal>
 	);
@@ -148,7 +150,7 @@ function HikeForm(props) {
 					...hike,
 					...h
 				})
-				.catch(function(e){
+				.catch(function (e) {
 					console.error(e);
 				})
 
@@ -158,13 +160,13 @@ function HikeForm(props) {
 		props.goToPoints();
 	};
 
-	let selectFile=function(ev){setUseFile(ev.target.checked);	}
-	let selectTitle=function(ev){setTitle(ev.target.value)}
-	let selectLength = function(ev){setLength(ev.target.value)}
-	let selectAscent = function(ev){setAscent(ev.target.value)}
-	let selectExpectedTime = function(ev){setExpectedTime(ev.target.value)}
-	let selectDifficulty = function(ev){setDifficulty(ev.target.value)}
-	let selectDescription = function(ev){setDescription(ev.target.value)}
+	let selectFile = function (ev) { setUseFile(ev.target.checked); }
+	let selectTitle = function (ev) { setTitle(ev.target.value) }
+	let selectLength = function (ev) { setLength(ev.target.value) }
+	let selectAscent = function (ev) { setAscent(ev.target.value) }
+	let selectExpectedTime = function (ev) { setExpectedTime(ev.target.value) }
+	let selectDifficulty = function (ev) { setDifficulty(ev.target.value) }
+	let selectDescription = function (ev) { setDescription(ev.target.value) }
 
 	return (
 		<Form onSubmit={handleSubmit}>
@@ -555,11 +557,11 @@ function EditPointsForm(props) {
 		getPoints();
 	}, []);
 
-	let selectMsgFalse=function(){props.setMsg(false)}
-	let selectStart=function(ev){setStart(startPoints[ev.value])}
-	let selectEnd = function(ev){setEnd(endPoints[ev.value])}
-	let selectHandle = function(ev){handleAdd(ev.value)}
-	
+	let selectMsgFalse = function () { props.setMsg(false) }
+	let selectStart = function (ev) { setStart(startPoints[ev.value]) }
+	let selectEnd = function (ev) { setEnd(endPoints[ev.value]) }
+	let selectHandle = function (ev) { handleAdd(ev.value) }
+
 	return (
 		<Form>
 			<Row>
@@ -588,7 +590,7 @@ function EditPointsForm(props) {
 						))}
 					</Form.Select> */}
 
-					<Select options={startPoints.map((p)=>p.options)} onChange={selectStart} />
+					<Select options={startPoints.map((p) => p.options)} onChange={selectStart} />
 				</Form.Group>
 			</Row>
 			<Row>
@@ -612,9 +614,9 @@ function EditPointsForm(props) {
 				<Form.Label>Huts</Form.Label>
 				<Select options={closeHuts.map(p => p.options)} onChange={selectHandle} />
 				<div>
-					{linkedHuts.map((p, i) =>{
-						let remove=function(){handleRemove(p.options.value)}
-						return(<Row key={i}>
+					{linkedHuts.map((p, i) => {
+						let remove = function () { handleRemove(p.options.value) }
+						return (<Row key={i}>
 							<Col>
 								{p.options.label}
 							</Col>
