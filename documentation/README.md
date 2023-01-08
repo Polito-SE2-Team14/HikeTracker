@@ -1,9 +1,11 @@
 # HikeFIVE!
 
+
 1. [Completed Stories](#completed-stories)
 2. [Features](#features)
 3. [Used technologies](#used-technologies)
 4. [Testing](#testing)
+5. [More](#more)
 
 ## Completed Stories
 
@@ -135,3 +137,13 @@ For testing we used two frameworks.
  - Jest for unit testing
 
 On every update on our VCS, both test suites are executed
+
+## More
+
+You can find more info here:
+
+[API documentation](/documentation/APIdocumentation/README.md)
+
+[Database documentation](databaseDocumentation.md)
+
+[Map documentation](mapDocumentation.md)
