@@ -13,7 +13,6 @@ const dbManager = Singleton.getInstance();
 
 const SingletonTest = require("./SingletonTest");
 const dayjs = require('dayjs');
-const { FONT_SANS_10_BLACK } = require('jimp/types');
 SingletonTest.getInstance()
 
 before('starting hike records tests', async () => await dbManager.clearDb());
