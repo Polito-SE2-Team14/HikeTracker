@@ -37,7 +37,7 @@ export function HutFilters(props) {
 			municipality: municipality,
 			bedspace: bedInterval,
 		});
-	}, [area, showAreaMap, country, province, country, addressName, bedInterval]);
+	}, [area, showAreaMap, country, province, country, addressName, bedInterval,municipality]);
 
 	let clearFilters=function() {
 		props.setFilters({ ...props.filters, name: "" });
@@ -113,15 +113,8 @@ export function HutFilters(props) {
 				<hr />
 				<Form.Group>
 					<Form.Label>Country</Form.Label>
-					{/* <CountryDropdown country={country} setCountry={setCountry} /> */}
 					<CountrySelect country={country} setCountry={setCountry} />
 					<Form.Label className="mt-3">Province</Form.Label>
-					{/* <ProvinceDropdown
-						disabled={country === ""}
-						province={province}
-						setProvince={setProvince}
-						country={country}
-					/> */}
 					<ProvinceSelect
 						disabled={country === ""}
 						province={province}
@@ -129,13 +122,6 @@ export function HutFilters(props) {
 						country={country}
 					/>
 					<Form.Label className="mt-3">Municipality</Form.Label>
-					{/* <MunicipalityDropdown
-						disabled={province === ""}
-						municipality={municipality}
-						setMunicipality={setMunicipality}
-						country={country}
-						province={province}
-					/> */}
 					<MunicipalitySelect
 						disabled={province === ""}
 						municipality={municipality}
