@@ -2,6 +2,7 @@ const userDAO = require("../DAO/UserDAO")
 const crypto = require("node:crypto");
 const nodemailer = require("nodemailer");
 const nodemailerConfig = require("../Config/nodemailer.config");
+const hikeRecordsDAO = require('../DAO/hikeRecordsDAO')
 
 
 exports.login = async (email, password) => {
@@ -199,6 +200,18 @@ exports.getUserStats = async (userID) => {
 	await userDAO.getUserStats(userID)
 		.then(us => userStats = us)
 
+	let records
+	await hikeRecordsDAO.getRecords(userID)
+		.then(r => records = r)
+
+	let completedHikes;
+	if (records && records.length > 0) {
+		records = records.filter(r => r.status === "completed")
+		completedHikes = records.length;
+	}
+	else completedHikes = 0
+
+	userStats.completedHikes = completedHikes
 	return userStats;
 }
 

@@ -283,7 +283,6 @@ exports.getUserStats = (userID) => {
 					} else {
 						const userStats = {
 							userID: row.userID,
-							completedHikes: row.completedHikes,
 							favouriteDifficulty: row.favouriteDifficulty,
 							minTime: row.minTime,
 							maxTime: row.maxTime,
