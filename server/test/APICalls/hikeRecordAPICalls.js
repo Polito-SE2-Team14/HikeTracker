@@ -21,7 +21,7 @@ class HikeRecordAPICall {
 		return response;
 	}
 
-	async getOpenRecords(userID) {
+	async getOpenRecord(userID) {
 		const url = this.#baseURL + "/hikeRecords/" + userID + '/status/open';
 		let response;
 
