@@ -11,7 +11,7 @@ import RoleManagement from "../class/RoleManagement";
 export function HomePage(props) {
 	return (
 		<Container className="text-center">
-			<img src="https://imgur.com/XwZ0qCf.png" width="280px" className="mt-3"/><br/>
+			<img src="https://imgur.com/XwZ0qCf.png" width="200px" className="mt-3"/><br/>
 			<CatchPhrase />
 			<WelcomePhrase user={props.user} />
 			<NavCardList />
@@ -21,7 +21,7 @@ export function HomePage(props) {
 
 function CatchPhrase() {
 	return (
-		<div style={{ fontSize: "4rem" }}>
+		<div style={{ fontSize: "3rem" }}>
 			<Row>
 				<span>
 					Your <span className="fw-bold">BEST COMPANION</span> for
@@ -41,8 +41,8 @@ function WelcomePhrase(props) {
 
 	if (props.user) {
 		component = (
-			<div className="mt-4">
-				Welcome <span className="fw-bold"> {props.user.name.toUpperCase()} </span>
+			<div className="mt-4" style={{ fontSize: "2rem" }}>
+				Welcome <span className="fw-bold"> {props.user.name.toUpperCase()}</span>!
 			</div>
 		);
 	} else {

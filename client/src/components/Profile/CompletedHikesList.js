@@ -3,11 +3,19 @@ import { ListGroup, Row, Col } from "react-bootstrap";
 import HikeAPI from "../../api/HikeAPI";
 import HikeRecordsAPI from "../../api/HikeRecordsAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountain, faPersonWalking, faFlag, faClock, faFlagCheckered } from "@fortawesome/free-solid-svg-icons";
+import {
+	faMountain,
+	faPersonWalking,
+	faFlag,
+	faClock,
+	faFlagCheckered,
+} from "@fortawesome/free-solid-svg-icons";
 import { Loading } from "../Loading";
 import { HikeMap } from "../Maps/HikeMap";
 
 import { timeText } from "../HikeData";
+
+const dayjs = require("dayjs")
 
 export function CompletedHikesList(props) {
 	let [hikeRecordList, setHikeRecordList] = useState([]);
@@ -79,31 +87,48 @@ function HikeInfoList(props) {
 						<Col>
 							<Row className="mt-3">
 								<Col>
-									<FontAwesomeIcon icon={faPersonWalking} />{" Distance: "}
+									<FontAwesomeIcon icon={faPersonWalking} />
+									{" Distance: "}
 									{(hikeRecord.length / 1000).toFixed(2)}
 									{" Km"}
 								</Col>
 								<Col>
-									<FontAwesomeIcon icon={faMountain} /> Ascent: {hikeRecord.ascent}
+									<FontAwesomeIcon icon={faMountain} /> Ascent:{" "}
+									{hikeRecord.ascent}
 									{" m"}
 								</Col>
 							</Row>
 							<Row>
 								<Col>
-									<FontAwesomeIcon icon={faFlag} /> Difficulty: {hikeRecord.difficulty}
+									<FontAwesomeIcon icon={faFlag} /> Difficulty:{" "}
+									{hikeRecord.difficulty}
 								</Col>
 								<Col>
-									<FontAwesomeIcon icon={faClock} /> Expected time: {timeText(hikeRecord.expectedTime)}
+									<FontAwesomeIcon icon={faClock} /> Expected time:{" "}
+									{timeText(hikeRecord.expectedTime)}
 								</Col>
 							</Row>
 							<hr />
-							<FontAwesomeIcon icon={faFlagCheckered} /> Completed {hikeRecord.dates.length} time(s)
-							<br/> - Start time: duration
-							<br/> - Start time: duration
+							<FontAwesomeIcon icon={faFlagCheckered} /> Completed{" "}
+							{hikeRecord.dates.length} time(s)
+							<ul>
+								{hikeRecord.dates.map((date) => (
+									<li key={date.start}>
+										<strong>{date.start}</strong> | Duration: {getDuration(date.start, date.end)}
+									</li>
+								))}
+							</ul>
 						</Col>
 					</Row>
 				</ListGroup.Item>
 			))}
 		</ListGroup>
 	);
+}
+
+function getDuration(start, end){
+	const date1 = dayjs(start);
+	const date2 = dayjs(end);
+
+	return timeText(date2.diff(date1, 'minute'));
 }
