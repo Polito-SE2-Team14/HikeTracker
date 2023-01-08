@@ -34,23 +34,23 @@ export function HutsPage(props) {
 
 	const [modalFooterVisible, setModalFooterVisible] = useState(false);
 
-	const handleShowFilterModal = function(){
+	const handleShowFilterModal = function () {
 		setShowFilterForm(true);
 	};
 
-	let handleCloseFilterModal = function(){
+	let handleCloseFilterModal = function () {
 		setShowFilterForm(false);
 	};
 
-	let handleSubmit = function(){
+	let handleSubmit = function () {
 		setModalVisible(true);
 	};
 
-	const handleClose = function(){
+	const handleClose = function () {
 		setModalVisible(false);
 	};
 
-	const handleCreate = async function(givenHut){
+	const handleCreate = async function (givenHut) {
 		let hut = {
 			name: givenHut.name,
 			description: givenHut.description,
@@ -70,11 +70,11 @@ export function HutsPage(props) {
 
 		await PointAPI.createHut(hut)
 			.then((res) => {
-				setHuts([...huts, hut]);
+				hut.pointID = res.pointID;
+
+				setHuts(old => [...old, hut]);
 				setModalFooterVisible(false);
 				setModalVisible(false);
-
-				hut.pointID = res.pointID;
 			})
 			.catch((err) => {
 				console.error(err);
@@ -85,7 +85,7 @@ export function HutsPage(props) {
 		return hut.pointID;
 	};
 
-	const getAllHuts = async function(){
+	const getAllHuts = async function () {
 		await PointAPI.getAllHuts()
 			.catch((err) => {
 				console.error(err);
@@ -114,7 +114,7 @@ export function HutsPage(props) {
 		</Button>
 	);
 
-	let selectFilters = function(ev){setFilters({ ...filters, name: ev.target.value.trim() })}
+	let selectFilters = function (ev) { setFilters({ ...filters, name: ev.target.value.trim() }) }
 	return (
 		<>
 			{loading ? (

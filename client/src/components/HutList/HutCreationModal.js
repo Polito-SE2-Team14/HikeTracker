@@ -24,6 +24,12 @@ export function HutCreationModal(props) {
 
 		setHutID(newHut);
 	}, [props.show]);
+	
+	const handleImage = useCallback(data => {
+		setImage(data);
+
+		props.setHutImage(hutID, data);
+	}, [props.show]);
 
 	const onHide = useCallback(() => {
 		setShow(false);
@@ -52,7 +58,7 @@ export function HutCreationModal(props) {
 					<HutCreationForm handleCreate={handleCreate} /> :
 					<ImageForm
 						id={hutID}
-						setImage={setImage}
+						setImage={handleImage}
 						API={PointAPI}
 						onHide={onHide}
 					/>
