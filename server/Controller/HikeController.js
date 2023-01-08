@@ -56,7 +56,6 @@ exports.getReferencePointsForHike = async (hikeID) => {
 	return points;
 }
 
-//TODO add creatorID and track control
 exports.addHike = async (hike) => {
 
 	let { title, length, ascent, expectedTime, description, country, municipality, province, difficulty, creatorID } = hike
@@ -120,7 +119,6 @@ exports.addReferencePoint = async (hikeID, referencePoint) => {
 	return referencePointID
 }
 
-//TODO test this function
 exports.updateHike = async (hike) => {
 	await hikeDAO
 		.updateHike(hike)
@@ -138,14 +136,12 @@ exports.deleteHike = async (hikeID) => {
 
 }
 
-//TODO test this function
 exports.getHikeTrack = async (hikeID) => {
 	const track = hikeDAO.getHikeTrack(hikeID)
 	return track
 
 }
 
-//TODO test this function
 exports.getHikeImage = async (hikeID) => {
 	const image = hikeDAO.getHikeImage(hikeID);
 	return { image: image };

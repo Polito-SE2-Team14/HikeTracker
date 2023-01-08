@@ -36,7 +36,6 @@ describe("HikeRecords test suite", () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			let newErr
 			let hike = {
 				title: "title", length: 10, expectedTime: 10, ascent: 10,
 				difficulty: "Hiker", description: "Description", country: "Italy",
@@ -179,7 +178,6 @@ describe("HikeRecords test suite", () => {
 				})
 				.catch(err => { console.error(err); throw err; });
 
-			let newErr
 			let hike = {
 				title: "title", length: 10, expectedTime: 10, ascent: 10,
 				difficulty: "Hiker", description: "Description", country: "Italy",

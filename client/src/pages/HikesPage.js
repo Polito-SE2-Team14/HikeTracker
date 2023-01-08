@@ -17,8 +17,6 @@ import RoleManagement from "../class/RoleManagement";
 
 export function HikesPage(props) {
 	const [loading, setLoading] = useState(true);
-
-	const [userStats, setUserStats] = useState(null);
 	const [hikes, setHikes] = useState([]);
 	const [userHikeRecord, setUserHikeRecord] = useState(null);
 	const [filteredHikes, setFilteredHikes] = useState([]);
