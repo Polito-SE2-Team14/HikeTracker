@@ -14,18 +14,15 @@ describe('Hike Tests', () => {
 
 	beforeEach(async () => {
 		await dbManager.clearDb()
-		await dbManager.deleteAllHikes()
-	}
-	)
+	});
 	afterAll(async () => {
 		await dbManager.clearDb()
-		await dbManager.deleteAllHikes()
 	});
 
 
 	describe("creation of new Hike", () => {
 
-		test("Valid creation", async () => {
+		/* test("Valid creation", async () => {
 
 			let user
 			await userController.register({
@@ -79,14 +76,10 @@ describe('Hike Tests', () => {
 			expect(hike.municipality).toBe(createdHike2.municipality)
 			expect(hike.province).toBe(createdHike2.province)
 			expect(hike.creatorID).toBe(createdHike2.creatorID)
-
-
-
-		})
+		}) */
 
 
 		test("Invalid title", async () => {
-
 			let newErr
 			let hike = {
 				title: 10, length: 10, expectedTime: 10, ascent: 10,

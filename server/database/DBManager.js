@@ -22,12 +22,13 @@ class DBManager {
     }
 
     deleteFiles(dir, files) {
-        for (const file of files) {
-            unlink(path.join(dir, file), (err) => { });
-        }
+        if (files.lenght)
+            for (const file of files) {
+                unlink(path.join(dir, file), (err) => { });
+            }
     };
 
-    deleteAllFiles() {
+    async deleteAllFiles() {
         let trkDir = path.resolve(__dirname + '/tracks');
         let hikeImgDir = path.resolve(__dirname + '/images/hikes');
         let hutImgDir = path.resolve(__dirname + '/images/huts');
@@ -41,7 +42,7 @@ class DBManager {
         //console.log("clearDB")
         let db = this.#db;
 
-        this.deleteAllFiles();
+        await this.deleteAllFiles();
 
         return new Promise((resolve, reject) => {
             db.run("DELETE FROM USER WHERE 1=1;")

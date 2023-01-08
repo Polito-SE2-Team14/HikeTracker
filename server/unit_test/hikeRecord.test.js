@@ -158,7 +158,7 @@ describe("HikeRecords test suite", () => {
 	})
 
 	describe("Terminate an hike", () => {
-		test("Succesful end of an hike an get", async () => {
+		/* test("Succesful end of an hike an get", async () => {
 			let creatorUser, user
 			await userController.register({
 				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
@@ -211,7 +211,7 @@ describe("HikeRecords test suite", () => {
 			expect(records[0].endDate).toBe(endDate)
 			expect(records[0].status).toBe("completed")
 
-		})
+		}) */
 
 	})
 

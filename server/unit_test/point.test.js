@@ -13,8 +13,7 @@ describe('Points Tests', () => {
 
     beforeEach(async () => {
         await dbManager.clearDb()
-    }
-    )
+    });
     afterAll(async () => {
         await dbManager.clearDb()
     });
