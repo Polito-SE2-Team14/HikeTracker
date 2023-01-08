@@ -5,7 +5,8 @@
 2. [Features](#features)
 3. [Used technologies](#used-technologies)
 4. [Testing](#testing)
-5. [More](#more)
+5. [Database](#database)
+6. [APIs](#api)
 
 ## Completed Stories
 
@@ -138,12 +139,12 @@ For testing we used two frameworks.
 
 On every update on our VCS, both test suites are executed
 
-## More
+## Database
+
+[Database documentation](databaseDocumentation.md)
+## API
 
 You can find more info here:
 
 [API documentation](/documentation/APIdocumentation/README.md)
 
-[Database documentation](databaseDocumentation.md)
-
-[Map documentation](mapDocumentation.md)
