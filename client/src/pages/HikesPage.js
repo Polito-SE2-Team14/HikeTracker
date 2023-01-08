@@ -115,18 +115,6 @@ export function HikesPage(props) {
 				if (stats) {
 					hikes = h;
 
-/* 					hikes.filter((hike) => {
-						return hike.difficulty === stats.favouriteDifficulty &&
-							hike.country === stats.favouriteCountry &&
-							hike.province === stats.favouriteProvince &&
-							hike.expectedTime >= stats.minTime &&
-							hike.expectedTime <= stats.maxtime &&
-							hike.ascent >= stats.minAscent &&
-							hike.ascent <= stats.maxAscent &&
-							hike.length >= stats.minDistance &&
-							hike.length <= stats.maxDistance
-					}); */
-
 					let suggested = hikes.filter(
 						(hike) => hike.difficulty === stats.favouriteDifficulty
 					);

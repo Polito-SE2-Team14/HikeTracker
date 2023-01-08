@@ -139,63 +139,6 @@ function HikeListTable(props) {
 		handleStopHike();
 	};
 
-	const startPanel = (
-		<Col className="mb-5">
-			{hikeInProgress && props.userHikeRecord ? (
-				<Card className="mt-2">
-					<Card.Body>
-						<Card.Title>{hikeInProgress.title}</Card.Title>
-						<HikeStats hike={hikeInProgress} />
-						<Container className="mt-2">
-							<HikeMap
-								track={trackInProgress}
-								markers={markers}
-								user={props.user}
-							/>
-							<Row className="text-muted mt-1">Start time</Row>
-							<Row>{props.userHikeRecord.startDate}</Row>
-							{RoleManagement.isHiker(props.user) &&
-								props.userHikeRecord &&
-								props.userHikeRecord.hikeID == hikeInProgress.hikeID && (
-									<Row className="text-center" style={{ marginTop: "10px" }}>
-										<Col>
-											<LocalizationProvider dateAdapter={AdapterDayjs}>
-												<DateTimePicker
-													label="Manual Clock"
-													renderInput={render}
-													value={customDateTime}
-													onChange={selectCustomDateTime}
-													minDateTime={minDateTime}
-												/>
-											</LocalizationProvider>
-										</Col>
-									</Row>
-								)}
-						</Container>
-					</Card.Body>
-					<Card.Footer>
-						<Row>
-							<Col>Hike in progress</Col>
-							<Col className="text-end">
-								<Button size="sm" variant="danger" onClick={stop}>
-									Terminate hike
-								</Button>
-							</Col>
-						</Row>
-					</Card.Footer>
-				</Card>
-			) : (
-				<Row className="text-center mt-5">
-					<Col>Choose your next adventure and hit the Start button!</Col>
-				</Row>
-			)}
-			<hr />
-			<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
-				{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
-			</Row>
-		</Col>
-	);
-
 	return (
 		<Row>
 			{!props.suggested && (
@@ -237,10 +180,65 @@ function HikeListTable(props) {
 				</Col>
 			)}
 
-			{RoleManagement.isHiker(props.user) ||
-			RoleManagement.isLocalGuide(props.user)
-				? startPanel
-				: false}
+			<Col className="mb-5">
+				{RoleManagement.isHiker(props.user) ||
+				RoleManagement.isLocalGuide(props.user)
+					? <>
+					{hikeInProgress && props.userHikeRecord ? (
+						<Card className="mt-2">
+							<Card.Body>
+								<Card.Title>{hikeInProgress.title}</Card.Title>
+								<HikeStats hike={hikeInProgress} />
+								<Container className="mt-2">
+									<HikeMap
+										track={trackInProgress}
+										markers={markers}
+										user={props.user}
+									/>
+									<Row className="text-muted mt-1">Start time</Row>
+									<Row>{props.userHikeRecord.startDate}</Row>
+									{RoleManagement.isHiker(props.user) &&
+										props.userHikeRecord &&
+										props.userHikeRecord.hikeID == hikeInProgress.hikeID && (
+											<Row className="text-center" style={{ marginTop: "10px" }}>
+												<Col>
+													<LocalizationProvider dateAdapter={AdapterDayjs}>
+														<DateTimePicker
+															label="Manual Clock"
+															renderInput={render}
+															value={customDateTime}
+															onChange={selectCustomDateTime}
+															minDateTime={minDateTime}
+														/>
+													</LocalizationProvider>
+												</Col>
+											</Row>
+										)}
+								</Container>
+							</Card.Body>
+							<Card.Footer>
+								<Row>
+									<Col>Hike in progress</Col>
+									<Col className="text-end">
+										<Button size="sm" variant="danger" onClick={stop}>
+											Terminate hike
+										</Button>
+									</Col>
+								</Row>
+							</Card.Footer>
+						</Card>
+					) : (
+						<Row className="text-center mt-5">
+							<Col>Choose your next adventure and hit the Start button!</Col>
+						</Row>
+					)}
+					<hr />
+				</>
+					: false}
+				<Row xs={1} md={2} xl={3} className="d-flex align-items-center">
+					{shownHikes.length === 0 ? <EmptySearch /> : shownHikes}
+				</Row>
+			</Col>
 		</Row>
 	);
 }

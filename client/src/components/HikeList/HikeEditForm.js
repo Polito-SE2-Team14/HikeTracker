@@ -138,7 +138,7 @@ function HikeForm(props) {
 			// ).catch((e) => {
 			// 	console.error(e);
 			// });
-		} else {
+		} if (!hike.hikeID) {
 
 			await props.newHike(
 				{
@@ -616,7 +616,7 @@ function EditPointsForm(props) {
 				<div>
 					{linkedHuts.map((p, i) => {
 						let remove = function () { handleRemove(p.options.value) }
-						return (<Row key={i}>
+						return (<Row key={p.options.label}>
 							<Col>
 								{p.options.label}
 							</Col>
