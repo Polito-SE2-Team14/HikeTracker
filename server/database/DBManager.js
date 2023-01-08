@@ -155,6 +155,8 @@ class DBManager {
         const pointSql = 'INSERT INTO Point VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 6)'
         const hutSql = 'INSERT INTO Hut VALUES(?, ?, ?, ?, ?)';
 
+        const image = 'data:image/jpeg;base64/adugfasjdfbsfjkvafigafuiagewfibasalfbsiuufgsbvnlkbkvuiegfoegfsvsk';
+
         let i = 0;
         const huts = [
             {
