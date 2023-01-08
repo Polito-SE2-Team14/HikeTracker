@@ -22,7 +22,7 @@ class DBManager {
     }
 
     deleteFiles(dir, files) {
-        if (files.lenght)
+        if (files.length)
             for (const file of files) {
                 unlink(path.join(dir, file), (err) => { });
             }
