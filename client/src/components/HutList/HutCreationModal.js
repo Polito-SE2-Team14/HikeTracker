@@ -24,6 +24,20 @@ export function HutCreationModal(props) {
 
 		setHutID(newHut);
 	}, [props.show]);
+	
+	const handleImage = useCallback(data => {
+		setImage(data);
+
+		props.setHutImage(hutID, data);
+	}, [props.show]);
+
+	const onHide = useCallback(() => {
+		setShow(false);
+		setImage(false);
+		setHutID(false);
+
+		props.onHide();
+	}, []);
 
 	useEffect(() => {
 		if (props.show && !image)
@@ -35,7 +49,7 @@ export function HutCreationModal(props) {
 	}, [props.show, image]);
 
 	return (
-		<Modal show={show} onHide={props.onHide}>
+		<Modal show={show} onHide={onHide}>
 			<Modal.Header closeButton>
 				<Modal.Title>Hut Info</Modal.Title>
 			</Modal.Header>
@@ -44,8 +58,9 @@ export function HutCreationModal(props) {
 					<HutCreationForm handleCreate={handleCreate} /> :
 					<ImageForm
 						id={hutID}
-						setImage={setImage}
+						setImage={handleImage}
 						API={PointAPI}
+						onHide={onHide}
 					/>
 				}
 			</Modal.Body>

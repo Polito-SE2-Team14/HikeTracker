@@ -9,7 +9,6 @@ exports.getImage = function (id, type) {
 		try {
 			return readFileSync(file, { encoding: 'binary' });
 		} catch (err) {
-			console.log(id, type)
 			throw Error(err)
 		}
 }

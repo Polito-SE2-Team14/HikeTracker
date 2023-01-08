@@ -2,7 +2,7 @@ const { unlink, writeFileSync, readdir } = require('fs');
 const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
-const { resolve } = require('path');
+
 class DBManager {
 
     #db;
