@@ -101,7 +101,7 @@ function tablesDropping() {
 	let db = dbManager.getDB()
 
 	const commands = [
-		` DROP TABLE IF EXISTS HUT;`,
+		`DROP TABLE IF EXISTS HUT;`,
 		`DROP TABLE IF EXISTS PARKINGLOT;`,
 		`DROP TABLE IF EXISTS HIKEREFERENCEPOINT;`,
 		`DROP TABLE IF EXISTS HIKELINKHUT;`,
@@ -158,6 +158,8 @@ async function hutImagePopulation() {
 }
 
 console.log("Start")
+
+dbManager.deleteAllFiles();
 
 Promise.all(tablesDropping())
 	.then(() => {

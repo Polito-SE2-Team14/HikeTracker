@@ -1,4 +1,4 @@
-const { unlink, writeFileSync } = require('fs');
+const { unlink, writeFileSync, readdir } = require('fs');
 const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
@@ -21,37 +21,32 @@ class DBManager {
         return this.#db;
     }
 
-    async deleteAllHikes() {
-        const db = this.#db;
+    deleteFiles(dir, files) {
+        for (const file of files) {
+            unlink(path.join(dir, file), (err) => { });
+        }
+    };
 
-        return new Promise((resolve, reject) =>
-            db.get('SELECT COUNT(DISTINCT hikeID) as n FROM Hike', [], (err, row) => resolve(row.n))
-        ).then(res => {
-            db.run('DELETE FROM Hike');
-            for (let i = 1; i <= res; i++){
-                unlink(path.resolve(__dirname + `/tracks/_${i}_.trk`), err => { });
-                unlink(path.resolve(__dirname + `/images/hikes/_${i}_.img`), err => { });
-            }
-        });
-    }
+    deleteAllFiles() {
+        let trkDir = path.resolve(__dirname + '/tracks');
+        let hikeImgDir = path.resolve(__dirname + '/images/hikes');
+        let hutImgDir = path.resolve(__dirname + '/images/huts');
 
-    async deleteAllHuts() {
-        const db = this.#db;
-
-        return new Promise((resolve, reject) =>
-            db.get('SELECT COUNT(DISTINCT hutID) as n FROM Hut', [], (err, row) => resolve(row.n))
-        ).then(res => {
-            db.run('DELETE FROM Hut');
-            for (let i = 1; i <= res; i++)
-                unlink(path.resolve(__dirname + `/images/huts/_${i}_.img`), err => { });
-        });
-    }
+        readdir(trkDir, (err, files) => this.deleteFiles(trkDir, files));
+        readdir(hikeImgDir, (err, files) => this.deleteFiles(hikeImgDir, files));
+        readdir(hutImgDir, (err, files) => this.deleteFiles(hutImgDir, files));
+    };
 
     async clearDb() {
         //console.log("clearDB")
         let db = this.#db;
+
+        this.deleteAllFiles();
+
         return new Promise((resolve, reject) => {
             db.run("DELETE FROM USER WHERE 1=1;")
+            db.run("DELETE FROM HIKE WHERE 1=1;")
+            db.run("DELETE FROM HUT WHERE 1=1;")
             db.run("DELETE FROM POINT WHERE 1=1;")
             db.run("DELETE FROM PARKINGLOT WHERE 1=1;")
             db.run("DELETE FROM USER_STATS WHERE 1=1;")
@@ -59,26 +54,22 @@ class DBManager {
             db.run("DELETE FROM HIKELINKHUT WHERE 1=1;")
             db.run("DELETE FROM USERHIKERECORDS WHERE 1=1;")
 
-
             resolve();
-        }).then(async () => {
-            await this.deleteAllHikes();
-            await this.deleteAllHuts();
         });
     }
 
-    // async restoreOriginalHikes() {
-    //     let db = this.#db;
-    //     return new Promise(function (resolve, reject) {
-    //         db.run(`INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, 
-    //             startPointID, endPointID, description, municipality, province) VALUES 
-    // 		(1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription", "Collegno", "Turin"), 
-    // 		(2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription","Collegno", "Turin"), 
-    // 		(3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription","Collegno", "Turin");`);
-    //         console.log("done")
-    //         resolve();
-    //     })
-    // }
+    /* async restoreOriginalHikes() {
+        let db = this.#db;
+        return new Promise(function (resolve, reject) {
+            db.run(`INSERT INTO HIKE (hikeID, title, length, expectedTime, ascent, difficulty, 
+                startPointID, endPointID, description, municipality, province) VALUES 
+            (1, "hike#1", 7, 30, 100, "Tourist", 1, 4, "firstDescription", "Collegno", "Turin"), 
+            (2, "hike#2", 2, 45, 123, "Hiker", 2, 5, "secondDescription","Collegno", "Turin"), 
+            (3, "hike#3", 3, 60, 514, "Professional Hiker", 3, 6, "thirdDescription","Collegno", "Turin");`);
+            console.log("done")
+            resolve();
+        })
+    } */
 
     async createDropTables(sql) {
         let db = this.#db;
@@ -111,6 +102,7 @@ class DBManager {
                 [45.95927, 8.44812]
             ]
         ];
+        const image = 'data:image/jpeg;base64/adugfasjdfbsfjkvafigafuiagewfibasalfbsiuufgsbvnlkbkvuiegfoegfsvsk';
 
         let i = 0;
         const hikes = [
@@ -141,12 +133,13 @@ class DBManager {
                     };
 
                     if (insertTrack) {
-                        let file = path.resolve(__dirname + `/../database/tracks/_${hike[0]}_.trk`);
-
+                        let file = path.resolve(__dirname + `/tracks/_${hike[0]}_.trk`);
                         writeFileSync(file, JSON.stringify(tracks[hike[0] - 1]), { flag: 'w', encoding: 'utf8' });
-
                         res.track = tracks[hike[0] - 1];
                     }
+
+                    let imageFile = path.resolve(__dirname + `/images/hikes/_${hike[0]}_.img`);
+                    writeFileSync(imageFile, JSON.stringify(image), { flag: 'w', encoding: 'utf8' });
 
                     resolve(res);
                 });
@@ -181,26 +174,31 @@ class DBManager {
                 db.run(pointSql, hut.point, err => resolve())
             ).then(() =>
                 new Promise((resolve, reject) =>
-                    db.run(hutSql, hut.hut, err => resolve({
-                        pointID: hut.point[0],
-                        name: hut.point[1],
-                        description: hut.point[2],
-                        altitude: hut.point[3],
-                        latitude: hut.point[4],
-                        longitude: hut.point[5],
-                        address: hut.point[6],
-                        municipality: hut.point[7],
-                        province: hut.point[8],
-                        country: hut.point[9],
-                        pointType: hut.point[10],
-                        bedspace: hut.hut[1],
-                        phoneNumber: hut.hut[2],
-                        website: hut.hut[3],
-                        email: hut.hut[4],
-                        creatorID: 6,
-                        creatorName: 'Mario',
-                        creatorSurname: 'Rossi',
-                    }))
+                    db.run(hutSql, hut.hut, err => {
+                        let imageFile = `./images/huts/_${hut.point[0]}_.img`;
+                        writeFileSync(imageFile, JSON.stringify(image), { flag: 'w', encoding: 'utf8' });
+
+                        resolve({
+                            pointID: hut.point[0],
+                            name: hut.point[1],
+                            description: hut.point[2],
+                            altitude: hut.point[3],
+                            latitude: hut.point[4],
+                            longitude: hut.point[5],
+                            address: hut.point[6],
+                            municipality: hut.point[7],
+                            province: hut.point[8],
+                            country: hut.point[9],
+                            pointType: hut.point[10],
+                            bedspace: hut.hut[1],
+                            phoneNumber: hut.hut[2],
+                            website: hut.hut[3],
+                            email: hut.hut[4],
+                            creatorID: 6,
+                            creatorName: 'Mario',
+                            creatorSurname: 'Rossi',
+                        })
+                    })
                 )
             )
         ));
