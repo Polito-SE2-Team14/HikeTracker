@@ -456,7 +456,7 @@ function EditPointsForm(props) {
 			);
 
 			setStart(() => {
-				let startPoint = points.filter(p => p.pointID == props.hike.startPointID).pop();
+				let startPoint = points.filter(p => p.pointID === props.hike.startPointID).pop();
 
 				if (startPoint)
 					return startPoint;
@@ -464,7 +464,7 @@ function EditPointsForm(props) {
 					return;
 			});
 			setEnd(() => {
-				let endPoint = points.filter(p => p.pointID == props.hike.endPointID).pop();
+				let endPoint = points.filter(p => p.pointID === props.hike.endPointID).pop();
 
 				if (endPoint)
 					return endPoint;
@@ -544,6 +544,7 @@ function EditPointsForm(props) {
 
 	useEffect(() => {
 		getPoints();
+		// eslint-disable-next-line
 	}, []);
 
 	let selectMsgFalse = function () { props.setMsg(false) }
