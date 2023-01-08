@@ -29,12 +29,14 @@ router.get(
 );
 
 router.post('',
-	check(["name", "description", "address", "country", "province", "municipality", "website"]).not().isEmpty().trim().escape(),
+	check(["name", "description", "address", "country", "province", "municipality"]).not().isEmpty().trim().escape(),
 	check(["longitude", "latitude", "altitude"]).isFloat().not().isEmpty().trim().escape(),
 	check(["bedspace", "creatorID"]).isInt({ min: 0 }).not().isEmpty().trim().escape(),
 	check(["phoneNumber"]).isInt().not().isEmpty().trim().escape(),
 	async (req, res) => {
 
+		if(req.body.website)
+		check("website").not().isEmpty().trim().escape();
 
 		if (!validationResult(req).isEmpty()) {
 			return errorResponse(validationResult(req).array(), 422, res)
