@@ -53,5 +53,3 @@ password: password
 
 username: cristian.verdi@email.com
 password: password
-
-a
