@@ -127,19 +127,7 @@ function HikeForm(props) {
 			country: country
 		};
 
-		if (hike.hikeID) {
-			// NOTE: editing form
-
-			// HikeAPI.editHike(
-			// 	{
-			// 		hikeID: props.hike.hikeID, title: title, length: Math.round(length),
-			// 		expectedTime: expectedTime, ascent: ascent, difficulty: difficulty,
-			// 		description: description, municipality: municipality, province: province
-			// 	}
-			// ).catch((e) => {
-			// 	console.error(e);
-			// });
-		} if (!hike.hikeID) {
+		if (!hike.hikeID) {
 
 			await props.newHike(
 				{

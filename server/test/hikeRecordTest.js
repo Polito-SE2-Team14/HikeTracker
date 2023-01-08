@@ -135,7 +135,7 @@ describe('Hike records test suite', () =>{
 			assert.equal(records.data[2].status,"completed","Error");
 		});
 		it('Incorrect userID', async () => {
-			let creatorUser, user, caughtError;
+			let creatorUser, user;
 			await userController.register({
 				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
 				type: "localGuide", password: crypto.randomBytes(16).toString("hex")
@@ -262,7 +262,7 @@ describe('Hike records test suite', () =>{
 			assert.equal(records.data.status,"open","Error");
 		});
 		it('Incorrect userID', async () => {
-			let creatorUser, user, caughtError;
+			let creatorUser, user;
 			await userController.register({
 				name: 'matteo', surname: 'marroni', email: 'matteo.marroni@ex.com', phoneNumber: '2222222222',
 				type: "localGuide", password: crypto.randomBytes(16).toString("hex")

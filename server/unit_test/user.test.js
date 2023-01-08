@@ -363,7 +363,7 @@ describe('User Tests', () => {
 
 
 				const userStats = {
-					userID: 1, completedHikes: 1,
+					userID: 1, completedHikes: 0,
 					favouriteDifficulty: "Tourist", minTime: 100,
 					maxTime: 200, totalTime: 1000, averageTime: 100,
 					minDistance: 200, maxDistance: 300, totalDistance: 3000, averageDistance: 100,
