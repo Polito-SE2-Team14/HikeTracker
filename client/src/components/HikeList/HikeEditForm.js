@@ -56,6 +56,7 @@ export function HikeEditForm(props) {
 				id={hike.hikeID}
 				setImage={setImage}
 				API={HikeAPI}
+				onHide={onHide}
 			/>
 		)
 	}
