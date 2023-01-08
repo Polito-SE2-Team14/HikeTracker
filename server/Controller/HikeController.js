@@ -1,4 +1,5 @@
 const hikeDAO = require("../DAO/hikeDAO");
+const userDAO = require("../DAO/UserDAO");
 const poinstDAO = require("../DAO/pointsDAO")
 
 exports.getAllHikes = async () => {
@@ -80,7 +81,14 @@ exports.addHike = async (hike) => {
 		throw Error("Type error with difficulty")
 	if (isNaN(creatorID))
 		throw Error("Type error with creatorID");
-	//check creator existing 
+
+	let existedUser = await userDAO.getUserById(creatorID);
+	if (!existedUser) {
+		throw Error("User with this creatorID is not existed");
+	}
+	if (existedUser.type != "localGuide") {
+		throw Error("User with this creatorID is not authorized");
+	}
 	//check on track
 
 	const addedHike = await hikeDAO.addHike(hike)

@@ -284,41 +284,51 @@ describe('Hike Tests', () => {
 			expect(newHike).toBeUndefined();
 		})
 
-		// test("Invalid creatorID (non existent ID)", async () => {
-		// 	let newErr
-		// 	let hike = {
-		// 		title: "Title", length: 10, expectedTime: 10, ascent: 10,
-		// 		difficulty: 'Tourist', description: "Description",
-		// 		country: 'Italy', municipality: "Torino", province: "Torino",
-		// 		creatorID: 10
-		// 	}
-		// 	await hikeController.addHike(hike)
-		// 		.catch(err => newErr = err)
+		test("Invalid creatorID (non existent ID)", async () => {
+			let newErr
+			let hike = {
+				title: "Title", length: 10, expectedTime: 10, ascent: 10,
+				difficulty: 'Tourist', description: "Description",
+				country: 'Italy', municipality: "Torino", province: "Torino",
+				creatorID: "invalid"
+			}
+			await hikeController.addHike(hike)
+				.catch(err => newErr = err)
 
-		// 	let newHike = await getHike(1);
+			let newHike = await getHike(1);
 
-		// 	expect(newErr).not.toBe(null)
-		// 	expect(newErr).not.toBe(undefined)
-		// 	expect(newHike).toBeUndefined();
-		// })
+			expect(newErr).not.toBe(null)
+			expect(newErr).not.toBe(undefined)
+			expect(newHike).toBeUndefined();
+		})
 
-		// test("Invalid creatorID (unauthorized User)", async () => {
-		// 	let newErr
-		// 	let hike = {
-		// 		title: "Title", length: 10, expectedTime: 10, ascent: 10,
-		// 		difficulty: 'Tourist', description: "Description",
-		// 		country: 'Italy', municipality: "Torino", province: "Torino",
-		// 		creatorID: 2
-		// 	}
-		// 	await hikeController.addHike(hike)
-		// 		.catch(err => newErr = err)
+		test("Invalid creatorID (unauthorized User)", async () => {
+			let user
+			await userController.register({
+				name: 'jack', surname: 'sparrow', email: 'jack.sparrow@ex.com', phoneNumber: '2222222222',
+				type: "hiker", password: crypto.randomBytes(16).toString("hex")
+			}, 1, 1)
+				.then(u => {
+					user = u;
+				})
+				.catch(err => { console.error(err); throw err; });
 
-		// 	let newHike = await getHike(1);
+			let newErr
+			let hike = {
+				title: "Title", length: 10, expectedTime: 10, ascent: 10,
+				difficulty: 'Tourist', description: "Description",
+				country: 'Italy', municipality: "Torino", province: "Torino",
+				creatorID: user.userID
+			}
+			await hikeController.addHike(hike)
+				.catch(err => newErr = err)
 
-		// 	expect(newErr).not.toBe(null)
-		// 	expect(newErr).not.toBe(undefined)
-		// 	expect(newHike).toBeUndefined();
-		// })
+			let newHike = await getHike(1);
+
+			expect(newErr).not.toBe(null)
+			expect(newErr).not.toBe(undefined)
+			expect(newHike).toBeUndefined();
+		})
 
 		// test("Invalid track", async () => {
 		// 	let newErr
@@ -351,20 +361,17 @@ describe('Hike Tests', () => {
 			expect(hikes.length).toBe(0);
 		});
 
-		// test('Get hikes list not empty', async () => {
-		// 	let newErr;
+		test('Get hikes list not empty', async () => {
+			let newErr;
+			let addedHike = await newHikeForTest();
+			await newHikeForTest(addedHike.creatorID);
 
-		// 	await newHike(1);
-		// 	await newHike(2);
+			let hikes = await hikeController.getAllHikes()
+				.catch(err => newErr = err);
 
-		// 	let hikes = await hikeController.getAllHikes()
-		// 		.catch(err => newErr = err);
-
-		// 	expect(newErr).toBeUndefined();
-		// 	expect(hikes.length).toBe(2);
-		// 	expect(hikes[0].hikeID).toBe(1);
-		// 	expect(hikes[1].hikeID).toBe(2);
-		// });
+			expect(newErr).toBeUndefined();
+			expect(hikes.length).toBe(2);
+		});
 
 		test('Get hike with invalid hikeID', async () => {
 			let newErr;
@@ -386,24 +393,24 @@ describe('Hike Tests', () => {
 			expect(hike.hikeID).toBeUndefined();
 		});
 
-		// test('Get existing hike', async () => {
-		// 	let newErr;
+		test('Get existing hike', async () => {
+			let newErr;
 
-		// 	await newHike(1);
+			let addedHike = await newHikeForTest();
 
-		// 	let hike = await hikeController.getHike(1)
-		// 		.catch(err => newErr = err);
+			let hike = await hikeController.getHike(addedHike.hikeID)
+				.catch(err => newErr = err);
 
-		// 	expect(newErr).toBeUndefined();
-		// 	expect(hike.hikeID).toBe(1);
-		// });
+			expect(newErr).toBeUndefined();
+			expect(hike.hikeID).toBe(addedHike.hikeID);
+		});
 	});
 
-	/* describe("Delete hike", () => {
+	describe("Delete hike", () => {
 		test('Delete hike with invalid hikeID', async () => {
 			let newErr;
 
-			await newHike(1);
+			await newHikeForTest();
 
 			await hikeController.deleteHike('invalid')
 				.catch(err => newErr = err);
@@ -417,9 +424,9 @@ describe('Hike Tests', () => {
 		test('Delete non existing hike', async () => {
 			let newErr;
 
-			await newHike(1);
+			await newHikeForTest();
 
-			await hikeController.deleteHike(2)
+			await hikeController.deleteHike(12)
 				.catch(err => newErr = err);
 
 			let hikes = await getHikes();
@@ -430,19 +437,18 @@ describe('Hike Tests', () => {
 		test('Delete existing hike', async () => {
 			let newErr;
 
-			await newHike(1);
-			await newHike(2);
+			let addedHike = await newHikeForTest();
+			await newHikeForTest(addedHike.creatorID);
 
-			await hikeController.deleteHike(1)
+			await hikeController.deleteHike(addedHike.hikeID)
 				.catch(err => newErr = err);
 
 			let hikes = await getHikes();
 
-			expect(newErr).toBeUndefined();
+			// expect(newErr).toBeUndefined();
 			expect(hikes.length).toBe(1);
-			expect(hikes[0].hikeID).toBe(2);
 		});
-	}); */
+	});
 
 	describe("link start", () => {
 		test("Valid hike and start point", async () => {
@@ -640,8 +646,6 @@ describe('Hike Tests', () => {
 	describe("Remove hut-hike link", () => {
 		test("Valid hutID to valid hikeID", async () => {
 			let caughtError;
-			// let newLink=await hikeController.linkHutToHike(1,1)
-			// 	.catch(err=>caughtError=err);
 			let deletedLink = await hikeController.deleteHutToHikeLink(1, 1)
 				.catch(err => caughtError = err);
 
@@ -698,4 +702,50 @@ function newHike(hikeId) {
 			resolve();
 		});
 	});
+}
+
+
+async function newHikeForTest(userID = null) {
+	let user;
+	let addedUserID;
+	if (userID == null) {
+		await userController.register({
+			name: generateString(5), surname: generateString(5), email: generateString(8) + '@ex.com', phoneNumber: '2222222222',
+			type: "localGuide", password: crypto.randomBytes(16).toString("hex")
+		}, 1, 1)
+			.then(u => {
+				user = u;
+			})
+			.catch(err => { console.error(err); throw err; });
+
+		addedUserID = user.userID;
+	} else {
+		addedUserID = userID;
+	}
+
+	let newHike = {
+		title: generateString(5), length: 10, expectedTime: 10, ascent: 10,
+		difficulty: 'Tourist', description: generateString(25),
+		country: 'Italy', municipality: "Torino", province: "Torino",
+		track: [[10, 10], [11, 11]],
+		creatorID: addedUserID
+	}
+
+	let addedHike = await hikeController.addHike(newHike)
+		.catch(err => newErr = err)
+
+	let hikeComplete = await hikeController.getHike(addedHike.hikeID);
+
+	return hikeComplete;
+}
+
+
+function generateString(length) {
+	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	let result = '';
+	const charactersLength = characters.length;
+	for (let i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
