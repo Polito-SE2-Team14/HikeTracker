@@ -372,7 +372,7 @@ describe("HikeRecords test suite", () => {
 				}
 			)
 			
-			const records = await hikeRecordsController.getRecords("SomeString")
+			await hikeRecordsController.getRecords("SomeString")
 				.catch(err=>caughtError=err);
 			expect(caughtError).not.toBe(undefined)
 			expect(caughtError).not.toBe(null)
@@ -485,7 +485,7 @@ describe("HikeRecords test suite", () => {
 			
 			await hikeRecordsController.addNewRecord(toBeInsertedRecord1)
 			
-			const records = await hikeRecordsController.getRecordByStatusOpen("SomeString")
+			await hikeRecordsController.getRecordByStatusOpen("SomeString")
 				.catch(err=>caughtError=err);
 			expect(caughtError).not.toBe(undefined)
 			expect(caughtError).not.toBe(null)

@@ -627,8 +627,6 @@ describe('Hike Tests', () => {
 	describe("Remove hut-hike link", () => {
 		test("Valid hutID to valid hikeID", async () => {
 			let caughtError;
-			// let newLink=await hikeController.linkHutToHike(1,1)
-			// 	.catch(err=>caughtError=err);
 			let deletedLink = await hikeController.deleteHutToHikeLink(1, 1)
 				.catch(err => caughtError = err);
 
