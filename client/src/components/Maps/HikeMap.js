@@ -25,7 +25,7 @@ export function HikeMap(props) {
 
 	const [selectedPosition, setSelectedPosition] = useState(undefined);
 
-	let handleAddInfo = function() {
+	let handleAddInfo = function () {
 		props.onPointSelect(selectedPosition);
 	};
 
@@ -33,50 +33,51 @@ export function HikeMap(props) {
 		if (track !== undefined) {
 			if (track.length === 0) {
 				return <Loading />;
-			} else {
-				return (
-					<MapContainer
-						center={track[Math.round(track.length / 2)]}
-						zoom={13}
-						scrollWheelZoom={false}
-					>
-						<TileLayer
-							attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
-								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-							url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png" />
-						{props.markers.start ? (
-							<PointMarker point={props.markers.start} />
-						) : (
-							<TrackMarker position={track[0]} start />
-						)}
-						{props.markers.end ? (
-							<PointMarker point={props.markers.end} />
-						) : (
-							<TrackMarker position={track[track.length - 1]} />
-						)}
-						{props.markers.referencePoints && props.markers.referencePoints.length > 0
-							? props.markers.referencePoints.map((p) => (
-								<PointMarker key={p.pointID} point={p} />
-							))
-							: false}
-						{props.markers.linkedHuts && props.markers.linkedHuts.length > 0
-							&& props.markers.linkedHuts.map((p) => (
-								<PointMarker key={p.pointID} point={p} />
-							))}
-						<HikePath
-							positions={track}
-							canAddPoints={props.editable && RoleManagement.isLocalGuide(props.user)}
-							handleAddInfo={handleAddInfo} />
-						{RoleManagement.isLocalGuide(props.user) ? (
-							<HikePointSelector
-								setSelectedPosition={setSelectedPosition}
-								onPointDeselect={props.onPointDeselect} />
-						) : (
-							false
-						)}
-					</MapContainer>
-				);
 			}
+
+			return (
+				<MapContainer
+					center={track[Math.round(track.length / 2)]}
+					zoom={13}
+					scrollWheelZoom={false}
+				>
+					<TileLayer
+						attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> |
+								Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+						url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png" />
+					{props.markers.start ? (
+						<PointMarker point={props.markers.start} />
+					) : (
+						<TrackMarker position={track[0]} start />
+					)}
+					{props.markers.end ? (
+						<PointMarker point={props.markers.end} />
+					) : (
+						<TrackMarker position={track[track.length - 1]} />
+					)}
+					{props.markers.referencePoints && props.markers.referencePoints.length > 0
+						? props.markers.referencePoints.map((p) => (
+							<PointMarker key={p.pointID} point={p} />
+						))
+						: false}
+					{props.markers.linkedHuts && props.markers.linkedHuts.length > 0
+						&& props.markers.linkedHuts.map((p) => (
+							<PointMarker key={p.pointID} point={p} />
+						))}
+					<HikePath
+						positions={track}
+						canAddPoints={props.editable && RoleManagement.isLocalGuide(props.user)}
+						handleAddInfo={handleAddInfo} />
+					{RoleManagement.isLocalGuide(props.user) ? (
+						<HikePointSelector
+							setSelectedPosition={setSelectedPosition}
+							onPointDeselect={props.onPointDeselect} />
+					) : (
+						false
+					)}
+				</MapContainer>
+			);
+
 		}
 		// eslint-disable-next-line
 	}, [track, props.markers, selectedPosition]);
