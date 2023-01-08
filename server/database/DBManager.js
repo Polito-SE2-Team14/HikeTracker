@@ -24,7 +24,7 @@ class DBManager {
     deleteFiles(dir, files) {
         if (files.length)
             for (const file of files)
-                if (file == '.gitkeep')
+                if (file != '.gitkeep')
                     unlink(path.join(dir, file), (err) => { });
 
     };
