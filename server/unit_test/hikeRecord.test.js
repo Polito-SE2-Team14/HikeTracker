@@ -191,6 +191,7 @@ describe("HikeRecords test suite", () => {
 		})
 
 		test("Incorrect userID", async () => {
+			let caughtError;
 			await hikeRecordsController.getRecordByStatusOpen("SomeString")
 				.catch(err => caughtError = err);
 
