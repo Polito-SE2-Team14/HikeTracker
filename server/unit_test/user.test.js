@@ -28,9 +28,8 @@ let newUsers = [
 
 
 describe('User Tests', () => {
-
-	beforeEach(async () => await dbManager.clearDb());
-	afterAll(async () => await dbManager.clearDb());
+	beforeAll(async () => await dbManager.clearDb());
+	afterEach(async () => await dbManager.clearDb());
 
 
 	describe('Registration tests', () => {

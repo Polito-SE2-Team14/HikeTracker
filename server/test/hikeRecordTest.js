@@ -75,7 +75,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 3,
 				hikeID: 1,
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -90,7 +90,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 3,
 				hikeID: 1,
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -102,7 +102,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 'invalid',
 				hikeID: 1,
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -114,7 +114,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 3,
 				hikeID: 'invalid',
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -137,7 +137,7 @@ describe('Hike records test suite', () => {
 		it('POST /hikerecords missing userID', async () => {
 			const record = {
 				hikeID: 1,
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -148,7 +148,7 @@ describe('Hike records test suite', () => {
 		it('POST /hikerecords missing hikeID', async () => {
 			const record = {
 				userID: 3,
-				startDate: dayjs(Date.now()).format()
+				startDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.addRecord(record);
@@ -177,7 +177,7 @@ describe('Hike records test suite', () => {
 				userID: 3,
 				hikeID: 1,
 				startDate: dayjs('2018-05-13 19:18').format(),
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -190,7 +190,7 @@ describe('Hike records test suite', () => {
 				userID: 'invalid',
 				hikeID: 1,
 				startDate: dayjs('2018-05-13 19:18').format(),
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -203,7 +203,7 @@ describe('Hike records test suite', () => {
 				userID: 3,
 				hikeID: 'invalid',
 				startDate: dayjs('2018-05-13 19:18').format(),
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -216,7 +216,7 @@ describe('Hike records test suite', () => {
 				userID: 3,
 				hikeID: 1,
 				startDate: 'invalid',
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -228,7 +228,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				hikeID: 1,
 				startDate: dayjs('2018-05-13 19:18').format(),
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -240,7 +240,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 3,
 				startDate: dayjs('2018-05-13 19:18').format(),
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);
@@ -252,7 +252,7 @@ describe('Hike records test suite', () => {
 			const record = {
 				userID: 3,
 				hikeID: 1,
-				endDate: dayjs(Date.now()).format()
+				endDate: dayjs().format()
 			};
 
 			const response = await hikeRecordAPICall.editRecord(record);

@@ -542,10 +542,6 @@ describe('Hikes test suite', () => {
 			assert.equal(response.status, 500, response.status);
 		});
 
-		// it('POST /hikes wrong track', async () => {
-
-		// });
-
 		it('POST /hikes missing title', async () => {
 			const hike = {
 				length: 10,

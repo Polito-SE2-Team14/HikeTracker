@@ -5,19 +5,12 @@ const crypto = require("crypto");
 
 const pointDAO = require("../DAO/pointsDAO")
 
-
 const dbManager = require("../database/DBManagerSingleton").getInstance()
 const db = dbManager.getDB();
 
 describe('Points Tests', () => {
-
-    beforeEach(async () => {
-        await dbManager.clearDb()
-    });
-    afterAll(async () => {
-        await dbManager.clearDb()
-    });
-
+    beforeAll(async () => await dbManager.clearDb());
+    afterEach(async () => await dbManager.clearDb());
 
     describe("Getting all points", () => {
         test("Successfull get", async () => {

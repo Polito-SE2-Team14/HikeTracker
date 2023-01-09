@@ -3,11 +3,10 @@ const dbManager = require("../database/DBManagerSingleton").getInstance()
 const userController = require("../Controller/UserController")
 const crypto = require("crypto");
 
-beforeEach(async () => await dbManager.clearDb());
-afterAll(async () => await dbManager.clearDb());
-
-
 describe('Hut Tests', () => {
+    beforeAll(async () => await dbManager.clearDb());
+    afterEach(async () => await dbManager.clearDb());
+
     describe("creation of new hut", () => {
         test("Valid insertion a new hut", async () => {
             let hut, user

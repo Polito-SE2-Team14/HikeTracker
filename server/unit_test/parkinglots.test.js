@@ -4,9 +4,8 @@ const userController = require("../Controller/UserController")
 const crypto = require("crypto");
 
 describe('Parking Lot Tests', () => {
-
-	beforeEach(async () => await dbManager.clearDb());
-	afterAll(async () => await dbManager.clearDb());
+	beforeAll(async () => await dbManager.clearDb());
+	afterEach(async () => await dbManager.clearDb());
 	//db is cleared before every test()
 
 	describe("New parking lot addition", () => {
