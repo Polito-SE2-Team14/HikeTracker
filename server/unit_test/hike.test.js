@@ -496,7 +496,6 @@ describe('Hike Tests', () => {
 			let caughtError;
 			await hikeController.getCloseHutsForHike('hike1')
 				.catch(err => {
-					//console.log(err);
 					caughtError = err;
 				});
 			expect(caughtError).not.toBe(undefined);
@@ -557,7 +556,7 @@ describe('Hike Tests', () => {
 			await dbManager.addHikes();
 
 			let caughtError;
-			let deletedLink = await hikeController.deleteHutToHikeLink("hut1", 3)
+			await hikeController.deleteHutToHikeLink("hut1", 3)
 				.catch(err => caughtError = err);
 
 			expect(caughtError).not.toBe(undefined);

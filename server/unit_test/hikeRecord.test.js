@@ -100,7 +100,7 @@ describe("HikeRecords test suite", () => {
 				hikeID: 2,
 				startDate: startDate,
 			}
-
+			let caughtError;
 			await hikeRecordsController.addNewRecord(toBeInsertedRecord2)
 				.catch(err => caughtError = err);
 			expect(caughtError).not.toBe(null)

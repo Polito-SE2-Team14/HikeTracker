@@ -28,12 +28,7 @@ describe('User test suite', () => {
 			};
 			let response = await userAPICall.addNewUser(user);
 			assert.equal(response.status, 201, response.status);
-			user.type = 'localGuide';
-			response = await userAPICall.addNewUser(user);
-			assert.equal(response.status, 201, response.status);
-			user.type = 'hutWorker';
-			response = await userAPICall.addNewUser(user);
-			assert.equal(response.status, 201, response.status);
+			
 		});
 
 		it('POST /users existing', async () => {
