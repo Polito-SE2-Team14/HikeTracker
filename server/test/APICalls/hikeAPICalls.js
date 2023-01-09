@@ -43,6 +43,17 @@ class HikeAPICall {
 		return response;
 	}
 
+	async getHikeImageCall(hikeID) {
+		const url = this.#baseURL + "/api/hikes/" + hikeID + '/image';
+		let response;
+
+		await axios.get(url, { responseType: "json" })
+			.then(value => response = value)
+			.catch(error => response = error.response);
+
+		return response;
+	}
+
 	async getCloseHutsCall(hikeID) {
 		const url = this.#baseURL + "/api/hikes/" + hikeID + '/huts';
 		let response;
@@ -96,6 +107,19 @@ class HikeAPICall {
 		let response;
 
 		await axios.post(url, newHike, headers)
+			.then(value => response = value)
+			.catch(error => response = error.response);
+
+		return response;
+	}
+
+	async addHikeImageCall(hikeID, image) {
+		const url = this.#baseURL + "/api/hikes/" + hikeID + '/image';
+
+		const headers = { headers: { 'Content-Type': 'application/json' } };
+		let response;
+
+		await axios.post(url, {image: image}, headers)
 			.then(value => response = value)
 			.catch(error => response = error.response);
 

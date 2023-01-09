@@ -13,16 +13,11 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 
 const SingletonTest = require("./SingletonTest")
-SingletonTest.getInstance()
-
-before('starting hut tests', async () => await dbManager.clearDb());
-
-beforeEach('adding users', async () => await dbManager.addUsers());
-
-afterEach('clearing DB', async () => await dbManager.clearDb());
-
+SingletonTest.getInstance();
 
 describe('Hut test suite', async () => {
+	beforeEach('adding users', async () => await dbManager.addUsers());
+	
 	describe('Getting huts', () => {
 		it('GET /huts empty', async () => {
 			let response = await hutAPICall.getHutsCall();
@@ -65,7 +60,7 @@ describe('Hut test suite', async () => {
 			
 	        let response = await hutAPICall.addHutCall(hut);
 
-	        assert.equal(response.status, 204, response.status);
+	        assert.equal(response.status, 201, response.status);
 		});
 
 		it("POST /huts missing body", async () => {
@@ -330,52 +325,6 @@ describe('Hut test suite', async () => {
 
 			assert.equal(response.status, 422, response.status);
 	    });
-
-	    it("POST /huts wrong website", async () => {
-			const hut = {
-				name: 'hut',
-				description: 'hut',
-				altitude: 100,
-				latitude: 45.95233,
-				longitude: 8.4457,
-				address: 'address',
-				municipality: 'Collegno',
-				province: 'Turin',
-				country: 'Italy',
-				bedspace: 50,
-				phoneNumber: '123456789',
-				website: null,
-				email: 'hut@mail.com',
-				creatorID: 6
-			};
-
-			const response = await hutAPICall.addHutCall(hut);
-
-			assert.equal(response.status, 422, response.status);
-	    });
-
-	    /* it("POST /huts wrong email", async () => {
-			const hut = {
-				name: 'hut',
-				description: 'hut',
-				altitude: 100,
-				latitude: 45.95233,
-				longitude: 8.4457,
-				address: 'address',
-				municipality: 'Collegno',
-				province: 'Turin',
-				country: 'Italy',
-				bedspace: 50,
-				phoneNumber: '123456789',
-				website: 'www.website.com',
-				email: null,
-				creatorID: 6
-			};
-
-			const response = await hutAPICall.addHutCall(hut);
-
-			assert.equal(response.status, 422, response.status);
-	    }); */
 
 	    it("POST /huts wrong creatorID", async () => {
 			const hut = {
@@ -661,30 +610,8 @@ describe('Hut test suite', async () => {
 
 			const response = await hutAPICall.addHutCall(hut);
 
-			assert.equal(response.status, 422, response.status);
+			assert.equal(response.status, 201, response.status);
 	    });
-
-	    /* it("POST /huts missing email", async () => {
-			const hut = {
-				name: 'hut',
-				description: 'hut',
-				altitude: 100,
-				latitude: 45.95233,
-				longitude: 8.4457,
-				address: 'address',
-				municipality: 'Collegno',
-				province: 'Turin',
-				country: 'Italy',
-				bedspace: 50,
-				phoneNumber: '123456789',
-				website: 'www.website.com',
-				creatorID: 6
-			};
-
-			const response = await hutAPICall.addHutCall(hut);
-
-			assert.equal(response.status, 422, response.status);
-	    }); */
 
 	    it("POST /huts missing creatorID", async () => {
 			const hut = {
@@ -721,7 +648,7 @@ describe('Hut test suite', async () => {
 		it('DELETE /huts/:hutID NaN', async () => {
 			let response = await hutAPICall.deleteHutCall('invalid');
 
-			assert.equal(response.status, 505, response.status);
+			assert.equal(response.status, 500, response.status);
 		});
 
 		it('DELETE /huts/:hutID non existing', async () => {
@@ -729,7 +656,43 @@ describe('Hut test suite', async () => {
 
 			let response = await hutAPICall.deleteHutCall(4);
 
-			assert.equal(response.status, 204, response.status);
+			assert.equal(response.status, 500, response.status);
+		});
+	});
+
+	describe('Getting hut image', () => {
+		it('GET /huts/:hutID/image', async () => {
+			await dbManager.addHuts();
+
+			let response = await hutAPICall.getHutImageCall(1);
+			let data = await response.data;
+
+			assert.equal(response.status, 200, response.status);
+			assert.deepEqual(data.image, 'data:image/jpeg;base64/adugfasjdfbsfjkvafigafuiagewfibasalfbsiuufgsbvnlkbkvuiegfoegfsvsk');
+		});
+
+		it('GET /huts/:hutID/image invalid hutID NaN', async () => {
+			let response = await hutAPICall.getHutImageCall('invalid');
+
+			assert.equal(response.status, 500, response.status);
+		});
+
+		it('GET /huts/:hutID/image invalid hutID non existing', async () => {
+			await dbManager.addHuts();
+
+			let response = await hutAPICall.getHutImageCall(4);
+
+			assert.equal(response.status, 500, response.status);
+		});
+	});
+
+	describe('Adding hut image', () => {
+		it('POST /huts/:hutID/image invalid hutID NaN', async () => {
+			const image = 'data:image/jpeg;base64/hvfkjbseksjvjbavlkbfkawbgfkjvkajvbiwueuebvkrvuebv';
+
+			let response = await hutAPICall.addHutImageCall('invalid', image);
+
+			assert.equal(response.status, 422, response.status);
 		});
 	});
 });

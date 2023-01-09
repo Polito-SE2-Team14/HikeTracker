@@ -100,5 +100,4 @@ exports.deleteHut = async (pointID) => {
 	await hutDAO.deleteHut(pointID)
 
 	await pointsDAO.deletePoint(pointID)
-
 }

@@ -35,7 +35,7 @@ router.get("/:userID/status/open",
 		await hikeRecordsController
 			.getRecordByStatusOpen(userID)
 			.then((record) => {
-				record ? res.status(200).json(record) : res.status(204).send();
+				record ? res.status(200).json(record) : res.status(404).send();
 			})
 			.catch((err) => errorResponse(err, 500, res));
 	});
@@ -53,7 +53,7 @@ router.post("",
 		const record = req.body;
 		await hikeRecordsController
 			.addNewRecord(record)
-			.then(() => res.status(204).send())
+			.then(() => res.status(201).send())
 			.catch((err) => errorResponse(err, 500, res));
 	});
 

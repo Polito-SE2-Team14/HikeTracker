@@ -69,7 +69,7 @@ exports.deleteHut = (pointID) => {
 				resolve();
 			}
 			catch(e) {
-
+				reject(e);
 			}
 		});
 	});

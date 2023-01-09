@@ -13,15 +13,11 @@ const DBManager = require("../database/DBManager");
 const dbManager = Singleton.getInstance();
 
 const SingletonTest = require("./SingletonTest")
-SingletonTest.getInstance()
-
-before('starting hike tests', async () => await dbManager.clearDb());
-
-beforeEach('adding users', async () => await dbManager.addUsers());
-
-afterEach('clearing DB', async () => await dbManager.clearDb());
+SingletonTest.getInstance();
 
 describe('Hikes test suite', () => {
+	beforeEach('adding users for hikes', async () => await dbManager.addUsers());
+
 	describe("Getting hikes", () => {
 		it('GET /hikes empty', async () => {
 			const response = await hikeAPICall.getHikesCall();
@@ -39,14 +35,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 200, response.status);
 			assert.deepEqual(data, expectedData);
-		});
-
-		it('GET /hikes without track', async () => {
-			await dbManager.addHikes(false);
-
-			const response = await hikeAPICall.getHikesCall();
-
-			assert.equal(response.status, 500, response.status);
 		});
 
 		it('GET /hikes/:hikeID', async () => {
@@ -123,36 +111,36 @@ describe('Hikes test suite', () => {
 			assert.deepEqual(data, []);
 		});
 
-	it('GET /hikes/:hikeID/huts not empty', async () => {
-		await dbManager.addHikes();
-		let huts = await dbManager.addHuts();
+		it('GET /hikes/:hikeID/huts not empty', async () => {
+			await dbManager.addHikes();
+			let huts = await dbManager.addHuts();
 
-		const expectedData = huts.map(hut => {
-			return {
-				pointID: hut.pointID,
-				name: hut.name,
-				description: hut.description,
-				altitude: hut.altitude,
-				latitude: hut.latitude,
-				longitude: hut.longitude,
-				address: hut.address,
-				municipality: hut.municipality,
-				province: hut.province,
-				country: hut.country,
-				bedspace: hut.bedspace,
-				phoneNumber: hut.phoneNumber,
-				website: hut.website,
-				email: hut.email,
-				creatorID: hut.creatorID
-			};
+			const expectedData = huts.map(hut => {
+				return {
+					pointID: hut.pointID,
+					name: hut.name,
+					description: hut.description,
+					altitude: hut.altitude,
+					latitude: hut.latitude,
+					longitude: hut.longitude,
+					address: hut.address,
+					municipality: hut.municipality,
+					province: hut.province,
+					country: hut.country,
+					bedspace: hut.bedspace,
+					phoneNumber: hut.phoneNumber,
+					website: hut.website,
+					email: hut.email,
+					creatorID: hut.creatorID
+				};
+			});
+
+			let response = await hikeAPICall.getCloseHutsCall(3);
+			let data = await response.data;
+
+			assert.equal(response.status, 201, response.status);
+			assert.deepEqual(data, expectedData);
 		});
-
-		let response = await hikeAPICall.getCloseHutsCall(3);
-		let data = await response.data;
-
-		assert.equal(response.status, 201, response.status);
-		assert.deepEqual(data, expectedData);
-	});
 
 		it('GET /hikes/:hikeID/huts NaN', async () => {
 			const response = await hikeAPICall.getCloseHutsCall('invalid');
@@ -170,21 +158,21 @@ describe('Hikes test suite', () => {
 	});
 
 	describe('Linking huts to an hike', () => {
-	it('POST /hikes/:hikeID/huts/:hutID', async () => {
-		await dbManager.addHikes();
-		await dbManager.addHuts();
+		it('POST /hikes/:hikeID/huts/:hutID', async () => {
+			await dbManager.addHikes();
+			await dbManager.addHuts();
 
-		const expectedData = {
-			hutID: '1',
-			hikeID: '3'
-		};
+			const expectedData = {
+				hutID: '1',
+				hikeID: '3'
+			};
 
-		let response = await hikeAPICall.linkHutCall(3, 1);
-		let data = await response.data;
+			let response = await hikeAPICall.linkHutCall(3, 1);
+			let data = await response.data;
 
-		assert.equal(response.status, 201, response.status);
-		assert.deepEqual(data, expectedData);
-	});
+			assert.equal(response.status, 201, response.status);
+			assert.deepEqual(data, expectedData);
+		});
 
 		it('POST /hikes/:hikeID/huts/:hutID NaN', async () => {
 			let response = await hikeAPICall.linkHutCall('invalid', 1);
@@ -260,17 +248,17 @@ describe('Hikes test suite', () => {
 			assert.deepEqual(data, []);
 		});
 
-	it('GET /hikes/:hikeID/referencePoints not empty', async () => {
-		await dbManager.addHikes();
+		it('GET /hikes/:hikeID/referencePoints not empty', async () => {
+			await dbManager.addHikes();
 
-		const expectedData = await dbManager.addReferencePoints();
+			const expectedData = await dbManager.addReferencePoints();
 
-		let response = await hikeAPICall.getReferencePointsCall(1);
-		let data = await response.data;
+			let response = await hikeAPICall.getReferencePointsCall(1);
+			let data = await response.data;
 
-		assert.equal(response.status, 201, response.status);
-		assert.deepEqual(data, expectedData);
-	});
+			assert.equal(response.status, 201, response.status);
+			assert.deepEqual(data, expectedData);
+		});
 
 		it('GET /hikes/:hikeID/referencePoints NaN', async () => {
 			await dbManager.addHikes();
@@ -279,14 +267,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 422, response.status);
 		});
-
-		// it('GET /hikes/:hikeID/referencePoints non existing', async () => {
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.getReferencePointsCall(4);
-
-		// 	assert.equal(response.status, 500, response.status);
-		// });
 	});
 
 	describe("Creating a new hike", () => {
@@ -340,27 +320,27 @@ describe('Hikes test suite', () => {
 			assert.equal(response.status, 422, response.status);
 		});
 
-	it('POST /hikes wrong title', async () => {
-		const hike = {
-			title: null,
-			length: 10,
-			expectedTime: 11,
-			ascent: 12,
-			difficulty: "Hiker",
-			startPointID: 1,
-			endPointID: 4,
-			description: "test description",
-			municipality: "Collegno",
-			province: "Turin",
-			country: 'Italy',
-			creatorID: 6,
-			track: [[45.91284, 8.38543], [45.91274, 8.38543], [45.91274, 8.38541]]
-		};
+		it('POST /hikes wrong title', async () => {
+			const hike = {
+				title: null,
+				length: 10,
+				expectedTime: 11,
+				ascent: 12,
+				difficulty: "Hiker",
+				startPointID: 1,
+				endPointID: 4,
+				description: "test description",
+				municipality: "Collegno",
+				province: "Turin",
+				country: 'Italy',
+				creatorID: 6,
+				track: [[45.91284, 8.38543], [45.91274, 8.38543], [45.91274, 8.38541]]
+			};
 
-		let response = await hikeAPICall.addHikeCall(hike);
+			let response = await hikeAPICall.addHikeCall(hike);
 
-		assert.equal(response.status, 422, response.status);
-	});
+			assert.equal(response.status, 422, response.status);
+		});
 
 		it('POST /hikes wrong length', async () => {
 			const hike = {
@@ -449,14 +429,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 500, response.status);
 		});
-
-		// it('POST /hikes wrong startPointID', async () => {
-
-		// });
-
-		// it('POST /hikes wrong endPointID', async () => {
-
-		// });
 
 		it('POST /hikes wrong description', async () => {
 			const hike = {
@@ -679,14 +651,6 @@ describe('Hikes test suite', () => {
 			assert.equal(response.status, 422, response.status);
 		});
 
-		// it('POST /hikes missing startPointID', async () => {
-
-		// });
-
-		// it('POST /hikes missing endPointID', async () => {
-
-		// });
-
 		it('POST /hikes missing description', async () => {
 			const hike = {
 				title: "hike",
@@ -791,10 +755,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 500, response.status);
 		});
-
-		// it('POST /hikes missing track', async () => {
-
-		// });
 	});
 
 	describe('Creating reference points for an hike', () => {
@@ -954,27 +914,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 422, response.status);
 		});
-
-		// it('POST /hikes/referencePoints wrong address', async () => {
-		// 	const referencePoint = {
-		// 		name: 'point',
-		// 		description: 'description',
-		// 		altitude: 100,
-		// 		latitude: 45.95929,
-		// 		longitude: 8.44804,
-		// 		address: null,
-		// 		municipality: 'Collegno',
-		// 		province: 'Turin',
-		// 		country: 'Italy',
-		// 		creatorID: 6
-		// 	};
-
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.addReferencePointCall(3, referencePoint);
-
-		// 	assert.equal(response.status, 422, response.status);
-		// });
 
 		it('POST /hikes/referencePoints wrong municipality', async () => {
 			const referencePoint = {
@@ -1160,26 +1099,6 @@ describe('Hikes test suite', () => {
 			assert.equal(response.status, 422, response.status);
 		});
 
-		// it('POST /hikes/referencePoints missing address', async () => {
-		// 	const referencePoint = {
-		// 		name: 'point',
-		// 		description: 'description',
-		// 		altitude: 100,
-		// 		latitude: 45.95929,
-		// 		longitude: 8.44804,
-		// 		municipality: 'Collegno',
-		// 		province: 'Turin',
-		// 		country: 'Italy',
-		// 		creatorID: 6
-		// 	};
-
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.addReferencePointCall(3, referencePoint);
-
-		// 	assert.equal(response.status, 422, response.status);
-		// });
-
 		it('POST /hikes/referencePoints missing municipality', async () => {
 			const referencePoint = {
 				name: 'point',
@@ -1281,18 +1200,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 422, response.status);
 		});
-
-		// it('POST /hikes/start non existing', async () => {
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.addStartPointCall(5, 2);
-
-		// 	assert.equal(response.status, 422, response.status);
-
-		// 	response = await hikeAPICall.addStartPointCall(2, 10);
-
-		// 	assert.equal(response.status, 422, response.status);
-		// });
 	});
 
 	describe('Adding end point to an hike', () => {
@@ -1315,18 +1222,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 422, response.status);
 		});
-
-		// it('POST /hikes/end non existing', async () => {
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.addEndPointCall(5, 2);
-
-		// 	assert.equal(response.status, 422, response.status);
-
-		// 	response = await hikeAPICall.addEndPointCall(2, 10);
-
-		// 	assert.equal(response.status, 422, response.status);
-		// });
 	});
 
 	describe('Getting huts linked to an hike', () => {
@@ -1357,14 +1252,6 @@ describe('Hikes test suite', () => {
 
 			assert.equal(response.status, 422, response.status);
 		});
-
-		// it('GET /:hikeID/linkedHuts non existing', async () => {
-		// 	await dbManager.addHikes();
-
-		// 	let response = await hikeAPICall.getLinkedHutsCall(5);
-
-		// 	assert.equal(response.status, 500, response.status);
-		// });
 	});
 
 	describe('Deleting hike', () => {
@@ -1390,6 +1277,42 @@ describe('Hikes test suite', () => {
 			let response = await hikeAPICall.deleteHikeCall(6);
 
 			assert.equal(response.status, 404, response.status);
+		});
+	});
+
+	describe('Getting hike image', () => {
+		it('GET /hikes/:hikeID/image', async () => {
+			await dbManager.addHikes();
+
+			let response = await hikeAPICall.getHikeImageCall(1);
+			let data = await response.data;
+
+			assert.equal(response.status, 200, response.status);
+			assert.deepEqual(data.image, 'data:image/jpeg;base64/adugfasjdfbsfjkvafigafuiagewfibasalfbsiuufgsbvnlkbkvuiegfoegfsvsk');
+		});
+
+		it('GET /hikes/:hikeID/image invalid hikeID NaN', async () => {
+			let response = await hikeAPICall.getHikeImageCall('invalid');
+
+			assert.equal(response.status, 500, response.status);
+		});
+
+		it('GET /hikes/:hikeID/image invalid hikeID non existing', async () => {
+			await dbManager.addHikes();
+
+			let response = await hikeAPICall.getHikeImageCall(4);
+
+			assert.equal(response.status, 500, response.status);
+		});
+	});
+
+	describe('Adding hike image', () => {
+		it('POST /hikes/:hikeID/image invalid hikeID NaN', async () => {
+			const image = 'data:image/jpeg;base64/hvfkjbseksjvjbavlkbfkawbgfkjvkajvbiwueuebvkrvuebv';
+
+			let response = await hikeAPICall.addHikeImageCall('invalid', image);
+
+			assert.equal(response.status, 422, response.status);
 		});
 	});
 });

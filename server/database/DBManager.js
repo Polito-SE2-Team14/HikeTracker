@@ -2,6 +2,7 @@ const { unlink, writeFileSync, readdir } = require('fs');
 const path = require("path");
 const sqlite = require('sqlite3');
 const crypto = require('crypto');
+const dayjs = require('dayjs');
 
 class DBManager {
 
@@ -141,7 +142,7 @@ class DBManager {
                     }
 
                     let imageFile = path.resolve(__dirname + `/images/hikes/_${hike[0]}_.img`);
-                    writeFileSync(imageFile, JSON.stringify(image), { flag: 'w', encoding: 'utf8' });
+                    writeFileSync(imageFile, image, { flag: 'w', encoding: 'utf8' });
 
                     resolve(res);
                 });
@@ -179,8 +180,8 @@ class DBManager {
             ).then(() =>
                 new Promise((resolve, reject) =>
                     db.run(hutSql, hut.hut, err => {
-                        let imageFile = `./images/huts/_${hut.point[0]}_.img`;
-                        writeFileSync(imageFile, JSON.stringify(image), { flag: 'w', encoding: 'utf8' });
+                        let imageFile = path.resolve(__dirname + `/images/huts/_${hut.point[0]}_.img`);
+                        writeFileSync(imageFile, image, { flag: 'w', encoding: 'utf8' });
 
                         resolve({
                             pointID: hut.point[0],
@@ -217,6 +218,29 @@ class DBManager {
         return Promise.all(ids.map(id =>
             new Promise((resolve, reject) =>
                 db.run(sql, [id], err => resolve(id))
+            )
+        ));
+    }
+
+    async addHikeRecords() {
+        const db = this.#db;
+
+        const sql = 'INSERT INTO USERHIKERECORDS VALUES(3, ?, ?, ?, ?)';
+        const recs = [
+            [1, dayjs('2018-05-13 19:18').format(), null, 'open'],
+            [2, dayjs('2018-04-13 19:18').format(), dayjs('2018-04-13 23:18').format(), 'completed'],
+            [3, dayjs('2018-03-13 19:18').format(), dayjs('2018-03-13 00:18').format(), 'completed'],
+        ];
+
+        return Promise.all(recs.map(rec =>
+            new Promise((resolve, reject) =>
+                db.run(sql, rec, err => resolve({
+                    userID: 3,
+                    hikeID: rec[0],
+                    startDate: rec[1],
+                    endDate: rec[2],
+                    status: rec[3]
+                }))
             )
         ));
     }

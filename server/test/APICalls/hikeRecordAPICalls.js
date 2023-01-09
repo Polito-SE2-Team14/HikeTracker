@@ -34,14 +34,8 @@ class HikeRecordAPICall {
 
 
 	//POST
-	async addRecord(userID,hikeID,startDate) {
+	async addRecord(body) {
 		const url = this.#baseURL + "/hikeRecords";
-
-		const body = {
-			userID: userID,
-			hikeID: hikeID,
-			startDate: startDate,
-		};
 
 		const headers = { headers: { 'Content-Type': 'application/json' } };
 		let response;
@@ -54,21 +48,13 @@ class HikeRecordAPICall {
 	}
 
 	//PUT
-		async editRecord(userID,hikeID,startDate,endDate) {
+		async editRecord(body) {
 		const url = this.#baseURL + "/hikeRecords";
-
-		const body = {
-			userID: userID,
-			hikeID: hikeID,
-			startDate: startDate,
-			endDate: endDate,
-			
-		};
 
 		const headers = { headers: { 'Content-Type': 'application/json' } };
 		let response;
 
-		await axios.post(url, body, headers)
+		await axios.put(url, body, headers)
 			.then(value => response = value)
 			.catch(error => response = error.response);
 
