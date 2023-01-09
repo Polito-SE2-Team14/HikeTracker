@@ -130,6 +130,7 @@ We used the following libraries
 - morgan
 - passport
 - jimp
+- cropper
 
 ## Testing
 
