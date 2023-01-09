@@ -8,9 +8,9 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 ### Macro statistics
 
 - Number of stories committed vs. done
-    -  stories committed,  stories done 
+    - 3 stories committed, 3 stories done 
 - Total points committed vs. done
-    -  points committed,  points done
+    - 21 points committed, 21 points done
 - Nr of hours planned vs. spent (as a team)
     -  hours estimated,  hours spent
 
@@ -26,7 +26,11 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 
 | Story | # Tasks | Points | Hours est. | Hours actual |
 | :---: | :-----: | :----: | :--------: | :----------: |
-| _#0_  |       |   -    |    |       |
+| _#0_  |   15    |   -    |            |              |
+| _#17_ |    7    |   8    |            |              |
+| _#18_ |    6    |   8    |            |              |
+| _#34_ |    6    |   5    |            |              |
+
 
 
 
@@ -42,7 +46,7 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Unit Testing:
   - Total hours estimated: 
   - Total hours spent: 
-  - Nr of automated unit test cases: 
+  - Nr of automated unit test cases: 96 unit + 149 api = 245
 - E2E testing:
   - Total hours estimated: 
   - Total hours spent: 
@@ -57,9 +61,9 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
   - Hours spent on remediation: 
   - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 
   - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability )  
-    - Reliability: 
-    - Security: 
-    - Mantainability: 
+    - Reliability: A
+    - Security: A
+    - Mantainability: A
 
 
 ## ASSESSMENT
