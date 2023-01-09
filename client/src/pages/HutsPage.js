@@ -70,7 +70,6 @@ export function HutsPage(props) {
 
 		hut.pointID = await PointAPI.createHut(hut)
 			.then((res) => {
-				//hut.pointID = res.pointID;
 
 				setHuts(old => [...old, hut]);
 				setModalFooterVisible(false);

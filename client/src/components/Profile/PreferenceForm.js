@@ -21,9 +21,7 @@ export function PreferenceForm(props) {
 
 	console.log(props.stats)
 
-	/* const [completedHikes, setCompletedHikes] = useState(
-		props.stats.completedHikes ? props.stats.completedHikes : 0
-	); */
+
 
 	const [favouriteDifficulty, setFavoriteDifficulty] = useState(
 		props.stats.favouriteDifficulty ? props.stats.favouriteDifficulty : ""
