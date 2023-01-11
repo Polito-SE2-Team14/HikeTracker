@@ -12,7 +12,7 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 - Total points committed vs. done
     - 21 points committed, 21 points done
 - Nr of hours planned vs. spent (as a team)
-    -  hours estimated,  hours spent
+    - 61 hours estimated, 56 hours 47 minutes spent
 
 **Remember**a story is done ONLY if it fits the Definition of Done:
  
@@ -26,40 +26,41 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 
 | Story | # Tasks | Points | Hours est. | Hours actual |
 | :---: | :-----: | :----: | :--------: | :----------: |
-| _#0_  |   15    |   -    |            |              |
-| _#17_ |    7    |   8    |            |              |
-| _#18_ |    6    |   8    |            |              |
-| _#34_ |    6    |   5    |            |              |
+| _#0_  |   15    |   -    |  40h 30m   |    34h       |
+| _#17_ |    7    |   8    |   8h       |     8h 10m   |
+| _#18_ |    6    |   8    |   5h       |     5h 10m   |
+| _#34_ |    6    |   5    |   7h 30m   |     8h 30m   |
+|          TOTAL           |  60h 30m   |    55h 50m   |
 
 
 
 
 - Hours per task average, standard deviation (estimate and actual)
-    - estimate average:  hours | estimate standard deviation:   hours 
-    - actual average:  hours | actual standard deviation:  hours
+    - estimate average: 1h40m | estimate standard deviation: 1h10m 
+    - actual average: 1h48m | actual standard deviation: 1h15m hours
 - Total task estimation error ratio: sum of total hours estimation / sum of total hours spent - 1
-    - error ratio: 
+    - error ratio: 0.09
 
 
 ## QUALITY MEASURES 
 
 - Unit Testing:
-  - Total hours estimated: 
-  - Total hours spent: 
+  - Total hours estimated: 3h
+  - Total hours spent: 3h
   - Nr of automated unit test cases: 96 unit + 149 api = 245
 - E2E testing:
-  - Total hours estimated: 
-  - Total hours spent: 
+  - Total hours estimated: 2h 30m
+  - Total hours spent: 2h 30m
 - Code review 
-  - Total hours estimated: 
-  - Total hours spent: 
+  - Total hours estimated: 1h 30m
+  - Total hours spent: 2h
 - Technical Debt management:
-  - Total hours estimated: 
-  - Total hours spent: 
-  - Hours estimated for remediation by SonarQube: 
-  - Hours estimated for remediation by SonarQube only for the selected and planned issues: 
-  - Hours spent on remediation: 
-  - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 
+  - Total hours estimated: 12h
+  - Total hours spent: 5h
+  - Hours estimated for remediation by SonarQube: 2h
+  - Hours estimated for remediation by SonarQube only for the selected and planned issues: 2h
+  - Hours spent on remediation: 4h
+  - debt ratio (as reported by SonarQube under "Measures-Maintainability"): 0.0%
   - rating for each quality characteristic reported in SonarQube under "Measures" (namely reliability, security, maintainability )  
     - Reliability: A
     - Security: A
@@ -69,19 +70,16 @@ TEMPLATE FOR RETROSPECTIVE (Team 14)
 ## ASSESSMENT
 
 - What caused your errors in estimation (if any)?
-  - Our estimation was quite accurate
+  - Technical debt required less time tp be fixed than estimated
 
 - What lessons did you learn (both positive and negative) in this sprint?
-  - A good initial setup allowed us to work better and implement more features
+  - It's easier to work with technical debt if you start early. E2E testing allows to find most of the software bugs.
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
-  - We coordinated better and we interacted with each other more frequently
-      
+  - We improved the quality of the software and the user experience
+
 - Which ones you were not able to achieve? Why?
   - We met every goal set in the previous sprint
 
-- Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
-  - Keep the same pace we had in this sprint
-
 - One thing you are proud of as a Team!!
-  - We are proud of the improvement of the coordination between us sprint by sprint
+  - We did an amazing job during these last months!
